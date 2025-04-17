@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Help - Homeless Helpers</title>
+  <meta name="description" content="Resources to help you find shelter, food, healthcare, and other essential services across the UK.">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&amp;family=Chelsea+Market&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <link rel="stylesheet" href="assets/css/monkey-island-style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/menu-style.css">
+  <style>
+                *,*::before,*::after {
+                        box-sizing: border-box;
+                }
+                
+                *::selection {
+                        color: #000000;
+                        background-color: #efefef;
+                }
+                
+                a {
+                        -webkit-tap-highlight-color: transparent;
+                }
+                
+                @media (any-hover: hover) {
+                        a:hover {
+                                -webkit-tap-highlight-color: transparent;
+                        }
+                }
+                
+                ul[class],ol[class] {
+                        padding: 0;
+                }
+                
+                body,h1,h2,h3,h4,p,ul[class],ol[class],li,figure,figcaption,blockquote,dl,dd {
+                        margin: 0;
+                }
+                
+                html {
+                        scroll-behavior: smooth;
+                }
+                
+                body {
+                        min-height: 100vh;
+                        text-rendering: optimizeLegibility;
+                        line-height: 1.75;
+                        font-family: "Chelsea Market", "Caveat Brush", cursive;
+                        background-color: #06454b;
+                        padding: 0;
+                        text-align: left;
+                        color: #efefef;
+                        cursor: pointer;
+                        overflow-x: hidden;
+                }
+                
+                body a {
+                        cursor: pointer;
+                        text-decoration: none;
+                }
+                
+                ul,ol {
+                        list-style: none;
+                }
+
+                .bg-custom-gradient {
+                        background: linear-gradient(to bottom, #06454b, #2f835c);
+                }
+
+                @media (max-width: 768px) {
+                        body {
+                                background: linear-gradient(to bottom, #06454b, #2f835c);
+                        }
+                }
+
+                .content-wrapper {
+                        position: relative;
+                        z-index: 20;
+                        margin-top: 0;
+                        padding-top: 5rem;
+                        background-color: #1d1c1a;
+                        padding: 2rem;
+                        border: 5px dashed #29241e;
+                }
+
+                @media (max-width: 768px) {
+                        .content-wrapper {
+                                margin-top: 8rem;
+                        }
+                }
+
+                .section-wrapper {
+                        border: 5px dashed #29241e;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                }
+
+                .text-card {
+                        background-color: #2f835c;
+                        padding: 1.5rem;
+                        margin-bottom: 1.5rem;
+                        position: relative;
+                        overflow: hidden;
+                        transition: all 0.3s ease;
+                }
+
+                .text-card:hover {
+                        transform: translate(2px, -2px);
+                        box-shadow: -5px 5px 0 #00000088;
+                }
+
+                .text-card::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-image: url('data:image/png;base64,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');
+                        opacity: 0.2;
+                        mix-blend-mode: multiply;
+                        pointer-events: none;
+                }
+
+                .animated-element {
+                        opacity: 0;
+                        transform: translateY(30px);
+                        transition: opacity 1s, transform 1s;
+                }
+
+                .animated-element.visible {
+                        opacity: 1;
+                        transform: translateY(0);
+                }
+
+                .emergency-button {
+                        background-color: #d84848;
+                        color: white;
+                        padding: 1rem;
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        border: none;
+                        border-radius: 4px;
+                        box-shadow: -3px 3px 0 #00000088;
+                        transition: all 0.3s ease;
+                        margin-bottom: 1.5rem;
+                        width: 100%;
+                        text-align: center;
+                        cursor: pointer;
+                }
+
+                .emergency-button:hover {
+                        transform: translate(2px, -2px);
+                        box-shadow: -5px 5px 0 #00000088;
+                }
+
+                .emergency-button:active {
+                        transform: translate(-1px, 1px);
+                        box-shadow: -2px 2px 0 #00000088;
+                }
+
+                .help-button {
+                        background-color: #48d595;
+                        color: black;
+                        padding: 0.75rem;
+                        font-size: 1.1rem;
+                        font-weight: bold;
+                        border: none;
+                        box-shadow: -3px 3px 0 #00000088;
+                        margin-bottom: 1rem;
+                        width: 100%;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                }
+
+                .help-button:hover {
+                        transform: translate(2px, -2px);
+                        box-shadow: -5px 5px 0 #00000088;
+                }
+
+                .help-button-alt {
+                        background-color: #2f835c;
+                }
+
+                .highlight-box {
+                        border-left: 4px solid #48d595;
+                        background-color: rgba(72, 213, 149, 0.1);
+                        padding: 1rem;
+                        margin: 1.5rem 0;
+                }
+  </style>
+</head>
+<body>
+  <nav class="mega-menu" role="navigation" aria-label="Main Menu">
+      <ul class="menu">
+          <li class="menu-item"><a href="index.html">Home</a></li>
+          <li class="menu-item"><a href="get-help.html">Get Help</a></li>
+          <li class="menu-item"><a href="shelters.html">Shelters</a></li>
+          <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
+          <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
+          <li class="menu-item"><a href="employment.html">Employment</a></li>
+          <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
+          <li class="menu-item"><a href="resources.html">Resources</a></li>
+          <li class="menu-item"><a href="about.html">About</a></li>
+          <li class="menu-item"><a href="network.html">Network</a></li>
+          <li class="menu-item"><a href="emergency.html">Emergency</a></li>
+      </ul>
+  </nav>
+
+  <!-- Add aria-live region for dynamic content/notifications -->
+  <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+  <div class="content-wrapper mt-16 md:mt-24">
+    <section id="t2" class="section-wrapper">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Get Help</h2>
+      <div class="text-card">
+        <h3 class="text-xl font-semibold text-white mb-4">Access Support Services</h3>
+        <p class="mb-6">We provide resources to help you find shelter, food, healthcare, and other essential services.</p>
+        <ul class="list-disc pl-6 mb-6">
+          <li><a href="emergency.html" class="text-[#48d595] underline">Emergency Services</a></li>
+          <li><a href="healthcare.html" class="text-[#48d595] underline">Healthcare</a></li>
+          <li><a href="network.html" class="text-[#48d595] underline">Support Network</a></li>
+        </ul>
+      </div>
+    </section>
+    <section id="emergency" class="section-wrapper animated-element">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Emergency Help</h2>
+      <div class="text-card">
+        <h3 class="text-xl font-semibold text-white mb-4">Immediate Assistance</h3>
+        <p class="mb-6">If you're in a crisis situation, these contacts can help you immediately:</p>
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <a href="tel:999" class="emergency-button">Emergency Services (999)</a> <a href="tel:08088000306" class="emergency-button">Homeless Emergency (0808 800 4444)</a>
+        </div>
+        <p class="mb-4"><strong>Streetlink:</strong> Can connect you with local outreach services if you're sleeping rough or worried about someone who is.</p><button class="help-button" onclick="location.href='emergency.html'">All Emergency Contacts</button>
+      </div>
+    </section>
+    <section id="housing" class="section-wrapper animated-element">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Housing &amp; Shelter</h2>
+      <div class="text-card">
+        <div class="bg-[#1d1c1a] p-4 mb-6 rounded border-l-4 border-[#e63946]">
+          <h3 class="text-xl font-bold text-white mb-2">56-Day Rule: Act Now, Don't Wait</h3>
+          <p class="mb-2">Under the Homelessness Reduction Act 2017, you can get help <strong>before</strong> you become homeless.</p>
+          <p class="mb-0">If you're at risk of losing your home within 56 days (about 8 weeks), your local council has a legal duty to help prevent your homelessness.</p>
+        </div>
+        <h3 class="text-xl font-semibold text-white mb-4">When to Apply for Help</h3>
+        <ul class="list-disc pl-6 mb-6">
+          <li>You've received an eviction notice</li>
+          <li>Your landlord has told you to leave</li>
+          <li>Your family/friends have asked you to move out</li>
+          <li>You're experiencing domestic abuse</li>
+          <li>You can no longer afford your rent or mortgage</li>
+          <li>You're staying somewhere temporarily with no right to remain</li>
+        </ul>
+        <h3 class="text-xl font-semibold text-white mb-4">How To Apply for Housing Help</h3>
+        <ol class="list-decimal pl-6 mb-6">
+          <li class="mb-2">
+            <strong>Contact your local council's housing department</strong> - Find your local council at <a href="https://www.gov.uk/find-local-council" class="text-[#48d595] underline">gov.uk/find-local-council</a>
+          </li>
+          <li class="mb-2"><strong>Bring identification and evidence</strong> - Such as ID, eviction notice, or proof of your situation</li>
+          <li class="mb-2"><strong>Complete a homeless application</strong> - The council must assess your situation</li>
+          <li class="mb-2"><strong>Get your Personal Housing Plan</strong> - This will outline steps to help resolve your situation</li>
+          <li><strong>Follow the steps in your plan</strong> - Keep in regular contact with your housing officer</li>
+        </ol>
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <button class="help-button" onclick="location.href='shelters.html'">Find Shelter Options</button> <button class="help-button help-button-alt" onclick="location.href='shelters.html#housing-rights'">Know Your Housing Rights</button>
+        </div>
+      </div>
+    </section>
+    <section id="food" class="section-wrapper animated-element">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Food Support</h2>
+      <div class="text-card">
+        <h3 class="text-xl font-semibold text-white mb-4">Food Banks</h3>
+        <p class="mb-6">Food banks provide emergency food supplies. Most require a referral, but many can also help in crisis situations without one.</p>
+        <h4 class="font-semibold text-white mb-2">How to Access a Food Bank:</h4>
+        <ol class="list-decimal pl-6 mb-6">
+          <li class="mb-2">Contact your local Citizens Advice, GP, social worker, or school for a referral</li>
+          <li class="mb-2">Once you have a referral, visit the food bank with your voucher</li>
+          <li>You'll usually receive a package with approximately three days of nutritionally balanced food</li>
+        </ol>
+        <h4 class="font-semibold text-white mb-2">Other Food Support Options:</h4>
+        <ul class="list-disc pl-6 mb-6">
+          <li>Community fridges and pantries (pay what you can)</li>
+          <li>Soup kitchens and community meals</li>
+          <li>Religious organizations often provide meals</li>
+          <li>Mobile food services in some areas</li>
+        </ul><button class="help-button" onclick="location.href='foodbanks.html'">Find Food Banks Near You</button>
+      </div>
+    </section>
+    <section id="healthcare" class="section-wrapper animated-element">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Healthcare</h2>
+      <div class="text-card">
+        <h3 class="text-xl font-semibold text-white mb-4">Access to Healthcare</h3>
+        <p class="mb-4">Everyone has the right to register with a GP, regardless of their housing situation. You do not need a fixed address or identification to register.</p>
+        <h4 class="font-semibold text-white mb-2">How to Access Healthcare:</h4>
+        <ul class="list-disc pl-6 mb-6">
+          <li>Register with a GP using a temporary address (hostel, friend's house, or the GP practice address)</li>
+          <li>Visit walk-in centers or urgent care centers without an appointment</li>
+          <li>Access A&amp;E for emergencies</li>
+          <li>Ask about healthcare outreach services for homeless people in your area</li>
+        </ul>
+        <div class="highlight-box">
+          <p class="mb-0"><strong>Remember:</strong> GP practices cannot refuse to register you because you do not have proof of address or immigration status. If they refuse, ask them to provide the refusal in writing and contact Healthwatch for support.</p>
+        </div><button class="help-button" onclick="location.href='healthcare.html'">Healthcare Resources</button>
+      </div>
+    </section>
+    <section id="financial" class="section-wrapper animated-element">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Financial Advice</h2>
+      <div class="text-card">
+        <h3 class="text-xl font-semibold text-white mb-4">Benefits &amp; Financial Support</h3>
+        <p class="mb-6">You may be entitled to benefits or financial support, even if you have no fixed address.</p>
+        <h4 class="font-semibold text-white mb-2">Available Support:</h4>
+        <ul class="list-disc pl-6 mb-6">
+          <li>Universal Credit</li>
+          <li>Housing Benefit</li>
+          <li>Personal Independence Payment (PIP)</li>
+          <li>Job Seeker's Allowance</li>
+          <li>Emergency grants from local welfare assistance schemes</li>
+        </ul>
+        <h4 class="font-semibold text-white mb-2">Getting Help with Claims:</h4>
+        <ul class="list-disc pl-6 mb-6">
+          <li>Citizens Advice can help with benefit applications</li>
+          <li>Job Centers can support with Universal Credit claims</li>
+          <li>Housing support workers at shelters can assist with forms</li>
+        </ul>
+        <div class="highlight-box">
+          <p class="mb-0"><strong>No fixed address?</strong> You can use a 'care of' address for benefits, such as a day center, hostel, or trusted friend's address. Some Job Centers also allow you to use their address.</p>
+        </div><button class="help-button" onclick="location.href='financial-help.html'">Financial Resources</button>
+      </div>
+    </section>
+    <section id="mental-health" class="section-wrapper animated-element">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Mental Health Support</h2>
+      <div class="text-card">
+        <h3 class="text-xl font-semibold text-white mb-4">Mental Health Services</h3>
+        <p class="mb-6">Your mental health matters. Support is available regardless of your housing situation.</p>
+        <h4 class="font-semibold text-white mb-2">Support Services:</h4>
+        <ul class="list-disc pl-6 mb-6">
+          <li>Talk to your GP about mental health concerns</li>
+          <li>Contact Samaritans (116 123) for 24/7 emotional support</li>
+          <li>Text SHOUT to 85258 for crisis text support</li>
+          <li>Many homelessness organizations have specialist mental health workers</li>
+          <li>Community mental health teams can provide support</li>
+        </ul>
+        <h4 class="font-semibold text-white mb-2">Substance Use Support:</h4>
+        <ul class="list-disc pl-6 mb-6">
+          <li>Talk to your GP about referral to drug and alcohol services</li>
+          <li>Contact local addiction support services</li>
+          <li>Frank (0300 123 6600) provides drug information and advice</li>
+          <li>Alcoholics Anonymous and Narcotics Anonymous offer peer support</li>
+        </ul><button class="help-button" onclick="location.href='healthcare.html#mental-health'">Mental Health Resources</button>
+      </div>
+    </section>
+    <section id="next-steps" class="section-wrapper animated-element">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Next Steps</h2>
+      <div class="text-card">
+        <h3 class="text-xl font-semibold text-white mb-4">Creating Your Personal Action Plan</h3>
+        <p class="mb-6">Everyone's situation is different. Here's a simple framework to help you navigate your next steps:</p>
+        <ol class="list-decimal pl-6 mb-6">
+          <li class="mb-4">
+            <strong>Address immediate needs first:</strong>
+            <ul class="list-disc pl-6 mt-2">
+              <li>Safe place to stay tonight</li>
+              <li>Food and water</li>
+              <li>Urgent medical care</li>
+              <li>Safety from harm</li>
+            </ul>
+          </li>
+          <li class="mb-4">
+            <strong>Connect with specialist support:</strong>
+            <ul class="list-disc pl-6 mt-2">
+              <li>Local council housing department (especially if within 56 days of homelessness)</li>
+              <li>Homelessness charities and outreach teams</li>
+              <li>Citizens Advice for benefits and legal guidance</li>
+            </ul>
+          </li>
+          <li class="mb-4">
+            <strong>Stabilize your situation:</strong>
+            <ul class="list-disc pl-6 mt-2">
+              <li>Secure temporary accommodation</li>
+              <li>Apply for appropriate benefits</li>
+              <li>Register with a GP</li>
+              <li>Obtain essential items (clothing, toiletries)</li>
+            </ul>
+          </li>
+          <li class="mb-4">
+            <strong>Build for the future:</strong>
+            <ul class="list-disc pl-6 mt-2">
+              <li>Work with support workers on long-term housing</li>
+              <li>Address underlying factors (employment, health, skills)</li>
+              <li>Connect with community support networks</li>
+              <li>Focus on personal wellbeing and recovery</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="bg-[#1d1c1a] p-4 mb-6 rounded border-l-4 border-[#48d595]">
+          <h4 class="text-lg font-semibold text-white mb-2">Remember the 56-Day Rule</h4>
+          <p>If you're facing housing issues, don't wait until you have nowhere to go. Early intervention is key. The council must help if you're at risk of homelessness within 56 days.</p>
+        </div>
+        <p>Our team can help you develop a tailored plan for your specific situation. You don't have to figure everything out alone.</p>
+        <div class="grid md:grid-cols-3 gap-4 mt-6">
+          <button class="help-button" onclick="location.href='tel:08088004444'">Call Our Helpline</button> <button class="help-button help-button-alt" onclick="location.href='shelters.html'">Find Shelters</button> <button class="help-button help-button-alt" onclick="location.href='network.html'">Support Network</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="bg-[#06454b] py-6 text-white text-center">
+    <p>© 2025 Homeless Helpers. All rights reserved.</p>
+    <p>Registered Charity No. 1234567</p>
+  </footer>
+  <script>
+                // Animation for elements
+                document.addEventListener('DOMContentLoaded', function() {
+                        const animatedElements = document.querySelectorAll('.animated-element');
+                        
+                        function checkAnimatedElements() {
+                                animatedElements.forEach(element => {
+                                        const elementTop = element.getBoundingClientRect().top;
+                                        if (elementTop < window.innerHeight - 100) {
+                                                element.classList.add('visible');
+                                        }
+                                });
+                        }
+                        
+                        window.addEventListener('scroll', checkAnimatedElements);
+                        window.addEventListener('load', checkAnimatedElements);
+                        
+                        // Add hover effect to section wrappers
+                        document.querySelectorAll('.section-wrapper').forEach(section => {
+                                section.addEventListener('mouseenter', () => {
+                                        // Find text cards inside this section
+                                        const cards = section.querySelectorAll('.text-card');
+                                        cards.forEach(card => {
+                                                card.style.transform = 'translate(2px, -2px)';
+                                                card.style.boxShadow = '-5px 5px 0 #00000088';
+                                        });
+                                });
+                                
+                                section.addEventListener('mouseleave', () => {
+                                        const cards = section.querySelectorAll('.text-card');
+                                        cards.forEach(card => {
+                                                card.style.transform = '';
+                                                card.style.boxShadow = '';
+                                        });
+                                });
+                        });
+                });
+  </script>
+  <script src="js/menuModule.js"></script>
+  <script src="assets/js/navigation-module.js"></script>
+</body>
+</html>

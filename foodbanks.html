@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Food Banks - Homeless Helpers</title>
+	<meta name="description" content="Find food banks and food assistance for homeless and vulnerable individuals across the UK.">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Chelsea+Market&display=swap" rel="stylesheet">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+	<link rel="stylesheet" href="assets/css/monkey-island-style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" href="assets/css/menu-style.css">
+	<style>
+		*,*::before,*::after {
+			box-sizing: border-box;
+		}
+		
+		*::selection {
+			color: #000000;
+			background-color: #efefef;
+		}
+		
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		@media (any-hover: hover) {
+			a:hover {
+				-webkit-tap-highlight-color: transparent;
+			}
+		}
+		
+		ul[class],ol[class] {
+			padding: 0;
+		}
+		
+		body,h1,h2,h3,h4,p,ul[class],ol[class],li,figure,figcaption,blockquote,dl,dd {
+			margin: 0;
+		}
+		
+		html {
+			scroll-behavior: smooth;
+		}
+		
+		body {
+			min-height: 100vh;
+			text-rendering: optimizeLegibility;
+			line-height: 1.75;
+			font-family: "Chelsea Market", "Caveat Brush", cursive;
+			background-color: #06454b;
+			padding: 0;
+			text-align: left;
+			color: #efefef;
+			cursor: pointer;
+			overflow-x: hidden;
+		}
+		
+		body a {
+			cursor: pointer;
+			text-decoration: none;
+		}
+		
+		ul,ol {
+			list-style: none;
+		}
+
+		.bg-custom-gradient {
+			background: linear-gradient(to bottom, #06454b, #2f835c);
+		}
+
+		@media (max-width: 768px) {
+			body {
+				background: linear-gradient(to bottom, #06454b, #2f835c);
+			}
+		}
+
+		.content-wrapper {
+			position: relative;
+			z-index: 20;
+			margin-top: 0;
+			padding-top: 5rem;
+			background-color: #1d1c1a;
+			padding: 2rem;
+			border: 5px dashed #29241e;
+		}
+
+		@media (max-width: 768px) {
+			.content-wrapper {
+				margin-top: 8rem;
+			}
+		}
+
+		.section-wrapper {
+			border: 5px dashed #29241e;
+			padding: 2rem;
+			margin-bottom: 2rem;
+		}
+
+		.text-card {
+			background-color: #2f835c;
+			padding: 1.5rem;
+			margin-bottom: 1.5rem;
+			position: relative;
+			overflow: hidden;
+			transition: all 0.3s ease;
+		}
+
+		.text-card:hover {
+			transform: translate(2px, -2px);
+			box-shadow: -5px 5px 0 #00000088;
+		}
+
+		.text-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-image: url('data:image/png;base64,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');
+			opacity: 0.2;
+			mix-blend-mode: multiply;
+			pointer-events: none;
+		}
+
+		.animated-element {
+			opacity: 0;
+			transform: translateY(30px);
+			transition: opacity 1s, transform 1s;
+		}
+
+		.animated-element.visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		.food-bank-card {
+			border-left: 8px solid #48d595;
+			margin-bottom: 1.5rem;
+		}
+
+		.map-container {
+			height: 400px;
+			background-color: #2f835c;
+			border: 3px solid #48d595;
+			margin-top: 2rem;
+			position: relative;
+		}
+
+		.map-container::before {
+			content: 'Interactive Map will be displayed here';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: white;
+			font-weight: bold;
+		}
+
+		/* Cursor styling */
+		body {
+			cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><circle cx="12" cy="12" r="8" fill="%2348d595" opacity="0.6"/></svg>') 12 12, auto;
+		}
+
+		.clickable {
+			cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><circle cx="12" cy="12" r="10" fill="%2348d595" opacity="0.8"/></svg>') 12 12, pointer;
+		}
+	</style>
+</head>
+<body>
+	<!-- Updated Mega Menu -->
+	<nav class="mega-menu" role="navigation" aria-label="Main Menu">
+		<ul class="menu">
+			<li class="menu-item"><a href="index.html">Home</a></li>
+			<li class="menu-item"><a href="get-help.html">Get Help</a></li>
+			<li class="menu-item"><a href="shelters.html">Shelters</a></li>
+			<li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
+			<li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
+			<li class="menu-item"><a href="employment.html">Employment</a></li>
+			<li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
+			<li class="menu-item"><a href="resources.html">Resources</a></li>
+			<li class="menu-item"><a href="about.html">About</a></li>
+			<li class="menu-item"><a href="network.html">Network</a></li>
+			<li class="menu-item"><a href="emergency.html">Emergency</a></li>
+		</ul>
+	</nav>
+
+	<!-- Add aria-live region for dynamic content/notifications -->
+	<div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+
+	<div class="content-wrapper">
+		<section id="welcome" class="section-wrapper">
+			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Food Banks &amp; Meal Services</h1>
+			<p class="text-lg md:text-xl mb-8">
+				Find food support services across the UK, including food banks, community kitchens, and meal programs.
+			</p>
+		</section>
+
+		<section id="how-to-access" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">How to Access Food Support</h2>
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Food Bank Referrals</h3>
+				<p class="mb-4">
+					Most food banks work on a referral system. You can get referred by:
+				</p>
+				<ul class="list-disc pl-6 mb-6">
+					<li>Citizen's Advice Bureau</li>
+					<li>GP or health visitor</li>
+					<li>Social worker or support worker</li>
+					<li>Local council welfare team</li>
+					<li>School staff or children's centers</li>
+				</ul>
+				
+				<h3 class="text-xl font-semibold text-white mb-4">Emergency Food Without Referral</h3>
+				<p class="mb-4">
+					If you need food urgently and can't get a referral:
+				</p>
+				<ul class="list-disc pl-6">
+					<li>Some independent food banks don't require referrals</li>
+					<li>Community kitchens and soup kitchens usually provide meals without referrals</li>
+					<li>Local religious organizations often provide emergency food assistance</li>
+					<li>For immediate help, call our helpline: <strong>0800 123 4567</strong></li>
+				</ul>
+			</div>
+		</section>
+
+		<section id="find-foodbank" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Find Food Banks Near You</h2>
+			
+			<div class="map-container">
+				<!-- Interactive map will be added here in future updates -->
+			</div>
+			
+			<div class="text-card mt-6">
+				<h3 class="text-xl font-semibold text-white mb-4">Food Bank Directory</h3>
+				<p class="mb-4">
+					Enter your postcode in the search field above to find food support services in your area, or browse our directory below:
+				</p>
+				
+				<div class="mt-6">
+					<div class="food-bank-card text-card">
+						<h4 class="text-lg font-semibold">Trussell Trust Food Bank - Central London</h4>
+						<p><strong>Address:</strong> 123 Main Street, London, EC1V 1AA</p>
+						<p><strong>Opening Hours:</strong> Mon-Fri 10am-4pm</p>
+						<p><strong>Phone:</strong> 020 1234 5678</p>
+						<p><strong>Requirements:</strong> Referral required</p>
+						<button class="nav-button clickable mt-3">Get Directions</button>
+					</div>
+					
+					<div class="food-bank-card text-card">
+						<h4 class="text-lg font-semibold">Community Food Hub - East London</h4>
+						<p><strong>Address:</strong> 45 Church Road, London, E1 6QL</p>
+						<p><strong>Opening Hours:</strong> Mon, Wed, Fri 11am-3pm</p>
+						<p><strong>Phone:</strong> 020 8765 4321</p>
+						<p><strong>Requirements:</strong> No referral needed</p>
+						<button class="nav-button clickable mt-3">Get Directions</button>
+					</div>
+					
+					<div class="food-bank-card text-card">
+						<h4 class="text-lg font-semibold">South London Food Collective</h4>
+						<p><strong>Address:</strong> 78 Park Avenue, London, SW4 9TH</p>
+						<p><strong>Opening Hours:</strong> Tues, Thurs 2pm-6pm, Sat 10am-1pm</p>
+						<p><strong>Phone:</strong> 020 3456 7890</p>
+						<p><strong>Requirements:</strong> Self-referral accepted</p>
+						<button class="nav-button clickable mt-3">Get Directions</button>
+					</div>
+				</div>
+				
+				<div class="mt-6">
+					<button class="nav-button clickable">Show More Food Banks</button>
+				</div>
+			</div>
+		</section>
+
+		<section id="community-meals" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Community Meals &amp; Soup Kitchens</h2>
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Free Meal Services</h3>
+				<p class="mb-6">
+					Many organizations provide hot meals with no questions asked:
+				</p>
+				
+				<div class="grid md:grid-cols-2 gap-6">
+					<div class="food-bank-card text-card">
+						<h4 class="text-lg font-semibold">St. Mary's Soup Kitchen</h4>
+						<p><strong>Serves:</strong> Hot dinner</p>
+						<p><strong>When:</strong> Every day, 6pm-8pm</p>
+						<p><strong>Address:</strong> St. Mary's Church Hall, 10 Church Lane</p>
+					</div>
+					
+					<div class="food-bank-card text-card">
+						<h4 class="text-lg font-semibold">Community Cafe</h4>
+						<p><strong>Serves:</strong> Breakfast and lunch</p>
+						<p><strong>When:</strong> Mon-Fri, 8am-2pm</p>
+						<p><strong>Address:</strong> Community Center, 55 High Road</p>
+					</div>
+					
+					<div class="food-bank-card text-card">
+						<h4 class="text-lg font-semibold">Homeless Outreach Van</h4>
+						<p><strong>Serves:</strong> Hot meals and drinks</p>
+						<p><strong>When:</strong> Every evening, 7pm-10pm</p>
+						<p><strong>Location:</strong> City center and main parks (mobile)</p>
+					</div>
+					
+					<div class="food-bank-card text-card">
+						<h4 class="text-lg font-semibold">Sikh Temple Langar</h4>
+						<p><strong>Serves:</strong> Vegetarian meals</p>
+						<p><strong>When:</strong> Daily, 12pm-2pm and 6pm-8pm</p>
+						<p><strong>Address:</strong> Gurdwara Sahib, 23 Temple Street</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="food-vouchers" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Food Vouchers &amp; Financial Support</h2>
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Available Support</h3>
+				<p class="mb-4">
+					Various schemes can help with food costs:
+				</p>
+				<ul class="list-disc pl-6 mb-6">
+					<li><strong>Healthy Start Vouchers:</strong> For pregnant women and families with children under 4</li>
+					<li><strong>Free School Meals:</strong> For eligible school-age children</li>
+					<li><strong>Local Welfare Assistance:</strong> Emergency support from your local council</li>
+					<li><strong>Household Support Fund:</strong> Help with essentials including food</li>
+				</ul>
+				
+				<h3 class="text-xl font-semibold text-white mb-4">How To Apply</h3>
+				<p class="mb-4">
+					Our support workers can help you apply for:
+				</p>
+				<ul class="list-disc pl-6">
+					<li>Universal Credit advance payments</li>
+					<li>Hardship payments</li>
+					<li>Local welfare assistance schemes</li>
+					<li>Charity grants for food and essentials</li>
+				</ul>
+				<button class="nav-button clickable mt-4" onclick="location.href='financial-help.html'">Financial Support</button>
+			</div>
+		</section>
+
+		<section id="dietary-needs" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Special Dietary Requirements</h2>
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Medical &amp; Religious Dietary Needs</h3>
+				<p class="mb-6">
+					If you have specific dietary requirements due to health conditions, allergies, or religious beliefs:
+				</p>
+				<ul class="list-disc pl-6 mb-6">
+					<li>Mention your dietary needs when getting a food bank referral</li>
+					<li>Call ahead to check if a food bank can accommodate your needs</li>
+					<li>Some food banks have specialized lists for different dietary requirements</li>
+					<li>Religious dietary needs (halal, kosher, etc.) can often be accommodated with advance notice</li>
+				</ul>
+				
+				<h3 class="text-xl font-semibold text-white mb-4">Food Allergies &amp; Health Conditions</h3>
+				<p class="mb-6">
+					Food services that can accommodate specific health-related dietary needs:
+				</p>
+				<ul class="list-disc pl-6">
+					<li>Gluten-free options</li>
+					<li>Dairy-free alternatives</li>
+					<li>Low-sodium meals for those with high blood pressure</li>
+					<li>Diabetic-friendly food parcels</li>
+				</ul>
+				<p>
+					Contact our support team for help finding food services that meet your specific dietary requirements.
+				</p>
+			</div>
+		</section>
+
+		<section id="help-others" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Help Others</h2>
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Support Food Banks</h3>
+				<p class="mb-6">
+					Food banks always need support. You can help by:
+				</p>
+				
+				<div class="grid md:grid-cols-3 gap-6">
+					<div class="p-4 bg-[#1d1c1a] rounded">
+						<h4 class="text-lg font-semibold text-[#48d595] mb-2">Donate Food</h4>
+						<p class="mb-4">Contribute non-perishable foods to local collection points.</p>
+						<button class="nav-button clickable w-full">Most Needed Items</button>
+					</div>
+					
+					<div class="p-4 bg-[#1d1c1a] rounded">
+						<h4 class="text-lg font-semibold text-[#48d595] mb-2">Volunteer</h4>
+						<p class="mb-4">Help sort donations, pack food parcels, or assist visitors.</p>
+						<button class="nav-button clickable w-full">Volunteer Roles</button>
+					</div>
+					
+					<div class="p-4 bg-[#1d1c1a] rounded">
+						<h4 class="text-lg font-semibold text-[#48d595] mb-2">Financial Support</h4>
+						<p class="mb-4">Monetary donations help food banks buy essential items.</p>
+						<button class="nav-button clickable w-full">Donate Now</button>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<footer class="bg-[#06454b] py-6 text-white text-center">
+		<p>&copy; 2025 Homeless Helpers. All rights reserved.</p>
+		<p>Registered Charity No. 1234567</p>
+	</footer>
+
+	<script>
+		const animatedElements = document.querySelectorAll('.animated-element');
+
+		function checkAnimatedElements() {
+			animatedElements.forEach(element => {
+				const elementTop = element.getBoundingClientRect().top;
+				if (elementTop < window.innerHeight - 100) {
+					element.classList.add('visible');
+				}
+			});
+		}
+		
+		window.addEventListener('scroll', checkAnimatedElements);
+		window.addEventListener('load', checkAnimatedElements);
+
+		// Add hover effect to section wrappers
+		document.querySelectorAll('.section-wrapper').forEach(section => {
+			section.addEventListener('mouseenter', () => {
+				// Find text cards inside this section
+				const cards = section.querySelectorAll('.text-card');
+				cards.forEach(card => {
+					card.style.transform = 'translate(2px, -2px)';
+					card.style.boxShadow = '-5px 5px 0 #00000088';
+				});
+			});
+			
+			section.addEventListener('mouseleave', () => {
+				const cards = section.querySelectorAll('.text-card');
+				cards.forEach(card => {
+					card.style.transform = '';
+					card.style.boxShadow = '';
+				});
+			});
+		});
+	</script>
+	<script src="assets/js/animations.js"></script>
+	<script src="js/menuModule.js"></script>
+	<script src="assets/js/navigation-module.js"></script>
+</body>
+</html>

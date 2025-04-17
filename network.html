@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Support Network - Homeless Helpers</title>
+	<meta name="description" content="Connect with our support network for homeless individuals and community resources across the UK.">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Chelsea+Market&display=swap" rel="stylesheet">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+	<link rel="stylesheet" href="assets/css/monkey-island-style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" href="assets/css/menu-style.css">
+	<style>
+		/* Match styles from emergency.html */
+		.bg-custom-gradient {
+			background: linear-gradient(to bottom, #06454b, #2f835c);
+		}
+
+		.content-wrapper {
+			position: relative;
+			z-index: 20;
+			margin-top: 0;
+			padding-top: 5rem;
+			background-color: #1d1c1a;
+			padding: 2rem;
+			border: 5px dashed #29241e;
+		}
+
+		.section-wrapper {
+			border: 5px dashed #29241e;
+			padding: 2rem;
+			margin-bottom: 2rem;
+		}
+
+		.nav-button {
+			background-color: #48d595;
+			color: #000000;
+			font-family: "Chelsea Market", cursive;
+			padding: 0.75rem 1.5rem;
+			border-radius: 0;
+			position: relative;
+			transition: all 0.3s;
+			border: none;
+			font-size: 1rem;
+			margin: 0.5rem;
+			box-shadow: -3px 3px 0 #00000088;
+			cursor: pointer;
+		}
+
+		.nav-button:hover {
+			transform: translate(2px, -2px);
+			box-shadow: -5px 5px 0 #00000088;
+		}
+
+		.nav-button:active {
+			transform: translate(-1px, 1px);
+			box-shadow: -2px 2px 0 #00000088;
+		}
+
+		.text-card {
+			background-color: #2f835c;
+			padding: 1.5rem;
+			margin-bottom: 1.5rem;
+			position: relative;
+			overflow: hidden;
+			transition: all 0.3s ease;
+		}
+
+		.text-card:hover {
+			transform: translate(2px, -2px);
+			box-shadow: -5px 5px 0 #00000088;
+		}
+
+		.text-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-image: url('noise-filter.png');
+			opacity: 0.2;
+			mix-blend-mode: multiply;
+			pointer-events: none;
+		}
+	</style>
+</head>
+<body class="bg-custom-gradient">
+	<!-- Transchem-style Mega Menu -->
+	<nav class="mega-menu" role="navigation" aria-label="Main Menu">
+		<ul class="menu">
+			<li class="menu-item"><a href="index.html">Home</a></li>
+			<li class="menu-item"><a href="get-help.html">Get Help</a></li>
+			<li class="menu-item"><a href="shelters.html">Shelters</a></li>
+			<li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
+			<li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
+			<li class="menu-item"><a href="employment.html">Employment</a></li>
+			<li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
+			<li class="menu-item"><a href="resources.html">Resources</a></li>
+			<li class="menu-item"><a href="about.html">About</a></li>
+			<li class="menu-item"><a href="network.html">Network</a></li>
+			<li class="menu-item"><a href="emergency.html">Emergency</a></li>
+		</ul>
+	</nav>
+	<!-- Aria-live region for notifications or dynamic content updates -->
+	<div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+	
+	<main class="content-wrapper mt-24 md:mt-32">
+		<section class="section-wrapper animated-element">
+			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Support Network</h1>
+			<div class="text-card">
+				<p class="mb-6">
+					Being part of a supportive community is essential for sustainable housing solutions. Our Support Network connects individuals overcoming homelessness with a wide range of resources, volunteers, and community partners.
+				</p>
+				<p>
+					Whether you're looking to receive support or volunteer your time and skills, our network offers a way to make meaningful connections.
+				</p>
+			</div>
+		</section>
+		
+		<section class="section-wrapper animated-element" id="network-visualization">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Network Visualization</h2>
+			
+			<div class="network-container">
+                <div class="network-node node1">You</div>
+                <div class="network-node node2">Buddy</div>
+                <div class="network-node node3">Neighbors</div>
+                <div class="network-node node4">Support Group</div>
+                <div class="network-node node5">Social Worker</div>
+                <div class="network-node node6">Community Center</div>
+                <div class="network-node node7">Health Provider</div>
+                
+                <!-- Lines connecting nodes -->
+                <div class="connection-line line1"></div>
+                <div class="connection-line line2"></div>
+                <div class="connection-line line3"></div>
+                <div class="connection-line line4"></div>
+                <div class="connection-line line5"></div>
+            </div>
+			
+			<div class="text-card mt-6">
+				<p>
+					Our integrated support network ensures nobody is alone on their journey. Each connection provides different types of assistance, creating a safety net that helps maintain housing stability and improve quality of life.
+				</p>
+				<p class="mt-4">
+					<strong>Click on each node in the visualization above</strong> to learn more about that connection and how it helps build a sustainable, supported life.
+				</p>
+			</div>
+		</section>
+		
+		<section class="section-wrapper animated-element" id="after-housing">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">After Housing Support</h2>
+			
+			<!-- Connection web visualization -->
+            <div class="connection-web">
+                <div class="connection-line line1"></div>
+                <div class="connection-line line2"></div>
+                <div class="connection-line line3"></div>
+                <div class="connection-line line4"></div>
+                <div class="connection-line line5"></div>
+            </div>
+			
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Continued Support Network</h3>
+				<p class="mb-6">
+					Getting housing is just the first step. We understand that many individuals feel isolated and abandoned after securing housing, when official support often ends.
+				</p>
+				<p class="mb-6">
+					Our network ensures that you remain connected to a community that cares. We provide ongoing support, social connections, and practical assistance to help you thrive in your new home.
+				</p>
+				
+				<div class="grid md:grid-cols-2 gap-6 my-8">
+					<div class="support-key">
+						<h4 class="font-semibold">Community Integration</h4>
+						<p>Local meet-ups, community events and social gatherings to build your network</p>
+					</div>
+					<div class="support-key">
+						<h4 class="font-semibold">Buddy System</h4>
+						<p>A dedicated volunteer provides regular check-ins and companionship</p>
+					</div>
+					<div class="support-key">
+						<h4 class="font-semibold">Home Maintenance</h4>
+						<p>Help with household tasks and connecting to repair services</p>
+					</div>
+					<div class="support-key">
+						<h4 class="font-semibold">Life Skills Workshops</h4>
+						<p>Ongoing education in budgeting, cooking, and home management</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<section class="section-wrapper animated-element" id="volunteer-network">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Join Our Volunteer Network</h2>
+			<div class="text-card">
+				<p class="mb-6">
+					Our volunteers are the backbone of our support network. By joining our volunteer network, you can make a real difference in someone's life.
+				</p>
+				<p class="mb-6">
+					We offer various volunteer opportunities based on your interests, skills, and availability:
+				</p>
+				
+				<div class="grid md:grid-cols-3 gap-6 my-8">
+					<div class="text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Buddy Program</h3>
+						<p>Become a buddy to someone who has recently transitioned into housing, providing friendship and regular check-ins.</p>
+					</div>
+					<div class="text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Skills Sharing</h3>
+						<p>Share your expertise in budgeting, cooking, home maintenance, or other practical life skills.</p>
+					</div>
+					<div class="text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Community Events</h3>
+						<p>Help organize social events that build community and combat isolation.</p>
+					</div>
+				</div>
+				
+				<p class="mb-4">Ready to join our network of volunteers? Get involved today!</p>
+				<button class="nav-button clickable" onclick="location.href='volunteer.html'">Become a Volunteer</button>
+			</div>
+		</section>
+		
+		<section class="section-wrapper animated-element" id="success-stories">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Success Stories</h2>
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Mark's Journey</h3>
+				<p class="mb-6">
+					"After finding housing, I felt more alone than ever. The support network connected me with my buddy, James, who helped me feel part of the community again. The weekly skills workshops gave me confidence in managing my new home, and now I'm even volunteering to help others."
+				</p>
+				
+				<h3 class="text-xl font-semibold text-white mb-4">Sarah's Story</h3>
+				<p>
+					"Being part of the network meant that when I faced a crisis with my heating in winter, I wasn't alone. My network connections helped me navigate repairs and provided temporary heating. Without this support, I might have lost my housing again."
+				</p>
+			</div>
+		</section>
+		
+		<section class="section-wrapper animated-element" id="network-impact">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Our Impact</h2>
+			<div class="grid md:grid-cols-2 gap-12 items-center">
+				<div class="chart-container">
+					<canvas id="networkImpactChart" width="400" height="400"></canvas>
+				</div>
+				<div class="text-card">
+					<p class="mb-4">Over <span class="font-bold text-white">1,500</span> individuals supported through our network since its launch.</p>
+					<p class="mb-4">More than <span class="font-bold text-white">92%</span> housing retention rate thanks to continued support.</p>
+					<p class="mb-4">Network of <span class="font-bold text-white">300+</span> active volunteers providing buddy support.</p>
+					<p>Organizing <span class="font-bold text-white">25+</span> community events monthly across the UK.</p>
+				</div>
+			</div>
+		</section>
+		
+		<section class="section-wrapper animated-element" id="contact">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Connect With Us</h2>
+			<div class="text-card">
+				<p class="mb-6">
+					Whether you need support or want to offer it, our network is here for you.
+				</p>
+				<p class="mb-6">
+					<strong>Network Coordinator:</strong> John Smith<br>
+					<strong>Email:</strong> network@homelesshelpers.org<br>
+					<strong>Phone:</strong> 0800 123 4567
+				</p>
+				<div class="flex space-x-4">
+					<button class="nav-button clickable" onclick="location.href='volunteer.html'">Volunteer</button>
+					<button class="nav-button clickable" onclick="location.href='get-help.html'">Get Help</button>
+				</div>
+			</div>
+		</section>
+	</main>
+	
+	<footer class="bg-[#06454b] py-6 text-white text-center">
+		<div class="container mx-auto px-4">
+			<p>&copy; 2025 Homeless Helpers. All rights reserved.</p>
+			<p>Registered Charity No. 1234567</p>
+		</div>
+	</footer>
+
+	<!-- Background elements -->
+	<div class="bg-element house house1"></div>
+	<div class="bg-element tree tree1"></div>
+	<div class="bg-element house house2"></div>
+	<div class="bg-element tree tree2"></div>
+	<div class="bg-element house house3"></div>
+
+	<!-- Scripts -->
+	<script src="assets/js/animations.js"></script>
+	<script src="assets/js/network-effects.js"></script>
+	<script src="assets/js/navigation-module.js"></script>
+</body>
+</html>

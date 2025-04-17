@@ -1,0 +1,1785 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify assistance dog licence - GOV.UK</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/menu-style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/fix-scroll.css">
+    <link rel="stylesheet" href="css/fix-scroll.css">
+    <style>
+      /* GOV.UK fonts - Note: For production, consider downloading these fonts locally to avoid CORS issues */
+      @font-face {
+        font-family: "GDS Transport";
+        font-style: normal;
+        font-weight: normal;
+        src:
+          url("https://assets.publishing.service.gov.uk/static/fonts/light-94a07e06a1-v2-2832e6b4d6a0f5f43c7887271022b0a7.woff2")
+            format("woff2"),
+          url("https://assets.publishing.service.gov.uk/static/fonts/light-f591b13f7d-v2-da71328cc1fe6656274119193bbd6f27.woff")
+            format("woff");
+        font-display: fallback;
+      }
+
+      @font-face {
+        font-family: "GDS Transport";
+        font-style: normal;
+        font-weight: bold;
+        src:
+          url("https://assets.publishing.service.gov.uk/static/fonts/bold-b542beb274-v2-32b64752e6c4fafcf0f0f3c2ccf15a1a.woff2")
+            format("woff2"),
+          url("https://assets.publishing.service.gov.uk/static/fonts/bold-affa96571d-v2-0e9391618375ca7c7be12f4e03ccc1ae.woff")
+            format("woff");
+        font-display: fallback;
+      }
+
+      :root {
+        --govuk-blue: #1d70b8;
+        --govuk-black: #0b0c0c;
+        --govuk-white: #ffffff;
+        --govuk-grey: #f3f2f1;
+        --govuk-green: #00703c;
+        --govuk-light-grey: #f8f8f8;
+        --govuk-mid-grey: #b1b4b6;
+        --govuk-red: #d4351c;
+        --focus-color: #ffdd00;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "GDS Transport", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        color: var(--govuk-black);
+        background-color: var(--govuk-white);
+        margin: 0;
+        padding: 0;
+        line-height: 1.5;
+        font-size: 19px;
+      }
+
+      .govuk-width-container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 30px;
+      }
+
+      .govuk-header {
+        background-color: var(--govuk-black);
+        padding: 10px 0;
+        border-bottom: 10px solid #1d70b8;
+      }
+
+      .govuk-header__container {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .govuk-header__logo {
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .govuk-header__logotype {
+        display: flex;
+        align-items: center;
+      }
+
+      .govuk-header__logotype-crown {
+        margin-right: 5px;
+        height: 30px;
+        width: auto;
+        vertical-align: middle;
+      }
+
+      .govuk-header__link {
+        text-decoration: none;
+      }
+
+      .govuk-header__link--homepage {
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 30px;
+        color: var(--govuk-white);
+        display: inline-block;
+        margin-right: 10px;
+        text-decoration: none;
+      }
+
+      .govuk-header__link--homepage:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+      }
+
+      .govuk-header__product-name {
+        font-size: 24px;
+        color: var(--govuk-white);
+      }
+
+      .govuk-header__content {
+        display: flex;
+        align-items: center;
+      }
+
+      .govuk-phase-banner {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--govuk-mid-grey);
+      }
+
+      .govuk-phase-banner__content {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+      }
+
+      .govuk-phase-banner__text {
+        margin-left: 10px;
+        line-height: 1.3;
+      }
+
+      .govuk-tag {
+        display: inline-block;
+        background-color: #1d70b8;
+        color: var(--govuk-white);
+        font-weight: 700;
+        font-size: 14px;
+        padding: 2px 8px;
+        margin-right: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .govuk-breadcrumbs {
+        padding-top: 15px;
+        margin-bottom: 30px;
+      }
+
+      .govuk-breadcrumbs__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 16px;
+      }
+
+      .govuk-breadcrumbs__list-item {
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .govuk-breadcrumbs__list-item:not(:last-child):after {
+        content: "›";
+        margin-left: 10px;
+        color: #6f777b;
+      }
+
+      .govuk-breadcrumbs__link {
+        color: var(--govuk-blue);
+        text-decoration: underline;
+      }
+
+      .govuk-breadcrumbs__link:hover {
+        text-decoration: none;
+        color: #003078;
+      }
+
+      .govuk-grid-row {
+        display: flex;
+        margin: 0 -15px;
+        flex-wrap: wrap;
+      }
+
+      .govuk-grid-column-two-thirds {
+        width: 66.6666%;
+        padding: 0 15px;
+        box-sizing: border-box;
+      }
+
+      .govuk-grid-column-one-third {
+        width: 33.3333%;
+        padding: 0 15px;
+        box-sizing: border-box;
+      }
+
+      .app-related-items {
+        padding: 15px;
+        border-top: 2px solid var(--govuk-blue);
+      }
+
+      .govuk-heading-l {
+        font-size: 36px;
+        font-weight: 700;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        color: var(--govuk-black);
+      }
+
+      .govuk-heading-m {
+        font-size: 24px;
+        font-weight: 700;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        color: var(--govuk-black);
+      }
+
+      .govuk-body,
+      .govuk-body-m {
+        font-size: 19px;
+        margin-bottom: 20px;
+      }
+
+      .govuk-body-s {
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+
+      .govuk-list {
+        margin-bottom: 20px;
+        padding-left: 20px;
+      }
+
+      .govuk-list--bullet {
+        list-style-type: disc;
+      }
+
+      .govuk-list li {
+        margin-bottom: 5px;
+      }
+
+      .app-related-items .govuk-list {
+        padding-left: 0;
+        list-style-type: none;
+      }
+
+      .govuk-inset-text {
+        background-color: var(--govuk-grey);
+        padding: 15px;
+        margin: 30px 0;
+        border-left: 10px solid var(--govuk-mid-grey);
+      }
+
+      .govuk-warning-text {
+        padding: 15px 0;
+        position: relative;
+        margin-bottom: 30px;
+        padding-left: 45px;
+      }
+
+      .govuk-warning-text__icon {
+        position: absolute;
+        left: 0;
+        top: 15px;
+        width: 35px;
+        height: 35px;
+        background-color: var(--govuk-black);
+        border-radius: 50%;
+        color: var(--govuk-white);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 700;
+      }
+
+      .govuk-warning-text__text {
+        font-weight: 700;
+        font-size: 19px;
+      }
+
+      .govuk-form-group {
+        margin-bottom: 30px;
+      }
+
+      .govuk-label {
+        display: block;
+        font-weight: 700;
+        font-size: 19px;
+        margin-bottom: 10px;
+      }
+
+      .govuk-hint {
+        display: block;
+        color: #6f777b;
+        margin-bottom: 10px;
+        font-size: 19px;
+      }
+
+      .govuk-input {
+        font-family: "GDS Transport", Arial, sans-serif;
+        font-size: 19px;
+        width: 100%;
+        padding: 5px;
+        border: 2px solid var(--govuk-black);
+        max-width: 500px;
+        height: 40px;
+      }
+
+      .govuk-input:focus {
+        outline: 3px solid var(--focus-color);
+        outline-offset: 0;
+        box-shadow: inset 0 0 0 2px;
+      }
+
+      .govuk-button {
+        background-color: var(--govuk-green);
+        color: var(--govuk-white);
+        font-family: "GDS Transport", Arial, sans-serif;
+        font-size: 19px;
+        font-weight: 700;
+        padding: 8px 10px;
+        min-width: 130px;
+        border: 2px solid transparent;
+        cursor: pointer;
+        margin-bottom: 30px;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        box-shadow: 0 2px 0 #002d18;
+      }
+
+      .govuk-button:hover {
+        background-color: #005a30;
+      }
+
+      .govuk-button:active {
+        top: 2px;
+        box-shadow: none;
+      }
+
+      .govuk-button:focus {
+        outline: 3px solid var(--focus-color);
+        outline-offset: 0;
+        background-color: #005a30;
+      }
+
+      .govuk-button--secondary {
+        background-color: #f3f2f1;
+        color: var(--govuk-black);
+        box-shadow: 0 2px 0 #929191;
+      }
+
+      .govuk-button--secondary:hover {
+        background-color: #dbdad9;
+      }
+
+      .govuk-button--secondary:focus {
+        background-color: #dbdad9;
+      }
+
+      .govuk-button--warning {
+        background-color: var(--govuk-red);
+        color: var(--govuk-white);
+        font-weight: 700;
+        font-size: 19px;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      .govuk-button--warning:hover {
+        background-color: #a51c14;
+      }
+
+      /* Official Legal Notice Button Styles */
+      .official-legal-notice {
+        margin: 30px 0;
+      }
+
+      .govuk-legal-button {
+        width: 100%;
+        background-color: #003078;
+        color: white;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        text-align: left;
+        font-family: "GDS Transport", Arial, sans-serif;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .govuk-legal-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .govuk-legal-button:active {
+        transform: translateY(1px);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .legal-button-content {
+        border: 2px solid #d4351c;
+      }
+
+      .legal-button-header {
+        background-color: #d4351c;
+        color: white;
+        padding: 12px 15px;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        font-size: 18px;
+        letter-spacing: 0.5px;
+      }
+
+      .legal-button-header .crown-logo {
+        width: 30px;
+        height: auto;
+        margin-right: 15px;
+      }
+
+      .legal-button-text {
+        background-color: #f3f2f1;
+        padding: 20px;
+        color: black;
+      }
+
+      .legal-button-text p {
+        margin: 10px 0;
+        font-size: 17px;
+        line-height: 1.5;
+      }
+
+      .legal-button-text p:first-child {
+        font-weight: bold;
+      }
+
+      .legal-button-action {
+        font-weight: bold;
+        color: #003078;
+        margin-top: 20px !important;
+        text-align: center;
+        padding: 10px;
+        background-color: #ffdd00;
+        border: 2px solid #003078;
+      }
+
+      .govuk-legal-button[disabled] {
+        background-color: #28a197;
+      }
+
+      .govuk-legal-button[disabled] .legal-button-header {
+        background-color: #28a197;
+      }
+
+      .govuk-legal-button[disabled] .legal-button-content {
+        border-color: #28a197;
+      }
+
+      .verification-result {
+        display: none;
+        margin-top: 30px;
+        padding: 20px;
+      }
+
+      .result-valid {
+        background-color: #d5e8f3;
+        border-left: 5px solid #1d70b8;
+      }
+
+      .result-invalid {
+        background-color: #f6d7d2;
+        border-left: 5px solid var(--govuk-red);
+      }
+
+      .result-heading {
+        font-weight: 700;
+        font-size: 24px;
+        margin-top: 0;
+        margin-bottom: 15px;
+      }
+
+      .govuk-footer {
+        border-top: 1px solid var(--govuk-mid-grey);
+        padding: 30px 0;
+        margin-top: 60px;
+        background-color: var(--govuk-grey);
+      }
+
+      .govuk-footer__link {
+        color: var(--govuk-black);
+        text-decoration: underline;
+        margin-right: 15px;
+      }
+
+      .govuk-footer__copyright {
+        font-size: 16px;
+        color: #6f777b;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #b1b4b6;
+      }
+
+      .govuk-footer__copyright-logo {
+        display: inline-block;
+        min-height: 18px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='132' height='97' viewBox='0 0 132 97' version='1.1'%3E%3Cpath d='M25.6,0 L25.6,19.2 L6.4,19.2 L6.4,0 L0,0 L0,51.2 L6.4,51.2 L6.4,25.6 L25.6,25.6 L25.6,51.2 L32,51.2 L32,0 L25.6,0 Z M53.3,0 L39,0 L39,51.2 L56.7,51.2 C72.6,51.2 80.7,42.4 80.7,25.6 C80.7,8.8 72.6,0 53.3,0 Z M62.1,44.8 L45.4,44.8 L45.4,6.4 L53.3,6.4 C69.2,6.4 72.9,14.1 73,25.6 C73,37.1 69.2,44.8 62.1,44.8 L62.1,44.8 Z M131.9,48.2 L121.6,31.7 C126.9,28.5 127.9,21.8 C127.9,18.7 C127.9,12.4 123.4,0 106.4,0 L92.8,0 L92.8,51.2 L99.2,51.2 L99.2,31.1 L107,31.1 L117,48.2 L131.9,48.2 Z M99.2,6.4 L104.5,6.4 C110.7,6.4 119.8,6.4 119.8,18.7 C119.8,29.2 110.6,24.7 108.8,24.7 L99.2,24.7 L99.2,6.4 Z' fill='%23a19f9d'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: 50% 0%;
+        background-size: contain;
+        padding-top: 19px;
+        margin-right: 10px;
+      }
+
+      .dog-details {
+        display: none;
+        background-color: var(--govuk-light-grey);
+        padding: 20px;
+        border: 1px solid #d8d8d8;
+        margin-top: 20px;
+      }
+
+      .dog-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .detail-item {
+        margin-bottom: 15px;
+      }
+
+      .detail-label {
+        font-weight: 700;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .certificate-link {
+        margin-top: 20px;
+      }
+
+      .validation-step {
+        margin-bottom: 40px;
+      }
+
+      .validation-step h3 {
+        font-size: 19px;
+        margin-bottom: 15px;
+      }
+
+      .step-number {
+        display: inline-block;
+        background-color: var(--govuk-black);
+        color: white;
+        width: 26px;
+        height: 26px;
+        text-align: center;
+        line-height: 26px;
+        border-radius: 50%;
+        margin-right: 10px;
+        font-weight: 700;
+      }
+
+      @media (max-width: 767px) {
+        .govuk-width-container {
+          padding: 0 15px;
+        }
+
+        .govuk-grid-row {
+          margin: 0;
+        }
+
+        .govuk-grid-column-two-thirds,
+        .govuk-grid-column-one-third {
+          width: 100%;
+          padding: 0;
+        }
+
+        .govuk-header__container {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .govuk-header__logo {
+          margin-bottom: 10px;
+        }
+
+        .govuk-breadcrumbs {
+          display: none;
+        }
+
+        .govuk-heading-l {
+          font-size: 24px;
+        }
+
+        .govuk-warning-text {
+          padding-left: 50px; /* Increase spacing for warning icon */
+        }
+
+        .govuk-warning-text__icon {
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .legal-button-header {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="govuk-header" role="banner" data-module="govuk-header">
+      <div class="govuk-width-container">
+        <div class="govuk-header__container">
+          <div class="govuk-header__logo">
+            <a
+              href="welcome.html"
+              class="govuk-header__link govuk-header__link--homepage"
+            >
+              <div class="govuk-header__logotype">
+                <img
+                  src="assets/gov1.png"
+                  alt="GOV.UK crown logo"
+                  class="govuk-header__logotype-crown"
+                />
+                <span>GOV.UK</span>
+              </div>
+            </a>
+          </div>
+          <div class="govuk-header__content">
+            <a
+              href="verify-assistance-dog.html"
+              class="govuk-header__link govuk-header__link--active"
+            >
+              <span class="govuk-header__product-name">Verify</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mega Menu -->
+    <nav class="mega-menu" role="navigation" aria-label="Main Menu">
+      <button class="menu-toggle" aria-expanded="false" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="menu">
+        <li class="menu-item"><a href="index.html">Home</a></li>
+        <li class="menu-item"><a href="get-help.html">Get Help</a></li>
+        <li class="menu-item"><a href="shelters.html">Shelters</a></li>
+        <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
+        <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
+        <li class="menu-item"><a href="employment.html">Employment</a></li>
+        <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
+        <li class="menu-item"><a href="resources.html">Resources</a></li>
+        <li class="menu-item"><a href="about.html">About</a></li>
+        <li class="menu-item"><a href="network.html">Network</a></li>
+        <li class="menu-item"><a href="emergency.html">Emergency</a></li>
+      </ul>
+    </nav>
+
+    <div class="govuk-width-container">
+      <div class="govuk-phase-banner">
+        <div class="govuk-phase-banner__content">
+          <span class="govuk-tag">BETA</span>
+          <span class="govuk-phase-banner__text"
+            >This is a new service – your
+            <a href="#" style="color: var(--govuk-blue)">feedback</a> will help
+            us improve it.</span
+          >
+        </div>
+      </div>
+
+      <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" href="welcome.html">Home</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" href="get-help.html">Services</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            Verify assistance dog licence
+          </li>
+        </ol>
+      </div>
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h1 class="govuk-heading-l">Verify an assistance dog licence</h1>
+
+          <p class="govuk-body">
+            Use this service to check if an assistance dog licence is valid and
+            view the details of the certified assistance dog.
+          </p>
+
+          <div class="govuk-inset-text">
+            <h3 class="govuk-heading-m" style="margin-top: 0">
+              Before you start
+            </h3>
+            <p class="govuk-body">
+              To verify an assistance dog licence, you will need:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>
+                Registration ID of the assistance dog (format: MSR-YYYY-NNNN)
+              </li>
+              <li>Dog's name as it appears on the certificate</li>
+            </ul>
+          </div>
+
+          <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+              <span
+                >Under the Equality Act 2010, service animal handlers are not
+                legally required to carry documentation.</span
+              >
+            </strong>
+          </div>
+
+          <section class="validation-step">
+            <h2 class="govuk-heading-m">
+              <span class="step-number">1</span>Enter the assistance dog
+              registration details
+            </h2>
+
+            <form id="verification-form">
+              <div class="govuk-form-group">
+                <label class="govuk-label" for="verifier-name">Your Name</label>
+                <span class="govuk-hint"
+                  >Full name of the person performing verification</span
+                >
+                <input
+                  class="govuk-input"
+                  id="verifier-name"
+                  name="verifier-name"
+                  type="text"
+                  spellcheck="false"
+                  required
+                />
+              </div>
+
+              <div
+                class="govuk-warning-text"
+                style="
+                  background-color: #f6d7d2;
+                  border: 2px solid #d4351c;
+                  padding: 15px;
+                "
+              >
+                <span
+                  class="govuk-warning-text__icon"
+                  aria-hidden="true"
+                  style="background-color: #d4351c"
+                  >!</span
+                >
+                <strong class="govuk-warning-text__text">
+                  <span
+                    >WARNING: Unauthorized verification attempts may constitute
+                    harassment under the Equality Act 2010 (Section 26). Proceed
+                    only if you have legal authority.</span
+                  >
+                </strong>
+              </div>
+
+              <div
+                class="govuk-form-group"
+                style="
+                  background-color: #f8f8f8;
+                  padding: 15px;
+                  border-left: 5px solid #1d70b8;
+                "
+              >
+                <label
+                  class="govuk-label"
+                  for="verification-reason"
+                  style="color: #d4351c; font-size: 19px"
+                  >OFFICIAL REASON FOR VERIFICATION*</label
+                >
+                <span class="govuk-hint" style="color: #0b0c0c"
+                  >Your stated reason will be logged and may be shared with
+                  authorities</span
+                >
+                <input
+                  class="govuk-input"
+                  id="verification-reason"
+                  name="verification-reason"
+                  type="text"
+                  spellcheck="false"
+                  required
+                  style="border: 2px solid #d4351c"
+                />
+              </div>
+
+              <div
+                class="govuk-form-group"
+                style="
+                  background-color: #f8f8f8;
+                  padding: 15px;
+                  border-left: 5px solid #1d70b8;
+                "
+              >
+                <label
+                  class="govuk-label"
+                  for="registration-id"
+                  style="color: #d4351c; font-size: 19px"
+                  >REGISTRATION IDENTIFIER*</label
+                >
+                <span class="govuk-hint" style="color: #0b0c0c"
+                  >Format: MSR-YYYY-NNNN</span
+                >
+                <input
+                  class="govuk-input"
+                  id="registration-id"
+                  name="registration-id"
+                  type="text"
+                  spellcheck="false"
+                  required
+                  style="border: 2px solid #d4351c"
+                />
+              </div>
+
+              <div
+                class="govuk-form-group"
+                style="
+                  background-color: #f8f8f8;
+                  padding: 15px;
+                  border-left: 5px solid #1d70b8;
+                "
+              >
+                <label
+                  class="govuk-label"
+                  for="dog-name"
+                  style="color: #d4351c; font-size: 19px"
+                  >SERVICE ANIMAL DESIGNATION*</label
+                >
+                <span class="govuk-hint" style="color: #0b0c0c"
+                  >Official registered name</span
+                >
+                <input
+                  class="govuk-input"
+                  id="dog-name"
+                  name="dog-name"
+                  type="text"
+                  required
+                  style="border: 2px solid #d4351c"
+                />
+              </div>
+
+              <div
+                class="govuk-inset-text"
+                style="
+                  background-color: #fff9f9;
+                  border-left: 10px solid #d4351c;
+                  margin: 30px 0;
+                "
+              >
+                <h4 style="margin-top: 0; color: #d4351c; font-size: 16px">
+                  IMPORTANT LEGAL INFORMATION
+                </h4>
+                <p style="font-size: 16px; margin-bottom: 10px">
+                  By conducting this verification:
+                </p>
+                <ul style="font-size: 15px">
+                  <li>
+                    Your IP address, location, and device information will be
+                    recorded
+                  </li>
+                  <li>
+                    You accept full responsibility for any legal consequences
+                  </li>
+                  <li>
+                    You confirm you have explicit legal authority to request
+                    this information
+                  </li>
+                  <li>
+                    You understand that unnecessary verification may constitute
+                    discrimination
+                  </li>
+                </ul>
+              </div>
+
+              <div class="govuk-form-group official-legal-notice">
+                <button
+                  type="button"
+                  id="legal-notice-button"
+                  class="govuk-legal-button"
+                >
+                  <div class="legal-button-content">
+                    <div class="legal-button-header">
+                      <img
+                        src="assets/Crown-Copyright.jpg"
+                        alt="Crown Copyright"
+                        class="crown-logo"
+                      />
+                      <span>OFFICIAL LEGAL NOTICE</span>
+                    </div>
+                    <div class="legal-button-text">
+                      <p>
+                        By proceeding with verification, you acknowledge that:
+                      </p>
+                      <p>
+                        Under the <strong>Equality Act 2010</strong>, unlawful
+                        challenges to service animal credentials may constitute
+                        discrimination against disabled persons and could result
+                        in prosecution
+                      </p>
+                      <p class="legal-button-action">
+                        Click to acknowledge and proceed
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+
+              <button type="submit" class="govuk-button" id="verify-button">
+                Verify Licence
+              </button>
+            </form>
+          </section>
+
+          <div id="valid-result" class="verification-result result-valid">
+            <h2 class="result-heading">
+              <i class="fas fa-check-circle"></i> Valid Licence
+            </h2>
+            <p class="govuk-body">
+              The assistance dog licence with the provided details is valid.
+            </p>
+
+            <div class="dog-details">
+              <h3 class="govuk-heading-m">Assistance Dog Details</h3>
+              <div class="dog-details-grid">
+                <div class="detail-item">
+                  <span class="detail-label">Registration ID:</span>
+                  <span id="detail-reg-id">MSR-2025-0414</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Dog's Name:</span>
+                  <span id="detail-name">Gypsy</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Breed:</span>
+                  <span id="detail-breed">Dachshund</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Handler:</span>
+                  <span id="detail-handler">Lucifer Morningstar</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Type of Service:</span>
+                  <span id="detail-service">PTSD Assistance</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Valid Until:</span>
+                  <span id="detail-valid">April 10, 2027</span>
+                </div>
+              </div>
+              <div class="certificate-link">
+                <a
+                  href="#"
+                  id="certificate-link"
+                  class="govuk-button govuk-button--secondary"
+                  >View Certificate</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div id="invalid-result" class="verification-result result-invalid">
+            <h2 class="result-heading">
+              <i class="fas fa-times-circle"></i> Invalid or Expired Licence
+            </h2>
+            <p class="govuk-body">
+              We could not verify the assistance dog licence with the provided
+              details. This could be because:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>The Registration ID does not exist</li>
+              <li>The Dog's name does not match our records</li>
+              <li>The licence has expired</li>
+              <li>There was an error in our system</li>
+            </ul>
+            <p class="govuk-body">Please check the details and try again.</p>
+          </div>
+
+          <h2 class="govuk-heading-m">About the verification service</h2>
+          <p class="govuk-body">
+            This service allows you to verify the legitimacy of an assistance
+            dog licence issued by MorningstarRescue. This can be useful for:
+          </p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              Business owners who need to confirm a service animal's status
+            </li>
+            <li>Housing providers verifying assistance animal documentation</li>
+            <li>Transport services ensuring service animal credentials</li>
+          </ul>
+
+          <div class="govuk-inset-text">
+            <h3 class="govuk-heading-m" style="margin-top: 0">
+              Legal Information
+            </h3>
+            <p class="govuk-body">
+              Under the Equality Act 2010, service providers, those providing
+              goods and facilities to the public, and those performing public
+              functions must make reasonable adjustments to allow assistance
+              dogs to accompany their owners.
+            </p>
+            <p class="govuk-body">
+              Although this verification service is provided as a courtesy,
+              please note that service animal handlers are not legally required
+              to carry documentation.
+            </p>
+          </div>
+        </div>
+
+        <div class="govuk-grid-column-one-third"></div>
+      </div>
+    </div>
+
+    <!-- Updated GOV.UK style footer -->
+    <footer class="govuk-footer" role="contentinfo">
+      <div class="govuk-width-container">
+        <!-- Feedback section -->
+        <div class="govuk-footer__section govuk-footer__feedback">
+          <div class="govuk-footer__section-inner">
+            <h2 class="govuk-footer__heading">Is this page useful?</h2>
+            <div class="govuk-footer__feedback-buttons">
+              <button
+                class="govuk-footer__feedback-button govuk-footer__feedback-button--yes"
+              >
+                Yes
+              </button>
+              <button
+                class="govuk-footer__feedback-button govuk-footer__feedback-button--no"
+              >
+                No
+              </button>
+            </div>
+            <div class="govuk-footer__report-problem">
+              <a href="#" class="govuk-footer__link"
+                >Report a problem with this page</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Services and information section -->
+        <div class="govuk-footer__section">
+          <div class="govuk-footer__section-inner">
+            <h2 class="govuk-footer__heading govuk-footer__heading--large">
+              Services and information
+            </h2>
+            <div class="govuk-footer__list-container">
+              <ul class="govuk-footer__list">
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#">Benefits</a>
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Births, deaths, marriages and care</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Business and self-employed</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Childcare and parenting</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Citizenship and living in the UK</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Crime, justice and the law</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#">Disabled people</a>
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Driving and transport</a
+                  >
+                </li>
+              </ul>
+              <ul class="govuk-footer__list">
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Education and learning</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#">Employing people</a>
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Environment and countryside</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Housing and local services</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#">Money and tax</a>
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Passports, travel and living abroad</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Visas and immigration</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Working, jobs and pensions</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Government activity section -->
+        <div class="govuk-footer__section">
+          <div class="govuk-footer__section-inner">
+            <h2 class="govuk-footer__heading govuk-footer__heading--large">
+              Government activity
+            </h2>
+            <div class="govuk-footer__list-container">
+              <ul class="govuk-footer__list">
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#">Departments</a>
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#">News</a>
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Guidance and regulation</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Research and statistics</a
+                  >
+                </li>
+              </ul>
+              <ul class="govuk-footer__list">
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >Policy papers and consultations</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#">Transparency</a>
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#"
+                    >How government works</a
+                  >
+                </li>
+                <li class="govuk-footer__list-item">
+                  <a class="govuk-footer__link" href="#">Get involved</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Support links -->
+        <div class="govuk-footer__section govuk-footer__support-links">
+          <div class="govuk-footer__section-inner">
+            <hr class="govuk-footer__divider" />
+            <ul class="govuk-footer__inline-list">
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">Help</a>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">Privacy</a>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">Cookies</a>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#"
+                  >Accessibility statement</a
+                >
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">Contact</a>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">Terms and conditions</a>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#"
+                  >Rhestr o Wasanaethau Cymraeg</a
+                >
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#"
+                  >Government Digital Service</a
+                >
+              </li>
+            </ul>
+
+            <!-- License notice -->
+            <div class="govuk-footer__license">
+              <a
+                class="govuk-footer__license-logo"
+                href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                rel="license"
+              >
+                <img src="assets/ogl-symbol.jpg" alt="OGL" />
+              </a>
+              <p class="govuk-footer__license-description">
+                All content is available under the
+                <a
+                  class="govuk-footer__link"
+                  href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                  rel="license"
+                  >Open Government Licence v3.0</a
+                >, except where otherwise stated
+              </p>
+            </div>
+
+            <!-- Crown copyright -->
+            <div class="govuk-footer__copyright">
+              <a
+                class="govuk-footer__copyright-logo"
+                href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+              >
+                <img src="assets/Crown-Copyright.jpg" alt="Crown copyright" />
+              </a>
+              <span class="govuk-footer__copyright-text"
+                >© Crown copyright</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      /* Additional GOV.UK footer styles to match official site */
+      .govuk-footer {
+        font-family: "GDS Transport", arial, sans-serif;
+        font-size: 16px;
+        color: #0b0c0c;
+        border-top: 10px solid #1d70b8;
+        background-color: #f3f2f1;
+        padding: 0;
+        margin-top: 60px;
+      }
+
+      .govuk-footer__section {
+        padding: 30px 0;
+        border-bottom: 1px solid #b1b4b6;
+      }
+
+      .govuk-footer__section:last-child {
+        border-bottom: 0;
+      }
+
+      .govuk-footer__section-inner {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      .govuk-footer__heading {
+        font-size: 19px;
+        font-weight: 700;
+        margin: 0 0 20px;
+      }
+
+      .govuk-footer__heading--large {
+        font-size: 24px;
+      }
+
+      .govuk-footer__list-container {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 30px;
+      }
+
+      .govuk-footer__list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px;
+        flex: 1 1 200px;
+      }
+
+      .govuk-footer__list-item {
+        margin-bottom: 15px;
+      }
+
+      .govuk-footer__link {
+        color: #0b0c0c;
+        text-decoration: underline;
+        text-underline-offset: 0.1em;
+      }
+
+      .govuk-footer__link:hover {
+        text-decoration-thickness: 3px;
+      }
+
+      .govuk-footer__feedback {
+        padding: 30px 0;
+      }
+
+      .govuk-footer__feedback-buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .govuk-footer__feedback-button {
+        background-color: #f3f2f1;
+        border: 1px solid #505a5f;
+        color: #0b0c0c;
+        padding: 7px 15px;
+        cursor: pointer;
+        font-family: "GDS Transport", arial, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0;
+      }
+
+      .govuk-footer__feedback-button:hover {
+        background-color: #dbdad9;
+      }
+
+      .govuk-footer__report-problem {
+        margin-top: 15px;
+      }
+
+      .govuk-footer__inline-list {
+        list-style: none;
+        margin: 0 0 20px;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .govuk-footer__inline-list-item {
+        margin-right: 15px;
+        margin-bottom: 15px;
+      }
+
+      .govuk-footer__divider {
+        border: none;
+        border-top: 1px solid #b1b4b6;
+        margin: 0 0 20px;
+      }
+
+      .govuk-footer__license {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+      }
+
+      .govuk-footer__license-logo {
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+
+      .govuk-footer__license-logo img {
+        display: block;
+        width: 41px;
+        height: 17px;
+      }
+
+      .govuk-footer__license-description {
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      .govuk-footer__copyright {
+        display: flex;
+        align-items: center;
+      }
+
+      .govuk-footer__copyright-logo {
+        margin-right: 10px;
+      }
+
+      .govuk-footer__copyright-logo img {
+        display: block;
+        height: 30px;
+      }
+
+      .govuk-footer__copyright-text {
+        font-size: 14px;
+      }
+
+      /* Responsive styles for footer */
+      @media (max-width: 767px) {
+        .govuk-footer__list-container {
+          flex-direction: column;
+        }
+
+        .govuk-footer__list {
+          flex: 0 0 100%;
+        }
+
+        .govuk-footer__inline-list {
+          flex-direction: column;
+        }
+
+        .govuk-footer__inline-list-item {
+          margin-bottom: 15px;
+        }
+
+        .govuk-footer__license {
+          flex-direction: column;
+        }
+
+        .govuk-footer__license-logo {
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+
+    <script>
+      // Legal notice button functionality
+      document.getElementById('legal-notice-button').addEventListener('click', function() {
+        alert('IMPORTANT LEGAL NOTICE:\n\nUnder the Equality Act 2010, it is unlawful to discriminate against disabled persons using assistance animals.\n\nChallenging the credentials of a service animal without proper authority may constitute discrimination and could result in legal proceedings.\n\nBy clicking OK, you acknowledge that you understand the potential legal consequences of an improper challenge to a service animal handler.');
+
+        // Change button appearance to show it's been acknowledged
+        this.textContent = "✓ Legal notice acknowledged";
+        this.style.backgroundColor = "#28a197"; // Green confirmation color
+        this.disabled = true;
+      });
+
+      // Show legal obligations popup
+      function showLegalObligationsPopup(dogName) {
+        // Create modal overlay
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        overlay.style.zIndex = '9999';
+        overlay.style.display = 'flex';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+
+        // Create modal content
+        const modal = document.createElement('div');
+        modal.style.backgroundColor = 'white';
+        modal.style.borderTop = '10px solid #1d70b8';
+        modal.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.5)';
+        modal.style.width = '90%';
+        modal.style.maxWidth = '600px';
+        modal.style.maxHeight = '90vh';
+        modal.style.overflowY = 'auto';
+        modal.style.position = 'relative';
+
+        // Current date
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleString('en-GB', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        });
+
+        // Create content
+        modal.innerHTML = `
+          <div style="background-color: #1d70b8; color: white; padding: 15px; display: flex; align-items: center;">
+            <img src="assets/gov1.png" alt="GOV.UK" style="height: 30px; margin-right: 10px;">
+            <h2 style="margin: 0; font-size: 20px;">LEGAL OBLIGATIONS NOTICE</h2>
+          </div>
+          <div style="padding: 20px;">
+            <div style="background-color: #d4351c; color: white; padding: 15px; margin-bottom: 20px;">
+              <h3 style="margin-top: 0; font-size: 18px;">ACTION REQUIRED BY LAW</h3>
+              <p style="margin-bottom: 0;">Document Reference: SA-${Math.floor(Math.random() * 900000 + 100000)}</p>
+              <p style="margin-bottom: 0;">Date: ${formattedDate}</p>
+            </div>
+
+            <p style="font-size: 16px; margin-bottom: 20px;"><strong>You have successfully verified service animal "${dogName}".</strong></p>
+
+            <h4 style="color: #d4351c; font-size: 16px; margin-bottom: 10px;">YOU ARE NOW REQUIRED BY LAW TO:</h4>
+
+            <ol style="padding-left: 20px; margin-bottom: 20px;">
+              <li style="margin-bottom: 10px;">Allow <strong>immediate and unrestricted access</strong> to the handler and their service animal to all public premises and services</li>
+              <li style="margin-bottom: 10px;"><strong>Cease all further verification attempts</strong> or requests for documentation from the handler</li>
+              <li style="margin-bottom: 10px;">Provide any <strong>reasonable accommodations</strong> required by the handler and service animal</li>
+              <li style="margin-bottom: 10px;"><strong>Inform all staff members</strong> that the service animal has been verified and should not be challenged</li>
+              <li style="margin-bottom: 10px;">Keep a <strong>record of this verification</strong> to avoid future unnecessary challenges</li>
+            </ol>
+
+            <div style="background-color: #f3f2f1; padding: 15px; border-left: 5px solid #1d70b8; margin-bottom: 20px;">
+              <h4 style="color: #0b0c0c; margin-top: 0; font-size: 16px;">LEGAL FRAMEWORK</h4>
+              <p style="margin-bottom: 10px;">Under the <strong>Equality Act 2010</strong>, failure to comply with these obligations may result in:</p>
+              <ul style="padding-left: 20px;">
+                <li>Legal proceedings for discrimination</li>
+                <li>Financial penalties up to £9,000</li>
+                <li>Mandatory equality training</li>
+                <li>Public record of non-compliance</li>
+              </ul>
+            </div>
+
+            <div style="text-align: center;">
+              <button id="close-modal" style="background-color: #00703c; color: white; border: none; padding: 10px 20px; font-family: 'GDS Transport', Arial, sans-serif; font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 2px 0 #002d18;">I Understand My Legal Obligations</button>
+            </div>
+          </div>
+        `;
+
+        document.body.appendChild(overlay);
+        overlay.appendChild(modal);
+
+        // Add event listener to close button
+        document.getElementById('close-modal').addEventListener('click', function() {
+          document.body.removeChild(overlay);
+        });
+      }
+
+      // Show rights popup for non-registered service animals
+      function showNonRegisteredRightsPopup() {
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        overlay.style.zIndex = '9999';
+        overlay.style.display = 'flex';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+
+        const modal = document.createElement('div');
+        modal.style.backgroundColor = 'white';
+        modal.style.borderTop = '10px solid #d4351c';
+        modal.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.5)';
+        modal.style.width = '90%';
+        modal.style.maxWidth = '600px';
+        modal.style.maxHeight = '90vh';
+        modal.style.overflowY = 'auto';
+        modal.style.position = 'relative';
+
+        // Current date
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleString('en-GB', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        });
+
+        // Generate reference number
+        const referenceNumber = 'EQ-' + Math.floor(Math.random() * 900000 + 100000);
+
+        modal.innerHTML = `
+          <div style="background-color: #1d70b8; color: white; padding: 15px; display: flex; align-items: center;">
+        overlay.appendChild(modal);
+
+        document.getElementById('close-rights-modal').addEventListener('click', function() {
+          document.body.removeChild(overlay);
+        });
+      }
+
+      // Form submission handling
+      document.getElementById('verification-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const regId = document.getElementById('registration-id').value.trim();
+        const dogName = document.getElementById('dog-name').value.trim().toLowerCase();
+        const verifierName = document.getElementById('verifier-name').value.trim();
+        const reason = document.getElementById('verification-reason').value.trim();
+
+        // Updated validation including both Gypsy and Frankie
+        if ((regId === 'LM2677GYP' && dogName === 'gypsy') ||
+            (regId === 'LV14501FRK' && dogName === 'frankie')) {
+          // Valid registration
+          document.getElementById('valid-result').style.display = 'block';
+          document.getElementById('invalid-result').style.display = 'none';
+          document.querySelector('.dog-details').style.display = 'block';
+
+          // Set the details
+          document.getElementById('detail-reg-id').textContent = regId;
+          document.getElementById('detail-name').textContent = dogName.charAt(0).toUpperCase() + dogName.slice(1);
+
+          // Display police warning for valid service dog checks
+          const currentDate = new Date();
+          const formattedDate = currentDate.toLocaleString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+          });
+
+          // Generate random incident number
+          const incidentNumber = 'SD' + Math.floor(Math.random() * 900000 + 100000);
+
+          setTimeout(function() {
+            const warningHTML = `
+              <div style="background-color: #d4351c; color: white; padding: 15px; margin: 20px 0; border: 2px solid black; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" style="margin-right: 10px;">
+                    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+                  </svg>
+                  <h2 style="margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px;">OFFICIAL INCIDENT NOTICE</h2>
+                </div>
+                <p style="font-weight: bold; margin-bottom: 15px; font-size: 16px;">INCIDENT #${incidentNumber} | ${formattedDate}</p>
+                <p style="font-size: 16px; margin-bottom: 15px;">This is to inform <strong>${verifierName}</strong> that an official record has been created regarding an unauthorized stop and verification attempt of a legally protected service animal.</p>
+                <p style="font-size: 16px; margin-bottom: 15px;">Under the <strong>Equality Act 2010 (Section 15)</strong>, this action may constitute discrimination, harassment, and interference with a service animal in the performance of its duties.</p>
+                <p style="font-size: 16px; margin-bottom: 15px;">Your stated reason for verification: <em>"${reason}"</em> has been logged with your device information and may be shared with relevant authorities.</p>
+                <p style="font-weight: bold; font-size: 16px; margin-bottom: 0;">An official complaint will be filed under your name if the handler chooses to pursue legal action.</p>
+              </div>
+            `;
+
+            // Insert the warning before the dog details
+            const dogDetailsElement = document.querySelector('.dog-details');
+            dogDetailsElement.insertAdjacentHTML('beforebegin', warningHTML);
+          }, 1000); // Show after a slight delay for dramatic effect
+
+          // Set the certificate link based on the dog's name
+          const certificateLink = document.getElementById('certificate-link');
+          if (dogName === 'frankie') {
+            certificateLink.href = 'service-dog-certification-frankie.html';
+            document.getElementById('detail-breed').textContent = 'Dachshund';
+            document.getElementById('detail-handler').textContent = 'Laura Vardy';
+            document.getElementById('detail-service').textContent = 'PTSD Assistance';
+            document.getElementById('detail-valid').textContent = 'April 10, 2027';
+          } else if (dogName === 'gypsy') {
+            certificateLink.href = 'service-dog-certification.html';
+            document.getElementById('detail-breed').textContent = 'Dachshund';
+            document.getElementById('detail-handler').textContent = 'Lucifer Morningstar';
+            document.getElementById('detail-service').textContent = 'Memory/Injury Assistance';
+            document.getElementById('detail-valid').textContent = 'April 10, 2027';
+          }
+
+          // Show legal obligations popup
+          setTimeout(function() {
+            showLegalObligationsPopup(dogName.charAt(0).toUpperCase() + dogName.slice(1));
+          }, 2000);
+        } else {
+          // Invalid registration
+          document.getElementById('valid-result').style.display = 'none';
+          document.getElementById('invalid-result').style.display = 'block';
+          document.querySelector('.dog-details').style.display = 'none';
+
+          // Show popup about rights regarding non-registered service animals
+          setTimeout(function() {
+            showNonRegisteredRightsPopup();
+          }, 1000);
+        }
+
+        // Scroll to results
+        const resultElement = document.querySelector('.verification-result[style*="display: block"]');
+        if (resultElement) {
+          resultElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    </script>
+    <footer class="govuk-footer" role="contentinfo">
+      <div class="govuk-width-container">
+        <div class="govuk-footer__meta">
+          <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+            <h2 class="govuk-visually-hidden">Support links</h2>
+            <ul class="govuk-footer__inline-list">
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">
+                  Help
+                </a>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">
+                  Cookies
+                </a>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">
+                  Contact
+                </a>
+              </li>
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="#">
+                  Terms and conditions
+                </a>
+              </li>
+            </ul>
+            
+            <div class="govuk-footer__meta-custom">
+              <p>For service dog inquiries: <a href="mailto:dogs@homeless.website" style="color: var(--govuk-blue)">dogs@homeless.website</a></p>
+              <p>For general assistance: <a href="mailto:helpme@homeless.website" style="color: var(--govuk-blue)">helpme@homeless.website</a></p>
+            </div>
+
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              class="govuk-footer__licence-logo"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 483.2 195.7"
+              height="17"
+              width="41"
+            >
+              <path
+                fill="currentColor"
+                d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              />
+            </svg>
+            <span class="govuk-footer__licence-description">
+              All content is available under the
+              <a
+                class="govuk-footer__link"
+                href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                rel="license"
+              >Open Government Licence v3.0</a>, except where otherwise stated
+            </span>
+          </div>
+          <div class="govuk-footer__meta-item">
+            <a
+              class="govuk-footer__link govuk-footer__copyright-logo"
+              href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            >© Crown copyright</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="js/menuModule.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script src="js/fix-scroll.js"></script>
+    <script src="js/fix-scroll.js"></script>
+  </body>
+</html>

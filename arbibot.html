@@ -1,0 +1,552 @@
+import asyncio
+import aiohttp
+import time
+import logging
+import traceback
+from typing import Dict, List, Tuple
+from collections import defaultdict
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Constants
+API_TIMEOUT = 10  # Timeout for API requests in seconds
+RETRY_DELAY = 5  # Delay before retrying failed API requests in seconds
+MAX_RETRIES = 3  # Maximum number of retries for API requests
+MIN_PROFIT_PERCENTAGE = 0.1  # Minimum profit percentage to execute a trade
+SLIPPAGE_LIMIT = 0.005 # Maximum allowed slippage (0.5%)
+MAX_TRADE_AMOUNT_USD = 100 # Maximum trade amount in USD
+PRICE_AGE_LIMIT = 60 # Maximum age of price data in seconds
+
+# Replace with your actual API keys and exchange information
+EXCHANGE_CONFIG = {
+    'exchange1': {
+        'name': 'Exchange1',
+        'api_url': 'https://api.exchange1.com/v1',
+        'api_key': 'YOUR_API_KEY_1',
+        'api_secret': 'YOUR_API_SECRET_1',
+        'trading_fee': 0.001,  # Example: 0.1% trading fee
+        'rate_limit': 10,  # Requests per second
+    },
+    'exchange2': {
+        'name': 'Exchange2',
+        'api_url': 'https://api.exchange2.com/v1',
+        'api_key': 'YOUR_API_KEY_2',
+        'api_secret': 'YOUR_API_SECRET_2',
+        'trading_fee': 0.0015,
+        'rate_limit': 20,
+    },
+    'exchange3': {
+        'name': 'Exchange3',
+        'api_url': 'https://api.exchange3.com/v1',
+        'api_key': 'YOUR_API_KEY_3',
+        'api_secret': 'YOUR_API_SECRET_3',
+        'trading_fee': 0.001,
+        'rate_limit': 5,
+    }
+}
+
+# List of trading pairs to monitor
+TRADING_PAIRS = ['BTC-USD', 'ETH-USD', 'LTC-USD']  # Example: ['BTC-USD', 'ETH-USD']
+USD_PER_TRADE = 100  # $100 per trade
+
+class RateLimiter:
+    """
+    Implements a basic rate limiter using a token bucket algorithm.
+    """
+    def __init__(self, rate_limit: int):
+        """
+        Initializes the RateLimiter.
+
+        Args:
+            rate_limit (int): The number of requests allowed per second.
+        """
+        self.rate_limit = rate_limit
+        self.tokens = rate_limit
+        self.last_update = time.time()
+        self.lock = asyncio.Lock()
+
+    async def consume(self, weight: int = 1) -> None:
+        """
+        Consumes tokens from the bucket.  Waits if no tokens are available.
+
+        Args:
+            weight (int): The number of tokens to consume (default: 1).
+        """
+        async with self.lock:
+            now = time.time()
+            elapsed = now - self.last_update
+            self.tokens += elapsed * self.rate_limit  # Refill tokens
+            self.tokens = min(self.tokens, self.rate_limit)  # Ensure not overfilled
+            self.last_update = now
+
+            if self.tokens < weight:
+                wait_time = (weight - self.tokens) / self.rate_limit
+                logging.debug(f"RateLimiter: Waiting {wait_time:.2f} seconds")
+                await asyncio.sleep(wait_time)  # Wait for tokens to become available
+            self.tokens -= weight
+
+class ExchangeAPI:
+    """
+    Base class for interacting with exchange APIs.
+    """
+    def __init__(self, name: str, api_url: str, api_key: str, api_secret: str, trading_fee: float, rate_limit: int):
+        """
+        Initializes the ExchangeAPI object.
+
+        Args:
+            name (str): The name of the exchange.
+            api_url (str): The base URL of the exchange's API.
+            api_key (str): The API key for the exchange.
+            api_secret (str): The API secret for the exchange.
+            trading_fee (float): The trading fee charged by the exchange.
+            rate_limit (int): The number of requests allowed per second.
+        """
+        self.name = name
+        self.api_url = api_url
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.trading_fee = trading_fee
+        self.session = None
+        self.active = True
+        self.rate_limiter = RateLimiter(rate_limit)
+        self.prices = {}  # Store last fetched prices with timestamps: {trading_pair: (price, timestamp)}
+
+    async def setup_session(self) -> None:
+        """
+        Sets up an aiohttp session for making API requests.
+        """
+        self.session = aiohttp.ClientSession()
+
+    async def close_session(self) -> None:
+        """
+        Closes the aiohttp session.
+        """
+        if self.session:
+            await self.session.close()
+
+    async def _make_request(self, method: str, endpoint: str, params: dict = None, data: dict = None, weight: int = 1) -> dict:
+        """
+        Internal method for making API requests with retry logic and rate limiting.
+
+        Args:
+            method (str): The HTTP method (e.g., 'GET', 'POST').
+            endpoint (str): The API endpoint.
+            params (dict, optional): Query parameters. Defaults to None.
+            data (dict, optional): JSON payload for POST/PUT requests. Defaults to None.
+            weight (int): The weight of the request for rate limiting (default: 1).
+
+        Returns:
+            dict: The JSON response from the API.
+
+        Raises:
+            Exception: If the API request fails after multiple retries.
+        """
+        url = f"{self.api_url}{endpoint}"
+        headers = self._get_headers()
+        attempt = 0
+
+        while attempt <= MAX_RETRIES:
+            try:
+                await self.rate_limiter.consume(weight) # Consume tokens *before* making the request
+                async with self.session.request(method, url, headers=headers, params=params, json=data, timeout=API_TIMEOUT) as response:
+                    response.raise_for_status()
+                    return await response.json()
+            except aiohttp.ClientError as e:
+                logging.error(f"{self.name} - {method} {url} - Client error: {e}")
+                if attempt < MAX_RETRIES:
+                    logging.info(f"{self.name} - Retrying in {RETRY_DELAY} seconds...")
+                    await asyncio.sleep(RETRY_DELAY)
+                    attempt += 1
+                else:
+                    logging.error(f"{self.name} - Max retries exceeded. Disabling exchange.")
+                    self.active = False
+                    raise Exception(f"{self.name} - Max retries exceeded: {e}")
+            except Exception as e:
+                logging.error(f"{self.name} - {method} {url} - Exception: {e}, Traceback: {traceback.format_exc()}")
+                if attempt < MAX_RETRIES:
+                    logging.info(f"{self.name} - Retrying in {RETRY_DELAY} seconds...")
+                    await asyncio.sleep(RETRY_DELAY)
+                    attempt += 1
+                else:
+                    raise Exception(f"{self.name} - API request failed: {e}")
+        return {}
+
+    def _get_headers(self) -> dict:
+        """
+        Gets any exchange-specific headers.
+        """
+        return {}
+
+    async def get_price(self, trading_pair: str) -> float:
+        """
+        Gets the current price for a trading pair.  Caches the price.
+
+        Args:
+            trading_pair (str): The trading pair (e.g., 'BTC-USD').
+
+        Returns:
+            float: The current price.
+        """
+        now = time.time()
+        if trading_pair in self.prices:
+            price, timestamp = self.prices[trading_pair]
+            if now - timestamp < PRICE_AGE_LIMIT:
+                return price
+            else:
+                logging.info(f"{self.name} - Price for {trading_pair} is stale (>{PRICE_AGE_LIMIT}s).  Fetching new price.")
+
+        price = await self._get_price(trading_pair) # Call the exchange-specific method
+        self.prices[trading_pair] = (price, now)
+        return price
+
+    async def _get_price(self, trading_pair: str) -> float:
+        """
+        Gets the current price for a trading pair from the exchange.  This method must
+        be implemented by derived classes.
+
+        Args:
+            trading_pair (str): The trading pair (e.g., 'BTC-USD').
+
+        Returns:
+            float: The current price.
+
+        Raises:
+            NotImplementedError: If the method is not implemented in a derived class.
+        """
+        raise NotImplementedError(f"{self.name} - get_price() not implemented")
+
+    async def create_market_order(self, trading_pair: str, side: str, amount: float) -> dict:
+        """
+        Creates a market order. This method must be implemented by derived classes.
+
+        Args:
+            trading_pair (str): The trading pair (e.g., 'BTC-USD').
+            side (str): 'buy' or 'sell'.
+            amount (float): The amount to trade.
+
+        Returns:
+            dict: The order details.
+
+        Raises:
+            NotImplementedError: If the method is not implemented in a derived class.
+        """
+        raise NotImplementedError(f"{self.name} - create_market_order() not implemented")
+
+    async def get_balance(self, currency: str) -> float:
+        """
+        Gets the account balance for a currency.  This method must be
+        implemented by derived classes.
+
+        Args:
+            currency (str): The currency (e.g., 'BTC', 'USD').
+
+        Returns:
+            float: The balance.
+
+        Raises:
+            NotImplementedError: If the method is not implemented in a derived class.
+        """
+        raise NotImplementedError(f"{self.name} - get_balance() not implemented")
+
+class Exchange1API(ExchangeAPI):
+    """
+    Implementation for Exchange1's API.
+    """
+    async def _get_price(self, trading_pair: str) -> float:
+        """
+        Gets the current price for a trading pair from Exchange1.
+        """
+        symbol = trading_pair.replace('-', '')
+        data = await self._make_request('GET', f'/ticker?symbol={symbol}', weight=1)
+        return float(data['lastPrice'])
+
+    async def create_market_order(self, trading_pair: str, side: str, amount: float) -> dict:
+        """
+        Creates a market order on Exchange1.
+        """
+        symbol = trading_pair.replace('-', '')
+        order_type = 'MARKET'
+        params = {
+            'symbol': symbol,
+            'side': side.upper(),
+            'type': order_type,
+            'quantity': amount,
+        }
+        return await self._make_request('POST', '/order', params=params, weight=5) # Higher weight for trades
+
+    async def get_balance(self, currency: str) -> float:
+        """
+        Gets the account balance for a currency on Exchange1.
+        """
+        data = await self._make_request('GET', '/account', weight=1)
+        for item in data['balances']:
+            if item['currency'] == currency:
+                return float(item['available'])
+        return 0.0
+
+class Exchange2API(ExchangeAPI):
+    """
+    Implementation for Exchange2's API.
+    """
+    async def _get_price(self, trading_pair: str) -> float:
+        """
+        Gets the current price for a trading pair from Exchange2.
+        """
+        symbol = trading_pair.replace('-', '').upper()
+        data = await self._make_request('GET', '/ticker/price', params={'symbol': symbol}, weight=1)
+        return float(data['price'])
+
+    async def create_market_order(self, trading_pair: str, side: str, amount: float) -> dict:
+        """
+        Creates a market order on Exchange2.
+        """
+        symbol = trading_pair.replace('-', '').upper()
+        order_side = 'BUY' if side == 'buy' else 'SELL'
+        data = {
+            'symbol': symbol,
+            'side': order_side,
+            'type': 'MARKET',
+            'quantity': amount,
+        }
+        return await self._make_request('POST', '/order', data=data, weight=5)
+
+    async def get_balance(self, currency: str) -> float:
+        """
+        Gets the account balance for a currency on Exchange2.
+        """
+        data = await self._make_request('GET', '/account/balance', weight=1)
+        for item in data:
+            if item['asset'] == currency:
+                return float(item['free'])
+        return 0.0
+
+class Exchange3API(ExchangeAPI):
+    """
+    Implementation for Exchange3's API
+    """
+    async def _get_price(self, trading_pair: str) -> float:
+        symbol = trading_pair.replace('-', '').upper()
+        data = await self._make_request('GET', f'/pubticker?symbol={symbol}', weight=1)
+        return float(data['last_price'])
+
+    async def create_market_order(self, trading_pair: str, side: str, amount: float) -> dict:
+        symbol = trading_pair.replace('-', '').upper()
+        order_type = 'market'
+        data = {
+            'symbol': symbol,
+            'type': order_type,
+            'side': side,
+            'volume': amount
+        }
+        return await self._make_request('POST', '/order', data=data, weight=5)
+
+    async def get_balance(self, currency: str) -> float:
+        data = await self._make_request('GET', '/accounts/balance', weight=1)
+        for item in data:
+            if item['currency'] == currency:
+                return float(item['available'])
+        return 0.0
+
+async def calculate_arbitrage_opportunity(
+    exchange1: ExchangeAPI,
+    exchange2: ExchangeAPI,
+    trading_pair: str,
+    trade_amount_usd: float
+) -> Tuple[float, float, float, str, str, float, float] | None:
+    """
+    Calculates the arbitrage opportunity between two exchanges for a given trading pair.
+
+    Args:
+        exchange1 (ExchangeAPI): The first exchange.
+        exchange2 (ExchangeAPI): The second exchange.
+        trading_pair (str): The trading pair (e.g., 'BTC-USD').
+        trade_amount_usd (float): The amount to trade in USD
+
+    Returns:
+        tuple: (buy_price, sell_price, profit_percentage, buy_exchange_name, sell_exchange_name, buy_amount, sell_amount)
+               if an opportunity exists, None otherwise.
+    """
+    if not exchange1.active or not exchange2.active:
+        return None
+
+    try:
+        price1 = await exchange1.get_price(trading_pair)
+        price2 = await exchange2.get_price(trading_pair)
+        logging.info(f"Prices for {trading_pair} on {exchange1.name}: {price1}, {exchange2.name}: {price2}")
+    except Exception as e:
+        logging.error(f"Error getting prices for {trading_pair}: {e}")
+        return None
+
+    if price1 < price2:
+        buy_price = price1
+        sell_price = price2
+        buy_exchange = exchange1
+        sell_exchange = exchange2
+    elif price2 < price1:
+        buy_price = price2
+        sell_price = price1
+        buy_exchange = exchange2
+        sell_exchange = exchange1
+    else:
+        return None
+
+    # Calculate trade amounts in the base currency
+    if 'USD' in trading_pair:
+        buy_amount = trade_amount_usd / buy_price
+        sell_amount = trade_amount_usd / sell_price
+    elif 'BTC' in trading_pair: #Need to get USD price of BTC
+        btc_usd_price = await exchange1.get_price('BTC-USD') or await exchange2.get_price('BTC-USD')
+        buy_amount = trade_amount_usd / buy_price / btc_usd_price
+        sell_amount = trade_amount_usd / sell_price / btc_usd_price
+    else:
+        logging.error(f"Cannot determine trade amount for {trading_pair}")
+        return None
+
+    # Calculate profit percentage, accounting for trading fees
+    profit_percentage = (sell_price * (1 - sell_exchange.trading_fee) - buy_price * (1 + buy_exchange.trading_fee)) / buy_price * 100
+
+    if profit_percentage > MIN_PROFIT_PERCENTAGE:
+        return buy_price, sell_price, profit_percentage, buy_exchange.name, sell_exchange.name, buy_amount, sell_amount
+    else:
+        return None
+
+async def execute_arbitrage_trade(
+    buy_exchange: ExchangeAPI,
+    sell_exchange: ExchangeAPI,
+    trading_pair: str,
+    buy_price: float,
+    sell_price: float,
+    profit_percentage: float,
+    buy_amount: float,
+    sell_amount: float
+) -> None:
+    """
+    Executes an arbitrage trade between two exchanges.
+
+    Args:
+        buy_exchange (ExchangeAPI): The exchange to buy from.
+        sell_exchange (ExchangeAPI): The exchange to sell to.
+        trading_pair (str): The trading pair (e.g., 'BTC-USD').
+        buy_price (float): The buy price.
+        sell_price (float): The sell price.
+        profit_percentage (float): The profit percentage.
+        buy_amount (float): The amount to buy.
+        sell_amount (float): The amount to sell.
+    """
+    logging.info(f"Executing arbitrage trade for {trading_pair}")
+    logging.info(
+        f"Buy {buy_amount:.6f} {trading_pair} on {buy_exchange.name} at {buy_price:.2f}, "
+        f"sell {sell_amount:.6f} {trading_pair} on {sell_exchange.name} at {sell_price:.2f}. Profit: {profit_percentage:.2f}%"
+    )
+
+    try:
+        buy_order = await buy_exchange.create_market_order(trading_pair, 'buy', buy_amount)
+        sell_order = await sell_exchange.create_market_order(trading_pair, 'sell', sell_amount)
+        logging.info(f"Buy order on {buy_exchange.name}: {buy_order}")
+        logging.info(f"Sell order on {sell_exchange.name}: {sell_order}")
+
+        # Check for slippage.  This is CRUCIAL.
+        buy_order_price = buy_order.get('price', buy_price) # replace 'price' with the actual key
+        sell_order_price = sell_order.get('price', sell_price)
+
+        buy_slippage = (buy_order_price - buy_price) / buy_price
+        sell_slippage = (sell_price - sell_order_price) / sell_price
+
+        if buy_slippage > SLIPPAGE_LIMIT or sell_slippage > SLIPPAGE_LIMIT:
+            logging.warning(f"Slippage превысил лимит! Buy slippage: {buy_slippage:.4f}, Sell slippage: {sell_slippage:.4f}")
+            #  Consider what to do here.  Options:
+            #  1. Cancel the orders (if possible).
+            #  2. Retry the trade with a lower amount.
+            #  3. Alert a human trader.
+            return  #  For now, just return and log.
+
+    except Exception as e:
+        logging.error(f"Error executing trade: {e}, Traceback: {traceback.format_exc()}")
+        return
+
+    logging.info(f"Arbitrage trade for {trading_pair} executed successfully")
+
+async def check_and_trade(
+    exchange1: ExchangeAPI,
+    exchange2: ExchangeAPI,
+    trading_pair: str,
+    trade_amount_usd: float
+) -> None:
+    """
+    Checks for arbitrage opportunities and executes trades if found.
+
+    Args:
+        exchange1 (ExchangeAPI): The first exchange.
+        exchange2 (ExchangeAPI): The second exchange.
+        trading_pair (str): The trading pair (e.g., 'BTC-USD').
+        trade_amount_usd (float): The amount to trade in USD.
+    """
+    opportunity = await calculate_arbitrage_opportunity(exchange1, exchange2, trading_pair, trade_amount_usd)
+    if opportunity:
+        buy_price, sell_price, profit_percentage, buy_exchange_name, sell_exchange_name, buy_amount, sell_amount = opportunity
+        buy_exch = exchange1 if buy_exchange_name == exchange1.name else exchange2
+        sell_exch = exchange1 if sell_exchange_name == exchange1.name else exchange2
+
+        await execute_arbitrage_trade(
+            buy_exch,
+            sell_exch,
+            trading_pair,
+            buy_price,
+            sell_price,
+            profit_percentage,
+            buy_amount,
+            sell_amount
+        )
+
+async def main():
+    """
+    Main function to run the arbitrage bot.
+    """
+    # Initialize exchanges
+    exchange1 = Exchange1API(
+        EXCHANGE_CONFIG['exchange1']['name'],
+        EXCHANGE_CONFIG['exchange1']['api_url'],
+        EXCHANGE_CONFIG['exchange1']['api_key'],
+        EXCHANGE_CONFIG['exchange1']['api_secret'],
+        EXCHANGE_CONFIG['exchange1']['trading_fee'],
+        EXCHANGE_CONFIG['exchange1']['rate_limit'],
+    )
+    exchange2 = Exchange2API(
+        EXCHANGE_CONFIG['exchange2']['name'],
+        EXCHANGE_CONFIG['exchange2']['api_url'],
+        EXCHANGE_CONFIG['exchange2']['api_key'],
+        EXCHANGE_CONFIG['exchange2']['api_secret'],
+        EXCHANGE_CONFIG['exchange2']['trading_fee'],
+        EXCHANGE_CONFIG['exchange2']['rate_limit'],
+    )
+    exchange3 = Exchange3API(
+        EXCHANGE_CONFIG['exchange3']['name'],
+        EXCHANGE_CONFIG['exchange3']['api_url'],
+        EXCHANGE_CONFIG['exchange3']['api_key'],
+        EXCHANGE_CONFIG['exchange3']['api_secret'],
+        EXCHANGE_CONFIG['exchange3']['trading_fee'],
+        EXCHANGE_CONFIG['exchange3']['rate_limit'],
+    )
+
+    exchanges = [exchange1, exchange2, exchange3]
+
+    # Setup sessions for all exchanges
+    await asyncio.gather(*[exchange.setup_session() for exchange in exchanges])
+
+    try:
+        while all(exchange.active for exchange in exchanges):
+            tasks = []
+            for pair in TRADING_PAIRS:
+                tasks.append(check_and_trade(exchange1, exchange2, pair, USD_PER_TRADE))
+                tasks.append(check_and_trade(exchange1, exchange3, pair, USD_PER_TRADE))
+                tasks.append(check_and_trade(exchange2, exchange3, pair, USD_PER_TRADE))
+            await asyncio.gather(*tasks)
+            await asyncio.sleep(1)  # Check for opportunities every second.
+    except KeyboardInterrupt:
+        logging.info("Bot stopped by user.")
+    finally:
+        await asyncio.gather(*[exchange.close_session() for exchange in exchanges])
+
+if __name__ == "__main__":
+    asyncio.run(main())

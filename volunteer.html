@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Volunteer - Homeless Helpers</title>
+	<meta name="description" content="Volunteer opportunities to help homeless individuals across the UK.">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Chelsea+Market&display=swap" rel="stylesheet">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+	<link rel="stylesheet" href="assets/css/monkey-island-style.css">
+	<link rel="stylesheet" href="assets/css/menu-style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<style>
+		*,*::before,*::after {
+			box-sizing: border-box;
+		}
+		
+		*::selection {
+			color: #000000;
+			background-color: #efefef;
+		}
+		
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		@media (any-hover: hover) {
+			a:hover {
+				-webkit-tap-highlight-color: transparent;
+			}
+		}
+		
+		ul[class],ol[class] {
+			padding: 0;
+		}
+		
+		body,h1,h2,h3,h4,p,ul[class],ol[class],li,figure,figcaption,blockquote,dl,dd {
+			margin: 0;
+		}
+		
+		html {
+			scroll-behavior: smooth;
+		}
+		
+		body {
+			min-height: 100vh;
+			text-rendering: optimizeLegibility;
+			line-height: 1.75;
+			font-family: "Chelsea Market", "Caveat Brush", cursive;
+			background-color: #06454b;
+			padding: 0;
+			text-align: left;
+			color: #efefef;
+			cursor: pointer;
+			overflow-x: hidden;
+		}
+		
+		body a {
+			cursor: pointer;
+			text-decoration: none;
+		}
+		
+		ul,ol {
+			list-style: none;
+		}
+
+		.bg-custom-gradient {
+			background: linear-gradient(to bottom, #06454b, #2f835c);
+		}
+
+		@media (max-width: 768px) {
+			body {
+				background: linear-gradient(to bottom, #06454b, #2f835c);
+			}
+		}
+
+		.content-wrapper {
+			position: relative;
+			z-index: 20;
+			margin-top: 0;
+			padding-top: 5rem;
+			background-color: #1d1c1a;
+			padding: 2rem;
+			border: 5px dashed #29241e;
+		}
+
+		@media (max-width: 768px) {
+			.content-wrapper {
+				margin-top: 8rem;
+			}
+		}
+
+		.section-wrapper {
+			border: 5px dashed #29241e;
+			padding: 2rem;
+			margin-bottom: 2rem;
+		}
+
+		
+
+		.nav-button {
+			background-color: #48d595;
+			color: #000000;
+			font-family: "Chelsea Market", cursive;
+			padding: 0.75rem 1.5rem;
+			border-radius: 0;
+			position: relative;
+			transition: all 0.3s;
+			border: none;
+			font-size: 1rem;
+			margin: 0.5rem;
+			box-shadow: -3px 3px 0 #00000088;
+			cursor: pointer;
+		}
+
+		.nav-button:hover {
+			transform: translate(2px, -2px);
+			box-shadow: -5px 5px 0 #00000088;
+		}
+
+		.nav-button:active {
+			transform: translate(-1px, 1px);
+			box-shadow: -2px 2px 0 #00000088;
+		}
+		
+		.text-card {
+			background-color: #2f835c;
+			padding: 1.5rem;
+			margin-bottom: 1.5rem;
+			position: relative;
+			overflow: hidden;
+			transition: all 0.3s ease;
+		}
+
+		.text-card:hover {
+			transform: translate(2px, -2px);
+			box-shadow: -5px 5px 0 #00000088;
+		}
+
+		.text-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-image: url('data:image/png;base64,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');
+			opacity: 0.2;
+			mix-blend-mode: multiply;
+			pointer-events: none;
+		}
+
+		.animated-element {
+			opacity: 0;
+			transform: translateY(30px);
+			transition: opacity 1s, transform 1s;
+		}
+
+		.animated-element.visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		.volunteer-card {
+			border-left: 8px solid #48d595;
+			margin-bottom: 1.5rem;
+		}
+
+		.volunteer-form {
+			background-color: #1d1c1a;
+			padding: 2rem;
+			border: 3px solid #48d595;
+		}
+
+		.form-group {
+			margin-bottom: 1.5rem;
+		}
+
+		.form-input {
+			background-color: #06454b;
+			border: 2px solid #48d595;
+			color: white;
+			padding: 0.75rem;
+			width: 100%;
+		}
+
+		.form-select {
+			background-color: #06454b;
+			border: 2px solid #48d595;
+			color: white;
+			padding: 0.75rem;
+			width: 100%;
+			height: 50px;
+			appearance: none;
+			background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><path d="M7 10l5 5 5-5z"/></svg>');
+			background-repeat: no-repeat;
+			background-position: right 10px top 50%;
+		}
+
+		.checkbox-label {
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+		}
+
+		.checkbox {
+			margin-right: 10px;
+			width: 20px;
+			height: 20px;
+			accent-color: #48d595;
+		}
+
+		/* Cursor styling */
+		body {
+			cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><circle cx="12" cy="12" r="8" fill="%2348d595" opacity="0.6"/></svg>') 12 12, auto;
+		}
+
+		.clickable {
+			cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><circle cx="12" cy="12" r="10" fill="%2348d595" opacity="0.8"/></svg>') 12 12, pointer;
+		}
+	</style>
+</head>
+<body>
+	<nav class="mega-menu" role="navigation" aria-label="Main Menu">
+		<ul class="menu">
+			<li class="menu-item"><a href="index.html">Home</a></li>
+			<li class="menu-item"><a href="get-help.html">Get Help</a></li>
+			<li class="menu-item"><a href="shelters.html">Shelters</a></li>
+			<li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
+			<li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
+			<li class="menu-item"><a href="employment.html">Employment</a></li>
+			<li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
+			<li class="menu-item"><a href="resources.html">Resources</a></li>
+			<li class="menu-item"><a href="about.html">About</a></li>
+			<li class="menu-item"><a href="network.html">Network</a></li>
+			<li class="menu-item"><a href="emergency.html">Emergency</a></li>
+		</ul>
+	</nav>
+	<!-- Aria-live region for notifications or dynamic content updates -->
+	<div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+	<div class="content-wrapper">
+		<section id="welcome" class="section-wrapper">
+			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Volunteer With Us</h1>
+			<p class="text-lg md:text-xl mb-8">
+				Make a real difference in the lives of those experiencing homelessness by joining our volunteer team.
+			</p>
+			<div class="flex flex-wrap space-x-4">
+				<button class="nav-button clickable" onclick="location.href='#volunteer-roles'">Volunteer Roles</button>
+				<button class="nav-button clickable" onclick="location.href='#why-volunteer'">Why Volunteer</button>
+				<button class="nav-button clickable" onclick="location.href='#volunteer-stories'">Volunteer Stories</button>
+				<button class="nav-button clickable" onclick="location.href='#get-involved'">Get Involved</button>
+				<button class="nav-button clickable" onclick="location.href='#corporate'">Corporate Volunteering</button>
+			</div>
+		</section>
+
+		<section id="volunteer-roles" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Volunteer Roles</h2>
+			<div class="text-card">
+				<p class="mb-6">
+					We offer a variety of volunteer roles to match your skills, interests, and availability. Whether you can spare a few hours a week or want to commit to a regular schedule, we have opportunities for everyone.
+				</p>
+				
+				<div class="grid md:grid-cols-2 gap-6">
+					<div class="volunteer-card text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Buddy System Volunteer</h3>
+						<p class="mb-4">Provide one-to-one support to someone who has recently moved into housing, helping them adjust to their new environment and tackle everyday challenges.</p>
+						<ul class="list-disc pl-6 mb-4">
+							<li>Required time: 2-4 hours per week</li>
+							<li>Training provided: Yes (2 days)</li>
+							<li>DBS check: Required</li>
+						</ul>
+					</div>
+					
+					<div class="volunteer-card text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Food Service Volunteer</h3>
+						<p class="mb-4">Help prepare and serve meals at our community kitchens, food banks, and outreach services across the UK.</p>
+						<ul class="list-disc pl-6 mb-4">
+							<li>Required time: Flexible shifts</li>
+							<li>Training provided: Basic food hygiene</li>
+							<li>DBS check: Not required</li>
+						</ul>
+					</div>
+					
+					<div class="volunteer-card text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Skills Workshop Leader</h3>
+						<p class="mb-4">Share your expertise by running workshops on topics such as budgeting, cooking, IT skills, or creative activities.</p>
+						<ul class="list-disc pl-6 mb-4">
+							<li>Required time: 2-3 hours per session</li>
+							<li>Training provided: Support materials provided</li>
+							<li>DBS check: May be required</li>
+						</ul>
+					</div>
+					
+					<div class="volunteer-card text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Outreach Team Member</h3>
+						<p class="mb-4">Join our street outreach teams to connect with rough sleepers, offering support, advice, and essentials.</p>
+						<ul class="list-disc pl-6 mb-4">
+							<li>Required time: 4-hour shifts (daytime or evening)</li>
+							<li>Training provided: Comprehensive training</li>
+							<li>DBS check: Required</li>
+						</ul>
+					</div>
+					
+					<div class="volunteer-card text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Admin &amp; Office Support</h3>
+						<p class="mb-4">Help with administrative tasks, answering phones, responding to emails, and organizing resources.</p>
+						<ul class="list-disc pl-6 mb-4">
+							<li>Required time: Regular weekly slot preferred</li>
+							<li>Training provided: Yes</li>
+							<li>DBS check: May be required</li>
+						</ul>
+					</div>
+					
+					<div class="volunteer-card text-card">
+						<h3 class="text-xl font-semibold text-white mb-4">Professional Skills Volunteer</h3>
+						<p class="mb-4">Offer your professional skills in areas such as legal advice, healthcare, mental health support, hairdressing, etc.</p>
+						<ul class="list-disc pl-6 mb-4">
+							<li>Required time: By arrangement</li>
+							<li>Requirements: Professional qualifications</li>
+							<li>DBS check: Required</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="why-volunteer" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Why Volunteer With Us</h2>
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Make a Real Impact</h3>
+				<p class="mb-6">
+					Your contribution as a volunteer makes a tangible difference in people's lives. Our volunteers help individuals not just survive, but rebuild their lives and thrive.
+				</p>
+				
+				<div class="grid md:grid-cols-3 gap-6 mb-6">
+					<div class="p-4 bg-[#1d1c1a] rounded">
+						<h4 class="text-lg font-semibold text-[#48d595] mb-2">Develop Skills</h4>
+						<p>Gain valuable experience and develop transferable skills that enhance your personal and professional life.</p>
+					</div>
+					
+					<div class="p-4 bg-[#1d1c1a] rounded">
+						<h4 class="text-lg font-semibold text-[#48d595] mb-2">Join a Community</h4>
+						<p>Become part of a supportive community of passionate volunteers and staff dedicated to making a difference.</p>
+					</div>
+					
+					<div class="p-4 bg-[#1d1c1a] rounded">
+						<h4 class="text-lg font-semibold text-[#48d595] mb-2">Flexible Opportunities</h4>
+						<p>We offer flexible volunteering options to fit around your existing commitments and schedule.</p>
+					</div>
+				</div>
+				
+				<h3 class="text-xl font-semibold text-white mb-4">What We Provide</h3>
+				<ul class="list-disc pl-6 mb-4">
+					<li>Comprehensive training and ongoing support</li>
+					<li>Regular supervision and feedback</li>
+					<li>Reimbursement of reasonable expenses</li>
+					<li>References for future employment</li>
+					<li>A welcoming and inclusive environment</li>
+					<li>Social events and volunteer recognition</li>
+				</ul>
+				
+				<p>
+					Whether you can give a little time or a lot, your contribution is valued. Join us in building a more compassionate and supportive society for those experiencing homelessness.
+				</p>
+			</div>
+		</section>
+
+		<section id="volunteer-stories" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Volunteer Stories</h2>
+			<div class="grid md:grid-cols-3 gap-8">
+				<div class="text-card">
+					<h3 class="text-xl font-semibold text-white mb-4">Sarah's Story</h3>
+					<p class="italic text-sm mb-4">"I started volunteering as a Buddy after retirement. The connection I've formed with James, who was homeless for 3 years, has been transformative for both of us. Seeing him settle into his home and gain confidence has been incredibly rewarding."</p>
+					<p class="mb-4">
+						Sarah has been volunteering with us for 2 years. She meets with James weekly to help with practical tasks and provide companionship.
+					</p>
+				</div>
+				
+				<div class="text-card">
+					<h3 class="text-xl font-semibold text-white mb-4">Raj's Story</h3>
+					<p class="italic text-sm mb-4">"As a chef, I wanted to use my skills to give back. I now lead cooking workshops teaching basic, affordable recipes. The participants are so engaged and grateful - it's the highlight of my week!"</p>
+					<p class="mb-4">
+						Raj volunteers in our life skills program, teaching cooking classes twice a month to individuals who have recently moved into housing.
+					</p>
+				</div>
+				
+				<div class="text-card">
+					<h3 class="text-xl font-semibold text-white mb-4">Team Horizon's Story</h3>
+					<p class="italic text-sm mb-4">"Our corporate volunteering day renovating a community space was eye-opening. We left with a stronger team bond and a real sense that we'd contributed to something important."</p>
+					<p class="mb-4">
+						A team from Horizon Technologies spent a day refurbishing a community room used for group activities and support meetings.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section id="get-involved" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Get Involved</h2>
+			<div class="text-card">
+				<p class="mb-6">
+					Ready to make a difference? Fill out our volunteer application form below, and we'll be in touch to discuss the next steps.
+				</p>
+				
+				<form class="volunteer-form" aria-label="Volunteer application form">
+					<div class="grid md:grid-cols-2 gap-6">
+						<div class="form-group">
+							<label for="name" class="block mb-2">Full Name *</label>
+							<input type="text" id="name" name="name" class="form-input" required aria-required="true">
+						</div>
+						
+						<div class="form-group">
+							<label for="email" class="block mb-2">Email Address *</label>
+							<input type="email" id="email" name="email" class="form-input" required aria-required="true">
+						</div>
+						
+						<div class="form-group">
+							<label for="phone" class="block mb-2">Phone Number</label>
+							<input type="tel" id="phone" name="phone" class="form-input">
+						</div>
+						
+						<div class="form-group">
+							<label for="location" class="block mb-2">Your Location *</label>
+							<input type="text" id="location" name="location" placeholder="City/Town" class="form-input" required aria-required="true">
+						</div>
+						
+						<div class="form-group md:col-span-2">
+							<label for="role" class="block mb-2">I'm Interested In *</label>
+							<select id="role" name="role" class="form-select" required aria-required="true">
+								<option value="">Select a volunteer role</option>
+								<option value="buddy">Buddy System Volunteer</option>
+								<option value="food">Food Service Volunteer</option>
+								<option value="workshop">Skills Workshop Leader</option>
+								<option value="outreach">Outreach Team Member</option>
+								<option value="admin">Admin &amp; Office Support</option>
+								<option value="professional">Professional Skills Volunteer</option>
+								<option value="other">Other/Not Sure Yet</option>
+							</select>
+						</div>
+						
+						<div class="form-group md:col-span-2">
+							<label for="availability" class="block mb-2">Availability *</label>
+							<select id="availability" name="availability" class="form-select" required aria-required="true">
+								<option value="">Select your availability</option>
+								<option value="weekday-daytime">Weekdays (Daytime)</option>
+								<option value="weekday-evening">Weekdays (Evening)</option>
+								<option value="weekend-daytime">Weekends (Daytime)</option>
+								<option value="weekend-evening">Weekends (Evening)</option>
+								<option value="flexible">Flexible</option>
+							</select>
+						</div>
+						
+						<div class="form-group md:col-span-2">
+							<label for="message" class="block mb-2">Why would you like to volunteer with us? (Optional)</label>
+							<textarea id="message" name="message" rows="4" class="form-input"></textarea>
+						</div>
+						
+						<div class="form-group md:col-span-2">
+							<input type="checkbox" id="consent" name="consent" class="checkbox" required aria-required="true">
+							<label for="consent" class="checkbox-label">I consent to Homeless Helpers storing my information for the purpose of volunteer recruitment *</label>
+						</div>
+						
+						<div class="form-group md:col-span-2">
+							<input type="checkbox" id="newsletter" name="newsletter" class="checkbox">
+							<label for="newsletter" class="checkbox-label">I'd like to receive email updates about volunteering opportunities and news (optional)</label>
+						</div>
+					</div>
+					
+					<button type="submit" class="nav-button clickable" aria-label="Submit volunteer application">Submit Application</button>
+				</form>
+				
+				<p class="mt-6 text-sm">
+					If you have questions about volunteering before applying, please contact our volunteer coordinator at volunteer@homelesshelpers.org or call 0800 123 4567.
+				</p>
+			</div>
+		</section>
+
+		<section id="corporate" class="section-wrapper animated-element">
+			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Corporate Volunteering</h2>
+			<div class="text-card">
+				<h3 class="text-xl font-semibold text-white mb-4">Partner With Us</h3>
+				<p class="mb-6">
+					We offer meaningful corporate volunteering opportunities that benefit your team and make a real difference to those experiencing homelessness.
+				</p>
+				
+				<div class="grid md:grid-cols-2 gap-6 mb-6">
+					<div>
+						<h4 class="text-lg font-semibold mb-2">Team Volunteering Days</h4>
+						<ul class="list-disc pl-6 mb-4">
+							<li>Community space renovation projects</li>
+							<li>Food preparation and service</li>
+							<li>Organizing donation drives</li>
+							<li>Group outreach activities</li>
+						</ul>
+					</div>
+					
+					<div>
+						<h4 class="text-lg font-semibold mb-2">Skills-Based Volunteering</h4>
+						<ul class="list-disc pl-6 mb-4">
+							<li>Professional mentoring</li>
+							<li>IT support and digital inclusion</li>
+							<li>Marketing and communications assistance</li>
+							<li>Financial guidance workshops</li>
+						</ul>
+					</div>
+				</div>
+				
+				<p class="mb-6">
+					Corporate volunteering helps your organization:
+				</p>
+				<ul class="list-disc pl-6 mb-6">
+					<li>Strengthen team bonds through shared meaningful experiences</li>
+					<li>Demonstrate corporate social responsibility</li>
+					<li>Develop staff skills and boost morale</li>
+					<li>Create lasting local community connections</li>
+				</ul>
+				
+				<p>
+					To discuss corporate volunteering partnerships, please contact our Corporate Engagement Team at corporate@homelesshelpers.org
+				</p>
+				
+				<button class="nav-button clickable mt-4" onclick="location.href='corporate-partnerships.html'">Corporate Partnerships</button>
+			</div>
+		</section>
+	</div>
+
+	<footer class="bg-[#06454b] py-6 text-white text-center">
+		<p>&copy; 2025 Homeless Helpers. All rights reserved.</p>
+		<p>Registered Charity No. 1234567</p>
+	</footer>
+
+	<script>
+		const animatedElements = document.querySelectorAll('.animated-element');
+
+		function checkAnimatedElements() {
+			animatedElements.forEach(element => {
+				const elementTop = element.getBoundingClientRect().top;
+				if (elementTop < window.innerHeight - 100) {
+					element.classList.add('visible');
+				}
+			});
+		}
+		
+		window.addEventListener('scroll', checkAnimatedElements);
+		window.addEventListener('load', checkAnimatedElements);
+
+		// Add hover effect to section wrappers
+		document.querySelectorAll('.section-wrapper').forEach(section => {
+			section.addEventListener('mouseenter', () => {
+				// Find text cards inside this section
+				const cards = section.querySelectorAll('.text-card');
+				cards.forEach(card => {
+					card.style.transform = 'translate(2px, -2px)';
+					card.style.boxShadow = '-5px 5px 0 #00000088';
+				});
+			});
+			
+			section.addEventListener('mouseleave', () => {
+				const cards = section.querySelectorAll('.text-card');
+				cards.forEach(card => {
+					card.style.transform = '';
+					card.style.boxShadow = '';
+				});
+			});
+		});
+	</script>
+	<script src="js/menuModule.js"></script>
+	<script src="assets/js/navigation-module.js"></script>
+</body>
+</html>

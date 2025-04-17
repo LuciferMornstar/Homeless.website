@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morningstar Rescues - Dachshund Guardians</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/menu-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Apply Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for hero section gradient */
+        .hero-gradient {
+            background: linear-gradient(to right, #fde68a, #fca5a5); /* Example gradient: yellow to red */
+        }
+        /* Custom styles for subtle section dividers */
+        .section-divider {
+            border-top: 1px solid #e5e7eb; /* light gray */
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        /* Style for alert message box */
+        .alert-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 1.5rem;
+            background-color: #fef2f2; /* Light red */
+            color: #991b1b; /* Dark red */
+            border: 1px solid #fecaca; /* Red border */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            font-weight: 500;
+        }
+        /* Ensure nested lists have appropriate styling */
+        .list-circle { list-style-type: circle; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Transchem-style Mega Menu -->
+    <nav class="mega-menu" role="navigation" aria-label="Main Menu">
+        <ul class="menu">
+            <li class="menu-item" role="menuitem" aria-haspopup="true">
+                <a href="#">Products</a>
+                <div class="submenu" role="menu">
+                    <ul>
+                        <li><a href="#">Turtle Wax Pro</a></li>
+                        <li><a href="#">AutoLux</a></li>
+                        <li><a href="#">Private Label</a></li>
+                        <li><a href="#">Custom Blending</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="menu-item" role="menuitem" aria-haspopup="true">
+                <a href="#">Services</a>
+                <div class="submenu" role="menu">
+                    <ul>
+                        <li><a href="#">Service Techs</a></li>
+                        <li><a href="#">Parts and Vending</a></li>
+                        <li><a href="#">Consulting</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="menu-item" role="menuitem" aria-haspopup="true">
+                <a href="#">Resources</a>
+                <div class="submenu" role="menu">
+                    <ul>
+                        <li><a href="#">Learning Center</a></li>
+                        <li><a href="#">SDS Database</a></li>
+                        <li><a href="#">Chemistry Overview</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="menu-item" role="menuitem" aria-haspopup="true">
+                <a href="#">Contact</a>
+                <div class="submenu" role="menu">
+                    <ul>
+                        <li><a href="#">Ontario</a></li>
+                        <li><a href="#">Alberta</a></li>
+                        <li><a href="#">North America</a></li>
+                        <li><a href="#">Europe</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="alertBox" class="alert-box">
+        This is an alert message!
+    </div>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold text-red-700">
+                Morningstar Rescues
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#about" class="text-gray-600 hover:text-red-700 transition duration-300">About Us</a>
+                <a href="#mission" class="text-gray-600 hover:text-red-700 transition duration-300">Our Mission</a>
+                <a href="#training" class="text-gray-600 hover:text-red-700 transition duration-300">Training</a>
+                <a href="#apply" class="text-gray-600 hover:text-red-700 transition duration-300">Apply</a>
+                <a href="#support" class="text-gray-600 hover:text-red-700 transition duration-300">Support Us</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden bg-white py-2">
+            <a href="#about" class="block px-6 py-2 text-gray-600 hover:bg-red-100">About Us</a>
+            <a href="#mission" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Our Mission</a>
+            <a href="#training" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Training</a>
+            <a href="#apply" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Apply</a>
+            <a href="#support" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Support Us</a>
+        </div>
+    </header>
+
+    <section class="hero-gradient text-white py-20 px-6 text-center">
+        <div class="container mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-red-900">Guardians in Small Packages</h1>
+            <p class="text-lg md:text-xl mb-8 text-red-800">Training rescued dachshunds to provide comfort, companionship, and a crucial layer of protection for vulnerable individuals.</p>
+            <a href="#training" class="bg-white text-red-700 font-semibold py-3 px-8 rounded-lg shadow hover:bg-red-50 transition duration-300">Learn About Our Training</a>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="about" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">About Morningstar Rescues</h2>
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2">
+                    <img src="https://placehold.co/600x400/fca5a5/7f1d1d?text=Happy+Dachshunds" alt="Happy Dachshunds being cared for" class="rounded-lg shadow-lg w-full h-auto object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
+                </div>
+                <div class="md:w-1/2 text-lg text-gray-700 space-y-4">
+                    <p>Morningstar Rescues was founded on the belief that every individual deserves to feel safe and that the unique bond between humans and animals can be a powerful force for healing and protection. We specialize in rescuing dachshunds, recognizing their intelligence, loyalty, and surprisingly loud bark!</p>
+                    <p>We provide these deserving dogs with a second chance, offering them love, rehabilitation, and specialized training. Our goal is to place them in homes where they can serve as more than just pets – they become vigilant companions for children and vulnerable adults.</p>
+                    <p><strong>Disclaimer:</strong> Our trained dachshunds are intended to act as an alert system and deterrent. They are companions that provide comfort and can signal potential danger, but they are not a substitute for adult supervision, professional security measures, or emergency services.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="mission" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">Our Mission: Alert & Protect</h2>
+            <div class="text-lg text-gray-700 space-y-4 text-center max-w-3xl mx-auto">
+                <p>Our core mission is twofold: to rescue dachshunds in need and to train them to become sensitive alert companions for minors and vulnerable individuals. We focus on empowering those who may have difficulty recognizing or communicating discomfort in potentially unsafe situations.</p>
+                <p>We aim to equip our dachshunds with the skills to recognize specific cues of distress from their handlers and to react appropriately by creating noise (barking) and space, drawing attention to the situation and potentially deterring unwanted interaction.</p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="dachshund-difference" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">Why Dachshunds?</h2>
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-red-100">
+                    <h3 class="text-xl font-semibold text-red-700 mb-3">Surprisingly Loud Bark</h3>
+                    <p class="text-gray-600">Their bark is disproportionately loud for their size, making it an effective alert signal that demands attention.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-red-100">
+                    <h3 class="text-xl font-semibold text-red-700 mb-3">Loyal & Attuned</h3>
+                    <p class="text-gray-600">Dachshunds form strong bonds with their families and are often highly sensitive to their owner's emotional state.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-red-100">
+                    <h3 class="text-xl font-semibold text-red-700 mb-3">Intelligent & Trainable</h3>
+                    <p class="text-gray-600">Despite a reputation for stubbornness, they are intelligent dogs capable of learning complex commands and cues with positive reinforcement.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="training" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">Our Specialized Training Program</h2>
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 order-2 md:order-1 text-lg text-gray-700 space-y-4">
+                    <p>Our training program is built on positive reinforcement techniques, patience, and a deep understanding of both canine behavior and the needs of vulnerable individuals. It includes:</p>
+                    <ul class="list-disc list-inside space-y-3 text-red-700">
+                        <li><span class="text-gray-700"><strong>Basic Obedience & Socialization:</strong> Ensuring a well-behaved and confident dog in various environments.</span></li>
+                        <li><span class="text-gray-700"><strong>Handler Distress Cue Recognition:</strong> Training the dog to identify subtle (or overt) signals of fear, anxiety, or discomfort from their handler (e.g., specific postures, tones of voice, or even a designated safe word/gesture).</span></li>
+                        <li><span class="text-gray-700"><strong>Alert Barking Protocol:</strong> Teaching a specific, loud, and persistent barking sequence triggered *only* by the handler's distress cues or specific commands in situations perceived as unsafe. This is distinct from normal barking.</span></li>
+                        <li><span class="text-gray-700"><strong>Creating Space:</strong> Training the dog to position itself between the handler and an approaching person upon cue, or to move towards the handler to provide comfort and presence when distress is signaled.</span></li>
+
+                        <li>
+                            <span class="text-gray-700"><strong>Sensitivity to Touch & Distress (Contextual Alert System):</strong> This crucial training component focuses on empowering the handler and creating an alert system tied to their well-being, particularly in situations involving unwanted or uncomfortable physical contact.</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-2 text-gray-600">
+                                <li>
+                                    <strong>Focus on Handler Cues:</strong> We emphasize that dogs cannot interpret human intent. Instead, the dachshund is meticulously trained to recognize and react immediately to specific distress signals (verbal, physical gestures, changes in tone, or a pre-taught 'alert' cue) exhibited by their handler *when* they feel unsafe or uncomfortable, including during unwanted physical interactions.
+                                </li>
+                                <li>
+                                    <strong>How it Helps Alert to Potential Abuse:</strong> If an individual experiences inappropriate or unwanted touch, they can give their trained distress signal. The dog's immediate, loud alert barking serves multiple purposes:
+                                    <ul class="list-circle list-inside pl-4 mt-1 space-y-1">
+                                        <li><strong>Interruption & Deterrent:</strong> The sudden, loud noise can startle and interrupt the person initiating the unwanted contact, potentially deterring further action simply by drawing unwanted attention.</li>
+                                        <li><strong>Drawing Attention:</strong> The barking alerts nearby adults, caregivers, or bystanders that the handler is in distress and requires attention or intervention, turning a potentially hidden situation into a public one.</li>
+                                        <li><strong>Empowerment:</strong> It provides the handler, especially a child or non-verbal individual, with a discrete but effective way to signal for help using their companion, bypassing the need for direct verbal confrontation which might be difficult or dangerous.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Reaction to Dog Handling:</strong> Additionally, the dog may be sensitive to being handled in ways it perceives as rough, strange, or uncomfortable. While not a primary focus for abuse detection, if someone interacts with the dog inappropriately *while also* causing distress to the handler, the dog's own discomfort might trigger an alert bark, indirectly drawing attention to a potentially problematic interaction pattern.
+                                </li>
+                                <li>
+                                    <strong>Primary Trigger Reminder:</strong> It is vital to understand that the dog's reaction is fundamentally linked to the handler's signaled distress or specific trained commands, not an independent judgment of the situation's appropriateness. Consistent training and reinforcement between the handler and dog are key.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span class="text-gray-700"><strong>Public Access Training (where applicable):</strong> Preparing dogs to remain calm and focused in public spaces.</span></li>
+                    </ul>
+                    <p>Training is tailored to the specific needs and environment of the recipient, with extensive handler training provided to ensure a strong working partnership.</p>
+                </div>
+                <div class="md:w-1/2 order-1 md:order-2">
+                     <img src="https://placehold.co/600x450/fecaca/7f1d1d?text=Dachshund+Training+Session" alt="Dachshund during a training session" class="rounded-lg shadow-lg w-full h-auto object-cover" onerror="this.src='https://placehold.co/600x450/cccccc/ffffff?text=Image+Not+Found'">
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="apply" class="mb-16 scroll-mt-20 text-center">
+            <h2 class="text-3xl font-bold text-red-800 mb-6">Could a Morningstar Dachshund Help You?</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">We carefully match our trained dachshunds with individuals where they can make the most difference. If you believe a Morningstar Guardian could benefit a minor or vulnerable person in your care, please reach out to learn more about our application process.</p>
+            <button onclick="showAlert('Application process details would be here.')" class="bg-red-700 text-white font-semibold py-3 px-8 rounded-lg shadow hover:bg-red-800 transition duration-300">Learn More & Apply</button>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="support" class="mb-16 scroll-mt-20 text-center">
+            <h2 class="text-3xl font-bold text-red-800 mb-6">Support Our Mission</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">Morningstar Rescues relies on the generosity of donors to rescue, care for, and train our special dachshund guardians. Your support helps us give dogs a second chance and provide invaluable support to those in need.</p>
+            <div class="flex justify-center space-x-4">
+                <button onclick="showAlert('Donation link/modal would appear here.')" class="bg-yellow-500 text-white font-semibold py-3 px-8 rounded-lg shadow hover:bg-yellow-600 transition duration-300">Donate Now</button>
+                <button onclick="showAlert('Volunteer information would be shown here.')" class="bg-gray-600 text-white font-semibold py-3 px-8 rounded-lg shadow hover:bg-gray-700 transition duration-300">Volunteer</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-8 px-6">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Morningstar Rescues. All rights reserved.</p>
+            <p class="text-sm mt-2">Providing safety and companionship, one dachshund at a time.</p>
+            </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Simple Alert Box Function
+        function showAlert(message) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message; // Set the message text
+            alertBox.style.display = 'block'; // Show the alert box
+
+            // Hide the alert box after 3 seconds
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 3000); // 3000 milliseconds = 3 seconds
+        }
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+                // Close mobile menu after clicking a link (if open)
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+    <script src="js/menuModule.js"></script>
+    <script src="assets/js/navigation-module.js"></script>
+</body>
+</html>

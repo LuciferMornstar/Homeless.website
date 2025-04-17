@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homeless Helpers - Ending Homelessness Together</title>
+  <meta name="description" content="Homeless Helpers: Empowering people to overcome homelessness in the UK. Access support, resources, and community.">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/monkey-island-style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/menu-style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/fix-scroll.css">
+  <link rel="stylesheet" href="css/fix-scroll.css">
+  <style>
+    .landing-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      background: linear-gradient(135deg, #06454b 60%, #48d595 100%);
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1rem 3rem 1rem;
+      margin-top: 0; /* Remove any top margin */
+    }
+    .landing-hero img {
+      width: 120px;
+      margin-bottom: 1.5rem;
+      max-width: 100%;
+      height: auto;
+    }
+    .landing-title {
+      font-size: 2.5rem;
+      font-family: "Chelsea Market", cursive;
+      margin-bottom: 1rem;
+      color: #48d595;
+      text-shadow: 2px 2px 0 #06454b;
+    }
+    .landing-mission {
+      font-size: 1.3rem;
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      color: #fff;
+    }
+    .landing-footer {
+      text-align: center;
+      color: #efefef;
+      font-size: 1rem;
+      margin-top: 2rem;
+      opacity: 0.7;
+      padding: 1rem;
+      width: 100%;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .landing-title {
+        font-size: 2rem;
+      }
+      .landing-mission {
+        font-size: 1.1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .landing-hero {
+        min-height: 70vh;
+      }
+      .landing-title {
+        font-size: 1.8rem;
+      }
+      .landing-mission {
+        font-size: 1rem;
+      }
+    }
+  </link>
+</head>
+<body>
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <!-- Updated Mega Menu -->
+  <nav class="mega-menu" role="navigation" aria-label="Main Menu">
+      <button class="menu-toggle" aria-expanded="false" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+      </button>
+      <ul class="menu">
+          <li class="menu-item"><a href="index.html">Home</a></li>
+          <li class="menu-item"><a href="get-help.html">Get Help</a></li>
+          <li class="menu-item"><a href="shelters.html">Shelters</a></li>
+          <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
+          <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
+          <li class="menu-item"><a href="employment.html">Employment</a></li>
+          <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
+          <li class="menu-item"><a href="resources.html">Resources</a></li>
+          <li class="menu-item"><a href="about.html">About</a></li>
+          <li class="menu-item"><a href="network.html">Network</a></li>
+          <li class="menu-item"><a href="emergency.html">Emergency</a></li>
+      </ul>
+  </nav>
+  <!-- Aria-live region for notifications or dynamic content updates -->
+  <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+  <div class="landing-hero">
+    <img src="assets/images/logo.svg" alt="Homeless Helpers Logo">
+    <div class="landing-title">Homeless Helpers</div>
+    <div class="landing-mission">
+      <p>
+        <strong>Our Mission:</strong> To empower individuals and families experiencing homelessness to rebuild their lives with dignity, hope, and lasting support.<br><br>
+        We believe everyone deserves a safe place to call home. Through practical resources, compassionate guidance, and a strong community network, we help people overcome barriers and find a path to stability.
+      </p>
+    </div>
+  </div>
+  <div class="landing-footer">
+    <p>&copy; 2025 Homeless Helpers. Registered Charity No. 1234567</p>
+    <div class="mt-4 grid md:grid-cols-3 gap-4 max-w-4xl mx-auto text-left px-4">
+      <div>
+        <h3 class="text-xl mb-2">General Inquiries</h3>
+        <p><strong>Email:</strong> <a href="mailto:helpme@homeless.website" class="text-white underline">helpme@homeless.website</a></p>
+        <p><strong>Phone:</strong> 0800 123 4567</p>
+      </div>
+      <div>
+        <h3 class="text-xl mb-2">Volunteer</h3>
+        <p><strong>Email:</strong> <a href="mailto:volunteer@homeless.website" class="text-white underline">volunteer@homeless.website</a></p>
+        <p><strong>Phone:</strong> 0800 234 5678</p>
+      </div>
+      <div>
+        <h3 class="text-xl mb-2">Service Dogs</h3>
+        <p><strong>Email:</strong> <a href="mailto:dogs@homeless.website" class="text-white underline">dogs@homeless.website</a></p>
+        <p><strong>Phone:</strong> 0800 345 6789</p>
+      </div>
+    </div>
+  </div>
+  <script src="js/menuModule.js"></script>
+  <script src="assets/js/navigation-module.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <script src="js/fix-scroll.js"></script>
+  <script src="js/fix-scroll.js"></script>
+</body>
+</html>
