@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dog Profile - Homeless Helpers</title>
+  <!-- Modern Styling -->
+  <link rel="stylesheet" href="assets/css/modern/wix-modern.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <!-- Modern Header -->
+  <header class="modern-header">
+    <!-- ...existing code from modern-header.html... -->
+  </header>
+
+  <main id="main-content">
+    <main class="container mx-auto p-6">
+      <a href="Protection-dogs.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Gallery</a>
+      <div id="profile" class="bg-white p-6 rounded-lg shadow-md">
+        <h1 id="name" class="text-3xl font-bold mb-4"></h1>
+        <img id="photo" src="" alt="Dog Photo" class="w-full max-w-sm rounded-lg mb-4" />
+        <h2 class="text-xl font-semibold mb-2">Role: <span id="job"></span></h2>
+        <p id="bio" class="text-gray-700"></p>
+        <!-- Timeline History -->
+        <h3 class="text-xl font-semibold mt-6 mb-2">Training & Job History</h3>
+        <ul id="timelineList" class="list-disc list-inside text-gray-700 space-y-2"></ul>
+      </div>
+    </main>
+  </main>
+
+  <!-- Modern Footer -->
+  <footer class="modern-footer">
+    <!-- ...existing code from modern-footer.html... -->
+  </footer>
+
+  <!-- Modern UI JavaScript -->
+  <script src="assets/js/modern-ui.js"></script>
+  <script>
+    // Profiles for each dog
+    const profiles = {
+      1: { name: 'Ruby', job: 'Comfort Companion', bio: 'Rescued from a shelter, Ruby now specializes in comforting children facing trauma, using her calm presence to ground and reassure.',
+          timeline: [
+            { date: '2023-11-15', event: 'Found stray and admitted to Riverside Animal Rescue' },
+            { date: '2023-11-20', event: 'Underwent full veterinary examination and vaccinations' },
+            { date: '2023-12-05', event: 'Completed 4-week basic obedience course' },
+            { date: '2024-01-10', event: 'Introduced to positive reinforcement trauma therapy techniques' },
+            { date: '2024-02-02', event: 'Passed Advanced Comfort Therapy certification' },
+            { date: '2024-03-15', event: 'Participated in mock counseling sessions at Safe Harbor Center' },
+            { date: '2024-05-01', event: 'Deployed to Children’s Trauma Unit at City Hospital' },
+            { date: '2024-07-20', event: 'Featured as guest comfort dog at annual shelter fundraiser' },
+            { date: '2024-09-30', event: 'Conducted first school assembly demonstration for child safety' },
+            { date: '2025-02-14', event: 'Received Excellence in Canine Therapy award' }
+          ]
+      },
+      2: { name: 'Max', job: 'Safety Sentinel', bio: 'Max was trained as a watchdog for vulnerable adults, alerting caregivers with a distinctive bark when distress cues are detected.',
+          timeline: [
+            { date: '2023-10-10', event: 'Rescued from county pounds after being surrendered' },
+            { date: '2023-10-18', event: 'Completed initial health and temperament assessment' },
+            { date: '2023-11-01', event: 'Finished 6-week guard dog fundamentals program' },
+            { date: '2023-12-12', event: 'Introduced to handler distress cue recognition exercises' },
+            { date: '2024-01-22', event: 'Passed Certified Safety Sentinel testing with 95% accuracy' },
+            { date: '2024-03-05', event: 'Deployed at Greenwood Senior Care Home' },
+            { date: '2024-04-30', event: 'Recognized in local news for alerting staff during nighttime disturbance' },
+            { date: '2024-06-15', event: 'Completed advanced barrier placement and retreat drills' },
+            { date: '2024-08-01', event: 'Assisted in simulated emergency evacuation training' },
+            { date: '2025-01-20', event: 'Honored at annual senior safety symposium' }
+          ]
+      },
+      3: { name: 'Luna', job: 'Therapy Trainer', bio: 'Luna works in hospitals to help minors cope with medical procedures through guided play and affection.',
+          timeline: [
+            { date: '2023-09-05', event: 'Rescued and entered rehabilitation program' },
+            { date: '2023-09-25', event: 'Completed socialization with children in foster care' },
+            { date: '2023-11-10', event: 'Enrolled in pediatric therapy dog training' },
+            { date: '2023-12-20', event: 'Certified as Pediatric Therapy Dog by Healing Paws Institute' },
+            { date: '2024-02-01', event: 'First deployment at City Children’s Hospital' },
+            { date: '2024-03-18', event: 'Participated in dental anxiety reduction program' },
+            { date: '2024-06-05', event: 'Featured in Children’s Health blog post' },
+            { date: '2024-08-22', event: 'Visited pediatric oncology ward' },
+            { date: '2024-11-12', event: 'Attended annual Therapy Dog Certification renewal' },
+            { date: '2025-03-30', event: 'Conducted summer camp emotional support sessions' }
+          ]
+      },
+      4: { name: 'Charlie', job: 'Anxiety Alleviator', bio: 'Charlie pairs up with adults on the autism spectrum, learning their unique signals and providing a reassuring barrier in social settings.',
+          timeline: [
+            { date: '2023-10-02', event: 'Rescued as stray, began behavior evaluation' },
+            { date: '2023-10-20', event: 'Assigned to autism support dog program' },
+            { date: '2023-12-05', event: 'Graduated basic anxiety support training' },
+            { date: '2024-01-15', event: 'Advanced sensory desensitization course completed' },
+            { date: '2024-04-02', event: 'Deployed in adult ASD community center' },
+            { date: '2024-06-18', event: 'Co-led group stress-relief sessions' },
+            { date: '2024-09-10', event: 'Featured in TEDx talk on therapy animals' },
+            { date: '2024-11-25', event: 'Certified for public access insanity guidelines' },
+            { date: '2025-02-05', event: 'Conducted winter calmness workshop' }
+          ]
+      },
+      5: { name: 'Bella', job: 'Alert Advocate', bio: 'Bella was fostered after rescue and now works with children to vocally signal when help is needed, acting as their voice.',
+          timeline: [
+            { date: '2023-08-12', event: 'Fostered from overcrowded shelter' },
+            { date: '2023-09-01', event: 'Completed voice alert bark training' },
+            { date: '2023-11-07', event: 'Certified in Child Advocacy Bark protocol' },
+            { date: '2024-01-20', event: 'Paired with first handler, age 9, at youth center' },
+            { date: '2024-04-10', event: 'Recognized for timely alert during safety drill' },
+            { date: '2024-07-08', event: 'Led speech therapy play sessions' },
+            { date: '2024-10-22', event: 'Participated in national child safety conference' },
+            { date: '2025-01-30', event: 'Featured in local children’s magazine' }
+          ]
+      },
+      6: { name: 'Cooper', job: 'Guardian Guide', bio: 'Cooper leads blind or visually impaired handlers, offering both navigation assistance and emotional support.',
+          timeline: [
+            { date: '2023-07-15', event: 'Rescued from city shelter' },
+            { date: '2023-08-01', event: 'Started guide dog training basics' },
+            { date: '2023-09-20', event: 'Certified in indoor navigation support' },
+            { date: '2023-11-15', event: 'Completed outdoor mobility training' },
+            { date: '2024-02-05', event: 'Graduated as official Guide Dog' },
+            { date: '2024-03-12', event: 'Paired with visually impaired handler' },
+            { date: '2024-06-25', event: 'Assisted in regional mobility expo' },
+            { date: '2025-01-18', event: 'Awarded Community Service Medal' }
+          ]
+      },
+      7: { name: 'Daisy', job: 'Distraction Defender', bio: 'Daisy is trained to interrupt unwanted advances by offering a playful distraction, giving the handler time to move away.',
+          timeline: [
+            { date: '2023-09-10', event: 'Rescued from rural shelter' },
+            { date: '2023-10-01', event: 'Completed distraction technique basics' },
+            { date: '2023-12-08', event: 'Certified as Distraction Defender' },
+            { date: '2024-02-14', event: 'First field deployment in busy urban setting' },
+            { date: '2024-04-21', event: 'Featured in public safety PSAs' },
+            { date: '2024-07-30', event: 'Participated in self-defense workshop' },
+            { date: '2024-10-05', event: 'Conducted community demo at local park' },
+            { date: '2025-03-10', event: 'Appreciation certificate from community center' }
+          ]
+      },
+      8: { name: 'Milo', job: 'Protection Partner', bio: 'Milo excels at recognizing tension in crowded areas, stepping between handler and others to create safe space.',
+          timeline: [
+            { date: '2023-08-25', event: 'Rescued from overflowing shelter' },
+            { date: '2023-09-15', event: 'Completed crowd safety assessment' },
+            { date: '2023-11-02', event: 'Certified in crowd protection dynamics' },
+            { date: '2024-01-18', event: 'Assigned to city festival security team' },
+            { date: '2024-03-27', event: 'Recognized by event organizers for exemplary performance' },
+            { date: '2024-06-12', event: 'Co-trained new recruits in barrier formation' },
+            { date: '2024-09-05', event: 'Featured in local media safety segment' },
+            { date: '2025-02-28', event: 'Completed refresher training course' }
+          ]
+      },
+      9: { name: 'Lucy', job: 'Confidence Coach', bio: 'Lucy boosts the confidence of shy children, encouraging interaction while being ready to alert on inappropriate behavior.',
+          timeline: [
+            { date: '2023-07-20', event: 'Rescued from downtown pound' },
+            { date: '2023-08-10', event: 'Completed preliminary socialization with children' },
+            { date: '2023-10-01', event: 'Certified in Confidence Coaching Techniques' },
+            { date: '2024-02-05', event: 'Deployed at summer reading camp' },
+            { date: '2024-05-22', event: 'Featured in educational outreach program' },
+            { date: '2024-08-14', event: 'Hosted interactive confidence-building workshop' },
+            { date: '2024-12-10', event: 'Won Community Advocacy Dog award' },
+            { date: '2025-03-18', event: 'Participated in school safety fair' }
+          ]
+      },
+      10: { name: 'Rocky', job: 'Noise Neutralizer', bio: 'Rocky helps veterans with PTSD by learning to anticipate flashbacks and grounding them with gentle nudges.',
+          timeline: [
+            { date: '2023-06-15', event: 'Rescued from outdoor shelter' },
+            { date: '2023-07-01', event: 'Completed initial behavioral assessment' },
+            { date: '2023-08-20', event: 'Trained in PTSD grounding techniques' },
+            { date: '2023-10-13', event: 'Certified Therapy Dog for PTSD support' },
+            { date: '2024-01-07', event: 'Placed with veteran support unit' },
+            { date: '2024-04-18', event: 'Featured in support group testimonial' },
+            { date: '2024-09-26', event: 'Helped veteran avoid acute panic episode' },
+            { date: '2025-02-23', event: 'Honored at PTSD Awareness Gala' }
+          ]
+      },
+      11: { name: 'Sadie', job: 'Boundary Builder', bio: 'Sadie is trained to understand personal boundaries, positioning herself firmly between handler and close contacts who ignore cues.',
+          timeline: [
+            { date: '2023-05-22', event: 'Rescued from high-volume shelter' },
+            { date: '2023-06-10', event: 'Started personal boundary training' },
+            { date: '2023-08-05', event: 'Certified in personal space enforcement' },
+            { date: '2023-10-02', event: 'Assigned to support domestic violence shelter' },
+            { date: '2024-01-19', event: 'Recognized for keeping safe perimeter' },
+            { date: '2024-04-29', event: 'Led boundary training workshop' },
+            { date: '2024-11-11', event: 'Featured in women’s safety summit' }
+          ]
+      },
+      12: { name: 'Toby', job: 'Stress Sentinel', bio: 'Toby senses stress in handlers and initiates a protective protocol, including alert barking and blocking.',
+          timeline: [
+            { date: '2023-04-12', event: 'Rescued from county animal control' },
+            { date: '2023-05-01', event: 'Completed handler stress cue training' },
+            { date: '2023-07-18', event: 'Passed certified stress sentinel exam' },
+            { date: '2023-09-30', event: 'Deployed at corporate therapy program' },
+            { date: '2024-02-14', event: 'Helped handler through anxiety episode' },
+            { date: '2024-06-05', event: 'Co-led workplace wellness event' },
+            { date: '2024-10-20', event: 'Featured in mental health awareness campaign' }
+          ]
+      },
+      13: { name: 'Zoe', job: 'Advocacy Ambassador', bio: 'Zoe guides non-verbal handlers, using trained signals to communicate distress and call for assistance.',
+          timeline: [
+            { date: '2023-03-08', event: 'Rescued from city rescue street pickup' },
+            { date: '2023-04-12', event: 'Completed non-verbal handler signal training' },
+            { date: '2023-06-20', event: 'Certified in silent advocacy protocols' },
+            { date: '2023-09-05', event: 'Paired with non-verbal handler' },
+            { date: '2024-01-15', event: 'Assisted in community home safety review' },
+            { date: '2024-05-22', event: 'Featured in advocacy training webinar' },
+            { date: '2024-11-02', event: 'Co-presented at non-verbal communication summit' }
+          ]
+      }
+    };
+    // Read query param
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('dog');
+    const profile = profiles[id] || {};
+    document.getElementById('name').textContent = profile.name || 'Unknown Dog';
+    document.getElementById('job').textContent = profile.job || 'Companion';
+    document.getElementById('bio').textContent = profile.bio || '';
+    document.getElementById('photo').src = `assets/dogs/${id}.jpeg`;
+    // Render timeline
+    const timelineList = document.getElementById('timelineList');
+    timelineList.innerHTML = '';
+    if (profile.timeline) {
+      profile.timeline.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${item.date}</strong>: ${item.event}`;
+        timelineList.appendChild(li);
+      });
+    } else {
+      timelineList.innerHTML = '<li>No history available.</li>';
+    }
+  </script>
+</body>
+</html>

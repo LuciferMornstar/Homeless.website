@@ -6,27 +6,38 @@
   <title>Homeless Helpers</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/menu-style.css">
 </head>
 <body>
-  <!-- Transchem-style Mega Menu -->
-  <nav class="mega-menu" role="navigation" aria-label="Main Menu">
-      <ul class="menu">
-          <li class="menu-item"><a href="index.html">Home</a></li>
-          <li class="menu-item"><a href="get-help.html">Get Help</a></li>
-          <li class="menu-item"><a href="shelters.html">Shelters</a></li>
-          <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
-          <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
-          <li class="menu-item"><a href="employment.html">Employment</a></li>
-          <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
-          <li class="menu-item"><a href="resources.html">Resources</a></li>
-          <li class="menu-item"><a href="about.html">About</a></li>
-          <li class="menu-item"><a href="network.html">Network</a></li>
-          <li class="menu-item"><a href="emergency.html">Emergency</a></li>
+  <nav class="bg-white shadow-md">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="text-2xl font-bold text-red-700">Morningstar Rescues</a>
+      <button id="navToggle" class="text-gray-700 md:hidden focus:outline-none">
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+      <ul id="navMenu" class="hidden md:flex md:space-x-6 text-gray-700">
+        <li><a href="index.html" class="hover:text-red-700">Home</a></li>
+        <li><a href="get-help.html" class="hover:text-red-700">Get Help</a></li>
+        <li><a href="shelters.html" class="hover:text-red-700">Shelters</a></li>
+        <li><a href="foodbanks.html" class="hover:text-red-700">Food Banks</a></li>
+        <li><a href="healthcare.html" class="hover:text-red-700">Healthcare</a></li>
+        <li><a href="employment.html" class="hover:text-red-700">Employment</a></li>
+        <li><a href="volunteer.html" class="hover:text-red-700">Volunteer</a></li>
+        <li><a href="resources.html" class="hover:text-red-700">Resources</a></li>
+        <li><a href="about.html" class="hover:text-red-700">About</a></li>
+        <li><a href="network.html" class="hover:text-red-700">Network</a></li>
+        <li><a href="emergency.html" class="hover:text-red-700">Emergency</a></li>
       </ul>
+    </div>
   </nav>
-
+  <script>
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('hidden');
+    });
+  </script>
   <script src="assets/js/navigation-module.js"></script>
 </body>
 </html>

@@ -3,948 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hopeful Horizons - Your Comprehensive UK Homeless Resources</title>
-    <meta name="description" content="An exhaustive resource for homeless people in the UK to get help and find a home.">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Welcome - Homeless Helpers</title>
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="assets/css/modern/wix-modern.css">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Chelsea+Market&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/monkey-island-style.css">
-    <link rel="stylesheet" href="assets/css/menu-style.css">
-    <script type="module" src="js/menuModule.js"></script>
-    <style>
-        *,*::before,*::after {
-            box-sizing: border-box;
-        }
-        
-        *::selection {
-            color: #000000;
-            background-color: #efefef;
-        }
-        
-        a {
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        @media (any-hover: hover) {
-            a:hover {
-                -webkit-tap-highlight-color: transparent;
-            }
-        }
-        
-        ul[class],ol[class] {
-            padding: 0;
-        }
-        
-        body,h1,h2,h3,h4,p,ul[class],ol[class],li,figure,figcaption,blockquote,dl,dd {
-            margin: 0;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            min-height: 100vh;
-            text-rendering: optimizeLegibility;
-            line-height: 1.75;
-            font-family: "Chelsea Market", "Caveat Brush", cursive;
-            background-color: #06454b;
-            padding: 0;
-            text-align: left;
-            color: #efefef;
-            cursor: pointer;
-            overflow-x: hidden;
-        }
-        
-        body a {
-            cursor: pointer;
-            text-decoration: none;
-        }
-        
-        ul,ol {
-            list-style: none;
-        }
-
-        .bg-custom-gradient {
-            background: linear-gradient(to bottom, #06454b, #2f835c);
-        }
-
-        @media (max-width: 768px) {
-            body {
-                background: linear-gradient(to bottom, #06454b, #2f835c);
-            }
-        }
-
-        .svg-wave {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-        }
-
-        .content-wrapper {
-            position: relative;
-            z-index: 20;
-            margin-top: 0;
-            padding-top: 5rem;
-            background-color: #1d1c1a;
-            padding: 2rem;
-            border: 5px dashed #29241e;
-        }
-
-        @media (max-width: 768px) {
-            .content-wrapper {
-                margin-top: 8rem;
-            }
-        }
-
-        .section-wrapper {
-            border: 5px dashed #29241e;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0.5rem 0;
-            border-bottom: 5px dashed #29241e;
-        }
-
-        .nav-button {
-            background-color: #48d595;
-            color: #000000;
-            font-family: "Chelsea Market", cursive;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0;
-            position: relative;
-            transition: all 0.3s;
-            border: none;
-            font-size: 1rem;
-            margin: 0.5rem;
-            box-shadow: -3px 3px 0 #00000088;
-            cursor: pointer;
-        }
-
-        .nav-button:hover {
-            transform: translate(2px, -2px);
-            box-shadow: -5px 5px 0 #00000088;
-        }
-
-        .nav-button:active {
-            transform: translate(-1px, 1px);
-            box-shadow: -2px 2px 0 #00000088;
-        }
-        
-        .text-card {
-            background-color: #2f835c;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .text-card:hover {
-            transform: translate(2px, -2px);
-            box-shadow: -5px 5px 0 #00000088;
-        }
-
-        .text-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('noise-filter.png');
-            opacity: 0.2;
-            mix-blend-mode: multiply;
-            pointer-events: none;
-        }
-
-        .animated-element {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s, transform 1s;
-        }
-
-        .animated-element.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        #mobile-menu {
-            background-color: rgba(6, 69, 75, 0.95);
-        }
-
-        #mobile-menu .menu-content {
-            background-color: #1d1c1a;
-            border: 5px dashed #29241e;
-        }
-
-        .mobile-nav-button {
-            background-color: transparent;
-            color: #48d595;
-            font-family: "Chelsea Market", cursive;
-            padding: 0.75rem 0;
-            width: 100%;
-            text-align: left;
-            border: none;
-            font-size: 1rem;
-            border-bottom: 2px dashed #48d595;
-            cursor: pointer;
-        }
-        
-        .interactive-dialogs {
-            max-width: 90%;
-        }
-        
-        .dialog-box {
-            border: 3px solid #48d595;
-            transform: translateY(0);
-            transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-        }
-        
-        .dialog-box.active {
-            transform: translateY(-10px);
-        }
-        
-        .dialog-box:not(.active) {
-            transform: translateY(5px);
-        }
-        
-        @media (max-width: 768px) {
-            .dialog-box {
-                max-width: 80%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            
-            .interactive-dialogs {
-                width: 100%;
-            }
-        }
-
-        /* Animated Characters */
-        .character {
-            position: absolute;
-            z-index: 25;
-            pointer-events: none;
-        }
-
-        .character img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .character.person1 {
-            bottom: 10%;
-            left: 5%;
-            width: 120px;
-        }
-
-        .character.person2 {
-            bottom: 15%;
-            right: 5%;
-            width: 100px;
-        }
-
-        /* Floating items */
-        .floating-item {
-            position: absolute;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 1s;
-            z-index: 25;
-        }
-
-        .floating-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Network visualization */
-        .network-container {
-            height: 400px;
-            position: relative;
-            overflow: hidden;
-            border: 3px solid #48d595;
-            margin-top: 2rem;
-        }
-
-        .network-node {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #48d595;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #000;
-            box-shadow: -3px 3px 0 #00000088;
-        }
-
-        #node1 { top: 50%; left: 50%; }
-        #node2 { top: 20%; left: 30%; }
-        #node3 { top: 30%; left: 70%; }
-        #node4 { top: 70%; left: 20%; }
-        #node5 { top: 75%; left: 60%; }
-        #node6 { top: 40%; left: 10%; }
-        #node7 { top: 60%; left: 85%; }
-
-        .connection-line {
-            position: absolute;
-            height: 1px;
-            background-color: #48d595;
-            transform-origin: left center;
-        }
-
-        .line1 { top: 30%; left: 20%; width: 60%; transform: rotate(25deg); }
-        .line2 { top: 40%; left: 30%; width: 40%; transform: rotate(-15deg); }
-        .line3 { top: 60%; left: 50%; width: 40%; transform: rotate(45deg); }
-        .line4 { top: 70%; left: 10%; width: 80%; transform: rotate(-5deg); }
-        .line5 { top: 55%; left: 60%; width: 30%; transform: rotate(-60deg); }
-
-        /* Floating keys for after-housing support */
-        .support-key {
-            position: relative;
-            padding: 1rem;
-            background-color: #48d595;
-            color: #000;
-            border-radius: 0;
-            margin: 1rem 0;
-            box-shadow: -3px 3px 0 #00000088;
-            transform: translateX(0);
-            transition: transform 0.3s;
-        }
-
-        .support-key:hover {
-            transform: translateX(-5px);
-            box-shadow: -8px 8px 0 #00000088;
-        }
-
-        .support-key::before {
-            content: '';
-            position: absolute;
-            right: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 25px;
-            height: 10px;
-            background-color: #48d595;
-        }
-
-        .support-key::after {
-            content: '';
-            position: absolute;
-            right: -30px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background-color: #48d595;
-        }
-
-        /* Animated background elements */
-        .bg-element {
-            position: absolute;
-            z-index: 5;
-            opacity: 0.7;
-            transition: transform 0.3s ease-out;
-        }
-
-        .bg-element.house {
-            width: 100px;
-            height: 80px;
-            background-color: #48d595;
-            clip-path: polygon(0% 80%, 0 40%, 25% 0, 75% 0, 100% 40%, 100% 80%, 100% 100%, 0% 100%);
-        }
-
-        .bg-element.tree {
-            width: 60px;
-            height: 100px;
-            background-color: #2f835c;
-            clip-path: polygon(20% 100%, 20% 60%, 0% 60%, 50% 0%, 100% 60%, 80% 60%, 80% 100%);
-        }
-
-        /* Post-housing support section */
-        .post-housing-section {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .connection-web {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        .connection-line {
-            position: absolute;
-            height: 1px;
-            background-color: #48d595;
-            transform-origin: left center;
-            transition: all 1s ease;
-        }
-
-        /* Cursor styling */
-        body {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><circle cx="12" cy="12" r="8" fill="%2348d595" opacity="0.6"/></svg>') 12 12, auto;
-        }
-
-        .clickable {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><circle cx="12" cy="12" r="10" fill="%2348d595" opacity="0.8"/></svg>') 12 12, pointer;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-  <!-- Aria-live region for notifications or dynamic content updates -->
-  <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+    <!-- Modern Header -->
+    <header class="modern-header">
+        <!-- ...existing code from modern-header.html... -->
+    </header>
 
-  <!-- Transchem-style Mega Menu -->
-  <nav class="mega-menu" role="navigation" aria-label="Main Menu">
-      <ul class="menu">
-          <li class="menu-item"><a href="index.html">Home</a></li>
-          <li class="menu-item"><a href="get-help.html">Get Help</a></li>
-          <li class="menu-item"><a href="shelters.html">Shelters</a></li>
-          <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
-          <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
-          <li class="menu-item"><a href="employment.html">Employment</a></li>
-          <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
-          <li class="menu-item"><a href="resources.html">Resources</a></li>
-          <li class="menu-item"><a href="about.html">About</a></li>
-          <li class="menu-item"><a href="network.html">Network</a></li>
-          <li class="menu-item"><a href="emergency.html">Emergency</a></li>
-      </ul>
-  </nav>
-    <div class="content-wrapper">
-        <section id="welcome" class="section-wrapper">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Welcome to Hopeful Horizons</h1>
-            <p class="text-lg md:text-xl mb-8">
-                Empowering individuals to overcome homelessness and rebuild their lives with dignity.
-            </p>
-            <div class="flex space-x-4">
-                <button class="nav-button clickable" onclick="location.href='about.html'">About Us</button>
-                <button class="nav-button clickable" onclick="location.href='get-help.html'">Get Help</button>
-                <button class="nav-button clickable" onclick="location.href='foodbanks.html'">Food Banks</button>
-                <button class="nav-button clickable" onclick="location.href='employment.html'">Employment</button>
-                <button class="nav-button clickable" onclick="location.href='healthcare.html'">Healthcare</button>
-                <button class="nav-button clickable" onclick="location.href='emergency.html'">Emergency Contacts</button>
-                <button class="nav-button clickable" onclick="location.href='volunteer.html'">Volunteer</button>
-                <button class="nav-button clickable" onclick="location.href='network.html'">Support Network</button>
-            </div>
-        </section>
+    <main id="main-content">
+        <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
 
-        <section id="about" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">About Us</h2>
-            <div class="text-card">
-                <p class="mb-6">
-                    Hopeful Horizons is a non-profit organization dedicated to providing support and resources to individuals experiencing homelessness in the UK.
-                    We partner with local councils, charities, and volunteers to offer shelter, legal and health advice, food support, employment training, and more.
+        <nav class="mega-menu" role="navigation" aria-label="Main Menu">
+            <ul class="menu">
+                <li class="menu-item"><a href="index.html">Home</a></li>
+                <li class="menu-item"><a href="get-help.html">Get Help</a></li>
+                <li class="menu-item"><a href="shelters.html">Shelters</a></li>
+                <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
+                <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
+                <li class="menu-item"><a href="employment.html">Employment</a></li>
+                <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
+                <li class="menu-item"><a href="resources.html">Resources</a></li>
+                <li class="menu-item"><a href="about.html">About</a></li>
+                <li class="menu-item"><a href="network.html">Network</a></li>
+                <li class="menu-item"><a href="emergency.html">Emergency</a></li>
+            </ul>
+        </nav>
+        <div class="content-wrapper">
+            <section id="welcome" class="section-wrapper">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Welcome to Hopeful Horizons</h1>
+                <p class="text-lg md:text-xl mb-8">
+                    Empowering individuals to overcome homelessness and rebuild their lives with dignity.
                 </p>
-                <p>
-                    Our mission is to empower individuals to regain stability and find a safe place to call home.
-                </p>
-            </div>
-        </section>
-
-        <section id="resources" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">General Resources</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Housing Assistance</h3>
-                    <p class="mb-4">
-                        Find emergency shelters, temporary accommodations, and long-term housing solutions.
-                    </p>
-                    <button class="nav-button clickable" data-target="shelters">Learn More</button>
+                <div class="flex space-x-4">
+                    <button class="nav-button clickable" onclick="location.href='about.html'">About Us</button>
+                    <button class="nav-button clickable" onclick="location.href='get-help.html'">Get Help</button>
+                    <button class="nav-button clickable" onclick="location.href='foodbanks.html'">Food Banks</button>
+                    <button class="nav-button clickable" onclick="location.href='employment.html'">Employment</button>
+                    <button class="nav-button clickable" onclick="location.href='healthcare.html'">Healthcare</button>
+                    <button class="nav-button clickable" onclick="location.href='emergency.html'">Emergency Contacts</button>
+                    <button class="nav-button clickable" onclick="location.href='volunteer.html'">Volunteer</button>
+                    <button class="nav-button clickable" onclick="location.href='network.html'">Support Network</button>
                 </div>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Employment &amp; Training</h3>
-                    <p class="mb-4">
-                        Access job training, resume-building workshops, and career counselling.
-                    </p>
-                    <button class="nav-button clickable" data-target="employment">Learn More</button>
-                </div>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Mental Health &amp; Addiction</h3>
-                    <p class="mb-4">
-                        Get support through counselling, addiction recovery programs, and mental health services.
-                    </p>
-                    <button class="nav-button clickable" data-target="healthcare">Learn More</button>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="post-housing" class="section-wrapper animated-element post-housing-section">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">After Housing Support</h2>
-            
-            <!-- Connection web visualization -->
-            <div class="connection-web">
-                <div class="connection-line line1"></div>
-                <div class="connection-line line2"></div>
-                <div class="connection-line line3"></div>
-                <div class="connection-line line4"></div>
-                <div class="connection-line line5"></div>
-            </div>
-            
-            <div class="text-card">
-                <h3 class="text-xl font-semibold text-white mb-4">Continued Support Network</h3>
-                <p class="mb-6">
-                    Getting housing is just the first step. We understand that many individuals feel isolated and abandoned after securing housing, when official support often ends.
-                </p>
-                <p class="mb-6">
-                    Our network ensures that you remain connected to a community that cares. We provide ongoing support, social connections, and practical assistance to help you thrive in your new home.
-                </p>
+            <section id="about" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">About Us</h2>
+                <div class="text-card">
+                    <p class="mb-6">
+                        Hopeful Horizons is a non-profit organization dedicated to providing support and resources to individuals experiencing homelessness in the UK.
+                        We partner with local councils, charities, and volunteers to offer shelter, legal and health advice, food support, employment training, and more.
+                    </p>
+                    <p>
+                        Our mission is to empower individuals to regain stability and find a safe place to call home.
+                    </p>
+                </div>
+            </section>
+
+            <section id="resources" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">General Resources</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-card">
+                        <h3 class="text-xl font-semibold text-white mb-4">Housing Assistance</h3>
+                        <p class="mb-4">
+                            Find emergency shelters, temporary accommodations, and long-term housing solutions.
+                        </p>
+                        <button class="nav-button clickable" data-target="shelters">Learn More</button>
+                    </div>
+                    <div class="text-card">
+                        <h3 class="text-xl font-semibold text-white mb-4">Employment &amp; Training</h3>
+                        <p class="mb-4">
+                            Access job training, resume-building workshops, and career counselling.
+                        </p>
+                        <button class="nav-button clickable" data-target="employment">Learn More</button>
+                    </div>
+                    <div class="text-card">
+                        <h3 class="text-xl font-semibold text-white mb-4">Mental Health &amp; Addiction</h3>
+                        <p class="mb-4">
+                            Get support through counselling, addiction recovery programs, and mental health services.
+                        </p>
+                        <button class="nav-button clickable" data-target="healthcare">Learn More</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="post-housing" class="section-wrapper animated-element post-housing-section">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">After Housing Support</h2>
                 
-                <div class="grid md:grid-cols-2 gap-6 my-8">
-                    <div class="support-key">
-                        <h4 class="font-semibold">Community Integration</h4>
-                        <p>Local meet-ups, community events and social gatherings to build your network</p>
-                    </div>
-                    <div class="support-key">
-                        <h4 class="font-semibold">Buddy System</h4>
-                        <p>A dedicated volunteer provides regular check-ins and companionship</p>
-                    </div>
-                    <div class="support-key">
-                        <h4 class="font-semibold">Home Maintenance</h4>
-                        <p>Help with household tasks and connecting to repair services</p>
-                    </div>
-                    <div class="support-key">
-                        <h4 class="font-semibold">Life Skills Workshops</h4>
-                        <p>Ongoing education in budgeting, cooking, and home management</p>
-                    </div>
+                <div class="connection-web">
+                    <div class="connection-line line1"></div>
+                    <div class="connection-line line2"></div>
+                    <div class="connection-line line3"></div>
+                    <div class="connection-line line4"></div>
+                    <div class="connection-line line5"></div>
                 </div>
                 
-                <button class="nav-button clickable" data-target="network">Join Our Network</button>
-            </div>
-        </section>
+                <div class="text-card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Continued Support Network</h3>
+                    <p class="mb-6">
+                        Getting housing is just the first step. We understand that many individuals feel isolated and abandoned after securing housing, when official support often ends.
+                    </p>
+                    <p class="mb-6">
+                        Our network ensures that you remain connected to a community that cares. We provide ongoing support, social connections, and practical assistance to help you thrive in your new home.
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 my-8">
+                        <div class="support-key">
+                            <h4 class="font-semibold">Community Integration</h4>
+                            <p>Local meet-ups, community events and social gatherings to build your network</p>
+                        </div>
+                        <div class="support-key">
+                            <h4 class="font-semibold">Buddy System</h4>
+                            <p>A dedicated volunteer provides regular check-ins and companionship</p>
+                        </div>
+                        <div class="support-key">
+                            <h4 class="font-semibold">Home Maintenance</h4>
+                            <p>Help with household tasks and connecting to repair services</p>
+                        </div>
+                        <div class="support-key">
+                            <h4 class="font-semibold">Life Skills Workshops</h4>
+                            <p>Ongoing education in budgeting, cooking, and home management</p>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-button clickable" data-target="network">Join Our Network</button>
+                </div>
+            </section>
 
-        <section id="network" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Support Network Visualization</h2>
-            
-            <div class="network-container">
-                <div class="network-node" id="node1">You</div>
-                <div class="network-node" id="node2">Buddy</div>
-                <div class="network-node" id="node3">Neighbors</div>
-                <div class="network-node" id="node4">Support Group</div>
-                <div class="network-node" id="node5">Social Worker</div>
-                <div class="network-node" id="node6">Community Center</div>
-                <div class="network-node" id="node7">Health Provider</div>
+            <section id="network" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Support Network Visualization</h2>
                 
-                <!-- Lines connecting nodes -->
-                <div class="network-line" id="line1-2"></div>
-                <div class="network-line" id="line1-3"></div>
-                <div class="network-line" id="line1-4"></div>
-                <div class="network-line" id="line1-5"></div>
-                <div class="network-line" id="line1-6"></div>
-                <div class="network-line" id="line1-7"></div>
-                <div class="network-line" id="line2-6"></div>
-                <div class="network-line" id="line3-7"></div>
-                <div class="network-line" id="line4-5"></div>
-                <div class="network-line" id="line5-7"></div>
-            </div>
+                <div class="network-container">
+                    <div class="network-node" id="node1">You</div>
+                    <div class="network-node" id="node2">Buddy</div>
+                    <div class="network-node" id="node3">Neighbors</div>
+                    <div class="network-node" id="node4">Support Group</div>
+                    <div class="network-node" id="node5">Social Worker</div>
+                    <div class="network-node" id="node6">Community Center</div>
+                    <div class="network-node" id="node7">Health Provider</div>
+                    
+                    <div class="network-line" id="line1-2"></div>
+                    <div class="network-line" id="line1-3"></div>
+                    <div class="network-line" id="line1-4"></div>
+                    <div class="network-line" id="line1-5"></div>
+                    <div class="network-line" id="line1-6"></div>
+                    <div class="network-line" id="line1-7"></div>
+                    <div class="network-line" id="line2-6"></div>
+                    <div class="network-line" id="line3-7"></div>
+                    <div class="network-line" id="line4-5"></div>
+                    <div class="network-line" id="line5-7"></div>
+                </div>
+                
+                <div class="text-card mt-6">
+                    <p>
+                        Our integrated support network ensures you're never alone on your journey. Each connection provides different types of assistance, creating a safety net that helps maintain housing stability and improve quality of life.
+                    </p>
+                    <p class="mt-4">
+                        <strong>Click on each node in the visualization above</strong> to learn more about that connection and how it helps you build a sustainable, supported life in your new home.
+                    </p>
+                </div>
+            </section>
+
+            <section id="get-help" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Get Help</h2>
+                <div class="text-card">
+                    <p class="mb-6">
+                        Whether you are facing homelessness or know someone in need, we are here to help. Reach out for support, advice and access to essential services.
+                    </p>
+                    <p class="mb-6">
+                        For immediate assistance, call our national helpline: <span class="font-semibold text-white">0800 123 4567</span>
+                    </p>
+                    <button class="nav-button clickable" data-target="emergency">Emergency Contacts</button>
+                </div>
+            </section>
+
+            <section id="emergency" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Emergency Contacts</h2>
+                <div class="text-card">
+                    <p class="mb-6">
+                        In any crisis, please contact emergency services immediately by dialing 999. Additional urgent support:
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li><strong>Samaritans (emotional support):</strong> 116 123</li>
+                        <li><strong>National Domestic Abuse Helpline:</strong> 0808 2000 247</li>
+                        <li><strong>Crisis Text Line:</strong> Text HOME to 85258</li>
+                    </ul>
+                    <button class="nav-button clickable" data-target="shelters">Find a Shelter</button>
+                </div>
+            </section>
             
-            <div class="text-card mt-6">
-                <p>
-                    Our integrated support network ensures you're never alone on your journey. Each connection provides different types of assistance, creating a safety net that helps maintain housing stability and improve quality of life.
-                </p>
-                <p class="mt-4">
-                    <strong>Click on each node in the visualization above</strong> to learn more about that connection and how it helps you build a sustainable, supported life in your new home.
-                </p>
-            </div>
-        </section>
+            <section id="data-visualization" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Impact in Numbers</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="chart-container">
+                        <canvas id="impactChart" width="400" height="400"></canvas>
+                    </div>
+                    <div class="text-card">
+                        <p class="mb-4">Over <span class="font-bold text-white">10,000</span> individuals helped since our inception.</p>
+                        <p class="mb-4">More than <span class="font-bold text-white">5,000</span> meals served monthly.</p>
+                        <p>Providing shelter to <span class="font-bold text-white">1,200</span> people every night.</p>
+                        <p class="mt-4">Successfully maintaining <span class="font-bold text-white">92%</span> housing retention rate through our after-housing support network.</p>
+                    </div>
+                </div>
+            </section>
 
-        <section id="get-help" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Get Help</h2>
-            <div class="text-card">
-                <p class="mb-6">
-                    Whether you are facing homelessness or know someone in need, we are here to help. Reach out for support, advice and access to essential services.
-                </p>
-                <p class="mb-6">
-                    For immediate assistance, call our national helpline: <span class="font-semibold text-white">0800 123 4567</span>
-                </p>
-                <button class="nav-button clickable" data-target="emergency">Emergency Contacts</button>
-            </div>
-        </section>
+            <section id="shelters" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Local Shelters</h2>
+                <div class="text-card">
+                    <p>...Shelters content...</p>
+                </div>
+            </section>
 
-        <section id="emergency" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Emergency Contacts</h2>
-            <div class="text-card">
-                <p class="mb-6">
-                    In any crisis, please contact emergency services immediately by dialing 999. Additional urgent support:
-                </p>
-                <ul class="space-y-2 mb-6">
-                    <li><strong>Samaritans (emotional support):</strong> 116 123</li>
-                    <li><strong>National Domestic Abuse Helpline:</strong> 0808 2000 247</li>
-                    <li><strong>Crisis Text Line:</strong> Text HOME to 85258</li>
+            <section id="healthcare" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Healthcare</h2>
+                <div class="text-card">
+                    <p>...Healthcare info...</p>
+                </div>
+            </section>
+
+            <section id="foodbanks" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Food Banks</h2>
+                <div class="text-card">
+                    <p>...Food banks details...</p>
+                </div>
+            </section>
+
+            <section id="volunteer" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Volunteer</h2>
+                <div class="text-card">
+                    <p>...Volunteer opportunities...</p>
+                </div>
+            </section>
+
+            <section id="employment" class="section-wrapper animated-element">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Employment</h2>
+                <div class="text-card">
+                    <p>...Employment resources...</p>
+                </div>
+            </section>
+
+            <section id="mental-health-resources">
+                <h2>Mental Health Resources</h2>
+                <p>Find support for your mental health through these resources:</p>
+                <ul>
+                    <li><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank">SAMHSA National Helpline</a></li>
+                    <li><a href="https://www.nami.org/Home" target="_blank">National Alliance on Mental Illness (NAMI)</a></li>
+                    <li><a href="https://www.crisistextline.org/" target="_blank">Crisis Text Line</a></li>
                 </ul>
-                <button class="nav-button clickable" data-target="shelters">Find a Shelter</button>
-            </div>
-        </section>
-        
-        <section id="data-visualization" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Impact in Numbers</h2>
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="chart-container">
-                    <canvas id="impactChart" width="400" height="400"></canvas>
-                </div>
-                <div class="text-card">
-                    <p class="mb-4">Over <span class="font-bold text-white">10,000</span> individuals helped since our inception.</p>
-                    <p class="mb-4">More than <span class="font-bold text-white">5,000</span> meals served monthly.</p>
-                    <p>Providing shelter to <span class="font-bold text-white">1,200</span> people every night.</p>
-                    <p class="mt-4">Successfully maintaining <span class="font-bold text-white">92%</span> housing retention rate through our after-housing support network.</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="shelters" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Local Shelters</h2>
-            <div class="text-card">
-                <p>...Shelters content...</p>
-            </div>
-        </section>
-
-        <section id="healthcare" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Healthcare</h2>
-            <div class="text-card">
-                <p>...Healthcare info...</p>
-            </div>
-        </section>
-
-        <section id="foodbanks" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Food Banks</h2>
-            <div class="text-card">
-                <p>...Food banks details...</p>
-            </div>
-        </section>
-
-        <section id="volunteer" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Volunteer</h2>
-            <div class="text-card">
-                <p>...Volunteer opportunities...</p>
-            </div>
-        </section>
-
-        <section id="employment" class="section-wrapper animated-element">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Employment</h2>
-            <div class="text-card">
-                <p>...Employment resources...</p>
-            </div>
-        </section>
-
-        <!-- Mental Health Resources Section -->
-        <section id="mental-health-resources">
-            <h2>Mental Health Resources</h2>
-            <p>Find support for your mental health through these resources:</p>
-            <ul>
-                <li><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank">SAMHSA National Helpline</a></li>
-                <li><a href="https://www.nami.org/Home" target="_blank">National Alliance on Mental Illness (NAMI)</a></li>
-                <li><a href="https://www.crisistextline.org/" target="_blank">Crisis Text Line</a></li>
-            </ul>
-        </section>
-
-        <!-- Pet-Friendly Shelters Section -->
-        <section id="pet-friendly-shelters">
-            <h2>Pet-Friendly Shelters</h2>
-            <p>Find shelters that welcome you and your pets:</p>
-            <ul>
-                <li><a href="https://www.petsofthehomeless.org/" target="_blank">Pets of the Homeless</a></li>
-                <li><a href="https://www.animalsheltering.org/" target="_blank">Animal Sheltering</a></li>
-                <li><a href="https://www.aspca.org/" target="_blank">ASPCA Resources</a></li>
-            </ul>
-        </section>
-
-    </div>
-
-    <footer class="bg-[#06454b] py-6 text-white text-center">
-        <div class="container mx-auto px-4">
-            <p>&copy; 2025 Hopeful Horizons. All rights reserved.</p>
-            <p>Registered Charity No. 1234567</p>
+            <section id="pet-friendly-shelters">
+                <h2>Pet-Friendly Shelters</h2>
+                <p>Find shelters that welcome you and your pets:</p>
+                <ul>
+                    <li><a href="https://www.petsofthehomeless.org/" target="_blank">Pets of the Homeless</a></li>
+                    <li><a href="https://www.animalsheltering.org/" target="_blank">Animal Sheltering</a></li>
+                    <li><a href="https://www.aspca.org/" target="_blank">ASPCA Resources</a></li>
+                </ul>
+            </section>
         </div>
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="modern-footer">
+        <!-- ...existing code from modern-footer.html... -->
     </footer>
 
-    <script>
-        const hamburgerBtn = document.getElementById("hamburger-btn");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const closeMenuBtn = document.getElementById("close-menu-btn");
-        const menuToggle = document.getElementById("menu-toggle");
-        const mainNavModal = document.getElementById("main-nav-modal");
-        const closeNavModal = document.getElementById("close-nav-modal");
-        const navButtons = document.querySelectorAll(".nav-button[data-target], .mobile-nav-button[data-target]");
-        const sections = document.querySelectorAll('section');
-        const animatedElements = document.querySelectorAll('.animated-element');
-        const networkNodes = document.querySelectorAll('.network-node');
-        const networkLines = document.querySelectorAll('.network-line');
-        const bgElements = document.querySelectorAll('.bg-element');
-
-        function safeAddEventListener(element, event, callback) {
-            if (element) {
-                element.addEventListener(event, callback);
-            }
-        }
-
-        function toggleMobileMenu() {
-            mobileMenu.classList.toggle("hidden");
-        }
-
-        safeAddEventListener(hamburgerBtn, "click", toggleMobileMenu);
-        safeAddEventListener(closeMenuBtn, "click", toggleMobileMenu);
-
-        safeAddEventListener(menuToggle, "click", () => {
-            mainNavModal.classList.remove("hidden");
-        });
-
-        safeAddEventListener(closeNavModal, "click", () => {
-            mainNavModal.classList.add("hidden");
-        });
-
-        navButtons.forEach(button => {
-            button.addEventListener("click", () => {
-                const targetId = button.getAttribute("data-target");
-                const targetSection = document.getElementById(targetId);
-                
-                mobileMenu.classList.add("hidden");
-                if (mainNavModal) {
-                    mainNavModal.classList.add("hidden");
-                }
-                
-                if (targetSection) {
-                    const offset = window.innerWidth <= 768 ? 80 : 100;
-                    const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - offset;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        function checkAnimatedElements() {
-            animatedElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                if (elementTop < window.innerHeight - 100) {
-                    element.classList.add('visible');
-                    
-                    // If this is the network section, animate the nodes and lines
-                    if (element.id === 'network') {
-                        setTimeout(() => {
-                            animateNetwork();
-                        }, 500);
-                    }
-                }
-            });
-        }
-        
-        function animateNetwork() {
-            // First animate the nodes appearing
-            networkNodes.forEach((node, index) => {
-                setTimeout(() => {
-                    node.classList.add('visible');
-                }, index * 200);
-            });
-            
-            // Then animate the lines connecting nodes
-            setTimeout(() => {
-                networkLines.forEach((line, index) => {
-                    const nodeIDs = line.id.split('-');
-                    if (nodeIDs.length === 2) {
-                        const node1 = document.getElementById(`node${nodeIDs[1]}`);
-                        const centerNode = document.getElementById('node1');
-                        
-                        if (node1 && centerNode) {
-                            const centerRect = centerNode.getBoundingClientRect();
-                            const nodeRect = node1.getBoundingClientRect();
-                            const containerRect = document.querySelector('.network-container').getBoundingClientRect();
-                            
-                            // Calculate positions relative to container
-                            const x1 = centerRect.left + centerRect.width/2 - containerRect.left;
-                            const y1 = centerRect.top + centerRect.height/2 - containerRect.top;
-                            const x2 = nodeRect.left + nodeRect.width/2 - containerRect.left;
-                            const y2 = nodeRect.top + nodeRect.height/2 - containerRect.top;
-                            
-                            // Calculate length and angle
-                            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-                            
-                            // Position line
-                            line.style.width = `${length}px`;
-                            line.style.left = `${x1}px`;
-                            line.style.top = `${y1}px`;
-                            line.style.transform = `rotate(${angle}deg)`;
-                            
-                            setTimeout(() => {
-                                line.classList.add('visible');
-                            }, index * 100);
-                        }
-                    }
-                });
-            }, networkNodes.length * 200);
-            
-            // Make nodes interactive
-            networkNodes.forEach(node => {
-                node.addEventListener('click', () => {
-                    // Reset all nodes
-                    networkNodes.forEach(n => {
-                        n.style.transform = 'scale(1)';
-                        n.style.zIndex = '1';
-                    });
-                    
-                    // Enlarge clicked node
-                    node.style.transform = 'scale(1.3)';
-                    node.style.zIndex = '2';
-                    
-                    // Show description based on node id
-                    const nodeInfo = {
-                        'node1': "You are at the center of your support network. All services revolve around your needs and goals.",
-                        'node2': "Your Buddy provides regular social contact, emotional support, and helps connect you with other services.",
-                        'node3': "Neighbors create a sense of community and can offer practical everyday assistance.",
-                        'node4': "Support Groups let you share experiences and learn from others in similar situations.",
-                        'node5': "Social Workers coordinate services and advocate for your needs with official agencies.",
-                        'node6': "Community Centers provide activities, workshops, and a place to meet others.",
-                        'node7': "Health Providers ensure ongoing physical and mental health support."
-                    };
-                    
-                    // Display the information
-                    const infoCard = document.querySelector('.text-card.mt-6 p:first-child');
-                    if (infoCard && nodeInfo[node.id]) {
-                        infoCard.textContent = nodeInfo[node.id];
-                        
-                        // Animate the text change
-                        infoCard.style.opacity = '0';
-                        setTimeout(() => {
-                            infoCard.style.opacity = '1';
-                        }, 300);
-                    }
-                });
-            });
-        }
-        
-        window.addEventListener('scroll', checkAnimatedElements);
-        window.addEventListener('load', checkAnimatedElements);
-
-        // Add hover effect to section wrappers
-        document.querySelectorAll('.section-wrapper').forEach(section => {
-            section.addEventListener('mouseenter', () => {
-                // Find text cards inside this section
-                const cards = section.querySelectorAll('.text-card');
-                cards.forEach(card => {
-                    card.style.transform = 'translate(2px, -2px)';
-                    card.style.boxShadow = '-5px 5px 0 #00000088';
-                });
-            });
-            
-            section.addEventListener('mouseleave', () => {
-                const cards = section.querySelectorAll('.text-card');
-                cards.forEach(card => {
-                    card.style.transform = '';
-                    card.style.boxShadow = '';
-                });
-            });
-        });
-
-        const chartElement = document.getElementById('impactChart');
-        if (chartElement) {
-            const ctx = chartElement.getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Shelter', 'Meals', 'Employment', 'After-Housing Support'],
-                    datasets: [{
-                        data: [1200, 5000, 3000, 2800],
-                        backgroundColor: ['#48d595', '#2f835c', '#06454b', '#5de9ab']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                color: '#efefef'
-                            }
-                        }
-                    },
-                    animation: {
-                        animateScale: true,
-                        animateRotate: true
-                    }
-                }
-            });
-        }
-        
-        // Enhanced parallax effect for moving elements
-        function createRandomMovement() {
-            const bgElements = document.querySelectorAll('.bg-element');
-            
-            bgElements.forEach((element, index) => {
-                // Create unique movement patterns for each element
-                const baseX = parseFloat(element.style.left);
-                const baseY = parseFloat(element.style.top);
-                
-                setInterval(() => {
-                    const offsetX = Math.sin(Date.now() / 3000 + index) * 5;
-                    const offsetY = Math.cos(Date.now() / 2500 + index) * 3;
-                    
-                    element.style.left = `calc(${baseX}% + ${offsetX}px)`;
-                    element.style.top = `calc(${baseY}% + ${offsetY}px)`;
-                }, 50);
-            });
-        }
-        
-        createRandomMovement();
-        
-        // Create animated connection lines in the post-housing section
-        const connectionLines = document.querySelectorAll('.connection-line');
-        
-        function animateConnectionLines() {
-            connectionLines.forEach((line, index) => {
-                const delay = index * 0.2;
-                gsap.fromTo(line, 
-                    { scaleX: 0, opacity: 0 },
-                    { 
-                        scaleX: 1, 
-                        opacity: 0.6, 
-                        duration: 1.5, 
-                        delay: delay,
-                        ease: "power2.out"
-                    }
-                );
-            });
-        }
-        
-        // Trigger connection lines animation when section comes into view
-        const postHousingSection = document.getElementById('post-housing');
-        if (postHousingSection) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animateConnectionLines();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.3 });
-            
-            observer.observe(postHousingSection);
-        }
-    </script>
-    <script src="assets/js/animations.js"></script>
-    <script src="assets/js/network-effects.js"></script>
-    <script src="assets/js/navigation-module.js"></script>
-    <script src="js/menuModule.js"></script>
+    <!-- Modern UI JavaScript -->
+    <script src="assets/js/modern-ui.js"></script>
 </body>
 </html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Referral Form - Homeless.Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8">
+        <h1 class="text-2xl font-semibold text-blue-600 mb-6 text-center">Self-Referral Form</h1>
+        <p class="text-gray-700 mb-4 text-center">Please fill out this form to help us understand your situation and connect you with the appropriate resources.</p>
+
+        <form action="#" method="POST" class="space-y-4">
+            <h2 class="text-lg font-semibold text-red-600 mb-2">Emergency Situation</h2>
+            <p class="text-gray-700 text-sm mb-4">
+                <b>Are you in immediate danger?</b> If so, please call 999 immediately. This form is for non-emergency situations.
+            </p>
+
+            <div>
+                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name <span class="text-red-500">*</span></label>
+                <input type="text" id="name" name="name" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+                <label for="dob" class="block text-gray-700 text-sm font-bold mb-2">Date of Birth <span class="text-red-500">*</span></label>
+                <input type="date" id="dob" name="dob" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+                <label for="contact" class="block text-gray-700 text-sm font-bold mb-2">Phone Number <span class="text-red-500">*</span></label>
+                <input type="tel" id="contact" name="contact" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+                <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+                <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Current Address (if applicable)</label>
+                <input type="text" id="address" name="address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+                <label for="postcode" class="block text-gray-700 text-sm font-bold mb-2">Postcode <span class="text-red-500">*</span></label>
+                <input type="text" id="postcode" name="postcode" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+                <label for="local_authority" class="block text-gray-700 text-sm font-bold mb-2">Local Authority <span class="text-red-500">*</span></label>
+                <input type="text" id="local_authority" name="local_authority" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <p class="text-gray-500 text-xs mt-1">Enter the name of your local council.</p>
+            </div>
+
+            <div>
+                <label for="ni_number" class="block text-gray-700 text-sm font-bold mb-2">National Insurance Number <span class="text-red-500">*</span></label>
+                <input type="text" id="ni_number" name="ni_number" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+                <label for="homeless_duration" class="block text-gray-700 text-sm font-bold mb-2">How long have you been homeless? <span class="text-red-500">*</span></label>
+                <select id="homeless_duration" name="homeless_duration" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Select duration</option>
+                    <option value="less_than_1_month">Less than 1 month</option>
+                    <option value="1_to_3_months">1 to 3 months</option>
+                    <option value="3_to_6_months">3 to 6 months</option>
+                    <option value="6_to_12_months">6 to 12 months</option>
+                    <option value="over_1_year">Over 1 year</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="housing_status" class="block text-gray-700 text-sm font-bold mb-2">Current Housing Status <span class="text-red-500">*</span></label>
+                <select id="housing_status" name="housing_status" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Select status</option>
+                    <option value="rough_sleeping">Rough Sleeping</option>
+                    <option value="sofa_surfing">Sofa Surfing</option>
+                    <option value="temporary_accommodation">Temporary Accommodation</option>
+                    <option value="hostel">Hostel</option>
+                    <option value="no_fixed_abode">No Fixed Abode</option>
+                    <option value="other">Other (Please specify)</option>
+                </select>
+            </div>
+
+            <div id="other_housing_status" style="display: none;">
+                <label for="other_housing_text" class="block text-gray-700 text-sm font-bold mb-2">Other Housing Status</label>
+                <input type="text" id="other_housing_text" name="other_housing_text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+             <div>
+                <label for="needs" class="block text-gray-700 text-sm font-bold mb-2">What kind of help are you seeking? <span class="text-red-500">*</span></label>
+                <select id="needs" name="needs" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Select needs</option>
+                    <option value="housing">Housing Assistance</option>
+                    <option value="food">Food Assistance</option>
+                    <option value="shelter">Emergency Shelter</option>
+                    <option value="health">Health Services</option>
+                     <option value="mental_health">Mental Health Support</option>
+                    <option value="employment">Employment Support</option>
+                    <option value="benefits">Benefits Advice</option>
+                    <option value="immigration">Immigration Advice</option>
+                    <option value="other">Other (Please specify)</option>
+                </select>
+            </div>
+
+            <div id="other_needs" style="display: none;">
+                <label for="other_needs_text" class="block text-gray-700 text-sm font-bold mb-2">Other Needs</label>
+                <input type="text" id="other_needs_text" name="other_needs_text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+                <label for="additional_info" class="block text-gray-700 text-sm font-bold mb-2">Additional Information</label>
+                <textarea id="additional_info" name="additional_info" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            </div>
+
+            <h2 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Eligibility and Circumstances</h2>
+
+            <div>
+                <label for="eligible_for_housing" class="block text-gray-700 text-sm font-bold mb-2">Do you think you are eligible for council housing? <span class="text-red-500">*</span></label>
+                <select id="eligible_for_housing" name="eligible_for_housing" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Select one</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                <p class="text-gray-500 text-xs mt-1">Are you: Eligible for assistance under the Housing Act 1996? e.g. a British citizen, have settled status, or meet other criteria.</p>
+            </div>
+
+            <div>
+                <label for="priority_need" class="block text-gray-700 text-sm font-bold mb-2">Do you have a priority need for housing? <span class="text-red-500">*</span></label>
+                <select id="priority_need" name="priority_need" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Select one</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                 <p class="text-gray-500 text-xs mt-1">e.g., Are you pregnant, do you have dependent children, are you vulnerable due to age, disability, or illness?</p>
+            </div>
+
+            <div>
+                <label for="intentional_homelessness" class="block text-gray-700 text-sm font-bold mb-2">Have you been intentionally homeless? <span class="text-red-500">*</span></label>
+                <select id="intentional_homelessness" name="intentional_homelessness" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Select one</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                 <p class="text-gray-500 text-xs mt-1">Were you forced to leave your last accommodation?</p>
+            </div>
+
+            <div>
+                <label for="local_connection" class="block text-gray-700 text-sm font-bold mb-2">Do you have a local connection to this area? <span class="text-red-500">*</span></label>
+                <select id="local_connection" name="local_connection" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Select one</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                 <p class="text-gray-500 text-xs mt-1">e.g., Do you live, work, or have family in the area?</p>
+            </div>
+
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit Referral</button>
+        </form>
+    </div>
+
+    <script>
+        const housingStatusSelect = document.getElementById("housing_status");
+        const otherHousingStatusDiv = document.getElementById("other_housing_status");
+        const otherHousingText = document.getElementById("other_housing_text");
+
+        housingStatusSelect.addEventListener("change", function() {
+            if (this.value === "other") {
+                otherHousingStatusDiv.style.display = "block";
+                otherHousingText.required = true;
+            } else {
+                otherHousingStatusDiv.style.display = "none";
+                otherHousingText.required = false;
+            }
+        });
+
+        const needsSelect = document.getElementById("needs");
+        const otherNeedsDiv = document.getElementById("other_needs");
+        const otherNeedsText = document.getElementById("other_needs_text");
+
+        needsSelect.addEventListener("change", function() {
+            if (this.value === "other") {
+                otherNeedsDiv.style.display = "block";
+                otherNeedsText.required = true;
+            } else {
+                otherNeedsDiv.style.display = "none";
+                otherNeedsText.required = false;
+            }
+        });
+    </script>
+</body>
+</html>

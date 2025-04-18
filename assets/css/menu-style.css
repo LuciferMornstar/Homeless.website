@@ -9,7 +9,6 @@ html, body, .page {
   -o-transition: all .8s cubic-bezier(0.54, 0.35, 0.29, 0.99);
   transition: all .8s cubic-bezier(0.54, 0.35, 0.29, 0.99);
   color: #fff;
-  overflow: hidden; 
 }
 
 * {
