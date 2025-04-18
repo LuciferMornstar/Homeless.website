@@ -32,9 +32,7 @@
                 
                 <nav class="modern-nav">
                     <ul class="nav-list">
-                        <li class="nav-item">
-                            <a href="index.html" class="nav-link">Home</a>
-                        </li>
+                        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link">Get Help</a>
                             <div class="dropdown-content">
@@ -52,15 +50,9 @@
                                 <a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a href="network.html" class="nav-link">Network</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="volunteer.html" class="nav-link">Volunteer</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="about.html" class="nav-link">About</a>
-                        </li>
+                        <li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+                        <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                     </ul>
                 </nav>
             </div>
@@ -73,182 +65,262 @@
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title slide-up">Resources for Support</h1>
-                <p class="hero-subtitle slide-up">Comprehensive information and tools to help you navigate challenging times</p>
+                <p class="hero-subtitle slide-up">Tools, connections, and information to help you find stability and independence</p>
+                <div class="slide-up">
+                    <a href="#housing-resources" class="btn btn-lg">Housing Resources</a>
+                    <a href="#mental-health" class="btn btn-outline btn-lg">Mental Health</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <main id="main-content" class="section">
-        <div class="container">
-            <section class="mb-5">
-                <p class="mb-4">
+    <main id="main-content">
+        <!-- Add aria-live region for dynamic content/notifications -->
+        <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+        
+        <section class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Available Support Resources</h2>
+                <div class="divider mb-4"></div>
+                <p class="text-center mb-5">
                     At Homeless Helpers, we provide a wide range of resources to support individuals and families experiencing homelessness. Our goal is to empower you with the tools and connections needed to achieve stability and independence.
                 </p>
-                <p class="mb-4">
-                    Explore the resources below to find the support you need. Whether you are looking for emergency assistance, long-term solutions, or mental health support, we have compiled comprehensive information to guide you.
-                </p>
-            </section>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-home"></i></div>
+                            <h3 class="feature-title">Housing Resources</h3>
+                            <p class="feature-text">Find organizations that can help with emergency and long-term housing solutions.</p>
+                            <a href="#housing-resources" class="btn btn-sm">Housing Help</a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                            <h3 class="feature-title">Mental Health</h3>
+                            <p class="feature-text">Access support for mental health issues, including counseling and crisis services.</p>
+                            <a href="#mental-health" class="btn btn-sm">Mental Health</a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-paw"></i></div>
+                            <h3 class="feature-title">Pet Support</h3>
+                            <p class="feature-text">Find help for your pets, including veterinary care and pet-friendly shelters.</p>
+                            <a href="#pet-resources" class="btn btn-sm">Pet Resources</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <section class="mb-5">
-                <h2 class="mb-4">Homelessness Resources in the UK</h2>
-                <div class="divider divider-left mb-4"></div>
+        <section id="housing-resources" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Homelessness Resources in the UK</h2>
+                <div class="divider mb-4"></div>
                 
                 <div class="row">
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">Shelter</h3>
-                                <p class="card-text">Shelter provides expert advice, support, and legal assistance for housing and homelessness issues. They are a secular organization dedicated to helping everyone in need.</p>
-                                <p class="card-text"><strong>Contact:</strong> <a href="https://england.shelter.org.uk" target="_blank" class="text-primary">Shelter</a> or call their helpline at 0808 800 4444.</p>
+                                <p class="card-text mb-4">Shelter provides expert advice, support, and legal assistance for housing and homelessness issues. They are a secular organization dedicated to helping everyone in need.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 0808 800 4444</p>
+                                <a href="https://england.shelter.org.uk" target="_blank" class="btn">Visit Shelter</a>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">Crisis</h3>
-                                <p class="card-text">Crisis offers education, training, and support to help people out of homelessness. They are a secular organization focused on long-term solutions.</p>
-                                <p class="card-text"><strong>Contact:</strong> <a href="https://www.crisis.org.uk" target="_blank" class="text-primary">Crisis</a> or call 0300 636 1967.</p>
+                                <p class="card-text mb-4">Crisis offers education, training, and support to help people out of homelessness. They are a secular organization focused on long-term solutions.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 0300 636 1967</p>
+                                <a href="https://www.crisis.org.uk" target="_blank" class="btn">Visit Crisis</a>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">StreetLink</h3>
-                                <p class="card-text">StreetLink connects rough sleepers with local services that can help them. This secular service ensures immediate help reaches those in need.</p>
-                                <p class="card-text"><strong>Contact:</strong> <a href="https://www.streetlink.org.uk" target="_blank" class="text-primary">StreetLink</a> or call 0300 500 0914.</p>
+                                <p class="card-text mb-4">StreetLink connects rough sleepers with local services that can help them. This secular service ensures immediate help reaches those in need.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 0300 500 0914</p>
+                                <a href="https://www.streetlink.org.uk" target="_blank" class="btn">Visit StreetLink</a>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">The Salvation Army</h3>
-                                <p class="card-text">The Salvation Army is a Christian organization providing shelter, food, and support services. They operate shelters and community programs across the UK.</p>
-                                <p class="card-text"><strong>Contact:</strong> <a href="https://www.salvationarmy.org.uk" target="_blank" class="text-primary">The Salvation Army</a> or call 020 7367 4500.</p>
+                                <p class="card-text mb-4">The Salvation Army is a Christian organization providing shelter, food, and support services. They operate shelters and community programs across the UK.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 020 7367 4500</p>
+                                <a href="https://www.salvationarmy.org.uk" target="_blank" class="btn">Visit Salvation Army</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section class="mb-5">
-                <h2 class="mb-4">Mental Health Resources</h2>
-                <div class="divider divider-left mb-4"></div>
+        <section id="mental-health" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Mental Health Resources</h2>
+                <div class="divider mb-4"></div>
                 
                 <div class="row">
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">Mind</h3>
-                                <p class="card-text">Mind provides advice and support to empower anyone experiencing a mental health problem. They are a secular organization offering helplines, local support groups, and online resources.</p>
-                                <p class="card-text"><strong>Contact:</strong> <a href="https://www.mind.org.uk" target="_blank" class="text-primary">Mind</a> or call their helpline at 0300 123 3393.</p>
+                                <p class="card-text mb-4">Mind provides advice and support to empower anyone experiencing a mental health problem. They are a secular organization offering helplines, local support groups, and online resources.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 0300 123 3393</p>
+                                <a href="https://www.mind.org.uk" target="_blank" class="btn">Visit Mind</a>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">Samaritans</h3>
-                                <p class="card-text">Samaritans offers a safe space to talk about mental health issues. Their trained volunteers are available 24/7 to listen and provide support.</p>
-                                <p class="card-text"><strong>Contact:</strong> Call 116 123 for free or visit <a href="https://www.samaritans.org" target="_blank" class="text-primary">Samaritans</a>.</p>
+                                <p class="card-text mb-4">Samaritans offers a safe space to talk about mental health issues. Their trained volunteers are available 24/7 to listen and provide support. They are a secular organization.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 116 123 (free)</p>
+                                <a href="https://www.samaritans.org" target="_blank" class="btn">Visit Samaritans</a>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">Rethink Mental Illness</h3>
-                                <p class="card-text">Rethink provides support and information for people living with mental illness. They are a secular organization offering advocacy services, crisis support, and advice.</p>
-                                <p class="card-text"><strong>Contact:</strong> <a href="https://www.rethink.org" target="_blank" class="text-primary">Rethink</a> or call 0808 801 0525.</p>
+                                <p class="card-text mb-4">Rethink provides support and information for people living with mental illness. They are a secular organization offering advocacy services, crisis support, and advice.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 0808 801 0525</p>
+                                <a href="https://www.rethink.org" target="_blank" class="btn">Visit Rethink</a>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">NHS Mental Health Services</h3>
-                                <p class="card-text">The NHS offers free mental health services, including therapy, counseling, and crisis intervention. Access these services through your GP.</p>
-                                <p class="card-text"><strong>Contact:</strong> Visit <a href="https://www.nhs.uk/mental-health" target="_blank" class="text-primary">NHS Mental Health</a> for more information.</p>
+                                <p class="card-text mb-4">The NHS offers free mental health services, including therapy, counseling, and crisis intervention. You can access these services through your GP.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 111 for non-emergencies</p>
+                                <a href="https://www.nhs.uk/mental-health" target="_blank" class="btn">Visit NHS Mental Health</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+                
+                <div class="card mb-5">
+                    <div class="card-content">
+                        <h3 class="card-title">Homeless Mental Health Support</h3>
+                        <p class="card-text mb-4">
+                            Homelessness can have a significant impact on mental health. Many individuals face anxiety, depression, and trauma as a result of their experiences. Our network provides specialized support to address these challenges, including access to counseling, peer support groups, and crisis intervention services.
+                        </p>
+                        <p class="card-text mb-4">
+                            If you or someone you know is struggling, reach out to one of the organizations listed above or contact our support team for guidance. Remember, seeking help is a sign of strength, not weakness.
+                        </p>
+                        <a href="tel:08088004444" class="btn">Call Our Helpline</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <section class="mb-5">
-                <h2 class="mb-4">Help with Pets When Homeless</h2>
-                <div class="divider divider-left mb-4"></div>
+        <section id="pet-resources" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Help with Pets When Homeless</h2>
+                <div class="divider mb-4"></div>
                 
                 <div class="row">
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">Dogs Trust Hope Project</h3>
-                                <p class="card-text">The Dogs Trust Hope Project provides free veterinary care for dogs belonging to homeless people. They also offer advice on finding pet-friendly accommodation.</p>
-                                <p class="card-text"><strong>Contact:</strong> <a href="https://www.dogstrust.org.uk" target="_blank" class="text-primary">Dogs Trust</a> or call 020 7837 0006.</p>
+                                <p class="card-text mb-4">The Dogs Trust Hope Project provides free veterinary care for dogs belonging to homeless people. They also offer advice on finding pet-friendly accommodation.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> 020 7837 0006</p>
+                                <a href="https://www.dogstrust.org.uk" target="_blank" class="btn">Visit Dogs Trust</a>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-6">
-                        <div class="card fade-in mb-4">
+                        <div class="card mb-4">
                             <div class="card-content">
                                 <h3 class="card-title">StreetVet</h3>
-                                <p class="card-text">StreetVet is a secular organization offering free veterinary care to pets of homeless individuals. Their services include vaccinations, microchipping, and treatment for illnesses.</p>
-                                <p class="card-text"><strong>Contact:</strong> Visit <a href="https://www.streetvet.org.uk" target="_blank" class="text-primary">StreetVet</a> for more information.</p>
+                                <p class="card-text mb-4">StreetVet is a secular organization offering free veterinary care to pets of homeless individuals. Their services include vaccinations, microchipping, and treatment for illnesses.</p>
+                                <p class="card-text mb-4"><strong>Contact:</strong> Available through their website</p>
+                                <a href="https://www.streetvet.org.uk" target="_blank" class="btn">Visit StreetVet</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="feature-block fade-in">
-                    <h3 class="feature-title">Our Service Animal Certificate</h3>
-                    <p class="feature-text">At Homeless Helpers, we can help you certify your companion animal as a service or emotional support animal. This can make it easier to keep your pet with you in shelters and other accommodations.</p>
-                    <a href="service-dog-certification.html" class="btn btn-sm">Learn More</a>
+                <div class="card mb-5">
+                    <div class="card-content">
+                        <h3 class="card-title">Our Pet Support Services</h3>
+                        <p class="card-text mb-4">At Homeless Helpers, we understand that pets are family. We offer several services to help you keep your pet with you during difficult times:</p>
+                        <ul class="mb-4">
+                            <li class="mb-2"><strong>Assistance Dog Certification:</strong> Help with getting your companion animal recognized as a service or emotional support animal</li>
+                            <li class="mb-2"><strong>Pet-Friendly Shelter Directory:</strong> Information on shelters and housing that accept pets</li>
+                            <li class="mb-2"><strong>Emergency Pet Food Bank:</strong> Access to food and supplies for your pet</li>
+                            <li class="mb-2"><strong>Temporary Pet Fostering:</strong> Short-term care for your pet while you secure stable housing</li>
+                        </ul>
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="verify-assistance-dog.html" class="btn btn-block">Assistance Dog Certification</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="dog-profile.html" class="btn btn-outline btn-block">Dog Profiles</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section class="mb-5">
-                <h2 class="mb-4">Storing Medication and Receiving Post</h2>
-                <div class="divider divider-left mb-4"></div>
+        <section id="practical-services" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Practical Services</h2>
+                <div class="divider mb-4"></div>
                 
                 <div class="row">
                     <div class="col-6">
-                        <div class="feature-block fade-in">
-                            <div class="feature-icon">
-                                <i class="fas fa-pills"></i>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h3 class="card-title">Safe Medication Storage</h3>
+                                <p class="card-text mb-4">Many shelters and community centers offer secure storage for medications. This ensures that your medication is kept safe and accessible when you need it.</p>
+                                <p class="card-text mb-4">If you are unsure where to store your medication, contact your local shelter or healthcare provider for advice.</p>
+                                <a href="healthcare.html" class="btn">Healthcare Resources</a>
                             </div>
-                            <h3 class="feature-title">Safe Medication Storage</h3>
-                            <p class="feature-text">Many shelters and community centers offer secure storage for medications. This ensures that your medication is kept safe and accessible when you need it. If you are unsure where to store your medication, contact your local shelter or healthcare provider for advice.</p>
                         </div>
                     </div>
-                    
                     <div class="col-6">
-                        <div class="feature-block fade-in">
-                            <div class="feature-icon">
-                                <i class="fas fa-envelope"></i>
+                        <div class="card mb-4">
+                            <div class="card-content">
+                                <h3 class="card-title">Receiving Post</h3>
+                                <p class="card-text mb-4">Receiving mail without a fixed address can be challenging, but there are solutions:</p>
+                                <ul class="mb-4">
+                                    <li class="mb-2">Post Office Poste Restante service allows you to collect mail from a local post office</li>
+                                    <li class="mb-2">Some shelters let you use their address for correspondence</li>
+                                    <li class="mb-2">Community centers may offer mailbox services</li>
+                                </ul>
+                                <a href="https://www.postoffice.co.uk" target="_blank" class="btn">Post Office Services</a>
                             </div>
-                            <h3 class="feature-title">Receiving Post</h3>
-                            <p class="feature-text">Receiving mail without a fixed address can be challenging, but there are solutions. Services like <a href="https://www.postoffice.co.uk" target="_blank">Post Office Poste Restante</a> allow you to collect mail from a local post office. Some shelters also let you use their address for correspondence.</p>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <section class="cta-section bg-light p-4 rounded">
-                <h2 class="cta-title">Need Additional Help?</h2>
-                <p class="cta-text">Our team is ready to assist you with finding the right resources for your situation.</p>
-                <a href="network.html" class="btn btn-secondary">Connect With Our Network</a>
-            </section>
-        </div>
+            </div>
+        </section>
+        
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Need Help Finding Resources?</h2>
+                <p class="cta-text">Our team is available to help you navigate these services and find the right support for your situation</p>
+                <a href="tel:08088004444" class="btn btn-lg btn-secondary">Call Our Helpline</a>
+            </div>
+        </section>
     </main>
 
     <!-- Modern Footer -->
@@ -256,9 +328,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <div class="footer-logo">
-                        <img src="logo.png" alt="Homeless Helpers" height="40">
-                    </div>
+                    <div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
                     <p>Providing support, resources and hope to those facing homelessness.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
@@ -266,7 +336,6 @@
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                
                 <div class="col-4">
                     <h4>Quick Links</h4>
                     <ul class="footer-nav">
@@ -277,7 +346,6 @@
                         <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
                     </ul>
                 </div>
-                
                 <div class="col-4">
                     <h4>Contact Us</h4>
                     <ul class="footer-nav">
@@ -287,7 +355,6 @@
                     </ul>
                 </div>
             </div>
-            
             <div class="footer-bottom">
                 <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
             </div>

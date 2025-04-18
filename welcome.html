@@ -18,265 +18,278 @@
 <body>
     <!-- Modern Header -->
     <header class="modern-header">
-        <!-- ...existing code from modern-header.html... -->
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Homeless Helpers">
+                    </a>
+                </div>
+                
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="modern-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Get Help</a>
+                            <div class="dropdown-content">
+                                <a href="shelters.html" class="dropdown-item">Find Shelters</a>
+                                <a href="foodbanks.html" class="dropdown-item">Food Banks</a>
+                                <a href="healthcare.html" class="dropdown-item">Healthcare</a>
+                                <a href="employment.html" class="dropdown-item">Employment</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Resources</a>
+                            <div class="dropdown-content">
+                                <a href="resources.html" class="dropdown-item">All Resources</a>
+                                <a href="lettermaker.html" class="dropdown-item">Letter Maker</a>
+                                <a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+                        <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </header>
 
-    <main id="main-content">
-        <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
-
-        <nav class="mega-menu" role="navigation" aria-label="Main Menu">
-            <ul class="menu">
-                <li class="menu-item"><a href="index.html">Home</a></li>
-                <li class="menu-item"><a href="get-help.html">Get Help</a></li>
-                <li class="menu-item"><a href="shelters.html">Shelters</a></li>
-                <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
-                <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
-                <li class="menu-item"><a href="employment.html">Employment</a></li>
-                <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
-                <li class="menu-item"><a href="resources.html">Resources</a></li>
-                <li class="menu-item"><a href="about.html">About</a></li>
-                <li class="menu-item"><a href="network.html">Network</a></li>
-                <li class="menu-item"><a href="emergency.html">Emergency</a></li>
-            </ul>
-        </nav>
-        <div class="content-wrapper">
-            <section id="welcome" class="section-wrapper">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Welcome to Hopeful Horizons</h1>
-                <p class="text-lg md:text-xl mb-8">
-                    Empowering individuals to overcome homelessness and rebuild their lives with dignity.
-                </p>
-                <div class="flex space-x-4">
-                    <button class="nav-button clickable" onclick="location.href='about.html'">About Us</button>
-                    <button class="nav-button clickable" onclick="location.href='get-help.html'">Get Help</button>
-                    <button class="nav-button clickable" onclick="location.href='foodbanks.html'">Food Banks</button>
-                    <button class="nav-button clickable" onclick="location.href='employment.html'">Employment</button>
-                    <button class="nav-button clickable" onclick="location.href='healthcare.html'">Healthcare</button>
-                    <button class="nav-button clickable" onclick="location.href='emergency.html'">Emergency Contacts</button>
-                    <button class="nav-button clickable" onclick="location.href='volunteer.html'">Volunteer</button>
-                    <button class="nav-button clickable" onclick="location.href='network.html'">Support Network</button>
-                </div>
-            </section>
-
-            <section id="about" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">About Us</h2>
-                <div class="text-card">
-                    <p class="mb-6">
-                        Hopeful Horizons is a non-profit organization dedicated to providing support and resources to individuals experiencing homelessness in the UK.
-                        We partner with local councils, charities, and volunteers to offer shelter, legal and health advice, food support, employment training, and more.
-                    </p>
-                    <p>
-                        Our mission is to empower individuals to regain stability and find a safe place to call home.
-                    </p>
-                </div>
-            </section>
-
-            <section id="resources" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">General Resources</h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-card">
-                        <h3 class="text-xl font-semibold text-white mb-4">Housing Assistance</h3>
-                        <p class="mb-4">
-                            Find emergency shelters, temporary accommodations, and long-term housing solutions.
-                        </p>
-                        <button class="nav-button clickable" data-target="shelters">Learn More</button>
-                    </div>
-                    <div class="text-card">
-                        <h3 class="text-xl font-semibold text-white mb-4">Employment &amp; Training</h3>
-                        <p class="mb-4">
-                            Access job training, resume-building workshops, and career counselling.
-                        </p>
-                        <button class="nav-button clickable" data-target="employment">Learn More</button>
-                    </div>
-                    <div class="text-card">
-                        <h3 class="text-xl font-semibold text-white mb-4">Mental Health &amp; Addiction</h3>
-                        <p class="mb-4">
-                            Get support through counselling, addiction recovery programs, and mental health services.
-                        </p>
-                        <button class="nav-button clickable" data-target="healthcare">Learn More</button>
-                    </div>
-                </div>
-            </section>
-
-            <section id="post-housing" class="section-wrapper animated-element post-housing-section">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">After Housing Support</h2>
-                
-                <div class="connection-web">
-                    <div class="connection-line line1"></div>
-                    <div class="connection-line line2"></div>
-                    <div class="connection-line line3"></div>
-                    <div class="connection-line line4"></div>
-                    <div class="connection-line line5"></div>
-                </div>
-                
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Continued Support Network</h3>
-                    <p class="mb-6">
-                        Getting housing is just the first step. We understand that many individuals feel isolated and abandoned after securing housing, when official support often ends.
-                    </p>
-                    <p class="mb-6">
-                        Our network ensures that you remain connected to a community that cares. We provide ongoing support, social connections, and practical assistance to help you thrive in your new home.
-                    </p>
-                    
-                    <div class="grid md:grid-cols-2 gap-6 my-8">
-                        <div class="support-key">
-                            <h4 class="font-semibold">Community Integration</h4>
-                            <p>Local meet-ups, community events and social gatherings to build your network</p>
-                        </div>
-                        <div class="support-key">
-                            <h4 class="font-semibold">Buddy System</h4>
-                            <p>A dedicated volunteer provides regular check-ins and companionship</p>
-                        </div>
-                        <div class="support-key">
-                            <h4 class="font-semibold">Home Maintenance</h4>
-                            <p>Help with household tasks and connecting to repair services</p>
-                        </div>
-                        <div class="support-key">
-                            <h4 class="font-semibold">Life Skills Workshops</h4>
-                            <p>Ongoing education in budgeting, cooking, and home management</p>
-                        </div>
-                    </div>
-                    
-                    <button class="nav-button clickable" data-target="network">Join Our Network</button>
-                </div>
-            </section>
-
-            <section id="network" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Support Network Visualization</h2>
-                
-                <div class="network-container">
-                    <div class="network-node" id="node1">You</div>
-                    <div class="network-node" id="node2">Buddy</div>
-                    <div class="network-node" id="node3">Neighbors</div>
-                    <div class="network-node" id="node4">Support Group</div>
-                    <div class="network-node" id="node5">Social Worker</div>
-                    <div class="network-node" id="node6">Community Center</div>
-                    <div class="network-node" id="node7">Health Provider</div>
-                    
-                    <div class="network-line" id="line1-2"></div>
-                    <div class="network-line" id="line1-3"></div>
-                    <div class="network-line" id="line1-4"></div>
-                    <div class="network-line" id="line1-5"></div>
-                    <div class="network-line" id="line1-6"></div>
-                    <div class="network-line" id="line1-7"></div>
-                    <div class="network-line" id="line2-6"></div>
-                    <div class="network-line" id="line3-7"></div>
-                    <div class="network-line" id="line4-5"></div>
-                    <div class="network-line" id="line5-7"></div>
-                </div>
-                
-                <div class="text-card mt-6">
-                    <p>
-                        Our integrated support network ensures you're never alone on your journey. Each connection provides different types of assistance, creating a safety net that helps maintain housing stability and improve quality of life.
-                    </p>
-                    <p class="mt-4">
-                        <strong>Click on each node in the visualization above</strong> to learn more about that connection and how it helps you build a sustainable, supported life in your new home.
-                    </p>
-                </div>
-            </section>
-
-            <section id="get-help" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Get Help</h2>
-                <div class="text-card">
-                    <p class="mb-6">
-                        Whether you are facing homelessness or know someone in need, we are here to help. Reach out for support, advice and access to essential services.
-                    </p>
-                    <p class="mb-6">
-                        For immediate assistance, call our national helpline: <span class="font-semibold text-white">0800 123 4567</span>
-                    </p>
-                    <button class="nav-button clickable" data-target="emergency">Emergency Contacts</button>
-                </div>
-            </section>
-
-            <section id="emergency" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Emergency Contacts</h2>
-                <div class="text-card">
-                    <p class="mb-6">
-                        In any crisis, please contact emergency services immediately by dialing 999. Additional urgent support:
-                    </p>
-                    <ul class="space-y-2 mb-6">
-                        <li><strong>Samaritans (emotional support):</strong> 116 123</li>
-                        <li><strong>National Domestic Abuse Helpline:</strong> 0808 2000 247</li>
-                        <li><strong>Crisis Text Line:</strong> Text HOME to 85258</li>
-                    </ul>
-                    <button class="nav-button clickable" data-target="shelters">Find a Shelter</button>
-                </div>
-            </section>
-            
-            <section id="data-visualization" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Impact in Numbers</h2>
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-                    <div class="chart-container">
-                        <canvas id="impactChart" width="400" height="400"></canvas>
-                    </div>
-                    <div class="text-card">
-                        <p class="mb-4">Over <span class="font-bold text-white">10,000</span> individuals helped since our inception.</p>
-                        <p class="mb-4">More than <span class="font-bold text-white">5,000</span> meals served monthly.</p>
-                        <p>Providing shelter to <span class="font-bold text-white">1,200</span> people every night.</p>
-                        <p class="mt-4">Successfully maintaining <span class="font-bold text-white">92%</span> housing retention rate through our after-housing support network.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="shelters" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Local Shelters</h2>
-                <div class="text-card">
-                    <p>...Shelters content...</p>
-                </div>
-            </section>
-
-            <section id="healthcare" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Healthcare</h2>
-                <div class="text-card">
-                    <p>...Healthcare info...</p>
-                </div>
-            </section>
-
-            <section id="foodbanks" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Food Banks</h2>
-                <div class="text-card">
-                    <p>...Food banks details...</p>
-                </div>
-            </section>
-
-            <section id="volunteer" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Volunteer</h2>
-                <div class="text-card">
-                    <p>...Volunteer opportunities...</p>
-                </div>
-            </section>
-
-            <section id="employment" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Employment</h2>
-                <div class="text-card">
-                    <p>...Employment resources...</p>
-                </div>
-            </section>
-
-            <section id="mental-health-resources">
-                <h2>Mental Health Resources</h2>
-                <p>Find support for your mental health through these resources:</p>
-                <ul>
-                    <li><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank">SAMHSA National Helpline</a></li>
-                    <li><a href="https://www.nami.org/Home" target="_blank">National Alliance on Mental Illness (NAMI)</a></li>
-                    <li><a href="https://www.crisistextline.org/" target="_blank">Crisis Text Line</a></li>
-                </ul>
-            </section>
-
-            <section id="pet-friendly-shelters">
-                <h2>Pet-Friendly Shelters</h2>
-                <p>Find shelters that welcome you and your pets:</p>
-                <ul>
-                    <li><a href="https://www.petsofthehomeless.org/" target="_blank">Pets of the Homeless</a></li>
-                    <li><a href="https://www.animalsheltering.org/" target="_blank">Animal Sheltering</a></li>
-                    <li><a href="https://www.aspca.org/" target="_blank">ASPCA Resources</a></li>
-                </ul>
-            </section>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title slide-up">Welcome to Homeless Helpers</h1>
+                <p class="hero-subtitle slide-up">Empowering individuals to overcome homelessness and rebuild their lives with dignity</p>
+            </div>
         </div>
+    </section>
+
+    <main id="main-content">
+        <section class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Quick Access to Resources</h2>
+                <div class="divider mb-4"></div>
+                <div class="quick-access-buttons text-center mb-5">
+                    <a href="about.html" class="btn btn-sm">About Us</a>
+                    <a href="get-help.html" class="btn btn-sm">Get Help</a>
+                    <a href="foodbanks.html" class="btn btn-sm">Food Banks</a>
+                    <a href="employment.html" class="btn btn-sm">Employment</a>
+                    <a href="healthcare.html" class="btn btn-sm">Healthcare</a>
+                    <a href="emergency.html" class="btn btn-sm">Emergency</a>
+                    <a href="volunteer.html" class="btn btn-sm">Volunteer</a>
+                    <a href="network.html" class="btn btn-sm">Support Network</a>
+                </div>
+                
+                <div class="card mb-5">
+                    <div class="card-content">
+                        <h3 class="card-title">About Us</h3>
+                        <p class="card-text mb-4">
+                            Homeless Helpers is a non-profit organization dedicated to providing support and resources to individuals experiencing homelessness in the UK.
+                            We partner with local councils, charities, and volunteers to offer shelter, legal and health advice, food support, employment training, and more.
+                        </p>
+                        <p class="card-text">
+                            Our mission is to empower individuals to regain stability and find a safe place to call home.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">General Resources</h2>
+                <div class="divider mb-4"></div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-home"></i></div>
+                            <h3 class="feature-title">Housing Assistance</h3>
+                            <p class="feature-text">Find emergency shelters, temporary accommodations, and long-term housing solutions.</p>
+                            <a href="shelters.html" class="btn btn-sm">Find Shelters</a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
+                            <h3 class="feature-title">Employment & Training</h3>
+                            <p class="feature-text">Access job training, resume-building workshops, and career counselling.</p>
+                            <a href="employment.html" class="btn btn-sm">Get Employed</a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-heart"></i></div>
+                            <h3 class="feature-title">Mental Health & Addiction</h3>
+                            <p class="feature-text">Get support through counselling, addiction recovery programs, and mental health services.</p>
+                            <a href="healthcare.html" class="btn btn-sm">Healthcare</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">After Housing Support</h2>
+                <div class="divider mb-4"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Continued Support Network</h3>
+                                <p class="card-text mb-4">
+                                    Getting housing is just the first step. We understand that many individuals feel isolated and abandoned after securing housing, when official support often ends.
+                                </p>
+                                <p class="card-text mb-4">
+                                    Our network ensures that you remain connected to a community that cares. We provide ongoing support, social connections, and practical assistance to help you thrive in your new home.
+                                </p>
+                                <a href="network.html" class="btn">Join Our Network</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Support Programs</h3>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-users"></i> <strong>Community Integration:</strong> Local meet-ups and social gatherings</li>
+                                    <li><i class="fas fa-user-friends"></i> <strong>Buddy System:</strong> Regular check-ins and companionship</li>
+                                    <li><i class="fas fa-tools"></i> <strong>Home Maintenance:</strong> Help with household tasks</li>
+                                    <li><i class="fas fa-graduation-cap"></i> <strong>Life Skills Workshops:</strong> Budgeting, cooking, and home management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Impact in Numbers</h2>
+                <div class="divider mb-4"></div>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="stat-block text-center fade-in">
+                            <div class="stat-number">10,000+</div>
+                            <div class="stat-label">Individuals Helped</div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="stat-block text-center fade-in">
+                            <div class="stat-number">5,000+</div>
+                            <div class="stat-label">Meals Monthly</div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="stat-block text-center fade-in">
+                            <div class="stat-number">1,200</div>
+                            <div class="stat-label">Nightly Shelter</div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="stat-block text-center fade-in">
+                            <div class="stat-number">92%</div>
+                            <div class="stat-label">Housing Retention</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Specialized Resources</h2>
+                <div class="divider mb-4"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Mental Health Resources</h3>
+                                <p class="card-text mb-4">Find support for your mental health through these resources:</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-phone"></i> <a href="https://www.samaritans.org/" target="_blank">Samaritans: 116 123</a></li>
+                                    <li><i class="fas fa-globe"></i> <a href="https://www.mind.org.uk/" target="_blank">Mind UK</a></li>
+                                    <li><i class="fas fa-comment-dots"></i> <a href="https://www.crisistextline.org/" target="_blank">Crisis Text Line</a></li>
+                                </ul>
+                                <a href="healthcare.html" class="btn mt-3">More Health Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Pet-Friendly Shelters</h3>
+                                <p class="card-text mb-4">Find shelters that welcome you and your pets:</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-paw"></i> <a href="https://www.petsofthehomeless.org/" target="_blank">Pets of the Homeless</a></li>
+                                    <li><i class="fas fa-house-user"></i> <a href="verify-assistance-dog.html">Assistance Dog Certification</a></li>
+                                    <li><i class="fas fa-dog"></i> <a href="Protection-dogs.html">Protection Dogs</a></li>
+                                </ul>
+                                <a href="dog-profile.html" class="btn mt-3">Dog Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Need Help Right Now?</h2>
+                <p class="cta-text">Our resources are available 24/7. If you're in an emergency situation, don't wait - get help immediately.</p>
+                <div>
+                    <a href="emergency.html" class="btn btn-lg btn-secondary">Emergency Help</a>
+                    <a href="get-help.html" class="btn btn-lg">Get Support</a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Modern Footer -->
     <footer class="modern-footer">
-        <!-- ...existing code from modern-footer.html... -->
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
+                    <p>Providing support, resources and hope to those facing homelessness.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Find Shelters</a></li>
+                        <li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
+                        <li class="footer-nav-item"><a href="healthcare.html" class="footer-nav-link">Healthcare</a></li>
+                        <li class="footer-nav-item"><a href="employment.html" class="footer-nav-link">Employment</a></li>
+                        <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
+                        <li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+                        <li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
     </footer>
 
     <!-- Modern UI JavaScript -->

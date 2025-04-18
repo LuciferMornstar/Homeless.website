@@ -14,229 +14,511 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Favicon -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .emergency-button {
+            display: block;
+            background-color: #e63946;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .emergency-button:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+        }
+        .help-button {
+            display: inline-block;
+            background-color: #48d595;
+            color: #222;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .help-button:hover {
+            background-color: #3bbd82;
+            transform: translateY(-2px);
+        }
+        .help-button-alt {
+            background-color: #333;
+            color: #fff;
+        }
+        .help-button-alt:hover {
+            background-color: #444;
+        }
+        .highlight-box {
+            background-color: #1d1c1a;
+            border-left: 4px solid #48d595;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
     <!-- Modern Header -->
     <header class="modern-header">
-        <!-- ...existing code from modern-header.html... -->
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Homeless Helpers">
+                    </a>
+                </div>
+                
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="modern-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link active">Get Help</a>
+                            <div class="dropdown-content">
+                                <a href="shelters.html" class="dropdown-item">Find Shelters</a>
+                                <a href="foodbanks.html" class="dropdown-item">Food Banks</a>
+                                <a href="healthcare.html" class="dropdown-item">Healthcare</a>
+                                <a href="employment.html" class="dropdown-item">Employment</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Resources</a>
+                            <div class="dropdown-content">
+                                <a href="resources.html" class="dropdown-item">All Resources</a>
+                                <a href="lettermaker.html" class="dropdown-item">Letter Maker</a>
+                                <a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+                        <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </header>
 
-    <main id="main-content">
-        <nav class="mega-menu" role="navigation" aria-label="Main Menu">
-            <ul class="menu">
-                <li class="menu-item"><a href="index.html">Home</a></li>
-                <li class="menu-item"><a href="get-help.html">Get Help</a></li>
-                <li class="menu-item"><a href="shelters.html">Shelters</a></li>
-                <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
-                <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
-                <li class="menu-item"><a href="employment.html">Employment</a></li>
-                <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
-                <li class="menu-item"><a href="resources.html">Resources</a></li>
-                <li class="menu-item"><a href="about.html">About</a></li>
-                <li class="menu-item"><a href="network.html">Network</a></li>
-                <li class="menu-item"><a href="emergency.html">Emergency</a></li>
-            </ul>
-        </nav>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title slide-up">Get Help</h1>
+                <p class="hero-subtitle slide-up">Access support services for housing, food, healthcare, and financial assistance</p>
+                <div class="slide-up">
+                    <a href="emergency.html" class="btn btn-lg btn-secondary">Emergency Help</a>
+                    <a href="#next-steps" class="btn btn-outline btn-lg">View Resources</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <main id="main-content">
         <!-- Add aria-live region for dynamic content/notifications -->
         <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
-        <div class="content-wrapper mt-16 md:mt-24">
-            <section id="t2" class="section-wrapper">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Get Help</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Access Support Services</h3>
-                    <p class="mb-6">We provide resources to help you find shelter, food, healthcare, and other essential services.</p>
-                    <ul class="list-disc pl-6 mb-6">
-                        <li><a href="emergency.html" class="text-[#48d595] underline">Emergency Services</a></li>
-                        <li><a href="healthcare.html" class="text-[#48d595] underline">Healthcare</a></li>
-                        <li><a href="network.html" class="text-[#48d595] underline">Support Network</a></li>
-                    </ul>
-                </div>
-            </section>
-            <section id="emergency" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Emergency Help</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Immediate Assistance</h3>
-                    <p class="mb-6">If you're in a crisis situation, these contacts can help you immediately:</p>
-                    <div class="grid md:grid-cols-2 gap-4 mb-6">
-                        <a href="tel:999" class="emergency-button">Emergency Services (999)</a> <a href="tel:08088000306" class="emergency-button">Homeless Emergency (0808 800 4444)</a>
+        
+        <section class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Available Support</h2>
+                <div class="divider mb-4"></div>
+                <p class="text-center mb-5">We provide resources to help you find shelter, food, healthcare, and other essential services.</p>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-phone-alt"></i></div>
+                            <h3 class="feature-title">Emergency Services</h3>
+                            <p class="feature-text">Get immediate help if you're in crisis or need urgent assistance.</p>
+                            <a href="emergency.html" class="btn btn-sm">Emergency Help</a>
+                        </div>
                     </div>
-                    <p class="mb-4"><strong>Streetlink:</strong> Can connect you with local outreach services if you're sleeping rough or worried about someone who is.</p><button class="help-button" onclick="location.href='emergency.html'">All Emergency Contacts</button>
-                </div>
-            </section>
-            <section id="housing" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Housing &amp; Shelter</h2>
-                <div class="text-card">
-                    <div class="bg-[#1d1c1a] p-4 mb-6 rounded border-l-4 border-[#e63946]">
-                        <h3 class="text-xl font-bold text-white mb-2">56-Day Rule: Act Now, Don't Wait</h3>
-                        <p class="mb-2">Under the Homelessness Reduction Act 2017, you can get help <strong>before</strong> you become homeless.</p>
-                        <p class="mb-0">If you're at risk of losing your home within 56 days (about 8 weeks), your local council has a legal duty to help prevent your homelessness.</p>
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-heartbeat"></i></div>
+                            <h3 class="feature-title">Healthcare</h3>
+                            <p class="feature-text">Access medical care, mental health support, and addiction services.</p>
+                            <a href="healthcare.html" class="btn btn-sm">Health Resources</a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold text-white mb-4">When to Apply for Help</h3>
-                    <ul class="list-disc pl-6 mb-6">
-                        <li>You've received an eviction notice</li>
-                        <li>Your landlord has told you to leave</li>
-                        <li>Your family/friends have asked you to move out</li>
-                        <li>You're experiencing domestic abuse</li>
-                        <li>You can no longer afford your rent or mortgage</li>
-                        <li>You're staying somewhere temporarily with no right to remain</li>
-                    </ul>
-                    <h3 class="text-xl font-semibold text-white mb-4">How To Apply for Housing Help</h3>
-                    <ol class="list-decimal pl-6 mb-6">
-                        <li class="mb-2">
-                            <strong>Contact your local council's housing department</strong> - Find your local council at <a href="https://www.gov.uk/find-local-council" class="text-[#48d595] underline">gov.uk/find-local-council</a>
-                        </li>
-                        <li class="mb-2"><strong>Bring identification and evidence</strong> - Such as ID, eviction notice, or proof of your situation</li>
-                        <li class="mb-2"><strong>Complete a homeless application</strong> - The council must assess your situation</li>
-                        <li class="mb-2"><strong>Get your Personal Housing Plan</strong> - This will outline steps to help resolve your situation</li>
-                        <li><strong>Follow the steps in your plan</strong> - Keep in regular contact with your housing officer</li>
-                    </ol>
-                    <div class="grid md:grid-cols-2 gap-4 mb-6">
-                        <button class="help-button" onclick="location.href='shelters.html'">Find Shelter Options</button> <button class="help-button help-button-alt" onclick="location.href='shelters.html#housing-rights'">Know Your Housing Rights</button>
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-users"></i></div>
+                            <h3 class="feature-title">Support Network</h3>
+                            <p class="feature-text">Connect with others who can provide community and ongoing assistance.</p>
+                            <a href="network.html" class="btn btn-sm">Join Network</a>
+                        </div>
                     </div>
                 </div>
-            </section>
-            <section id="food" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Food Support</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Food Banks</h3>
-                    <p class="mb-6">Food banks provide emergency food supplies. Most require a referral, but many can also help in crisis situations without one.</p>
-                    <h4 class="font-semibold text-white mb-2">How to Access a Food Bank:</h4>
-                    <ol class="list-decimal pl-6 mb-6">
-                        <li class="mb-2">Contact your local Citizens Advice, GP, social worker, or school for a referral</li>
-                        <li class="mb-2">Once you have a referral, visit the food bank with your voucher</li>
-                        <li>You'll usually receive a package with approximately three days of nutritionally balanced food</li>
-                    </ol>
-                    <h4 class="font-semibold text-white mb-2">Other Food Support Options:</h4>
-                    <ul class="list-disc pl-6 mb-6">
-                        <li>Community fridges and pantries (pay what you can)</li>
-                        <li>Soup kitchens and community meals</li>
-                        <li>Religious organizations often provide meals</li>
-                        <li>Mobile food services in some areas</li>
-                    </ul><button class="help-button" onclick="location.href='foodbanks.html'">Find Food Banks Near You</button>
-                </div>
-            </section>
-            <section id="healthcare" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Healthcare</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Access to Healthcare</h3>
-                    <p class="mb-4">Everyone has the right to register with a GP, regardless of their housing situation. You do not need a fixed address or identification to register.</p>
-                    <h4 class="font-semibold text-white mb-2">How to Access Healthcare:</h4>
-                    <ul class="list-disc pl-6 mb-6">
-                        <li>Register with a GP using a temporary address (hostel, friend's house, or the GP practice address)</li>
-                        <li>Visit walk-in centers or urgent care centers without an appointment</li>
-                        <li>Access A&amp;E for emergencies</li>
-                        <li>Ask about healthcare outreach services for homeless people in your area</li>
-                    </ul>
-                    <div class="highlight-box">
-                        <p class="mb-0"><strong>Remember:</strong> GP practices cannot refuse to register you because you do not have proof of address or immigration status. If they refuse, ask them to provide the refusal in writing and contact Healthwatch for support.</p>
-                    </div><button class="help-button" onclick="location.href='healthcare.html'">Healthcare Resources</button>
-                </div>
-            </section>
-            <section id="financial" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Financial Advice</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Benefits &amp; Financial Support</h3>
-                    <p class="mb-6">You may be entitled to benefits or financial support, even if you have no fixed address.</p>
-                    <h4 class="font-semibold text-white mb-2">Available Support:</h4>
-                    <ul class="list-disc pl-6 mb-6">
-                        <li>Universal Credit</li>
-                        <li>Housing Benefit</li>
-                        <li>Personal Independence Payment (PIP)</li>
-                        <li>Job Seeker's Allowance</li>
-                        <li>Emergency grants from local welfare assistance schemes</li>
-                    </ul>
-                    <h4 class="font-semibold text-white mb-2">Getting Help with Claims:</h4>
-                    <ul class="list-disc pl-6 mb-6">
-                        <li>Citizens Advice can help with benefit applications</li>
-                        <li>Job Centers can support with Universal Credit claims</li>
-                        <li>Housing support workers at shelters can assist with forms</li>
-                    </ul>
-                    <div class="highlight-box">
-                        <p class="mb-0"><strong>No fixed address?</strong> You can use a 'care of' address for benefits, such as a day center, hostel, or trusted friend's address. Some Job Centers also allow you to use their address.</p>
-                    </div><button class="help-button" onclick="location.href='financial-help.html'">Financial Resources</button>
-                </div>
-            </section>
-            <section id="mental-health" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Mental Health Support</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Mental Health Services</h3>
-                    <p class="mb-6">Your mental health matters. Support is available regardless of your housing situation.</p>
-                    <h4 class="font-semibold text-white mb-2">Support Services:</h4>
-                    <ul class="list-disc pl-6 mb-6">
-                        <li>Talk to your GP about mental health concerns</li>
-                        <li>Contact Samaritans (116 123) for 24/7 emotional support</li>
-                        <li>Text SHOUT to 85258 for crisis text support</li>
-                        <li>Many homelessness organizations have specialist mental health workers</li>
-                        <li>Community mental health teams can provide support</li>
-                    </ul>
-                    <h4 class="font-semibold text-white mb-2">Substance Use Support:</h4>
-                    <ul class="list-disc pl-6 mb-6">
-                        <li>Talk to your GP about referral to drug and alcohol services</li>
-                        <li>Contact local addiction support services</li>
-                        <li>Frank (0300 123 6600) provides drug information and advice</li>
-                        <li>Alcoholics Anonymous and Narcotics Anonymous offer peer support</li>
-                    </ul><button class="help-button" onclick="location.href='healthcare.html#mental-health'">Mental Health Resources</button>
-                </div>
-            </section>
-            <section id="next-steps" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Next Steps</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Creating Your Personal Action Plan</h3>
-                    <p class="mb-6">Everyone's situation is different. Here's a simple framework to help you navigate your next steps:</p>
-                    <ol class="list-decimal pl-6 mb-6">
-                        <li class="mb-4">
-                            <strong>Address immediate needs first:</strong>
-                            <ul class="list-disc pl-6 mt-2">
-                                <li>Safe place to stay tonight</li>
-                                <li>Food and water</li>
-                                <li>Urgent medical care</li>
-                                <li>Safety from harm</li>
-                            </ul>
-                        </li>
-                        <li class="mb-4">
-                            <strong>Connect with specialist support:</strong>
-                            <ul class="list-disc pl-6 mt-2">
-                                <li>Local council housing department (especially if within 56 days of homelessness)</li>
-                                <li>Homelessness charities and outreach teams</li>
-                                <li>Citizens Advice for benefits and legal guidance</li>
-                            </ul>
-                        </li>
-                        <li class="mb-4">
-                            <strong>Stabilize your situation:</strong>
-                            <ul class="list-disc pl-6 mt-2">
-                                <li>Secure temporary accommodation</li>
-                                <li>Apply for appropriate benefits</li>
-                                <li>Register with a GP</li>
-                                <li>Obtain essential items (clothing, toiletries)</li>
-                            </ul>
-                        </li>
-                        <li class="mb-4">
-                            <strong>Build for the future:</strong>
-                            <ul class="list-disc pl-6 mt-2">
-                                <li>Work with support workers on long-term housing</li>
-                                <li>Address underlying factors (employment, health, skills)</li>
-                                <li>Connect with community support networks</li>
-                                <li>Focus on personal wellbeing and recovery</li>
-                            </ul>
-                        </li>
-                    </ol>
-                    <div class="bg-[#1d1c1a] p-4 mb-6 rounded border-l-4 border-[#48d595]">
-                        <h4 class="text-lg font-semibold text-white mb-2">Remember the 56-Day Rule</h4>
-                        <p>If you're facing housing issues, don't wait until you have nowhere to go. Early intervention is key. The council must help if you're at risk of homelessness within 56 days.</p>
-                    </div>
-                    <p>Our team can help you develop a tailored plan for your specific situation. You don't have to figure everything out alone.</p>
-                    <div class="grid md:grid-cols-3 gap-4 mt-6">
-                        <button class="help-button" onclick="location.href='tel:08088004444'">Call Our Helpline</button> <button class="help-button help-button-alt" onclick="location.href='shelters.html'">Find Shelters</button> <button class="help-button help-button-alt" onclick="location.href='network.html'">Support Network</button>
+            </div>
+        </section>
+
+        <section id="emergency" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Emergency Help</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="card mb-5">
+                    <div class="card-content">
+                        <h3 class="card-title">Immediate Assistance</h3>
+                        <p class="card-text mb-4">If you're in a crisis situation, these contacts can help you immediately:</p>
+                        
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <a href="tel:999" class="emergency-button">Emergency Services (999)</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="tel:08088000306" class="emergency-button">Homeless Emergency (0808 800 4444)</a>
+                            </div>
+                        </div>
+                        
+                        <p class="card-text"><strong>Streetlink:</strong> Can connect you with local outreach services if you're sleeping rough or worried about someone who is.</p>
+                        <a href="emergency.html" class="btn">All Emergency Contacts</a>
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+
+        <section id="housing" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Housing & Shelter</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="card mb-5">
+                    <div class="card-content">
+                        <div class="bg-light p-4 mb-4 rounded" style="border-left: 4px solid #e63946;">
+                            <h3 class="card-title">56-Day Rule: Act Now, Don't Wait</h3>
+                            <p class="mb-2">Under the Homelessness Reduction Act 2017, you can get help <strong>before</strong> you become homeless.</p>
+                            <p class="mb-0">If you're at risk of losing your home within 56 days (about 8 weeks), your local council has a legal duty to help prevent your homelessness.</p>
+                        </div>
+                        
+                        <h3 class="mb-3">When to Apply for Help</h3>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li>You've received an eviction notice</li>
+                            <li>Your landlord has told you to leave</li>
+                            <li>Your family/friends have asked you to move out</li>
+                            <li>You're experiencing domestic abuse</li>
+                            <li>You can no longer afford your rent or mortgage</li>
+                            <li>You're staying somewhere temporarily with no right to remain</li>
+                        </ul>
+                        
+                        <h3 class="mb-3">How To Apply for Housing Help</h3>
+                        <ol class="list-decimal pl-6 mb-4">
+                            <li class="mb-2">
+                                <strong>Contact your local council's housing department</strong> - Find your local council at <a href="https://www.gov.uk/find-local-council" target="_blank">gov.uk/find-local-council</a>
+                            </li>
+                            <li class="mb-2"><strong>Bring identification and evidence</strong> - Such as ID, eviction notice, or proof of your situation</li>
+                            <li class="mb-2"><strong>Complete a homeless application</strong> - The council must assess your situation</li>
+                            <li class="mb-2"><strong>Get your Personal Housing Plan</strong> - This will outline steps to help resolve your situation</li>
+                            <li><strong>Follow the steps in your plan</strong> - Keep in regular contact with your housing officer</li>
+                        </ol>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="shelters.html" class="btn btn-block">Find Shelter Options</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="shelters.html#housing-rights" class="btn btn-outline btn-block">Know Your Housing Rights</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="food" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Food Support</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-content">
+                                <h3 class="card-title">Food Banks</h3>
+                                <p class="card-text mb-4">Food banks provide emergency food supplies. Most require a referral, but many can also help in crisis situations without one.</p>
+                                
+                                <h4 class="font-weight-bold mb-2">How to Access a Food Bank:</h4>
+                                <ol class="list-decimal pl-6 mb-4">
+                                    <li class="mb-2">Contact your local Citizens Advice, GP, social worker, or school for a referral</li>
+                                    <li class="mb-2">Once you have a referral, visit the food bank with your voucher</li>
+                                    <li>You'll usually receive a package with approximately three days of nutritionally balanced food</li>
+                                </ol>
+                                
+                                <a href="foodbanks.html" class="btn">Find Food Banks Near You</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-content">
+                                <h3 class="card-title">Other Food Support Options</h3>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>Community fridges and pantries (pay what you can)</li>
+                                    <li>Soup kitchens and community meals</li>
+                                    <li>Religious organizations often provide meals</li>
+                                    <li>Mobile food services in some areas</li>
+                                </ul>
+                                
+                                <div class="highlight-box">
+                                    <p class="mb-0"><strong>No referral?</strong> Many areas have food support options that don't require referrals. Contact our helpline for information about options in your area.</p>
+                                </div>
+                                
+                                <a href="tel:08088004444" class="btn">Call Our Helpline</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="healthcare" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Healthcare</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="card mb-5">
+                    <div class="card-content">
+                        <h3 class="card-title">Access to Healthcare</h3>
+                        <p class="card-text mb-4">Everyone has the right to register with a GP, regardless of their housing situation. You do not need a fixed address or identification to register.</p>
+                        
+                        <h4 class="font-weight-bold mb-2">How to Access Healthcare:</h4>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li>Register with a GP using a temporary address (hostel, friend's house, or the GP practice address)</li>
+                            <li>Visit walk-in centers or urgent care centers without an appointment</li>
+                            <li>Access A&E for emergencies</li>
+                            <li>Ask about healthcare outreach services for homeless people in your area</li>
+                        </ul>
+                        
+                        <div class="highlight-box">
+                            <p class="mb-0"><strong>Remember:</strong> GP practices cannot refuse to register you because you do not have proof of address or immigration status. If they refuse, ask them to provide the refusal in writing and contact Healthwatch for support.</p>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <a href="healthcare.html" class="btn btn-block">Healthcare Resources</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="healthcare.html#mental-health" class="btn btn-outline btn-block">Mental Health Support</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="financial" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Financial Advice</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="card mb-5">
+                    <div class="card-content">
+                        <h3 class="card-title">Benefits & Financial Support</h3>
+                        <p class="card-text mb-4">You may be entitled to benefits or financial support, even if you have no fixed address.</p>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="font-weight-bold mb-2">Available Support:</h4>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>Universal Credit</li>
+                                    <li>Housing Benefit</li>
+                                    <li>Personal Independence Payment (PIP)</li>
+                                    <li>Job Seeker's Allowance</li>
+                                    <li>Emergency grants from local welfare assistance schemes</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="col-6">
+                                <h4 class="font-weight-bold mb-2">Getting Help with Claims:</h4>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>Citizens Advice can help with benefit applications</li>
+                                    <li>Job Centers can support with Universal Credit claims</li>
+                                    <li>Housing support workers at shelters can assist with forms</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-box">
+                            <p class="mb-0"><strong>No fixed address?</strong> You can use a 'care of' address for benefits, such as a day center, hostel, or trusted friend's address. Some Job Centers also allow you to use their address.</p>
+                        </div>
+                        
+                        <a href="financial-help.html" class="btn mt-4">Financial Resources</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mental-health" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Mental Health Support</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-content">
+                                <h3 class="card-title">Mental Health Services</h3>
+                                <p class="card-text mb-4">Your mental health matters. Support is available regardless of your housing situation.</p>
+                                
+                                <h4 class="font-weight-bold mb-2">Support Services:</h4>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>Talk to your GP about mental health concerns</li>
+                                    <li>Contact Samaritans (116 123) for 24/7 emotional support</li>
+                                    <li>Text SHOUT to 85258 for crisis text support</li>
+                                    <li>Many homelessness organizations have specialist mental health workers</li>
+                                    <li>Community mental health teams can provide support</li>
+                                </ul>
+                                
+                                <a href="healthcare.html#mental-health" class="btn">Mental Health Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-content">
+                                <h3 class="card-title">Substance Use Support</h3>
+                                <p class="card-text mb-4">Support is available if you're struggling with alcohol or drug use.</p>
+                                
+                                <h4 class="font-weight-bold mb-2">Getting Help:</h4>
+                                <ul class="list-disc pl-6 mb-4">
+                                    <li>Talk to your GP about referral to drug and alcohol services</li>
+                                    <li>Contact local addiction support services</li>
+                                    <li>Frank (0300 123 6600) provides drug information and advice</li>
+                                    <li>Alcoholics Anonymous and Narcotics Anonymous offer peer support</li>
+                                </ul>
+                                
+                                <a href="tel:03001236600" class="btn">Call Frank Helpline</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="next-steps" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Next Steps</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="card mb-5">
+                    <div class="card-content">
+                        <h3 class="card-title">Creating Your Personal Action Plan</h3>
+                        <p class="card-text mb-4">Everyone's situation is different. Here's a simple framework to help you navigate your next steps:</p>
+                        
+                        <ol class="list-decimal pl-6 mb-4">
+                            <li class="mb-4">
+                                <strong>Address immediate needs first:</strong>
+                                <ul class="list-disc pl-6 mt-2">
+                                    <li>Safe place to stay tonight</li>
+                                    <li>Food and water</li>
+                                    <li>Urgent medical care</li>
+                                    <li>Safety from harm</li>
+                                </ul>
+                            </li>
+                            <li class="mb-4">
+                                <strong>Connect with specialist support:</strong>
+                                <ul class="list-disc pl-6 mt-2">
+                                    <li>Local council housing department (especially if within 56 days of homelessness)</li>
+                                    <li>Homelessness charities and outreach teams</li>
+                                    <li>Citizens Advice for benefits and legal guidance</li>
+                                </ul>
+                            </li>
+                            <li class="mb-4">
+                                <strong>Stabilize your situation:</strong>
+                                <ul class="list-disc pl-6 mt-2">
+                                    <li>Secure temporary accommodation</li>
+                                    <li>Apply for appropriate benefits</li>
+                                    <li>Register with a GP</li>
+                                    <li>Obtain essential items (clothing, toiletries)</li>
+                                </ul>
+                            </li>
+                            <li class="mb-4">
+                                <strong>Build for the future:</strong>
+                                <ul class="list-disc pl-6 mt-2">
+                                    <li>Work with support workers on long-term housing</li>
+                                    <li>Address underlying factors (employment, health, skills)</li>
+                                    <li>Connect with community support networks</li>
+                                    <li>Focus on personal wellbeing and recovery</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        
+                        <div class="highlight-box mb-4">
+                            <h4 class="font-weight-bold mb-2">Remember the 56-Day Rule</h4>
+                            <p class="mb-0">If you're facing housing issues, don't wait until you have nowhere to go. Early intervention is key. The council must help if you're at risk of homelessness within 56 days.</p>
+                        </div>
+                        
+                        <p class="card-text mb-4">Our team can help you develop a tailored plan for your specific situation. You don't have to figure everything out alone.</p>
+                        
+                        <div class="row">
+                            <div class="col-4">
+                                <a href="tel:08088004444" class="btn btn-block">Call Our Helpline</a>
+                            </div>
+                            <div class="col-4">
+                                <a href="shelters.html" class="btn btn-outline btn-block">Find Shelters</a>
+                            </div>
+                            <div class="col-4">
+                                <a href="network.html" class="btn btn-outline btn-block">Support Network</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Need Immediate Assistance?</h2>
+                <p class="cta-text">If you're in an emergency situation, don't wait - reach out now</p>
+                <a href="emergency.html" class="btn btn-lg btn-secondary">Emergency Help</a>
+            </div>
+        </section>
     </main>
 
     <!-- Modern Footer -->
     <footer class="modern-footer">
-        <!-- ...existing code from modern-footer.html... -->
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
+                    <p>Providing support, resources and hope to those facing homelessness.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Find Shelters</a></li>
+                        <li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
+                        <li class="footer-nav-item"><a href="healthcare.html" class="footer-nav-link">Healthcare</a></li>
+                        <li class="footer-nav-item"><a href="employment.html" class="footer-nav-link">Employment</a></li>
+                        <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
+                        <li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+                        <li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
     </footer>
 
     <!-- Modern UI JavaScript -->
