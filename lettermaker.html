@@ -54,77 +54,57 @@
         </div>
     </header>
     
-    <main class="container mx-auto px-4 py-8 mt-20">
-        <h1 class="text-4xl text-center mb-8 text-[#48d595]">Homelessness Assistance Letter Generator</h1>
-        
-        <div class="text-card mb-8">
-            <h2 class="text-2xl mb-4">Create a Custom Letter for Your Situation</h2>
-            <p class="mb-4">
-                Use this tool to generate a professional letter to help you communicate with councils, housing authorities, 
-                and other organizations. These templates can help you assert your rights and request assistance.
-            </p>
-            <div class="bg-[#1d1c1a] border-l-4 border-[#48d595] p-4 mt-6">
-                <p class="font-bold text-[#48d595]">Important Disclaimer</p>
-                <p>These are basic templates based on general rights. Always review generated letters carefully, 
-                add specific details relevant to your case, attach all necessary evidence, and seek advice from 
-                organisations like Shelter, Citizens Advice, or a solicitor before sending.</p>
-            </div>
-        </div>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="text-card">
-                <h2 class="text-2xl mb-6 text-[#48d595]">Your Information</h2>
-                
-                <form id="homelessnessForm">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="form-group">
-                            <label for="fullName">Full Name:</label>
-                            <input type="text" id="fullName" name="fullName" required placeholder="Your full name">
+    <main class="section bg-light" style="min-height:80vh;">
+        <div class="container">
+            <section class="glassmorphism mb-10 max-w-3xl mx-auto p-8">
+                <h1 class="text-4xl text-center mb-6 text-[#48d595] font-heading">Letter Maker</h1>
+                <p class="text-center text-lg mb-6 text-gray-700">Generate official letters for councils, landlords, and support services. <br> <span class="text-[#48d595] font-semibold">Tip:</span> You can import your details from the <a href="SRForm1.html" class="text-[#06454b] underline hover:text-[#48d595]">Self-Referral Form</a> for faster letter creation.</p>
+                <div class="flex flex-col md:flex-row gap-6 mb-6">
+                    <button id="importSRFormBtn" class="btn btn-secondary w-full md:w-auto">Import from Self-Referral Form</button>
+                    <button onclick="window.location.href='SRForm1.html'" class="btn btn-outline w-full md:w-auto">Fill Out Self-Referral Form</button>
+                </div>
+                <form id="homelessnessForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" class="form-input" required placeholder="Your full name">
                         </div>
-                        <div class="form-group">
-                            <label for="dob">Date of Birth:</label>
-                            <input type="date" id="dob" name="dob">
+                        <div>
+                            <label for="dob" class="form-label">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" class="form-input">
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="address">Current Address (or 'No Fixed Abode'):</label>
-                        <input type="text" id="address" name="address" required placeholder="Where you currently stay or 'No Fixed Abode'">
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="form-group">
-                            <label for="phone">Phone Number:</label>
-                            <input type="text" id="phone" name="phone" placeholder="Your contact number">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="text" id="phone" name="phone" class="form-input" placeholder="Your contact number">
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email Address:</label>
-                            <input type="text" id="email" name="email" placeholder="Your email address">
+                        <div>
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="Your email address">
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="councilName">Local Council Name:</label>
-                        <input type="text" id="councilName" name="councilName" required placeholder="Start typing council name..." list="council-list">
+                    <div>
+                        <label for="address" class="form-label">Current Address (or 'No Fixed Abode')</label>
+                        <input type="text" id="address" name="address" class="form-input" required placeholder="Where you currently stay or 'No Fixed Abode'">
+                    </div>
+                    <div>
+                        <label for="councilName" class="form-label">Local Council Name</label>
+                        <input type="text" id="councilName" name="councilName" class="form-input" required placeholder="Start typing council name..." list="council-list">
                         <datalist id="council-list">
-                            <!-- Metropolitan districts -->
                             <option value="Birmingham City Council"></option>
                             <option value="Manchester City Council"></option>
                             <option value="Leeds City Council"></option>
                             <option value="Liverpool City Council"></option>
-                            <!-- London boroughs -->
                             <option value="Camden Council"></option>
                             <option value="Westminster City Council"></option>
                             <option value="Hackney Council"></option>
                             <option value="Southwark Council"></option>
-                            <!-- More councils will be added via JavaScript -->
                         </datalist>
                     </div>
-                    
-                    <!-- Template selection section with improved structure -->
-                    <div class="form-group">
-                        <label for="letterType">Type of Letter:</label>
-                        <select id="letterType" name="letterType" class="w-full input-field" required multiple size="6">
+                    <div>
+                        <label for="letterType" class="form-label">Type of Letter</label>
+                        <select id="letterType" name="letterType" class="form-select" required multiple size="6">
                             <option value="homeless-application">Homeless Application</option>
                             <option value="emergency-accommodation">Emergency Accommodation</option>
                             <option value="housing-assistance">Housing Assistance Request</option>
@@ -143,139 +123,109 @@
                             <option value="shelter-referral">Shelter Referral Request</option>
                             <option value="domestic-violence">Domestic Violence Housing Request</option>
                         </select>
-                        <small>(Hold Ctrl/Cmd to select multiple)</small>
+                        <small class="form-text">(Hold Ctrl/Cmd to select multiple)</small>
                     </div>
-
-                    <!-- Preview section for the selected template -->
-                    <div class="form-group">
-                        <div id="templatePreview" class="template-preview">
-                            <h4>Template Preview</h4>
-                            <p>Select a letter type to see a preview of the template.</p>
+                    <div id="templatePreview" class="template-preview bg-[#f5f5f5] border-l-4 border-[#48d595] p-4 rounded mb-2">
+                        <h4>Template Preview</h4>
+                        <p>Select a letter type to see a preview of the template.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="templateVariant" class="form-label">Template Variant</label>
+                            <select id="templateVariant" name="templateVariant" class="form-select">
+                                <option value="standard" selected>Standard Format</option>
+                                <option value="detailed">Detailed Format</option>
+                                <option value="concise">Concise Format</option>
+                                <option value="formal">Formal Tone</option>
+                                <option value="assertive">Assertive Tone</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="urgencyLevel" class="form-label">Urgency Level</label>
+                            <select id="urgencyLevel" name="urgencyLevel" class="form-select">
+                                <option value="standard">Standard</option>
+                                <option value="urgent">Urgent</option>
+                                <option value="emergency">Emergency</option>
+                            </select>
                         </div>
                     </div>
-
-                    <!-- Template variant selection -->
-                    <div class="form-group">
-                        <label for="templateVariant">Template Variant:</label>
-                        <select id="templateVariant" name="templateVariant" class="w-full input-field">
-                            <option value="standard" selected>Standard Format</option>
-                            <option value="detailed">Detailed Format</option>
-                            <option value="concise">Concise Format</option>
-                            <option value="formal">Formal Tone</option>
-                            <option value="assertive">Assertive Tone</option>
-                        </select>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="recipientName" class="form-label">Recipient Name/Organization</label>
+                            <input type="text" id="recipientName" name="recipientName" class="form-input" placeholder="Name of person or organization receiving the letter">
+                        </div>
+                        <div>
+                            <label for="recipientAddress" class="form-label">Recipient Address</label>
+                            <textarea id="recipientAddress" name="recipientAddress" class="form-textarea" placeholder="Full address of recipient"></textarea>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="recipientName">Recipient Name/Organization:</label>
-                        <input type="text" id="recipientName" name="recipientName" class="clickable" placeholder="Name of person or organization receiving the letter">
+                    <div>
+                        <label for="specificNeeds" class="form-label">Specific Needs</label>
+                        <textarea id="specificNeeds" name="specificNeeds" class="form-textarea" placeholder="Describe any specific accommodations or needs"></textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label for="recipientAddress">Recipient Address:</label>
-                        <textarea id="recipientAddress" name="recipientAddress" class="clickable" placeholder="Full address of recipient"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="urgencyLevel">Urgency Level:</label>
-                        <select id="urgencyLevel" name="urgencyLevel" class="clickable">
-                            <option value="standard">Standard</option>
-                            <option value="urgent">Urgent</option>
-                            <option value="emergency">Emergency</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="specificNeeds">Specific Needs:</label>
-                        <textarea id="specificNeeds" name="specificNeeds" class="clickable" placeholder="Describe any specific accommodations or needs"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="supportingDocuments">Supporting Documents (Optional):</label>
-                        <select id="supportingDocuments" name="supportingDocuments" class="clickable" multiple>
+                    <div>
+                        <label for="supportingDocuments" class="form-label">Supporting Documents (Optional)</label>
+                        <select id="supportingDocuments" name="supportingDocuments" class="form-select" multiple>
                             <option value="medical">Medical Documentation</option>
                             <option value="financial">Financial Statements</option>
                             <option value="identification">Identification Documents</option>
                             <option value="housing">Previous Housing Records</option>
                             <option value="legal">Legal Documents</option>
                         </select>
-                        <small>Hold Ctrl/Cmd to select multiple options</small>
+                        <small class="form-text">Hold Ctrl/Cmd to select multiple options</small>
                     </div>
-
-                    <div class="form-group">
-                        <label for="userPhone">Phone Number (optional):</label>
-                        <input type="tel" id="userPhone" name="userPhone" class="clickable">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="userReference" class="form-label">Reference Number (if applicable)</label>
+                            <input type="text" id="userReference" name="userReference" class="form-input">
+                        </div>
+                        <div>
+                            <label for="specialCircumstances" class="form-label">Special Circumstances</label>
+                            <select id="specialCircumstances" name="specialCircumstances" class="form-select" multiple>
+                                <option value="disability">Disability</option>
+                                <option value="mental-health">Mental Health Issues</option>
+                                <option value="domestic-violence">Domestic Violence</option>
+                                <option value="children">Dependent Children</option>
+                                <option value="pregnancy">Pregnancy</option>
+                                <option value="elderly">Elderly</option>
+                                <option value="veteran">Veteran</option>
+                            </select>
+                            <small class="form-text">(Hold Ctrl/Cmd to select multiple)</small>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="userReference">Reference Number (if applicable):</label>
-                        <input type="text" id="userReference" name="userReference" class="clickable">
+                    <div>
+                        <label for="circumstances" class="form-label">Your Circumstances (Optional)</label>
+                        <textarea id="circumstances" name="circumstances" class="form-textarea" rows="4" placeholder="Describe your current situation, any health issues, dependents, or other relevant details that should be included in your letter"></textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label for="specialCircumstances">Special Circumstances:</label>
-                        <select id="specialCircumstances" name="specialCircumstances" multiple class="clickable">
-                            <option value="disability">Disability</option>
-                            <option value="mental-health">Mental Health Issues</option>
-                            <option value="domestic-violence">Domestic Violence</option>
-                            <option value="children">Dependent Children</option>
-                            <option value="pregnancy">Pregnancy</option>
-                            <option value="elderly">Elderly</option>
-                            <option value="veteran">Veteran</option>
-                        </select>
-                        <small>(Hold Ctrl/Cmd to select multiple)</small>
+                    <div>
+                        <label for="supportingInfo" class="form-label">Additional Supporting Information</label>
+                        <textarea id="supportingInfo" name="supportingInfo" class="form-textarea" rows="3" placeholder="List any evidence you're attaching (e.g., medical letters, eviction notice)"></textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label for="circumstances">Your Circumstances (Optional):</label>
-                        <textarea id="circumstances" name="circumstances" rows="4" placeholder="Describe your current situation, any health issues, dependents, or other relevant details that should be included in your letter"></textarea>
+                    <div class="flex flex-col md:flex-row gap-4 mt-6">
+                        <button type="submit" id="generateButton" class="btn btn-primary w-full md:w-auto">Generate Letter</button>
+                        <button type="button" id="copyButton" class="btn btn-secondary w-full md:w-auto" disabled>Copy</button>
+                        <button type="button" id="printButton" class="btn btn-secondary w-full md:w-auto" disabled>Print</button>
+                        <button type="button" id="downloadButton" class="btn btn-secondary w-full md:w-auto" disabled>Download</button>
+                        <button type="button" id="saveLetterBtn" class="btn btn-outline w-full md:w-auto" disabled>Save</button>
                     </div>
-
-                    <div class="form-group">
-                        <label for="supportingInfo">Additional Supporting Information:</label>
-                        <textarea id="supportingInfo" name="supportingInfo" rows="3" placeholder="List any evidence you're attaching (e.g., medical letters, eviction notice)"></textarea>
-                    </div>
-                    
-                    <button type="submit" id="generateButton" class="nav-button clickable w-full">
-                        Generate Letter
-                    </button>
                 </form>
-            </div>
-            
-            <div class="text-card">
-                <h2 class="text-2xl mb-6 text-[#48d595]">Your Generated Letter</h2>
-                <div id="letterOutput" class="min-h-[500px] text-white">
-                    Your letter will appear here after you submit the form.
-                </div>
-                <div class="flex justify-between mt-6">
-                    <button id="copyButton" class="nav-button clickable" disabled>Copy to Clipboard</button>
-                    <button id="printButton" class="nav-button clickable" disabled>Print Letter</button>
-                    <button id="downloadButton" class="nav-button clickable" disabled>Download as PDF</button>
-                </div>
-                <div class="button-container">
-                    <button id="saveLetterBtn" class="btn" disabled>Save Letter</button>
-                </div>
-            </div>
+            </section>
+            <section class="glassmorphism mt-10 max-w-3xl mx-auto p-8">
+                <h2 class="text-2xl mb-4 text-[#48d595] font-heading">Your Generated Letter</h2>
+                <div id="letterOutput" class="min-h-[300px] bg-[#1d1c1a] text-white p-6 rounded mb-4">Your letter will appear here after you submit the form.</div>
+            </section>
         </div>
-        
-        <div class="text-center mb-10 mt-12">
-            <h2 class="text-3xl mb-6 text-[#48d595]">Other Helpful Resources</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                <button onclick="location.href='get-help.html'" class="nav-button clickable">Get Help</button>
-                <button onclick="location.href='foodbanks.html'" class="nav-button clickable">Food Banks</button>
-                <button onclick="location.href='employment.html'" class="nav-button clickable">Employment</button>
-                <button onclick="location.href='healthcare.html'" class="nav-button clickable">Healthcare</button>
-                <button onclick="location.href='emergency.html'" class="nav-button clickable">Emergency</button>
-                <button onclick="location.href='volunteer.html'" class="nav-button clickable">Volunteer</button>
-                <button onclick="location.href='network.html'" class="nav-button clickable">Support Network</button>
+        <!-- Modal for importing SRForm1 data -->
+        <div id="srform-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full relative">
+                <button id="closeModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-[#48d595] text-2xl">&times;</button>
+                <h3 class="text-xl mb-4 font-heading text-[#48d595]">Import Details from Self-Referral Form</h3>
+                <p class="mb-4 text-gray-700">Paste your export code from the Self-Referral Form below. This will fill in your details automatically.</p>
+                <textarea id="srform-import" class="form-textarea w-full mb-4" rows="5" placeholder="Paste your export code here..."></textarea>
+                <button id="importDataBtn" class="btn btn-primary w-full">Import Data</button>
             </div>
         </div>
     </main>
-
-    <!-- Message box for notifications -->
-    <div id="messageBox" class="message-box">
-        <span id="messageText"></span>
-    </div>
 
     <!-- Modern Footer -->
     <footer class="modern-footer">
@@ -1263,6 +1213,35 @@
             setTimeout(() => {
                 messageBox.classList.remove('visible');
             }, 3000);
+        }
+
+        // Add modal logic for importing SRForm1 data
+        const importBtn = document.getElementById('importSRFormBtn');
+        const modal = document.getElementById('srform-modal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const importDataBtn = document.getElementById('importDataBtn');
+        const importTextarea = document.getElementById('srform-import');
+
+        if(importBtn && modal && closeModalBtn && importDataBtn && importTextarea) {
+            importBtn.onclick = () => { modal.classList.remove('hidden'); };
+            closeModalBtn.onclick = () => { modal.classList.add('hidden'); importTextarea.value = ''; };
+            importDataBtn.onclick = () => {
+                try {
+                    const data = JSON.parse(importTextarea.value);
+                    // Map SRForm1 fields to lettermaker fields
+                    document.getElementById('fullName').value = (data.first_name || '') + ' ' + (data.last_name || '');
+                    document.getElementById('dob').value = data.date_of_birth || '';
+                    document.getElementById('phone').value = data.phone || '';
+                    document.getElementById('email').value = data.email || '';
+                    document.getElementById('address').value = data.location || '';
+                    document.getElementById('circumstances').value = data.additional_info || '';
+                    // Optionally map more fields as needed
+                    showMessage('Details imported from Self-Referral Form!', 'success');
+                    modal.classList.add('hidden');
+                } catch(e) {
+                    showMessage('Invalid import code. Please check and try again.', 'error');
+                }
+            };
         }
     </script>
 </body>
