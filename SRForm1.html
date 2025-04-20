@@ -61,8 +61,8 @@
                     </a>
                 </div>
                 
-                <button class="menu-toggle">
-                    <i class="fas fa-bars"></i>
+                <button class="menu-toggle" title="Open navigation menu">
+                    <i class="fas fa-bars" aria-hidden="true"></i><span class="sr-only">Open menu</span>
                 </button>
                 
                 <nav class="modern-nav">
@@ -280,6 +280,19 @@
                             <button type="submit" class="btn btn-lg">Submit Form</button>
                         </div>
                     </form>
+                    <div class="text-center mt-4">
+                        <button id="exportLetterMakerBtn" class="btn btn-secondary" type="button" title="Export your details for use in the Letter Maker">Export for Letter Maker</button>
+                    </div>
+                    <!-- Modal for export code -->
+                    <div id="exportModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full relative">
+                            <button id="closeExportModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-[#48d595] text-2xl" title="Close export modal">&times;</button>
+                            <h3 class="text-xl mb-4 font-heading text-[#48d595]">Export Your Details</h3>
+                            <p class="mb-4 text-gray-700">Copy the code below and paste it into the Letter Maker's import box to fill in your details automatically.</p>
+                            <textarea id="exportCode" class="form-textarea w-full mb-4" rows="6" readonly aria-label="Export code for Letter Maker"></textarea>
+                            <button id="copyExportBtn" class="btn btn-primary w-full" type="button" title="Copy export code to clipboard">Copy Code</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -304,9 +317,9 @@
                     </div>
                     <p>Providing support, resources and hope to those facing homelessness.</p>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
+                        <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
+                        <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
                     </div>
                 </div>
                 
@@ -378,6 +391,53 @@
             alert("Thank you for your submission. Our team will contact you within 24 hours.");
             // Optionally redirect to a thank you page
             // window.location.href = "thank-you.html";
+        });
+
+        // Accessibility: Remove inline style from <main> if present (handled by CSS)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Export for Letter Maker logic
+            const exportBtn = document.getElementById('exportLetterMakerBtn');
+            const exportModal = document.getElementById('exportModal');
+            const closeExportModalBtn = document.getElementById('closeExportModalBtn');
+            const exportCode = document.getElementById('exportCode');
+            const copyExportBtn = document.getElementById('copyExportBtn');
+            const form = document.getElementById('self-referral-form');
+
+            if(exportBtn && exportModal && closeExportModalBtn && exportCode && copyExportBtn && form) {
+                exportBtn.onclick = function() {
+                    // Gather form data
+                    const data = {
+                        first_name: form.first_name.value,
+                        last_name: form.last_name.value,
+                        date_of_birth: form.date_of_birth.value,
+                        gender: form.gender.value,
+                        phone: form.phone.value,
+                        email: form.email.value,
+                        housing_status: form.housing_status.value,
+                        other_housing_text: form.other_housing_text ? form.other_housing_text.value : '',
+                        location: form.location.value,
+                        duration: form.duration.value,
+                        needs: Array.from(form.needs.selectedOptions).map(opt => opt.value),
+                        other_needs_text: form.other_needs_text ? form.other_needs_text.value : '',
+                        pets: form.pets.value,
+                        additional_info: form.additional_info.value,
+                        contact_method: form.contact_method.value,
+                        best_time: form.best_time.value
+                    };
+                    exportCode.value = JSON.stringify(data);
+                    exportModal.classList.remove('hidden');
+                };
+                closeExportModalBtn.onclick = function() {
+                    exportModal.classList.add('hidden');
+                    exportCode.value = '';
+                };
+                copyExportBtn.onclick = function() {
+                    exportCode.select();
+                    document.execCommand('copy');
+                    copyExportBtn.textContent = 'Copied!';
+                    setTimeout(() => { copyExportBtn.textContent = 'Copy Code'; }, 1500);
+                };
+            }
         });
     </script>
 </body>
