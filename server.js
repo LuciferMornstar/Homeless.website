@@ -4,20 +4,20 @@ const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
-const layouts = require('express-ejs-layouts');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
-
-// Setup EJS templating with layouts
+// Configure EJS view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(layouts);
-app.set('layout', 'layout');
 
-// Serve static assets
+app.use(cors());
+
+// Serve static assets (css, js, images)
+app.use(express.static(path.join(__dirname, 'assets')));
+
+// Serve frontend static files
 app.use(express.static(path.join(__dirname)));
 
 app.get('/api/price/:exchange', async (req, res) => {
@@ -98,15 +98,13 @@ app.get('/api/dogs', async (req, res) => {
   }
 });
 
-// Home route
-app.get('/', (req, res) => {
-  res.render('index', { activePage: 'index' });
+// Dynamic page routing: render EJS views matching URL path (captures any path as 'view')
+app.get('/:view(*)', (req, res, next) => {
+  const view = req.params.view || 'index';
+  res.render(view, (err, html) => {
+    if (err) return next();
+    res.send(html);
+  });
 });
 
-// Dynamic page route (no '?' optional parameter)
-app.get('/:page', (req, res) => {
-  const page = req.params.page;
-  res.render(page, { activePage: page });
-});
-
-app.listen(port, () => console.log(`Server listening on port ${port}`));
+app.listen(port, () => console.log(`ArbiBot API server listening on port ${port}`));
