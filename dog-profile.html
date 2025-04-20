@@ -14,6 +14,78 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Favicon -->
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    .dog-profile-card {
+      background: var(--light);
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      padding: 2.5rem 2rem 2rem 2rem;
+      max-width: 540px;
+      margin: 2rem auto 2.5rem auto;
+      position: relative;
+      transition: box-shadow 0.3s;
+    }
+    .dog-profile-card:hover {
+      box-shadow: var(--shadow-medium);
+    }
+    .dog-profile-img {
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      margin: 0 auto 1.5rem auto;
+      display: block;
+      box-shadow: 0 2px 12px rgba(72,213,149,0.08);
+    }
+    .dog-profile-role {
+      color: var(--primary);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .dog-profile-bio {
+      color: var(--text-dark);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    .timeline-section {
+      margin-top: 2rem;
+    }
+    .timeline-title {
+      font-size: 1.2rem;
+      color: var(--secondary);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .timeline-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .timeline-list li {
+      background: var(--grey-light);
+      border-radius: 8px;
+      margin-bottom: 0.7rem;
+      padding: 0.7rem 1rem;
+      color: var(--dark);
+      font-size: 1rem;
+      box-shadow: 0 1px 4px rgba(72,213,149,0.04);
+    }
+    .back-link {
+      color: var(--primary-dark);
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      .dog-profile-card { padding: 1.2rem 0.5rem; }
+      .dog-profile-img { max-width: 100%; }
+    }
+  </style>
 </head>
 <body>
   <!-- Modern Header -->
@@ -21,19 +93,20 @@
     <!-- ...existing code from modern-header.html... -->
   </header>
 
-  <main id="main-content">
-    <main class="container mx-auto p-6">
-      <a href="Protection-dogs.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Gallery</a>
-      <div id="profile" class="bg-white p-6 rounded-lg shadow-md">
-        <h1 id="name" class="text-3xl font-bold mb-4"></h1>
-        <img id="photo" src="" alt="Dog Photo" class="w-full max-w-sm rounded-lg mb-4" />
-        <h2 class="text-xl font-semibold mb-2">Role: <span id="job"></span></h2>
-        <p id="bio" class="text-gray-700"></p>
-        <!-- Timeline History -->
-        <h3 class="text-xl font-semibold mt-6 mb-2">Training & Job History</h3>
-        <ul id="timelineList" class="list-disc list-inside text-gray-700 space-y-2"></ul>
+  <main id="main-content" class="section">
+    <div class="container">
+      <a href="Protection-dogs.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Gallery</a>
+      <div id="profile" class="dog-profile-card fade-in">
+        <h1 id="name" class="text-3xl font-bold mb-2" style="font-family: var(--font-heading);"></h1>
+        <img id="photo" src="" alt="Dog Photo" class="dog-profile-img" />
+        <div class="dog-profile-role">Role: <span id="job"></span></div>
+        <div id="bio" class="dog-profile-bio"></div>
+        <div class="timeline-section">
+          <div class="timeline-title"><i class="fas fa-history"></i> Training & Job History</div>
+          <ul id="timelineList" class="timeline-list"></ul>
+        </div>
       </div>
-    </main>
+    </div>
   </main>
 
   <!-- Modern Footer -->

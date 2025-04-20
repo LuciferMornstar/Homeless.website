@@ -4,424 +4,353 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morningstar Rescues - Dachshund Guardians</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="assets/css/modern/wix-modern.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/menu-style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        /* Apply Inter font globally */
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Custom styles for hero section gradient */
-        .hero-gradient {
-            background: linear-gradient(to right, #fde68a, #fca5a5); /* Example gradient: yellow to red */
-        }
-        /* Custom styles for subtle section dividers */
-        .section-divider {
-            border-top: 1px solid #e5e7eb; /* light gray */
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-        }
-        /* Style for alert message box */
-        .alert-box {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 1rem 1.5rem;
-            background-color: #fef2f2; /* Light red */
-            color: #991b1b; /* Dark red */
-            border: 1px solid #fecaca; /* Red border */
-            border-radius: 0.5rem; /* Rounded corners */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: none; /* Hidden by default */
-            font-weight: 500;
-        }
-        /* Ensure nested lists have appropriate styling */
-        .list-circle { list-style-type: circle; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body class="bg-gray-50 text-gray-800">
-
-    <!-- Transchem-style Mega Menu -->
-    <nav class="mega-menu" role="navigation" aria-label="Main Menu">
-        <ul class="menu">
-            <li class="menu-item" role="menuitem" aria-haspopup="true">
-                <a href="#">Products</a>
-                <div class="submenu" role="menu">
-                    <ul>
-                        <li><a href="#">Turtle Wax Pro</a></li>
-                        <li><a href="#">AutoLux</a></li>
-                        <li><a href="#">Private Label</a></li>
-                        <li><a href="#">Custom Blending</a></li>
-                    </ul>
+<body>
+    <!-- Modern Header -->
+    <header class="modern-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Morningstar Rescues">
+                        <span class="sr-only">Home</span>
+                    </a>
                 </div>
-            </li>
-            <li class="menu-item" role="menuitem" aria-haspopup="true">
-                <a href="#">Services</a>
-                <div class="submenu" role="menu">
-                    <ul>
-                        <li><a href="#">Service Techs</a></li>
-                        <li><a href="#">Parts and Vending</a></li>
-                        <li><a href="#">Consulting</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="menu-item" role="menuitem" aria-haspopup="true">
-                <a href="#">Resources</a>
-                <div class="submenu" role="menu">
-                    <ul>
-                        <li><a href="#">Learning Center</a></li>
-                        <li><a href="#">SDS Database</a></li>
-                        <li><a href="#">Chemistry Overview</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="menu-item" role="menuitem" aria-haspopup="true">
-                <a href="#">Contact</a>
-                <div class="submenu" role="menu">
-                    <ul>
-                        <li><a href="#">Ontario</a></li>
-                        <li><a href="#">Alberta</a></li>
-                        <li><a href="#">North America</a></li>
-                        <li><a href="#">Europe</a></li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-    </nav>
-
-    <div id="alertBox" class="alert-box">
-        This is an alert message!
-    </div>
-
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold text-red-700">
-                Morningstar Rescues
-            </div>
-            <div class="hidden md:flex space-x-6">
-                <a href="#about" class="text-gray-600 hover:text-red-700 transition duration-300">About Us</a>
-                <a href="#mission" class="text-gray-600 hover:text-red-700 transition duration-300">Our Mission</a>
-                <a href="#training" class="text-gray-600 hover:text-red-700 transition duration-300">Training</a>
-                <a href="#dogs" class="text-gray-600 hover:text-red-700 transition duration-300">Our Dogs</a>
-                <a href="#apply" class="text-gray-600 hover:text-red-700 transition duration-300">Apply</a>
-                <a href="#support" class="text-gray-600 hover:text-red-700 transition duration-300">Support Us</a>
-            </div>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <button class="menu-toggle" title="Open menu" aria-label="Open menu">
+                    <i class="fas fa-bars"></i>
                 </button>
+                <nav class="modern-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="#about" class="nav-link">About Us</a></li>
+                        <li class="nav-item"><a href="#mission" class="nav-link">Our Mission</a></li>
+                        <li class="nav-item"><a href="#training" class="nav-link">Training</a></li>
+                        <li class="nav-item"><a href="#dogs" class="nav-link">Our Dogs</a></li>
+                        <li class="nav-item"><a href="#apply" class="nav-link">Apply</a></li>
+                        <li class="nav-item"><a href="#support" class="nav-link">Support Us</a></li>
+                        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
             </div>
-        </nav>
-        <div id="mobile-menu" class="md:hidden hidden bg-white py-2">
-            <a href="#about" class="block px-6 py-2 text-gray-600 hover:bg-red-100">About Us</a>
-            <a href="#mission" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Our Mission</a>
-            <a href="#training" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Training</a>
-            <a href="#dogs" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Our Dogs</a>
-            <a href="#apply" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Apply</a>
-            <a href="#support" class="block px-6 py-2 text-gray-600 hover:bg-red-100">Support Us</a>
         </div>
     </header>
 
-    <section class="hero-gradient text-white py-20 px-6 text-center">
-        <div class="container mx-auto">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-red-900">Guardians in Small Packages</h1>
-            <p class="text-lg md:text-xl mb-8 text-red-800">Training rescued dachshunds to provide comfort, companionship, and a crucial layer of protection for vulnerable individuals.</p>
-            <a href="#training" class="bg-white text-red-700 font-semibold py-3 px-8 rounded-lg shadow hover:bg-red-50 transition duration-300">Learn About Our Training</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title slide-up">Guardians in Small Packages</h1>
+                <p class="hero-subtitle slide-up">Training rescued dachshunds to provide comfort, companionship, and a crucial layer of protection for vulnerable individuals.</p>
+                <div class="slide-up">
+                    <a href="#training" class="btn btn-lg">Learn About Our Training</a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <main class="container mx-auto px-6 py-12">
-
-        <section id="about" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">About Morningstar Rescues</h2>
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="md:w-1/2">
-                    <img src="assets/dogs/1.jpeg" alt="Rescued Dachshund #1" class="rounded-lg shadow-lg w-full h-auto object-cover">
-                </div>
-                <div class="md:w-1/2 text-lg text-gray-700 space-y-4">
-                    <p>Morningstar Rescues was founded on the belief that every individual deserves to feel safe and that the unique bond between humans and animals can be a powerful force for healing and protection. We specialize in rescuing dachshunds, recognizing their intelligence, loyalty, and surprisingly loud bark!</p>
-                    <p>We provide these deserving dogs with a second chance, offering them love, rehabilitation, and specialized training. Our goal is to place them in homes where they can serve as more than just pets – they become vigilant companions for children and vulnerable adults.</p>
-                    <p><strong>Disclaimer:</strong> Our trained dachshunds are intended to act as an alert system and deterrent. They are companions that provide comfort and can signal potential danger, but they are not a substitute for adult supervision, professional security measures, or emergency services.</p>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section id="mission" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">Our Mission: Alert & Protect</h2>
-            <div class="text-lg text-gray-700 space-y-4 text-center max-w-3xl mx-auto">
-                <p>Our core mission is twofold: to rescue dachshunds in need and to train them to become sensitive alert companions for minors and vulnerable individuals. We focus on empowering those who may have difficulty recognizing or communicating discomfort in potentially unsafe situations.</p>
-                <p>We aim to equip our dachshunds with the skills to recognize specific cues of distress from their handlers and to react appropriately by creating noise (barking) and space, drawing attention to the situation and potentially deterring unwanted interaction.</p>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section id="dachshund-difference" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">Why Dachshunds?</h2>
-            <div class="grid md:grid-cols-3 gap-8 text-center">
-                <div class="bg-white p-6 rounded-lg shadow-md border border-red-100">
-                    <h3 class="text-xl font-semibold text-red-700 mb-3">Surprisingly Loud Bark</h3>
-                    <p class="text-gray-600">Their bark is disproportionately loud for their size, making it an effective alert signal that demands attention.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border border-red-100">
-                    <h3 class="text-xl font-semibold text-red-700 mb-3">Loyal & Attuned</h3>
-                    <p class="text-gray-600">Dachshunds form strong bonds with their families and are often highly sensitive to their owner's emotional state.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border border-red-100">
-                    <h3 class="text-xl font-semibold text-red-700 mb-3">Intelligent & Trainable</h3>
-                    <p class="text-gray-600">Despite a reputation for stubbornness, they are intelligent dogs capable of learning complex commands and cues with positive reinforcement.</p>
+    <main id="main-content">
+        <!-- About Section -->
+        <section class="section">
+            <div class="container">
+                <div class="row align-center">
+                    <div class="col-6">
+                        <img src="assets/dogs/1.jpeg" alt="Rescued Dachshund #1" class="card-image rounded-lg shadow-lg">
+                    </div>
+                    <div class="col-6">
+                        <h2 class="section-title mb-2">About Morningstar Rescues</h2>
+                        <div class="divider divider-left mb-3"></div>
+                        <p>Morningstar Rescues was founded on the belief that every individual deserves to feel safe and that the unique bond between humans and animals can be a powerful force for healing and protection. We specialize in rescuing dachshunds, recognizing their intelligence, loyalty, and surprisingly loud bark!</p>
+                        <p>We provide these deserving dogs with a second chance, offering them love, rehabilitation, and specialized training. Our goal is to place them in homes where they can serve as more than just pets – they become vigilant companions for children and vulnerable adults.</p>
+                        <div class="alert-box mt-2 mb-0" style="background:rgba(230,57,70,0.1);border-left:4px solid #e63946;display:block;">Our trained dachshunds are intended to act as an alert system and deterrent. They are companions that provide comfort and can signal potential danger, but they are not a substitute for adult supervision, professional security measures, or emergency services.</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <div class="section-divider"></div>
+        <!-- Mission Section -->
+        <section class="section bg-light">
+            <div class="container">
+                <h2 class="section-title text-center mb-2">Our Mission: Alert &amp; Protect</h2>
+                <div class="divider mb-3"></div>
+                <p class="text-center mb-3">Our core mission is twofold: to rescue dachshunds in need and to train them to become sensitive alert companions for minors and vulnerable individuals. We focus on empowering those who may have difficulty recognizing or communicating discomfort in potentially unsafe situations.</p>
+                <p class="text-center">We aim to equip our dachshunds with the skills to recognize specific cues of distress from their handlers and to react appropriately by creating noise (barking) and space, drawing attention to the situation and potentially deterring unwanted interaction.</p>
+            </div>
+        </section>
 
-        <section id="training" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">Our Specialized Training Program</h2>
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="md:w-1/2 order-2 md:order-1 text-lg text-gray-700 space-y-4">
-                    <p>Our training program is built on positive reinforcement techniques, patience, and a deep understanding of both canine behavior and the needs of vulnerable individuals. It includes:</p>
-                    <!-- Enhanced Training Modules Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h4 class="text-xl font-semibold text-red-700 mb-2">Basic Obedience & Socialization</h4>
-                            <p class="text-gray-700">Foundation skills: sit, stay, recall, leash etiquette, and positive interaction with people, pets, and varied environments.</p>
+        <!-- Why Dachshunds Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title text-center mb-2">Why Dachshunds?</h2>
+                <div class="divider mb-3"></div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Surprisingly Loud Bark</h3>
+                                <p class="card-text">Their bark is disproportionately loud for their size, making it an effective alert signal that demands attention.</p>
+                            </div>
                         </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h4 class="text-xl font-semibold text-red-700 mb-2">Distress Cue Recognition</h4>
-                            <p class="text-gray-700">Dogs learn handler-specific signals (verbal code words, hand gestures, breathing patterns) denoting discomfort or fear, including silent cues for non-verbal individuals.</p>
+                    </div>
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Loyal &amp; Attuned</h3>
+                                <p class="card-text">Dachshunds form strong bonds with their families and are often highly sensitive to their owner's emotional state.</p>
+                            </div>
                         </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h4 class="text-xl font-semibold text-red-700 mb-2">Alert Barking Protocol</h4>
-                            <p class="text-gray-700">Distinct barking sequence trained to interrupt inappropriate contact and draw immediate attention, differentiating from routine barking.</p>
-                        </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h4 class="text-xl font-semibold text-red-700 mb-2">Barrier & Comfort Positioning</h4>
-                            <p class="text-gray-700">Taught to place themselves between handler and intruder or to nestle close for reassurance, creating physical boundaries.</p>
-                        </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h4 class="text-xl font-semibold text-red-700 mb-2">Contextual Differentiation</h4>
-                            <p class="text-gray-700">Training to distinguish normal touch (petting, handling) from unwanted contact by relying on the handler’s distress cue to prevent false alarms.</p>
-                        </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h4 class="text-xl font-semibold text-red-700 mb-2">Advanced Protection Scenarios</h4>
-                            <p class="text-gray-700">Simulated scenarios: crowded spaces, quick reach attempts, provider confusion drills (grooming vs. harmful touch). Dogs learn adaptive responses.</p>
-                        </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h4 class="text-xl font-semibold text-red-700 mb-2">Continual Reinforcement</h4>
-                            <p class="text-gray-700">Ongoing handler-led refreshers: monthly drills, habit-building for consistent performance under stress.</p>
-                        </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h4 class="text-xl font-semibold text-red-700 mb-2">Public Access & Distraction Control</h4>
-                            <p class="text-gray-700">Maintain focus in busy environments with distractions: public transit, school halls, community events.</p>
+                    </div>
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Intelligent &amp; Trainable</h3>
+                                <p class="card-text">Despite a reputation for stubbornness, they are intelligent dogs capable of learning complex commands and cues with positive reinforcement.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="md:w-1/2 order-1 md:order-2">
-                     <img src="assets/dogs/2.jpeg" alt="Dachshund training session" class="rounded-lg shadow-lg w-full h-auto object-cover">
+            </div>
+        </section>
+
+        <!-- Training Program Section -->
+        <section class="section bg-light" id="training">
+            <div class="container">
+                <div class="row align-center">
+                    <div class="col-6">
+                        <h2 class="section-title mb-2">Our Specialized Training Program</h2>
+                        <div class="divider divider-left mb-3"></div>
+                        <p>Our training program is built on positive reinforcement techniques, patience, and a deep understanding of both canine behavior and the needs of vulnerable individuals. It includes:</p>
+                        <ul class="feature-list">
+                            <li><strong>Basic Obedience &amp; Socialization:</strong> Foundation skills: sit, stay, recall, leash etiquette, and positive interaction with people, pets, and varied environments.</li>
+                            <li><strong>Distress Cue Recognition:</strong> Dogs learn handler-specific signals (verbal code words, hand gestures, breathing patterns) denoting discomfort or fear, including silent cues for non-verbal individuals.</li>
+                            <li><strong>Alert Barking Protocol:</strong> Distinct barking sequence trained to interrupt inappropriate contact and draw immediate attention, differentiating from routine barking.</li>
+                            <li><strong>Barrier &amp; Comfort Positioning:</strong> Taught to place themselves between handler and intruder or to nestle close for reassurance, creating physical boundaries.</li>
+                            <li><strong>Contextual Differentiation:</strong> Training to distinguish normal touch (petting, handling) from unwanted contact by relying on the handler’s distress cue to prevent false alarms.</li>
+                            <li><strong>Advanced Protection Scenarios:</strong> Simulated scenarios: crowded spaces, quick reach attempts, provider confusion drills (grooming vs. harmful touch). Dogs learn adaptive responses.</li>
+                            <li><strong>Continual Reinforcement:</strong> Ongoing handler-led refreshers: monthly drills, habit-building for consistent performance under stress.</li>
+                            <li><strong>Public Access &amp; Distraction Control:</strong> Maintain focus in busy environments with distractions: public transit, school halls, community events.</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <img src="assets/dogs/2.jpeg" alt="Dachshund training session" class="card-image rounded-lg shadow-lg">
+                    </div>
                 </div>
             </div>
         </section>
 
-        <div class="section-divider"></div>
-
-        <!-- New Dogs Gallery Section -->
-        <section id="dogs" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">Our Guardians Gallery</h2>
-            <div id="dogGallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <p>Loading images...</p>
+        <!-- Dogs Gallery Section -->
+        <section class="section" id="dogs">
+            <div class="container">
+                <h2 class="section-title text-center mb-2">Our Guardians Gallery</h2>
+                <div class="divider mb-3"></div>
+                <div id="dogGallery" class="row"></div>
             </div>
         </section>
-
-        <div class="section-divider"></div>
 
         <!-- Protection Training Section -->
-        <section id="protection-training" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center text-red-800 mb-8">Protection From Inappropriate Touch</h2>
-            <div class="text-lg text-gray-700 space-y-4 max-w-3xl mx-auto">
-                <p>Our specialized protection training equips dachshunds to act as alert companions when their handlers—especially children and vulnerable adults—face unwanted or inappropriate contact.  Through positive reinforcement and clear cues, dogs learn to:</p>
-                <!-- Protection Training Details Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h4 class="text-lg font-semibold text-red-700 mb-2">Handler Distress Signals</h4>
-                        <p class="text-gray-700">Verbal phrases, safe words, gentle tugs on leash, or specific hand gestures that trigger the dog’s protective behavior.</p>
+        <section class="section bg-light">
+            <div class="container">
+                <h2 class="section-title text-center mb-2">Protection From Inappropriate Touch</h2>
+                <div class="divider mb-3"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Handler Distress Signals</h3>
+                                <p class="card-text">Verbal phrases, safe words, gentle tugs on leash, or specific hand gestures that trigger the dog’s protective behavior.</p>
+                            </div>
+                        </div>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Immediate Alert Barking</h3>
+                                <p class="card-text">Loud, structured bark pattern that signals caregivers and deters unwanted touch.</p>
+                            </div>
+                        </div>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Physical Barrier Formation</h3>
+                                <p class="card-text">Strategic positioning to block or slow an intruder, creating a safe perimeter around the handler.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h4 class="text-lg font-semibold text-red-700 mb-2">Immediate Alert Barking</h4>
-                        <p class="text-gray-700">Loud, structured bark pattern that signals caregivers and deters unwanted touch.</p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h4 class="text-lg font-semibold text-red-700 mb-2">Physical Barrier Formation</h4>
-                        <p class="text-gray-700">Strategic positioning to block or slow an intruder, creating a safe perimeter around the handler.</p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h4 class="text-lg font-semibold text-red-700 mb-2">Reversal Drills</h4>
-                        <p class="text-gray-700">Drills where the handler and dog practice turning away from strangers or moving to safety zones when contact escalates.</p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow p-6 col-span-full">
-                        <h4 class="text-lg font-semibold text-red-700 mb-2">Long-Term Bonding & Trust</h4>
-                        <p class="text-gray-700">Consistent positive interactions, play-based trust exercises, and handler confidence coaching ensure the dog’s reliability.</p>
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Reversal Drills</h3>
+                                <p class="card-text">Drills where the handler and dog practice turning away from strangers or moving to safety zones when contact escalates.</p>
+                            </div>
+                        </div>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Long-Term Bonding &amp; Trust</h3>
+                                <p class="card-text">Consistent positive interactions, play-based trust exercises, and handler confidence coaching ensure the dog’s reliability.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- end grid -->
-                <p>By combining keen sensitivity with structured training, our dachshunds provide an empowering safety net—giving vulnerable individuals a trusted advocate they can rely on in challenging situations.</p>
+                <p class="text-center mt-3">By combining keen sensitivity with structured training, our dachshunds provide an empowering safety net—giving vulnerable individuals a trusted advocate they can rely on in challenging situations.</p>
             </div>
         </section>
 
-        <div class="section-divider"></div>
-
-        <section id="apply" class="mb-16 scroll-mt-20 text-center">
-            <h2 class="text-3xl font-bold text-red-800 mb-6">Apply to Receive a Trained Guardian</h2>
-            <p class="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">Our application process is designed to ensure the right match between a Dachshund Guardian and those who need companionship and protection. If you or someone you care for could benefit from a trained companion, please complete our secure application form.</p>
-            <a href="apply.html" class="bg-red-700 text-white font-semibold py-3 px-8 rounded-lg shadow hover:bg-red-800 transition duration-300">Proceed to Application</a>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section id="support" class="mb-16 scroll-mt-20 text-center">
-            <h2 class="text-3xl font-bold text-red-800 mb-6">Support Our Mission</h2>
-            <p class="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">Morningstar Rescues depends on the generosity of supporters to rescue, rehabilitate, and train our dachshund guardians. Your contributions enable us to save lives and bring peace of mind to vulnerable individuals.</p>
-            <div class="flex justify-center space-x-4">
-                <a href="donate.html" class="bg-yellow-500 text-white font-semibold py-3 px-8 rounded-lg shadow hover:bg-yellow-600 transition duration-300">Donate Now</a>
-                <a href="volunteer.html" class="bg-gray-600 text-white font-semibold py-3 px-8 rounded-lg shadow hover:bg-gray-700 transition duration-300">Become a Volunteer</a>
+        <!-- Apply Section -->
+        <section class="section text-center" id="apply">
+            <div class="container">
+                <h2 class="section-title mb-2">Apply to Receive a Trained Guardian</h2>
+                <div class="divider mb-3"></div>
+                <p class="mb-3">Our application process is designed to ensure the right match between a Dachshund Guardian and those who need companionship and protection. If you or someone you care for could benefit from a trained companion, please complete our secure application form.</p>
+                <a href="apply.html" class="btn btn-lg">Proceed to Application</a>
             </div>
         </section>
 
-        <div class="section-divider"></div>
-
-        <!-- Contact Us Section -->
-        <section id="contact" class="mb-16 scroll-mt-20 text-center">
-            <h2 class="text-3xl font-bold text-red-800 mb-6">Contact Us</h2>
-            <p class="text-lg text-gray-700 mb-4">Have questions or need assistance? Reach out to our team:</p>
-            <ul class="space-y-2 text-lg text-gray-700">
-                <li><strong>General Inquiries:</strong> <a href="mailto:info@morningstarrescues.org" class="text-blue-600 hover:underline">info@morningstarrescues.org</a></li>
-                <li><strong>Applications:</strong> <a href="mailto:applications@morningstarrescues.org" class="text-blue-600 hover:underline">applications@morningstarrescues.org</a></li>
-                <li><strong>Support & Donations:</strong> <a href="mailto:support@morningstarrescues.org" class="text-blue-600 hover:underline">support@morningstarrescues.org</a></li>
-                <li><strong>Volunteer Coordination:</strong> <a href="mailto:volunteer@morningstarrescues.org" class="text-blue-600 hover:underline">volunteer@morningstarrescues.org</a></li>
-            </ul>
+        <!-- Support Section -->
+        <section class="section bg-light text-center" id="support">
+            <div class="container">
+                <h2 class="section-title mb-2">Support Our Mission</h2>
+                <div class="divider mb-3"></div>
+                <p class="mb-3">Morningstar Rescues depends on the generosity of supporters to rescue, rehabilitate, and train our dachshund guardians. Your contributions enable us to save lives and bring peace of mind to vulnerable individuals.</p>
+                <a href="donate.html" class="btn btn-lg btn-secondary mr-2">Donate Now</a>
+                <a href="volunteer.html" class="btn btn-lg">Become a Volunteer</a>
+            </div>
         </section>
 
-        <div class="section-divider"></div>
+        <!-- Contact Section -->
+        <section class="section text-center" id="contact">
+            <div class="container">
+                <h2 class="section-title mb-2">Contact Us</h2>
+                <div class="divider mb-3"></div>
+                <p class="mb-2">Have questions or need assistance? Reach out to our team:</p>
+                <ul class="footer-nav text-center">
+                    <li class="footer-nav-item"><strong>General Inquiries:</strong> <a href="mailto:info@morningstarrescues.org" class="footer-nav-link">info@morningstarrescues.org</a></li>
+                    <li class="footer-nav-item"><strong>Applications:</strong> <a href="mailto:applications@morningstarrescues.org" class="footer-nav-link">applications@morningstarrescues.org</a></li>
+                    <li class="footer-nav-item"><strong>Support &amp; Donations:</strong> <a href="mailto:support@morningstarrescues.org" class="footer-nav-link">support@morningstarrescues.org</a></li>
+                    <li class="footer-nav-item"><strong>Volunteer Coordination:</strong> <a href="mailto:volunteer@morningstarrescues.org" class="footer-nav-link">volunteer@morningstarrescues.org</a></li>
+                </ul>
+            </div>
+        </section>
 
         <!-- Testimonials Section -->
-        <section id="testimonials" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-red-800 text-center mb-8">Testimonials</h2>
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <blockquote class="bg-white p-6 rounded-lg shadow">
-                    <p class="text-gray-700 italic">“Ruby has transformed our family’s life. My daughter feels safer and more confident knowing her guardian is by her side.”</p>
-                    <footer class="mt-4 text-gray-600">— Sarah T., Parent</footer>
-                </blockquote>
-                <blockquote class="bg-white p-6 rounded-lg shadow">
-                    <p class="text-gray-700 italic">“Max alerted us during a late-night crisis at the shelter. His training truly saves lives.”</p>
-                    <footer class="mt-4 text-gray-600">— John M., Shelter Director</footer>
-                </blockquote>
+        <section class="section bg-light">
+            <div class="container">
+                <h2 class="section-title text-center mb-2">Testimonials</h2>
+                <div class="divider mb-3"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="testimonial fade-in">
+                            <div class="testimonial-content">“Ruby has transformed our family’s life. My daughter feels safer and more confident knowing her guardian is by her side.”</div>
+                            <div class="testimonial-author">— Sarah T., Parent</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="testimonial fade-in">
+                            <div class="testimonial-content">“Max alerted us during a late-night crisis at the shelter. His training truly saves lives.”</div>
+                            <div class="testimonial-author">— John M., Shelter Director</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-
-        <div class="section-divider"></div>
 
         <!-- FAQ Section -->
-        <section id="faq" class="mb-16 scroll-mt-20 max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold text-red-800 text-center mb-8">Frequently Asked Questions</h2>
-            <div class="space-y-6 text-gray-700">
-                <div>
-                    <h3 class="font-semibold text-lg">How do I apply for a Dachshund Guardian?</h3>
-                    <p>Visit our <a href="apply.html" class="text-blue-600 hover:underline">application page</a> to complete the form. We review each application to ensure the best match.</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-lg">Can I adopt a trained dog if I move away?</h3>
-                    <p>Yes. Our guardians can accompany you nationwide. Please notify us with your new address so we can update records and provide local support.</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-lg">What support is provided post-placement?</h3>
-                    <p>We offer 12 months of complimentary follow-up, including training refreshers, virtual consultations, and a 24/7 helpline at <a href="mailto:support@morningstarrescues.org" class="text-blue-600 hover:underline">support@morningstarrescues.org</a>.</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-lg">How can I volunteer?</h3>
-                    <p>Visit our <a href="volunteer.html" class="text-blue-600 hover:underline">volunteer page</a> to view current opportunities and registration details.</p>
+        <section class="section" id="faq">
+            <div class="container">
+                <h2 class="section-title text-center mb-2">Frequently Asked Questions</h2>
+                <div class="divider mb-3"></div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="faq-list">
+                            <div class="faq-item mb-2">
+                                <h3 class="faq-question">How do I apply for a Dachshund Guardian?</h3>
+                                <p>Visit our <a href="apply.html" class="footer-nav-link">application page</a> to complete the form. We review each application to ensure the best match.</p>
+                            </div>
+                            <div class="faq-item mb-2">
+                                <h3 class="faq-question">Can I adopt a trained dog if I move away?</h3>
+                                <p>Yes. Our guardians can accompany you nationwide. Please notify us with your new address so we can update records and provide local support.</p>
+                            </div>
+                            <div class="faq-item mb-2">
+                                <h3 class="faq-question">What support is provided post-placement?</h3>
+                                <p>We offer 12 months of complimentary follow-up, including training refreshers, virtual consultations, and a 24/7 helpline at <a href="mailto:support@morningstarrescues.org" class="footer-nav-link">support@morningstarrescues.org</a>.</p>
+                            </div>
+                            <div class="faq-item mb-2">
+                                <h3 class="faq-question">How can I volunteer?</h3>
+                                <p>Visit our <a href="volunteer.html" class="footer-nav-link">volunteer page</a> to view current opportunities and registration details.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <div class="section-divider"></div>
 
         <!-- Help Us Train Section -->
-        <section id="help-train" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-red-800 text-center mb-6">Help Us Train Our Guardians</h2>
-            <div class="max-w-4xl mx-auto text-lg text-gray-700 space-y-4">
-                <p>Our dachshund guardians undergo extensive, specialized training to become alert companions for those who need them most. You can support their journey by:</p>
-                <ul class="list-disc list-inside space-y-2">
-                    <li><strong>Volunteer as a Training Assistant:</strong> Assist our trainers in socialization exercises, obstacle courses, and cue practice. No prior experience needed — we provide all instruction.</li>
-                    <li><strong>Sponsor a Training Session:</strong> Cover the cost of treats, equipment, or professional coaching. Your sponsorship helps us train more dogs every month.</li>
-                    <li><strong>Donate Training Supplies:</strong> We welcome new or gently used harnesses, clickers, agility gear, and high-value treats. Contact <a href="mailto:training@morningstarrescues.org" class="text-blue-600 hover:underline">training@morningstarrescues.org</a>.</li>
-                    <li><strong>Share Your Skills:</strong> If you're a certified trainer, veterinarian, or behaviorist, offer workshops or seminars for our staff and volunteers.</li>
-                </ul>
-                <div class="text-center mt-6">
-                    <a href="volunteer.html" class="bg-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow hover:bg-green-700 transition duration-300">Become a Training Volunteer</a>
-                    <a href="donate.html" class="bg-yellow-500 text-white font-semibold py-3 px-8 rounded-lg shadow hover:bg-yellow-600 transition duration-300 ml-4">Donate Supplies</a>
+        <section class="section bg-light">
+            <div class="container">
+                <h2 class="section-title text-center mb-2">Help Us Train Our Guardians</h2>
+                <div class="divider mb-3"></div>
+                <div class="row">
+                    <div class="col-12">
+                        <p>Our dachshund guardians undergo extensive, specialized training to become alert companions for those who need them most. You can support their journey by:</p>
+                        <ul class="feature-list mb-3">
+                            <li><strong>Volunteer as a Training Assistant:</strong> Assist our trainers in socialization exercises, obstacle courses, and cue practice. No prior experience needed — we provide all instruction.</li>
+                            <li><strong>Sponsor a Training Session:</strong> Cover the cost of treats, equipment, or professional coaching. Your sponsorship helps us train more dogs every month.</li>
+                            <li><strong>Donate Training Supplies:</strong> We welcome new or gently used harnesses, clickers, agility gear, and high-value treats. Contact <a href="mailto:training@morningstarrescues.org" class="footer-nav-link">training@morningstarrescues.org</a>.</li>
+                            <li><strong>Share Your Skills:</strong> If you're a certified trainer, veterinarian, or behaviorist, offer workshops or seminars for our staff and volunteers.</li>
+                        </ul>
+                        <a href="volunteer.html" class="btn btn-lg btn-secondary mr-2">Become a Training Volunteer</a>
+                        <a href="donate.html" class="btn btn-lg">Donate Supplies</a>
+                        <p class="text-sm mt-2">Questions? Email our Training Coordinator at <a href="mailto:training@morningstarrescues.org" class="footer-nav-link">training@morningstarrescues.org</a>.</p>
+                    </div>
                 </div>
-                <p class="text-sm text-gray-500 mt-4">Questions? Email our Training Coordinator at <a href="mailto:training@morningstarrescues.org" class="text-blue-600 hover:underline">training@morningstarrescues.org</a>.</p>
             </div>
         </section>
-
-        <div class="section-divider"></div>
-
     </main>
 
-    <footer class="bg-gray-800 text-gray-300 py-8 px-6">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2025 Morningstar Rescues. All rights reserved.</p>
-            <p class="text-sm mt-2">Providing safety and companionship, one dachshund at a time.</p>
+    <!-- Modern Footer -->
+    <footer class="modern-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="footer-logo"><img src="logo.png" alt="Morningstar Rescues" height="40"></div>
+                    <p>Providing safety and companionship, one dachshund at a time.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i><span class="sr-only">Facebook</span></a>
+                        <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i><span class="sr-only">Twitter</span></a>
+                        <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i><span class="sr-only">Instagram</span></a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><a href="#about" class="footer-nav-link">About Us</a></li>
+                        <li class="footer-nav-item"><a href="#mission" class="footer-nav-link">Our Mission</a></li>
+                        <li class="footer-nav-item"><a href="#training" class="footer-nav-link">Training</a></li>
+                        <li class="footer-nav-item"><a href="#dogs" class="footer-nav-link">Our Dogs</a></li>
+                        <li class="footer-nav-item"><a href="#apply" class="footer-nav-link">Apply</a></li>
+                        <li class="footer-nav-item"><a href="#support" class="footer-nav-link">Support Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><i class="fas fa-envelope"></i> info@morningstarrescues.org</li>
+                        <li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+                        <li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
+                    </ul>
+                </div>
             </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Morningstar Rescues. All rights reserved. | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
     </footer>
 
+    <!-- Modern UI JavaScript -->
+    <script src="assets/js/modern-ui.js"></script>
     <script>
-        // Mobile Menu Toggle
-        const menuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Simple Alert Box Function
-        function showAlert(message) {
-            const alertBox = document.getElementById('alertBox');
-            alertBox.textContent = message; // Set the message text
-            alertBox.style.display = 'block'; // Show the alert box
-
-            // Hide the alert box after 3 seconds
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 3000); // 3000 milliseconds = 3 seconds
-        }
-
-        // Smooth Scrolling for Navigation Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-                // Close mobile menu after clicking a link (if open)
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        });
-
         // Load dog images into the gallery
         async function loadDogGallery() {
             const gallery = document.getElementById('dogGallery');
@@ -440,22 +369,21 @@
                     const id = file.replace(/\.jpeg$/i, '');
                     const link = document.createElement('a');
                     link.href = `dog-profile.html?dog=${id}`;
-                    link.className = 'block';
+                    link.className = 'col-3';
                     const figure = document.createElement('figure');
-                    figure.className = 'bg-white rounded-lg shadow p-2 flex flex-col items-center hover:shadow-lg transition';
+                    figure.className = 'card fade-in hover-zoom flex flex-col items-center';
                     const img = document.createElement('img');
                     img.src = `assets/dogs/${file}`;
                     img.alt = `Rescue Dog ${id}`;
-                    img.className = 'rounded-md object-cover w-full h-48';
+                    img.className = 'card-image rounded-md object-cover';
                     const caption = document.createElement('figcaption');
                     caption.textContent = `Dog #${id}`;
-                    caption.className = 'mt-2 text-gray-600 text-sm';
+                    caption.className = 'mt-2 text-secondary text-sm';
                     figure.append(img, caption);
                     link.appendChild(figure);
                     gallery.appendChild(link);
                 });
             } catch (err) {
-                console.warn('Dog gallery fetch failed, using fallback:', err);
                 gallery.innerHTML = '';
                 // Fallback to static list of JPEGs 1-13
                 const fallbackFiles = Array.from({ length: 13 }, (_, i) => `${i+1}.jpeg`);
@@ -463,16 +391,16 @@
                     const id = file.replace(/\.jpeg$/i, '');
                     const link = document.createElement('a');
                     link.href = `dog-profile.html?dog=${id}`;
-                    link.className = 'block';
+                    link.className = 'col-3';
                     const figure = document.createElement('figure');
-                    figure.className = 'bg-white rounded-lg shadow p-2 flex flex-col items-center hover:shadow-lg transition';
+                    figure.className = 'card fade-in hover-zoom flex flex-col items-center';
                     const img = document.createElement('img');
                     img.src = `assets/dogs/${file}`;
                     img.alt = `Rescue Dog ${id}`;
-                    img.className = 'rounded-md object-cover w-full h-48';
+                    img.className = 'card-image rounded-md object-cover';
                     const caption = document.createElement('figcaption');
                     caption.textContent = `Dog #${id}`;
-                    caption.className = 'mt-2 text-gray-600 text-sm';
+                    caption.className = 'mt-2 text-secondary text-sm';
                     figure.append(img, caption);
                     link.appendChild(figure);
                     gallery.appendChild(link);
@@ -481,7 +409,5 @@
         }
         loadDogGallery();
     </script>
-    <script src="js/menuModule.js"></script>
-    <script src="assets/js/navigation-module.js"></script>
 </body>
 </html>
