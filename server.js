@@ -4,13 +4,20 @@ const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
+const layouts = require('express-ejs-layouts');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors());
 
-// Serve frontend static files
+// Setup EJS templating with layouts
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(layouts);
+app.set('layout', 'layout');
+
+// Serve static assets
 app.use(express.static(path.join(__dirname)));
 
 app.get('/api/price/:exchange', async (req, res) => {
@@ -91,4 +98,15 @@ app.get('/api/dogs', async (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`ArbiBot API server listening on port ${port}`));
+// Home route
+app.get('/', (req, res) => {
+  res.render('index', { activePage: 'index' });
+});
+
+// Dynamic page route (no '?' optional parameter)
+app.get('/:page', (req, res) => {
+  const page = req.params.page;
+  res.render(page, { activePage: page });
+});
+
+app.listen(port, () => console.log(`Server listening on port ${port}`));
