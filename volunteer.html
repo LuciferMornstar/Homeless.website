@@ -6,14 +6,22 @@
     <title>Volunteer - Homeless Helpers</title>
     <!-- Modern Styling -->
     <link rel="stylesheet" href="assets/css/modern/wix-modern.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Favicon -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        body { background: var(--light); color: var(--text-dark); }
+        .section { background: var(--grey-light); border-radius: 12px; box-shadow: var(--shadow-soft); margin-bottom: 2rem; padding: 2rem; }
+        .feature-block, .card, .text-card { background: #fff; border-radius: 10px; box-shadow: var(--shadow-soft); padding: 1.5rem; margin-bottom: 1.5rem; transition: box-shadow 0.3s; }
+        .feature-block:hover, .card:hover, .text-card:hover { box-shadow: var(--shadow-medium); }
+        .feature-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .btn, .nav-button { background: var(--primary); color: #fff; border: none; border-radius: 30px; padding: 0.75rem 1.5rem; font-family: 'Chelsea Market', cursive; font-size: 1rem; cursor: pointer; transition: background 0.3s, color 0.3s; }
+        .btn:hover, .nav-button:hover { background: var(--primary-dark); color: #fff; }
+        .divider { height: 3px; background: var(--primary); border-radius: 2px; margin: 1.5rem 0; }
+        .modern-header, .modern-footer { box-shadow: var(--shadow-soft); }
+    </style>
 </head>
 <body>
     <!-- Modern Header -->
@@ -21,13 +29,9 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <a href="index.html">
-                        <img src="logo.png" alt="Homeless Helpers">
-                    </a>
+                    <a href="index.html"><img src="logo.png" alt="Homeless Helpers"></a>
                 </div>
-                <button class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
                 <nav class="modern-nav">
                     <ul class="nav-list">
                         <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
@@ -56,123 +60,96 @@
             </div>
         </div>
     </header>
-
-    <main id="main-content">
-        <!-- Aria-live region for notifications or dynamic content updates -->
-        <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
-        <div class="content-wrapper">
-            <section id="welcome" class="section-wrapper">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Volunteer With Us</h1>
-                <p class="text-lg md:text-xl mb-8">
-                    Make a real difference in the lives of those experiencing homelessness by joining our volunteer team.
-                </p>
-                <div class="flex flex-wrap space-x-4">
-                    <button class="nav-button clickable" onclick="location.href='#volunteer-roles'">Volunteer Roles</button>
-                    <button class="nav-button clickable" onclick="location.href='#why-volunteer'">Why Volunteer</button>
-                    <button class="nav-button clickable" onclick="location.href='#volunteer-stories'">Volunteer Stories</button>
-                    <button class="nav-button clickable" onclick="location.href='#get-involved'">Get Involved</button>
-                    <button class="nav-button clickable" onclick="location.href='#corporate'">Corporate Volunteering</button>
+    <main id="main-content" class="section">
+        <div class="container">
+            <section class="mb-5">
+                <h1 class="mb-4">Volunteer With Us</h1>
+                <div class="divider"></div>
+                <p class="mb-4">Make a real difference in the lives of those experiencing homelessness by joining our volunteer team.</p>
+                <div class="flex flex-wrap gap-3 mb-4">
+                    <a class="btn" href="#volunteer-roles">Volunteer Roles</a>
+                    <a class="btn" href="#why-volunteer">Why Volunteer</a>
+                    <a class="btn" href="#volunteer-stories">Volunteer Stories</a>
+                    <a class="btn" href="#get-involved">Get Involved</a>
+                    <a class="btn" href="#corporate">Corporate Volunteering</a>
                 </div>
             </section>
-
-            <section id="volunteer-roles" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Volunteer Roles</h2>
-                <div class="text-card">
-                    <p class="mb-6">
-                        We offer a variety of volunteer roles to match your skills, interests, and availability. Whether you can spare a few hours a week or want to commit to a regular schedule, we have opportunities for everyone.
-                    </p>
-                    
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="volunteer-card text-card">
-                            <h3 class="text-xl font-semibold text-white mb-4">Buddy System Volunteer</h3>
-                            <p class="mb-4">Provide one-to-one support to someone who has recently moved into housing, helping them adjust to their new environment and tackle everyday challenges.</p>
-                            <ul class="list-disc pl-6 mb-4">
-                                <li>Required time: 2-4 hours per week</li>
-                                <li>Training provided: Yes (2 days)</li>
-                                <li>DBS check: Required</li>
-                            </ul>
+            <section id="volunteer-roles" class="mb-5">
+                <h2 class="mb-4">Volunteer Roles</h2>
+                <div class="divider"></div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-user-friends"></i></div>
+                            <h3 class="feature-title">Buddy System Volunteer</h3>
+                            <p class="feature-text">Support someone recently housed, helping them adjust and thrive.</p>
                         </div>
-                        
-                        <div class="volunteer-card text-card">
-                            <h3 class="text-xl font-semibold text-white mb-4">Food Service Volunteer</h3>
-                            <p class="mb-4">Help prepare and serve meals at our community kitchens, food banks, and outreach services across the UK.</p>
-                            <ul class="list-disc pl-6 mb-4">
-                                <li>Required time: Flexible shifts</li>
-                                <li>Training provided: Basic food hygiene</li>
-                                <li>DBS check: Not required</li>
-                            </ul>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-utensils"></i></div>
+                            <h3 class="feature-title">Food Service Volunteer</h3>
+                            <p class="feature-text">Help prepare and serve meals at our community kitchens and food banks.</p>
                         </div>
-                        
-                        <div class="volunteer-card text-card">
-                            <h3 class="text-xl font-semibold text-white mb-4">Skills Workshop Leader</h3>
-                            <p class="mb-4">Share your expertise by running workshops on topics such as budgeting, cooking, IT skills, or creative activities.</p>
-                            <ul class="list-disc pl-6 mb-4">
-                                <li>Required time: 2-3 hours per session</li>
-                                <li>Training provided: Support materials provided</li>
-                                <li>DBS check: May be required</li>
-                            </ul>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                            <h3 class="feature-title">Skills Workshop Leader</h3>
+                            <p class="feature-text">Run workshops on budgeting, cooking, IT skills, or creative activities.</p>
                         </div>
-                        
-                        <div class="volunteer-card text-card">
-                            <h3 class="text-xl font-semibold text-white mb-4">Outreach Team Member</h3>
-                            <p class="mb-4">Join our street outreach teams to connect with rough sleepers, offering support, advice, and essentials.</p>
-                            <ul class="list-disc pl-6 mb-4">
-                                <li>Required time: 4-hour shifts (daytime or evening)</li>
-                                <li>Training provided: Comprehensive training</li>
-                                <li>DBS check: Required</li>
-                            </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-hands-helping"></i></div>
+                            <h3 class="feature-title">Outreach Team Member</h3>
+                            <p class="feature-text">Join our street outreach teams to connect with rough sleepers and offer support.</p>
                         </div>
-                        
-                        <div class="volunteer-card text-card">
-                            <h3 class="text-xl font-semibold text-white mb-4">Admin &amp; Office Support</h3>
-                            <p class="mb-4">Help with administrative tasks, answering phones, responding to emails, and organizing resources.</p>
-                            <ul class="list-disc pl-6 mb-4">
-                                <li>Required time: Regular weekly slot preferred</li>
-                                <li>Training provided: Yes</li>
-                                <li>DBS check: May be required</li>
-                            </ul>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
+                            <h3 class="feature-title">Admin & Office Support</h3>
+                            <p class="feature-text">Help with admin tasks, phones, emails, and organizing resources.</p>
                         </div>
-                        
-                        <div class="volunteer-card text-card">
-                            <h3 class="text-xl font-semibold text-white mb-4">Professional Skills Volunteer</h3>
-                            <p class="mb-4">Offer your professional skills in areas such as legal advice, healthcare, mental health support, hairdressing, etc.</p>
-                            <ul class="list-disc pl-6 mb-4">
-                                <li>Required time: By arrangement</li>
-                                <li>Requirements: Professional qualifications</li>
-                                <li>DBS check: Required</li>
-                            </ul>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-user-md"></i></div>
+                            <h3 class="feature-title">Professional Skills Volunteer</h3>
+                            <p class="feature-text">Offer your professional skills in legal, healthcare, mental health, or other areas.</p>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <section id="why-volunteer" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Why Volunteer With Us</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Make a Real Impact</h3>
-                    <p class="mb-6">
-                        Your contribution as a volunteer makes a tangible difference in people's lives. Our volunteers help individuals not just survive, but rebuild their lives and thrive.
-                    </p>
-                    
-                    <div class="grid md:grid-cols-3 gap-6 mb-6">
-                        <div class="p-4 bg-[#1d1c1a] rounded">
-                            <h4 class="text-lg font-semibold text-[#48d595] mb-2">Develop Skills</h4>
-                            <p>Gain valuable experience and develop transferable skills that enhance your personal and professional life.</p>
-                        </div>
-                        
-                        <div class="p-4 bg-[#1d1c1a] rounded">
-                            <h4 class="text-lg font-semibold text-[#48d595] mb-2">Join a Community</h4>
-                            <p>Become part of a supportive community of passionate volunteers and staff dedicated to making a difference.</p>
-                        </div>
-                        
-                        <div class="p-4 bg-[#1d1c1a] rounded">
-                            <h4 class="text-lg font-semibold text-[#48d595] mb-2">Flexible Opportunities</h4>
-                            <p>We offer flexible volunteering options to fit around your existing commitments and schedule.</p>
+            <section id="why-volunteer" class="mb-5">
+                <h2 class="mb-4">Why Volunteer With Us</h2>
+                <div class="divider"></div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <h3 class="card-title">Develop Skills</h3>
+                            <p class="card-text">Gain valuable experience and develop transferable skills for your personal and professional life.</p>
                         </div>
                     </div>
-                    
-                    <h3 class="text-xl font-semibold text-white mb-4">What We Provide</h3>
-                    <ul class="list-disc pl-6 mb-4">
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <h3 class="card-title">Join a Community</h3>
+                            <p class="card-text">Become part of a supportive community of passionate volunteers and staff.</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <h3 class="card-title">Flexible Opportunities</h3>
+                            <p class="card-text">We offer flexible volunteering options to fit your schedule and commitments.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card fade-in mt-4">
+                    <h3 class="card-title">What We Provide</h3>
+                    <ul>
                         <li>Comprehensive training and ongoing support</li>
                         <li>Regular supervision and feedback</li>
                         <li>Reimbursement of reasonable expenses</li>
@@ -180,88 +157,65 @@
                         <li>A welcoming and inclusive environment</li>
                         <li>Social events and volunteer recognition</li>
                     </ul>
-                    
-                    <p>
-                        Whether you can give a little time or a lot, your contribution is valued. Join us in building a more compassionate and supportive society for those experiencing homelessness.
-                    </p>
                 </div>
             </section>
-
-            <section id="volunteer-stories" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Volunteer Stories</h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-card">
-                        <h3 class="text-xl font-semibold text-white mb-4">Sarah's Story</h3>
-                        <p class="italic text-sm mb-4">"I started volunteering as a Buddy after retirement. The connection I've formed with James, who was homeless for 3 years, has been transformative for both of us. Seeing him settle into his home and gain confidence has been incredibly rewarding."</p>
-                        <p class="mb-4">
-                            Sarah has been volunteering with us for 2 years. She meets with James weekly to help with practical tasks and provide companionship.
-                        </p>
+            <section id="volunteer-stories" class="mb-5">
+                <h2 class="mb-4">Volunteer Stories</h2>
+                <div class="divider"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="testimonial fade-in">
+                            <div class="testimonial-content">"I started volunteering as a Buddy after retirement. The connection I've formed with James has been transformative for both of us."</div>
+                            <div class="testimonial-author">- Sarah</div>
+                        </div>
                     </div>
-                    
-                    <div class="text-card">
-                        <h3 class="text-xl font-semibold text-white mb-4">Raj's Story</h3>
-                        <p class="italic text-sm mb-4">"As a chef, I wanted to use my skills to give back. I now lead cooking workshops teaching basic, affordable recipes. The participants are so engaged and grateful - it's the highlight of my week!"</p>
-                        <p class="mb-4">
-                            Raj volunteers in our life skills program, teaching cooking classes twice a month to individuals who have recently moved into housing.
-                        </p>
-                    </div>
-                    
-                    <div class="text-card">
-                        <h3 class="text-xl font-semibold text-white mb-4">Team Horizon's Story</h3>
-                        <p class="italic text-sm mb-4">"Our corporate volunteering day renovating a community space was eye-opening. We left with a stronger team bond and a real sense that we'd contributed to something important."</p>
-                        <p class="mb-4">
-                            A team from Horizon Technologies spent a day refurbishing a community room used for group activities and support meetings.
-                        </p>
+                    <div class="col-6">
+                        <div class="testimonial fade-in">
+                            <div class="testimonial-content">"As a chef, I now lead cooking workshops. The participants are so engaged and grateful - it's the highlight of my week!"</div>
+                            <div class="testimonial-author">- Raj</div>
+                        </div>
                     </div>
                 </div>
             </section>
-
-            <section id="get-involved" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Get Involved</h2>
-                <div class="text-card">
-                    <p class="mb-6">
-                        Ready to make a difference? Fill out our volunteer application form below, and we'll be in touch to discuss the next steps.
-                    </p>
-                    
-                    <form class="volunteer-form" aria-label="Volunteer application form">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="form-group">
-                                <label for="name" class="block mb-2">Full Name *</label>
-                                <input type="text" id="name" name="name" class="form-input" required aria-required="true">
+            <section id="get-involved" class="mb-5">
+                <h2 class="mb-4">Get Involved</h2>
+                <div class="divider"></div>
+                <div class="card fade-in">
+                    <p class="mb-4">Ready to make a difference? Fill out our volunteer application form below and we'll be in touch.</p>
+                    <form class="volunteer-form">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" name="name" required>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="email" class="block mb-2">Email Address *</label>
-                                <input type="email" id="email" name="email" class="form-input" required aria-required="true">
+                            <div class="col-6 mb-3">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="phone" class="block mb-2">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" class="form-input">
+                            <div class="col-6 mb-3">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone">
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="location" class="block mb-2">Your Location *</label>
-                                <input type="text" id="location" name="location" placeholder="City/Town" class="form-input" required aria-required="true">
+                            <div class="col-6 mb-3">
+                                <label for="location">Your Location *</label>
+                                <input type="text" id="location" name="location" required>
                             </div>
-                            
-                            <div class="form-group md:col-span-2">
-                                <label for="role" class="block mb-2">I'm Interested In *</label>
-                                <select id="role" name="role" class="form-select" required aria-required="true">
+                            <div class="col-6 mb-3">
+                                <label for="role">I'm Interested In *</label>
+                                <select id="role" name="role" required>
                                     <option value="">Select a volunteer role</option>
                                     <option value="buddy">Buddy System Volunteer</option>
                                     <option value="food">Food Service Volunteer</option>
                                     <option value="workshop">Skills Workshop Leader</option>
                                     <option value="outreach">Outreach Team Member</option>
-                                    <option value="admin">Admin &amp; Office Support</option>
+                                    <option value="admin">Admin & Office Support</option>
                                     <option value="professional">Professional Skills Volunteer</option>
                                     <option value="other">Other/Not Sure Yet</option>
                                 </select>
                             </div>
-                            
-                            <div class="form-group md:col-span-2">
-                                <label for="availability" class="block mb-2">Availability *</label>
-                                <select id="availability" name="availability" class="form-select" required aria-required="true">
+                            <div class="col-6 mb-3">
+                                <label for="availability">Availability *</label>
+                                <select id="availability" name="availability" required>
                                     <option value="">Select your availability</option>
                                     <option value="weekday-daytime">Weekdays (Daytime)</option>
                                     <option value="weekday-evening">Weekdays (Evening)</option>
@@ -270,54 +224,43 @@
                                     <option value="flexible">Flexible</option>
                                 </select>
                             </div>
-                            
-                            <div class="form-group md:col-span-2">
-                                <label for="message" class="block mb-2">Why would you like to volunteer with us? (Optional)</label>
-                                <textarea id="message" name="message" rows="4" class="form-input"></textarea>
+                            <div class="col-12 mb-3">
+                                <label for="message">Why would you like to volunteer with us? (Optional)</label>
+                                <textarea id="message" name="message" rows="4"></textarea>
                             </div>
-                            
-                            <div class="form-group md:col-span-2">
-                                <input type="checkbox" id="consent" name="consent" class="checkbox" required aria-required="true">
-                                <label for="consent" class="checkbox-label">I consent to Homeless Helpers storing my information for the purpose of volunteer recruitment *</label>
+                            <div class="col-12 mb-3">
+                                <input type="checkbox" id="consent" name="consent" required>
+                                <label for="consent">I consent to Homeless Helpers storing my information for the purpose of volunteer recruitment *</label>
                             </div>
-                            
-                            <div class="form-group md:col-span-2">
-                                <input type="checkbox" id="newsletter" name="newsletter" class="checkbox">
-                                <label for="newsletter" class="checkbox-label">I'd like to receive email updates about volunteering opportunities and news (optional)</label>
+                            <div class="col-12 mb-3">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <label for="newsletter">I'd like to receive email updates about volunteering opportunities and news (optional)</label>
                             </div>
                         </div>
-                        
-                        <button type="submit" class="nav-button clickable" aria-label="Submit volunteer application">Submit Application</button>
+                        <button type="submit" class="btn">Submit Application</button>
                     </form>
-                    
-                    <p class="mt-6 text-sm">
-                        If you have questions about volunteering before applying, please contact our volunteer coordinator at volunteer@homelesshelpers.org or call 0800 123 4567.
-                    </p>
+                    <p class="mt-4 text-sm">Questions? Contact our volunteer coordinator at <a href="mailto:volunteer@homelesshelpers.org">volunteer@homelesshelpers.org</a> or call 0800 123 4567.</p>
                 </div>
             </section>
-
-            <section id="corporate" class="section-wrapper animated-element">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Corporate Volunteering</h2>
-                <div class="text-card">
-                    <h3 class="text-xl font-semibold text-white mb-4">Partner With Us</h3>
-                    <p class="mb-6">
-                        We offer meaningful corporate volunteering opportunities that benefit your team and make a real difference to those experiencing homelessness.
-                    </p>
-                    
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <h4 class="text-lg font-semibold mb-2">Team Volunteering Days</h4>
-                            <ul class="list-disc pl-6 mb-4">
+            <section id="corporate" class="mb-5">
+                <h2 class="mb-4">Corporate Volunteering</h2>
+                <div class="divider"></div>
+                <div class="card fade-in">
+                    <h3 class="card-title">Partner With Us</h3>
+                    <p class="mb-4">We offer meaningful corporate volunteering opportunities that benefit your team and make a real difference to those experiencing homelessness.</p>
+                    <div class="row">
+                        <div class="col-6">
+                            <h4>Team Volunteering Days</h4>
+                            <ul>
                                 <li>Community space renovation projects</li>
                                 <li>Food preparation and service</li>
                                 <li>Organizing donation drives</li>
                                 <li>Group outreach activities</li>
                             </ul>
                         </div>
-                        
-                        <div>
-                            <h4 class="text-lg font-semibold mb-2">Skills-Based Volunteering</h4>
-                            <ul class="list-disc pl-6 mb-4">
+                        <div class="col-6">
+                            <h4>Skills-Based Volunteering</h4>
+                            <ul>
                                 <li>Professional mentoring</li>
                                 <li>IT support and digital inclusion</li>
                                 <li>Marketing and communications assistance</li>
@@ -325,27 +268,19 @@
                             </ul>
                         </div>
                     </div>
-                    
-                    <p class="mb-6">
-                        Corporate volunteering helps your organization:
-                    </p>
-                    <ul class="list-disc pl-6 mb-6">
+                    <p class="mb-4">Corporate volunteering helps your organization:</p>
+                    <ul>
                         <li>Strengthen team bonds through shared meaningful experiences</li>
                         <li>Demonstrate corporate social responsibility</li>
                         <li>Develop staff skills and boost morale</li>
                         <li>Create lasting local community connections</li>
                     </ul>
-                    
-                    <p>
-                        To discuss corporate volunteering partnerships, please contact our Corporate Engagement Team at corporate@homelesshelpers.org
-                    </p>
-                    
-                    <button class="nav-button clickable mt-4" onclick="location.href='corporate-partnerships.html'">Corporate Partnerships</button>
+                    <p>To discuss corporate volunteering partnerships, contact our Corporate Engagement Team at <a href="mailto:corporate@homelesshelpers.org">corporate@homelesshelpers.org</a></p>
+                    <a class="btn mt-3" href="corporate-partnerships.html">Corporate Partnerships</a>
                 </div>
             </section>
         </div>
     </main>
-
     <!-- Modern Footer -->
     <footer class="modern-footer">
         <div class="container">
@@ -385,8 +320,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Modern UI JavaScript -->
     <script src="assets/js/modern-ui.js"></script>
 </body>
 </html>

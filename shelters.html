@@ -131,8 +131,42 @@
     </style>
 </head>
 <body>
-    <!-- Shared header placeholder -->
-    <header id="header"></header>
+    <!-- Modern Header -->
+    <header class="modern-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="Homeless Helpers"></a>
+                </div>
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <nav class="modern-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Get Help</a>
+                            <div class="dropdown-content">
+                                <a href="shelters.html" class="dropdown-item">Find Shelters</a>
+                                <a href="foodbanks.html" class="dropdown-item">Food Banks</a>
+                                <a href="healthcare.html" class="dropdown-item">Healthcare</a>
+                                <a href="employment.html" class="dropdown-item">Employment</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Resources</a>
+                            <div class="dropdown-content">
+                                <a href="resources.html" class="dropdown-item">All Resources</a>
+                                <a href="lettermaker.html" class="dropdown-item">Letter Maker</a>
+                                <a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+                        <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -532,8 +566,43 @@
         </section>
     </main>
 
-    <!-- Shared footer placeholder -->
-    <footer id="footer"></footer>
+    <!-- Modern Footer -->
+    <footer class="modern-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
+                    <p>Providing support, resources and hope to those facing homelessness.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Find Shelters</a></li>
+                        <li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
+                        <li class="footer-nav-item"><a href="healthcare.html" class="footer-nav-link">Healthcare</a></li>
+                        <li class="footer-nav-item"><a href="employment.html" class="footer-nav-link">Employment</a></li>
+                        <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
+                        <li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+                        <li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Inject header/footer then apply modern UI behaviors -->
     <script src="assets/js/header-footer.js"></script>

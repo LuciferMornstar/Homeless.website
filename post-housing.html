@@ -1,747 +1,553 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>After Housing Support - Homeless Helpers</title>
-	<meta name="description" content="Resources and support for those who have recently secured housing after experiencing homelessness.">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Chelsea+Market&display=swap" rel="stylesheet">
-	<!-- Modern Styling -->
-	<link rel="stylesheet" href="assets/css/modern/wix-modern.css">
-	<!-- Additional styles -->
-	<link rel="stylesheet" href="assets/css/menu-style.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<style>
-		/* Maintain some of the custom styles from the original page while conforming to the modern style */
-		.bg-custom-gradient {
-			background: linear-gradient(to bottom, #06454b, #2f835c);
-		}
-
-		.content-wrapper {
-			position: relative;
-			z-index: 20;
-			margin-top: 0;
-			padding-top: 5rem;
-			background-color: #ffffff;
-			padding: 2rem;
-		}
-
-		.section-wrapper {
-			border: 2px solid #e0e0e0;
-			padding: 2rem;
-			margin-bottom: 2rem;
-			border-radius: 8px;
-			box-shadow: var(--shadow-soft);
-			background-color: #ffffff;
-		}
-
-		.text-card {
-			background-color: #f5f5f5;
-			padding: 1.5rem;
-			margin-bottom: 1.5rem;
-			position: relative;
-			overflow: hidden;
-			transition: all 0.3s ease;
-			border-radius: 8px;
-		}
-
-		.text-card:hover {
-			transform: translate(2px, -2px);
-			box-shadow: -5px 5px 0 rgba(0, 0, 0, 0.1);
-		}
-
-		.checklist li {
-			position: relative;
-			padding-left: 30px;
-			margin-bottom: 10px;
-			list-style-type: none;
-		}
-
-		.checklist li:before {
-			content: "\f00c";
-			font-family: "Font Awesome 6 Free";
-			font-weight: 900;
-			position: absolute;
-			left: 0;
-			top: 0;
-			color: var(--primary);
-		}
-
-		.resource-card {
-			display: flex;
-			border: 1px solid #e0e0e0;
-			border-radius: 8px;
-			overflow: hidden;
-			margin-bottom: 20px;
-			transition: transform 0.3s ease, box-shadow 0.3s ease;
-		}
-
-		.resource-card:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-		}
-
-		.resource-icon {
-			background-color: var(--primary-dark);
-			color: white;
-			padding: 20px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 2rem;
-			min-width: 80px;
-		}
-
-		.resource-content {
-			padding: 20px;
-			flex: 1;
-		}
-
-		.resource-title {
-			font-weight: bold;
-			margin-bottom: 8px;
-			color: var(--primary-dark);
-		}
-
-		.timeline {
-			position: relative;
-			max-width: 1200px;
-			margin: 0 auto;
-		}
-
-		.timeline::after {
-			content: '';
-			position: absolute;
-			width: 6px;
-			background-color: var(--primary);
-			top: 0;
-			bottom: 0;
-			left: 50%;
-			margin-left: -3px;
-		}
-
-		.milestone {
-			padding: 10px 40px;
-			position: relative;
-			background-color: inherit;
-			width: 50%;
-			box-sizing: border-box;
-		}
-
-		.milestone::after {
-			content: '';
-			position: absolute;
-			width: 25px;
-			height: 25px;
-			right: -13px;
-			background-color: white;
-			border: 4px solid var(--primary);
-			top: 15px;
-			border-radius: 50%;
-			z-index: 1;
-		}
-
-		.milestone-left {
-			left: 0;
-		}
-
-		.milestone-right {
-			left: 50%;
-		}
-
-		.milestone-right::after {
-			left: -13px;
-		}
-
-		.milestone-content {
-			padding: 20px 30px;
-			background-color: white;
-			position: relative;
-			border-radius: 6px;
-			box-shadow: 0 0 10px rgba(0,0,0,0.1);
-		}
-
-		.milestone-title {
-			font-weight: bold;
-			color: var(--primary-dark);
-		}
-
-		/* Make it responsive */
-		@media screen and (max-width: 768px) {
-			.timeline::after {
-				left: 31px;
-			}
-			
-			.milestone {
-				width: 100%;
-				padding-left: 70px;
-				padding-right: 25px;
-			}
-			
-			.milestone::after {
-				left: 18px;
-			}
-			
-			.milestone-right {
-				left: 0%;
-			}
-			
-			.milestone-right::after {
-				left: 18px;
-			}
-		}
-
-		.animated-element {
-			opacity: 0;
-			transform: translateY(20px);
-			transition: opacity 0.6s ease, transform 0.6s ease;
-		}
-
-		.animated-element.in-view {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Housing Support - Homeless Helpers</title>
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="assets/css/modern/wix-modern.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-	<!-- Modern Header -->
-	<header class="modern-header">
-		<div class="container">
-			<div class="header-content">
-				<div class="logo">
-					<a href="index.html">
-						<img src="logo.png" alt="Homeless Helpers">
-					</a>
-				</div>
-				
-				<button class="menu-toggle">
-					<i class="fas fa-bars"></i>
-				</button>
-				
-				<nav class="modern-nav">
-					<ul class="nav-list">
-						<li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-						<li class="nav-item dropdown">
-							<a href="#" class="nav-link">Get Help</a>
-							<div class="dropdown-content">
-								<a href="shelters.html" class="dropdown-item">Find Shelters</a>
-								<a href="foodbanks.html" class="dropdown-item">Food Banks</a>
-								<a href="healthcare.html" class="dropdown-item">Healthcare</a>
-								<a href="employment.html" class="dropdown-item">Employment</a>
-							</div>
-						</li>
-						<li class="nav-item dropdown">
-							<a href="#" class="nav-link">Resources</a>
-							<div class="dropdown-content">
-								<a href="resources.html" class="dropdown-item">All Resources</a>
-								<a href="lettermaker.html" class="dropdown-item">Letter Maker</a>
-								<a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
-							</div>
-						</li>
-						<li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
-						<li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
-						<li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
-	</header>
+    <!-- Modern Header -->
+    <header class="modern-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Homeless Helpers">
+                    </a>
+                </div>
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav class="modern-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Get Help</a>
+                            <div class="dropdown-content">
+                                <a href="shelters.html" class="dropdown-item">Find Shelters</a>
+                                <a href="foodbanks.html" class="dropdown-item">Food Banks</a>
+                                <a href="healthcare.html" class="dropdown-item">Healthcare</a>
+                                <a href="employment.html" class="dropdown-item">Employment</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Resources</a>
+                            <div class="dropdown-content">
+                                <a href="resources.html" class="dropdown-item">All Resources</a>
+                                <a href="lettermaker.html" class="dropdown-item">Letter Maker</a>
+                                <a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+                        <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-	<!-- Hero Section -->
-	<section class="hero">
-		<div class="hero-overlay"></div>
-		<div class="container">
-			<div class="hero-content">
-				<h1 class="hero-title slide-up">After Housing Support</h1>
-				<p class="hero-subtitle slide-up">Resources and guidance for maintaining stable housing and building a sustainable future</p>
-				<div class="slide-up">
-					<a href="#housing-stability" class="btn btn-lg">Housing Stability</a>
-					<a href="#community-support" class="btn btn-outline btn-lg">Community Support</a>
-				</div>
-			</div>
-		</div>
-	</section>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title slide-up">After Housing Support</h1>
+                <p class="hero-subtitle slide-up">Resources and guidance for maintaining stable housing and building a sustainable future</p>
+                <div class="slide-up">
+                    <a href="#housing-stability" class="btn btn-lg">Housing Stability</a>
+                    <a href="#community-support" class="btn btn-outline btn-lg">Community Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-	<!-- Aria-live region for notifications or dynamic content updates -->
-	<div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
-	
-	<main id="main-content">
-		<section class="section">
-			<div class="container">
-				<h2 class="text-center mb-4">The Journey After Housing</h2>
-				<div class="divider mb-4"></div>
-				<p class="text-center mb-5">Securing housing is a significant milestone, but it's just the beginning of your journey. Our post-housing support helps you maintain stability and build a sustainable future.</p>
-				
-				<div class="row">
-					<div class="col-4">
-						<div class="feature-block fade-in">
-							<div class="feature-icon"><i class="fas fa-home"></i></div>
-							<h3 class="feature-title">Housing Stability</h3>
-							<p class="feature-text">Learn essential skills for maintaining your housing, from budgeting to understanding tenant rights and responsibilities.</p>
-							<a href="#housing-stability" class="btn btn-sm">Learn More</a>
-						</div>
-					</div>
-					<div class="col-4">
-						<div class="feature-block fade-in">
-							<div class="feature-icon"><i class="fas fa-hands-helping"></i></div>
-							<h3 class="feature-title">Community Connection</h3>
-							<p class="feature-text">Build a support network and discover community resources to help you thrive in your new environment.</p>
-							<a href="#community-support" class="btn btn-sm">Find Support</a>
-						</div>
-					</div>
-					<div class="col-4">
-						<div class="feature-block fade-in">
-							<div class="feature-icon"><i class="fas fa-arrow-up"></i></div>
-							<h3 class="feature-title">Moving Forward</h3>
-							<p class="feature-text">Access education, employment, and wellbeing resources to build long-term stability and growth.</p>
-							<a href="#moving-forward" class="btn btn-sm">Explore Options</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+    <!-- Aria-live region for notifications or dynamic content updates -->
+    <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+    
+    <main id="main-content">
+        <section class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">The Journey After Housing</h2>
+                <div class="divider mb-4"></div>
+                <p class="text-center mb-5">Securing housing is a significant milestone, but it's just the beginning of your journey. Our post-housing support helps you maintain stability and build a sustainable future.</p>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-home"></i></div>
+                            <h3 class="feature-title">Housing Stability</h3>
+                            <p class="feature-text">Learn essential skills for maintaining your housing, from budgeting to understanding tenant rights and responsibilities.</p>
+                            <a href="#housing-stability" class="btn btn-sm">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-hands-helping"></i></div>
+                            <h3 class="feature-title">Community Connection</h3>
+                            <p class="feature-text">Build a support network and discover community resources to help you thrive in your new environment.</p>
+                            <a href="#community-support" class="btn btn-sm">Find Support</a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block fade-in">
+                            <div class="feature-icon"><i class="fas fa-arrow-up"></i></div>
+                            <h3 class="feature-title">Moving Forward</h3>
+                            <p class="feature-text">Access education, employment, and wellbeing resources to build long-term stability and growth.</p>
+                            <a href="#moving-forward" class="btn btn-sm">Explore Options</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-		<section id="first-year" class="section bg-light">
-			<div class="container">
-				<h2 class="text-center mb-4">Your First Year in Housing</h2>
-				<div class="divider mb-4"></div>
-				
-				<div class="timeline">
-					<div class="milestone milestone-left animated-element">
-						<div class="milestone-content">
-							<h3 class="milestone-title">First 30 Days</h3>
-							<p>Focus on setting up essentials: utilities, basic furnishings, and getting to know your neighborhood. Make sure all housing paperwork is properly filed.</p>
-							<ul class="checklist mt-3">
-								<li>Set up utilities (water, electricity, gas)</li>
-								<li>Meet neighbors and locate essential services</li>
-								<li>Create a budget for housing expenses</li>
-								<li>Ensure all required documentation is submitted</li>
-							</ul>
-						</div>
-					</div>
-					
-					<div class="milestone milestone-right animated-element">
-						<div class="milestone-content">
-							<h3 class="milestone-title">2-3 Months</h3>
-							<p>Establish routines and begin addressing medium-term needs. Connect with local support services and build community relationships.</p>
-							<ul class="checklist mt-3">
-								<li>Register with local healthcare providers</li>
-								<li>Explore employment or education opportunities</li>
-								<li>Join community groups or activities</li>
-								<li>Establish regular check-ins with your support worker</li>
-							</ul>
-						</div>
-					</div>
-					
-					<div class="milestone milestone-left animated-element">
-						<div class="milestone-content">
-							<h3 class="milestone-title">4-6 Months</h3>
-							<p>Focus on stabilizing your situation and addressing any challenges. Build skills for long-term housing maintenance.</p>
-							<ul class="checklist mt-3">
-								<li>Complete any housing skills training</li>
-								<li>Build emergency savings if possible</li>
-								<li>Address any maintenance issues promptly</li>
-								<li>Develop relationships with neighbors and community</li>
-							</ul>
-						</div>
-					</div>
-					
-					<div class="milestone milestone-right animated-element">
-						<div class="milestone-content">
-							<h3 class="milestone-title">7-12 Months</h3>
-							<p>Look toward the future and longer-term sustainability. Evaluate your progress and set goals for the coming year.</p>
-							<ul class="checklist mt-3">
-								<li>Review your budget and financial situation</li>
-								<li>Consider career development or education plans</li>
-								<li>Build a stronger support network</li>
-								<li>Celebrate your achievements and milestones</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+        <section id="first-year" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Your First Year in Housing</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="timeline">
+                    <div class="milestone milestone-left animated-element">
+                        <div class="milestone-content">
+                            <h3 class="milestone-title">First 30 Days</h3>
+                            <p>Focus on setting up essentials: utilities, basic furnishings, and getting to know your neighborhood. Make sure all housing paperwork is properly filed.</p>
+                            <ul class="checklist mt-3">
+                                <li>Set up utilities (water, electricity, gas)</li>
+                                <li>Meet neighbors and locate essential services</li>
+                                <li>Create a budget for housing expenses</li>
+                                <li>Ensure all required documentation is submitted</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="milestone milestone-right animated-element">
+                        <div class="milestone-content">
+                            <h3 class="milestone-title">2-3 Months</h3>
+                            <p>Establish routines and begin addressing medium-term needs. Connect with local support services and build community relationships.</p>
+                            <ul class="checklist mt-3">
+                                <li>Register with local healthcare providers</li>
+                                <li>Explore employment or education opportunities</li>
+                                <li>Join community groups or activities</li>
+                                <li>Establish regular check-ins with your support worker</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="milestone milestone-left animated-element">
+                        <div class="milestone-content">
+                            <h3 class="milestone-title">4-6 Months</h3>
+                            <p>Focus on stabilizing your situation and addressing any challenges. Build skills for long-term housing maintenance.</p>
+                            <ul class="checklist mt-3">
+                                <li>Complete any housing skills training</li>
+                                <li>Build emergency savings if possible</li>
+                                <li>Address any maintenance issues promptly</li>
+                                <li>Develop relationships with neighbors and community</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="milestone milestone-right animated-element">
+                        <div class="milestone-content">
+                            <h3 class="milestone-title">7-12 Months</h3>
+                            <p>Look toward the future and longer-term sustainability. Evaluate your progress and set goals for the coming year.</p>
+                            <ul class="checklist mt-3">
+                                <li>Review your budget and financial situation</li>
+                                <li>Consider career development or education plans</li>
+                                <li>Build a stronger support network</li>
+                                <li>Celebrate your achievements and milestones</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-		<section id="housing-stability" class="section">
-			<div class="container">
-				<h2 class="text-center mb-4">Maintaining Housing Stability</h2>
-				<div class="divider mb-4"></div>
-				
-				<div class="row">
-					<div class="col-6">
-						<div class="card animated-element">
-							<div class="card-content">
-								<h3 class="card-title">Understanding Your Tenancy</h3>
-								<p class="card-text mb-4">
-									Knowing your rights and responsibilities as a tenant is crucial for maintaining stable housing. Make sure you:
-								</p>
-								<ul class="mb-4">
-									<li class="mb-2">Understand your tenancy agreement thoroughly</li>
-									<li class="mb-2">Know what maintenance you're responsible for</li>
-									<li class="mb-2">Understand your landlord's obligations</li>
-									<li class="mb-2">Keep copies of all correspondence with your landlord</li>
-									<li>Know how to report repairs properly</li>
-								</ul>
-								<a href="#" class="btn btn-sm">Tenant Rights Guide</a>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-6">
-						<div class="card animated-element">
-							<div class="card-content">
-								<h3 class="card-title">Financial Management</h3>
-								<p class="card-text mb-4">
-									Managing your finances effectively is essential for maintaining your housing. Key strategies include:
-								</p>
-								<ul class="mb-4">
-									<li class="mb-2">Creating a monthly budget that prioritizes rent and utilities</li>
-									<li class="mb-2">Setting up direct debits for regular payments</li>
-									<li class="mb-2">Building an emergency fund for unexpected expenses</li>
-									<li class="mb-2">Understanding all benefits you're entitled to</li>
-									<li>Seeking help early if you're struggling with payments</li>
-								</ul>
-								<a href="#" class="btn btn-sm">Budgeting Tools</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="text-card animated-element mt-4">
-					<h3 class="mb-3">What To Do If You're Struggling</h3>
-					<p class="mb-4">
-						If you're finding it difficult to maintain your housing, it's important to act quickly. Don't wait until problems become overwhelming:
-					</p>
-					<ol class="mb-4">
-						<li class="mb-2"><strong>Contact your support worker or housing officer immediately</strong> if you're having trouble paying rent or bills</li>
-						<li class="mb-2"><strong>Seek debt advice</strong> from organizations like Citizens Advice or StepChange</li>
-						<li class="mb-2"><strong>Check if you're receiving all benefits</strong> you're entitled to</li>
-						<li class="mb-2"><strong>Talk to your landlord early</strong> if you're having payment difficulties</li>
-						<li><strong>Contact our helpline at 0800 123 4567</strong> for guidance and support</li>
-					</ol>
-					<p class="font-weight-bold">
-						Remember: Most housing problems can be resolved if addressed early. Don't let shame or fear prevent you from seeking help.
-					</p>
-				</div>
-			</div>
-		</section>
+        <section id="housing-stability" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Maintaining Housing Stability</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <h3 class="card-title">Understanding Your Tenancy</h3>
+                                <p class="card-text mb-4">
+                                    Knowing your rights and responsibilities as a tenant is crucial for maintaining stable housing. Make sure you:
+                                </p>
+                                <ul class="mb-4">
+                                    <li class="mb-2">Understand your tenancy agreement thoroughly</li>
+                                    <li class="mb-2">Know what maintenance you're responsible for</li>
+                                    <li class="mb-2">Understand your landlord's obligations</li>
+                                    <li class="mb-2">Keep copies of all correspondence with your landlord</li>
+                                    <li>Know how to report repairs properly</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm">Tenant Rights Guide</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <h3 class="card-title">Financial Management</h3>
+                                <p class="card-text mb-4">
+                                    Managing your finances effectively is essential for maintaining your housing. Key strategies include:
+                                </p>
+                                <ul class="mb-4">
+                                    <li class="mb-2">Creating a monthly budget that prioritizes rent and utilities</li>
+                                    <li class="mb-2">Setting up direct debits for regular payments</li>
+                                    <li class="mb-2">Building an emergency fund for unexpected expenses</li>
+                                    <li class="mb-2">Understanding all benefits you're entitled to</li>
+                                    <li>Seeking help early if you're struggling with payments</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm">Budgeting Tools</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-card animated-element mt-4">
+                    <h3 class="mb-3">What To Do If You're Struggling</h3>
+                    <p class="mb-4">
+                        If you're finding it difficult to maintain your housing, it's important to act quickly. Don't wait until problems become overwhelming:
+                    </p>
+                    <ol class="mb-4">
+                        <li class="mb-2"><strong>Contact your support worker or housing officer immediately</strong> if you're having trouble paying rent or bills</li>
+                        <li class="mb-2"><strong>Seek debt advice</strong> from organizations like Citizens Advice or StepChange</li>
+                        <li class="mb-2"><strong>Check if you're receiving all benefits</strong> you're entitled to</li>
+                        <li class="mb-2"><strong>Talk to your landlord early</strong> if you're having payment difficulties</li>
+                        <li><strong>Contact our helpline at 0800 123 4567</strong> for guidance and support</li>
+                    </ol>
+                    <p class="font-weight-bold">
+                        Remember: Most housing problems can be resolved if addressed early. Don't let shame or fear prevent you from seeking help.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-		<section id="community-support" class="section bg-light">
-			<div class="container">
-				<h2 class="text-center mb-4">Building Your Support Network</h2>
-				<div class="divider mb-4"></div>
-				
-				<p class="text-center mb-5">Having a strong support network is crucial for maintaining stable housing and overall wellbeing. Here are resources and ways to connect:</p>
-				
-				<div class="row">
-					<div class="col-4">
-						<div class="card animated-element">
-							<div class="card-content">
-								<div class="feature-icon mb-3"><i class="fas fa-users"></i></div>
-								<h3 class="card-title">Peer Support Groups</h3>
-								<p class="card-text mb-4">
-									Connect with others who have experienced homelessness and are now in housing. Share experiences, advice, and encouragement.
-								</p>
-								<ul class="mb-4">
-									<li class="mb-2">Weekly meetups in local community centers</li>
-									<li class="mb-2">Online forums and chat groups</li>
-									<li>Mentoring opportunities</li>
-								</ul>
-								<a href="#" class="btn btn-sm">Find Groups Near You</a>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-4">
-						<div class="card animated-element">
-							<div class="card-content">
-								<div class="feature-icon mb-3"><i class="fas fa-hands-helping"></i></div>
-								<h3 class="card-title">Community Resources</h3>
-								<p class="card-text mb-4">
-									Discover local resources and organizations that can provide ongoing support:
-								</p>
-								<ul class="mb-4">
-									<li class="mb-2">Community centers and libraries</li>
-									<li class="mb-2">Faith-based organizations</li>
-									<li class="mb-2">Food banks and community kitchens</li>
-									<li>Neighborhood associations</li>
-								</ul>
-								<a href="#" class="btn btn-sm">Local Resource Directory</a>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-4">
-						<div class="card animated-element">
-							<div class="card-content">
-								<div class="feature-icon mb-3"><i class="fas fa-heart"></i></div>
-								<h3 class="card-title">Buddy System</h3>
-								<p class="card-text mb-4">
-									Our Buddy System pairs you with a volunteer who can provide one-to-one support during your transition:
-								</p>
-								<ul class="mb-4">
-									<li class="mb-2">Regular check-ins and practical support</li>
-									<li class="mb-2">Help navigating local services</li>
-									<li class="mb-2">Social connection and emotional support</li>
-									<li>Guidance with practical housing issues</li>
-								</ul>
-								<a href="#" class="btn btn-sm">Request a Buddy</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="text-card animated-element mt-4">
-					<h3 class="mb-3">Building Healthy Relationships</h3>
-					<p class="mb-4">
-						Transitioning into housing can sometimes mean reassessing relationships. It's important to build connections that support your goals and well-being:
-					</p>
-					<ul class="mb-4">
-						<li class="mb-2">Consider which relationships are supportive of your new circumstances</li>
-						<li class="mb-2">Set healthy boundaries with friends and family if needed</li>
-						<li class="mb-2">Explore new social activities and groups aligned with your goals</li>
-						<li>Build relationships with neighbors and community members</li>
-					</ul>
-					<p>
-						Our support workers can help you navigate relationship challenges and build a healthy social network.
-					</p>
-				</div>
-			</div>
-		</section>
+        <section id="community-support" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Building Your Support Network</h2>
+                <div class="divider mb-4"></div>
+                
+                <p class="text-center mb-5">Having a strong support network is crucial for maintaining stable housing and overall wellbeing. Here are resources and ways to connect:</p>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <div class="feature-icon mb-3"><i class="fas fa-users"></i></div>
+                                <h3 class="card-title">Peer Support Groups</h3>
+                                <p class="card-text mb-4">
+                                    Connect with others who have experienced homelessness and are now in housing. Share experiences, advice, and encouragement.
+                                </p>
+                                <ul class="mb-4">
+                                    <li class="mb-2">Weekly meetups in local community centers</li>
+                                    <li class="mb-2">Online forums and chat groups</li>
+                                    <li>Mentoring opportunities</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm">Find Groups Near You</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <div class="feature-icon mb-3"><i class="fas fa-hands-helping"></i></div>
+                                <h3 class="card-title">Community Resources</h3>
+                                <p class="card-text mb-4">
+                                    Discover local resources and organizations that can provide ongoing support:
+                                </p>
+                                <ul class="mb-4">
+                                    <li class="mb-2">Community centers and libraries</li>
+                                    <li class="mb-2">Faith-based organizations</li>
+                                    <li class="mb-2">Food banks and community kitchens</li>
+                                    <li>Neighborhood associations</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm">Local Resource Directory</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <div class="feature-icon mb-3"><i class="fas fa-heart"></i></div>
+                                <h3 class="card-title">Buddy System</h3>
+                                <p class="card-text mb-4">
+                                    Our Buddy System pairs you with a volunteer who can provide one-to-one support during your transition:
+                                </p>
+                                <ul class="mb-4">
+                                    <li class="mb-2">Regular check-ins and practical support</li>
+                                    <li class="mb-2">Help navigating local services</li>
+                                    <li class="mb-2">Social connection and emotional support</li>
+                                    <li>Guidance with practical housing issues</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm">Request a Buddy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-card animated-element mt-4">
+                    <h3 class="mb-3">Building Healthy Relationships</h3>
+                    <p class="mb-4">
+                        Transitioning into housing can sometimes mean reassessing relationships. It's important to build connections that support your goals and well-being:
+                    </p>
+                    <ul class="mb-4">
+                        <li class="mb-2">Consider which relationships are supportive of your new circumstances</li>
+                        <li class="mb-2">Set healthy boundaries with friends and family if needed</li>
+                        <li class="mb-2">Explore new social activities and groups aligned with your goals</li>
+                        <li>Build relationships with neighbors and community members</li>
+                    </ul>
+                    <p>
+                        Our support workers can help you navigate relationship challenges and build a healthy social network.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-		<section id="moving-forward" class="section">
-			<div class="container">
-				<h2 class="text-center mb-4">Moving Forward: Building Your Future</h2>
-				<div class="divider mb-4"></div>
-				
-				<p class="text-center mb-5">Stable housing provides a foundation to build your future. These resources can help you take the next steps:</p>
-				
-				<div class="row mb-4">
-					<div class="col-6">
-						<div class="card animated-element">
-							<div class="card-content">
-								<h3 class="card-title">Education & Skills Development</h3>
-								<p class="card-text mb-4">
-									Improving your skills and education can open new opportunities:
-								</p>
-								<div class="resource-card">
-									<div class="resource-icon">
-										<i class="fas fa-graduation-cap"></i>
-									</div>
-									<div class="resource-content">
-										<div class="resource-title">Adult Education Classes</div>
-										<p>Free and low-cost courses available at local colleges and online</p>
-									</div>
-								</div>
-								<div class="resource-card">
-									<div class="resource-icon">
-										<i class="fas fa-laptop"></i>
-									</div>
-									<div class="resource-content">
-										<div class="resource-title">Digital Skills Training</div>
-										<p>Learn essential computer skills for work and daily life</p>
-									</div>
-								</div>
-								<div class="resource-card">
-									<div class="resource-icon">
-										<i class="fas fa-certificate"></i>
-									</div>
-									<div class="resource-content">
-										<div class="resource-title">Vocational Qualifications</div>
-										<p>Practical qualifications for specific careers and trades</p>
-									</div>
-								</div>
-								<a href="#" class="btn btn-sm mt-3">Education Resources</a>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-6">
-						<div class="card animated-element">
-							<div class="card-content">
-								<h3 class="card-title">Employment Support</h3>
-								<p class="card-text mb-4">
-									Finding and maintaining employment is key to long-term stability:
-								</p>
-								<div class="resource-card">
-									<div class="resource-icon">
-										<i class="fas fa-file-alt"></i>
-									</div>
-									<div class="resource-content">
-										<div class="resource-title">CV and Interview Preparation</div>
-										<p>One-to-one support to prepare job applications</p>
-									</div>
-								</div>
-								<div class="resource-card">
-									<div class="resource-icon">
-										<i class="fas fa-briefcase"></i>
-									</div>
-									<div class="resource-content">
-										<div class="resource-title">Job Search Assistance</div>
-										<p>Help finding suitable vacancies and applying for positions</p>
-									</div>
-								</div>
-								<div class="resource-card">
-									<div class="resource-icon">
-										<i class="fas fa-people-arrows"></i>
-									</div>
-									<div class="resource-content">
-										<div class="resource-title">Work Mentoring</div>
-										<p>Support during your first months of employment</p>
-									</div>
-								</div>
-								<a href="employment.html" class="btn btn-sm mt-3">Employment Support</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-6">
-						<div class="card animated-element">
-							<div class="card-content">
-								<h3 class="card-title">Health & Wellbeing</h3>
-								<p class="card-text mb-4">
-									Taking care of your physical and mental health is essential for stability:
-								</p>
-								<ul class="mb-4">
-									<li class="mb-2"><strong>Register with a GP</strong> - We can help you find and register with a local doctor</li>
-									<li class="mb-2"><strong>Mental Health Support</strong> - Access to counseling and support groups</li>
-									<li class="mb-2"><strong>Addiction Recovery Services</strong> - Confidential support for recovery</li>
-									<li><strong>Wellness Activities</strong> - Free or low-cost fitness and mindfulness sessions</li>
-								</ul>
-								<a href="healthcare.html" class="btn btn-sm">Health Resources</a>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-6">
-						<div class="card animated-element">
-							<div class="card-content">
-								<h3 class="card-title">Financial Growth</h3>
-								<p class="card-text mb-4">
-									Build financial stability and security for your future:
-								</p>
-								<ul class="mb-4">
-									<li class="mb-2"><strong>Financial Literacy Workshops</strong> - Learn about savings, credit, and debt management</li>
-									<li class="mb-2"><strong>Banking Access</strong> - Help setting up bank accounts and understanding services</li>
-									<li class="mb-2"><strong>Debt Management</strong> - Support dealing with existing debts</li>
-									<li><strong>Saving and Planning</strong> - Tools for building financial security</li>
-								</ul>
-								<a href="#" class="btn btn-sm">Financial Resources</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+        <section id="moving-forward" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Moving Forward: Building Your Future</h2>
+                <div class="divider mb-4"></div>
+                
+                <p class="text-center mb-5">Stable housing provides a foundation to build your future. These resources can help you take the next steps:</p>
+                
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <h3 class="card-title">Education & Skills Development</h3>
+                                <p class="card-text mb-4">
+                                    Improving your skills and education can open new opportunities:
+                                </p>
+                                <div class="resource-card">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <div class="resource-title">Adult Education Classes</div>
+                                        <p>Free and low-cost courses available at local colleges and online</p>
+                                    </div>
+                                </div>
+                                <div class="resource-card">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-laptop"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <div class="resource-title">Digital Skills Training</div>
+                                        <p>Learn essential computer skills for work and daily life</p>
+                                    </div>
+                                </div>
+                                <div class="resource-card">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-certificate"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <div class="resource-title">Vocational Qualifications</div>
+                                        <p>Practical qualifications for specific careers and trades</p>
+                                    </div>
+                                </div>
+                                <a href="#" class="btn btn-sm mt-3">Education Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <h3 class="card-title">Employment Support</h3>
+                                <p class="card-text mb-4">
+                                    Finding and maintaining employment is key to long-term stability:
+                                </p>
+                                <div class="resource-card">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <div class="resource-title">CV and Interview Preparation</div>
+                                        <p>One-to-one support to prepare job applications</p>
+                                    </div>
+                                </div>
+                                <div class="resource-card">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <div class="resource-title">Job Search Assistance</div>
+                                        <p>Help finding suitable vacancies and applying for positions</p>
+                                    </div>
+                                </div>
+                                <div class="resource-card">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-people-arrows"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <div class="resource-title">Work Mentoring</div>
+                                        <p>Support during your first months of employment</p>
+                                    </div>
+                                </div>
+                                <a href="employment.html" class="btn btn-sm mt-3">Employment Support</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <h3 class="card-title">Health & Wellbeing</h3>
+                                <p class="card-text mb-4">
+                                    Taking care of your physical and mental health is essential for stability:
+                                </p>
+                                <ul class="mb-4">
+                                    <li class="mb-2"><strong>Register with a GP</strong> - We can help you find and register with a local doctor</li>
+                                    <li class="mb-2"><strong>Mental Health Support</strong> - Access to counseling and support groups</li>
+                                    <li class="mb-2"><strong>Addiction Recovery Services</strong> - Confidential support for recovery</li>
+                                    <li><strong>Wellness Activities</strong> - Free or low-cost fitness and mindfulness sessions</li>
+                                </ul>
+                                <a href="healthcare.html" class="btn btn-sm">Health Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="card animated-element">
+                            <div class="card-content">
+                                <h3 class="card-title">Financial Growth</h3>
+                                <p class="card-text mb-4">
+                                    Build financial stability and security for your future:
+                                </p>
+                                <ul class="mb-4">
+                                    <li class="mb-2"><strong>Financial Literacy Workshops</strong> - Learn about savings, credit, and debt management</li>
+                                    <li class="mb-2"><strong>Banking Access</strong> - Help setting up bank accounts and understanding services</li>
+                                    <li class="mb-2"><strong>Debt Management</strong> - Support dealing with existing debts</li>
+                                    <li><strong>Saving and Planning</strong> - Tools for building financial security</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm">Financial Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-		<section id="success-stories" class="section bg-light">
-			<div class="container">
-				<h2 class="text-center mb-4">Success Stories</h2>
-				<div class="divider mb-4"></div>
-				
-				<div class="row">
-					<div class="col-4">
-						<div class="testimonial fade-in">
-							<div class="testimonial-content">After three years of homelessness, getting my own flat was just the beginning. The post-housing support helped me learn to budget, maintain my home, and eventually find work. Two years later, I'm stable, employed, and even volunteering to help others.</div>
-							<div class="testimonial-author">- Michael, 42</div>
-						</div>
-					</div>
-					<div class="col-4">
-						<div class="testimonial fade-in">
-							<div class="testimonial-content">The buddy system was a lifeline for me. Having someone to call when I was struggling with bills or feeling isolated made all the difference. My buddy helped me connect with local groups, and now I have a real community around me.</div>
-							<div class="testimonial-author">- Sarah, 38</div>
-						</div>
-					</div>
-					<div class="col-4">
-						<div class="testimonial fade-in">
-							<div class="testimonial-content">I was terrified of losing my housing again. The skills workshops taught me how to manage my tenancy properly, talk to my landlord, and handle repairs. Three years on, I'm in the same flat and have even started a small business from home.</div>
-							<div class="testimonial-author">- James, 51</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+        <section id="success-stories" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Success Stories</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="testimonial fade-in">
+                            <div class="testimonial-content">After three years of homelessness, getting my own flat was just the beginning. The post-housing support helped me learn to budget, maintain my home, and eventually find work. Two years later, I'm stable, employed, and even volunteering to help others.</div>
+                            <div class="testimonial-author">- Michael, 42</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="testimonial fade-in">
+                            <div class="testimonial-content">The buddy system was a lifeline for me. Having someone to call when I was struggling with bills or feeling isolated made all the difference. My buddy helped me connect with local groups, and now I have a real community around me.</div>
+                            <div class="testimonial-author">- Sarah, 38</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="testimonial fade-in">
+                            <div class="testimonial-content">I was terrified of losing my housing again. The skills workshops taught me how to manage my tenancy properly, talk to my landlord, and handle repairs. Three years on, I'm in the same flat and have even started a small business from home.</div>
+                            <div class="testimonial-author">- James, 51</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-		<!-- Call to Action -->
-		<section class="cta-section">
-			<div class="container">
-				<h2 class="cta-title">Need Support With Your Housing?</h2>
-				<p class="cta-text">Our team is ready to help you maintain your housing and build a stable future</p>
-				<a href="tel:08001234567" class="btn btn-lg btn-secondary">Call Our Support Line</a>
-			</div>
-		</section>
-	</main>
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Need Support With Your Housing?</h2>
+                <p class="cta-text">Our team is ready to help you maintain your housing and build a stable future</p>
+                <a href="tel:08001234567" class="btn btn-lg btn-secondary">Call Our Support Line</a>
+            </div>
+        </section>
+    </main>
 
-	<!-- Modern Footer -->
-	<footer class="modern-footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-4">
-					<div class="footer-logo">
-						<img src="logo.png" alt="Homeless Helpers" height="40">
-					</div>
-					<p>Providing support, resources and hope to those facing homelessness.</p>
-					<div class="social-links">
-						<a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-						<a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-						<a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-					</div>
-				</div>
-				
-				<div class="col-4">
-					<h4>Quick Links</h4>
-					<ul class="footer-nav">
-						<li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Find Shelters</a></li>
-						<li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
-						<li class="footer-nav-item"><a href="healthcare.html" class="footer-nav-link">Healthcare</a></li>
-						<li class="footer-nav-item"><a href="employment.html" class="footer-nav-link">Employment</a></li>
-						<li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
-					</ul>
-				</div>
-				
-				<div class="col-4">
-					<h4>Contact Us</h4>
-					<ul class="footer-nav">
-						<li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
-						<li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
-						<li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
-					</ul>
-				</div>
-			</div>
-			
-			<div class="footer-bottom">
-				<p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
-			</div>
-		</div>
-	</footer>
+    <!-- Modern Footer -->
+    <footer class="modern-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="Homeless Helpers" height="40">
+                    </div>
+                    <p>Providing support, resources and hope to those facing homelessness.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Find Shelters</a></li>
+                        <li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
+                        <li class="footer-nav-item"><a href="healthcare.html" class="footer-nav-link">Healthcare</a></li>
+                        <li class="footer-nav-item"><a href="employment.html" class="footer-nav-link">Employment</a></li>
+                        <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-4">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
+                        <li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+                        <li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
 
-	<!-- JavaScript -->
-	<script src="assets/js/modern-ui.js"></script>
-	<script>
-		// Simple script to animate elements when they come into view
-		document.addEventListener('DOMContentLoaded', function() {
-			const animatedElements = document.querySelectorAll('.animated-element');
-			
-			const observer = new IntersectionObserver((entries) => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						entry.target.classList.add('in-view');
-					}
-				});
-			}, {
-				threshold: 0.1
-			});
-			
-			animatedElements.forEach(element => {
-				observer.observe(element);
-			});
-		});
-	</script>
+    <!-- JavaScript -->
+    <script src="assets/js/modern-ui.js"></script>
+    <script>
+        // Simple script to animate elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animated-element');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
 </body>
 </html>

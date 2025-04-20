@@ -10,380 +10,122 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Chelsea+Market&display=swap" rel="stylesheet">
-	<script src="https://cdn.tailwindcss.com"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-	<link rel="stylesheet" href="assets/css/monkey-island-style.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-	<link rel="stylesheet" href="assets/css/menu-style.css">
-	<link rel="stylesheet" href="css/fix-scroll.css">
-	<link rel="stylesheet" href="css/fix-scroll.css">
-	<style>
-		*,*::before,*::after {
-			box-sizing: border-box;
-		}
-		
-		*::selection {
-			color: #000000;
-			background-color: #efefef;
-		}
-		
-		a {
-			-webkit-tap-highlight-color: transparent;
-		}
-		
-		@media (any-hover: hover) {
-			a:hover {
-				-webkit-tap-highlight-color: transparent;
-			}
-		}
-		
-		ul[class],ol[class] {
-			padding: 0;
-		}
-		
-		body,h1,h2,h3,h4,p,ul[class],ol[class],li,figure,figcaption,blockquote,dl,dd {
-			margin: 0;
-		}
-		
-		html {
-			scroll-behavior: smooth;
-		}
-		
-		body {
-			min-height: 100vh;
-			text-rendering: optimizeLegibility;
-			line-height: 1.75;
-			font-family: "Chelsea Market", "Caveat Brush", cursive;
-			background-color: #06454b;
-			padding: 0;
-			text-align: left;
-			color: #efefef;
-			cursor: pointer;
-			overflow-x: hidden;
-		}
-		
-		body a {
-			cursor: pointer;
-			text-decoration: none;
-		}
-		
-		ul,ol {
-			list-style: none;
-		}
-
-		.bg-custom-gradient {
-			background: linear-gradient(to bottom, #06454b, #2f835c);
-		}
-
-		@media (max-width: 768px) {
-			body {
-				background: linear-gradient(to bottom, #06454b, #2f835c);
-			}
-		}
-
-		.content-wrapper {
-			position: relative;
-			z-index: 20;
-			margin-top: 0;
-			padding-top: 5rem;
-			background-color: #1d1c1a;
-			padding: 2rem;
-			border: 5px dashed #29241e;
-		}
-
-		@media (max-width: 768px) {
-			.content-wrapper {
-				margin-top: 8rem;
-			}
-		}
-
-		.section-wrapper {
-			border: 5px dashed #29241e;
-			padding: 2rem;
-			margin-bottom: 2rem;
-		}
-		
-		.text-card {
-			background-color: #2f835c;
-			padding: 1.5rem;
-			margin-bottom: 1.5rem;
-			position: relative;
-			overflow: hidden;
-			transition: all 0.3s ease;
-		}
-
-		.text-card:hover {
-			transform: translate(2px, -2px);
-			box-shadow: -5px 5px 0 #00000088;
-		}
-
-		.text-card::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background-image: url('data:image/png;base64,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');
-			opacity: 0.2;
-			mix-blend-mode: multiply;
-			pointer-events: none;
-		}
-
-		.animated-element {
-			opacity: 0;
-			transform: translateY(30px);
-			transition: opacity 1s, transform 1s;
-		}
-
-		.animated-element.visible {
-			opacity: 1;
-			transform: translateY(0);
-		}
-
-		/* Cursor styling */
-		body {
-			cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><circle cx="12" cy="12" r="8" fill="%2348d595" opacity="0.6"/></svg>') 12 12, auto;
-		}
-
-		.clickable {
-			cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%2348d595"><circle cx="12" cy="12" r="10" fill="%2348d595" opacity="0.8"/></svg>') 12 12, pointer;
-		}
-	</style>
+	<link rel="stylesheet" href="assets/css/modern/wix-modern.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-	<!-- Transchem-style Mega Menu -->
-	<nav class="mega-menu" role="navigation" aria-label="Main Menu">
-		<ul class="menu">
-			<li class="menu-item"><a href="index.html">Home</a></li>
-			<li class="menu-item"><a href="get-help.html">Get Help</a></li>
-			<li class="menu-item"><a href="shelters.html">Shelters</a></li>
-			<li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
-			<li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
-			<li class="menu-item"><a href="employment.html">Employment</a></li>
-			<li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
-			<li class="menu-item"><a href="resources.html">Resources</a></li>
-			<li class="menu-item"><a href="about.html">About</a></li>
-			<li class="menu-item"><a href="network.html">Network</a></li>
-			<li class="menu-item"><a href="emergency.html">Emergency</a></li>
-		</ul>
-	</nav>
-	<!-- Aria-live region for notifications or dynamic content updates -->
-	<div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
-
-	<div class="content-wrapper">
-		<section id="welcome" class="section-wrapper">
-			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Healthcare Access</h1>
-			<p class="text-lg md:text-xl mb-8">
-				Resources for accessing healthcare services and managing health needs while experiencing homelessness.
-			</p>
-		</section>
-
-		<section id="mental-health" class="section-wrapper animated-element">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Mental Health Support</h2>
-			<div class="text-card">
-				<h3 class="text-xl font-semibold text-white mb-4">Crisis Support</h3>
-				<p class="mb-4">
-					If you're experiencing a mental health crisis and need immediate support:
-				</p>
-				<ul class="list-disc pl-6 mb-4">
-					<li>Call the Samaritans: <strong>116 123</strong> (24/7, free)</li>
-					<li>Text SHOUT to <strong>85258</strong> for crisis text support</li>
-					<li>Call the NHS: <strong>111</strong> and ask for mental health support</li>
-					<li>In an emergency, call <strong>999</strong> or go to A&amp;E</li>
-				</ul>
-				<h3 class="text-xl font-semibold text-white mb-4 mt-6">Ongoing Support</h3>
-				<p class="mb-4">
-					Regular mental health support services available without a fixed address:
-				</p>
-				<ul class="list-disc pl-6">
-					<li><strong>Homeless Mental Health Teams</strong> - Specialists who understand the unique challenges of homelessness</li>
-					<li><strong>Drop-in Counselling</strong> - Many day centers offer free counselling sessions</li>
-					<li><strong>Mind</strong> - Local branches offer support regardless of housing situation</li>
-				</ul>
+	<header class="modern-header">
+		<div class="container">
+			<div class="header-content">
+				<div class="logo"><a href="index.html"><img src="logo.png" alt="Homeless Helpers"></a></div>
+				<button class="menu-toggle"><i class="fas fa-bars"></i></button>
+				<nav class="modern-nav">
+					<ul class="nav-list">
+						<li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+						<li class="nav-item dropdown">
+							<a href="#" class="nav-link">Get Help</a>
+							<div class="dropdown-content">
+								<a href="shelters.html" class="dropdown-item">Shelters</a>
+								<a href="foodbanks.html" class="dropdown-item">Food Banks</a>
+								<a href="healthcare.html" class="dropdown-item">Healthcare</a>
+								<a href="employment.html" class="dropdown-item">Employment</a>
+							</div>
+						</li>
+						<li class="nav-item"><a href="resources.html" class="nav-link">Resources</a></li>
+						<li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+						<li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+						<li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+					</ul>
+				</nav>
 			</div>
-		</section>
+		</div>
+	</header>
 
-		<section id="physical-health" class="section-wrapper animated-element">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Physical Health Care</h2>
-			<div class="text-card">
-				<h3 class="text-xl font-semibold text-white mb-4">Your Right to Healthcare</h3>
-				<p class="mb-6">
-					Everyone in the UK has the right to access NHS healthcare, regardless of housing status. You don't need a fixed address to register with a GP.
-				</p>
-				<h3 class="text-xl font-semibold text-white mb-4">Mobile Health Services</h3>
-				<p class="mb-4">
-					Many cities have mobile healthcare units that visit homeless shelters and day centers:
-				</p>
-				<ul class="list-disc pl-6 mb-6">
-					<li><strong>Health Outreach Teams</strong> - Nurses and doctors who visit homeless services</li>
-					<li><strong>Foot Care Clinics</strong> - Specialist care for foot problems which are common when homeless</li>
-					<li><strong>Dental Services</strong> - Mobile dental units providing essential oral healthcare</li>
-					<li><strong>Vision Care</strong> - Free eye tests and glasses through specialized services</li>
-				</ul>
-				<p>
-					Contact your local day center or shelter to find out when these services visit.
-				</p>
+	<section class="hero">
+		<div class="hero-overlay"></div>
+		<div class="container">
+			<div class="hero-content">
+				<h1 class="hero-title slide-up">Healthcare Resources</h1>
+				<p class="hero-subtitle slide-up">Access healthcare resources for homeless individuals across the UK.</p>
 			</div>
-		</section>
+		</div>
+	</section>
 
-		<section id="medication" class="section-wrapper animated-element">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Medication Access &amp; Management</h2>
-			<div class="text-card">
-				<h3 class="text-xl font-semibold text-white mb-4">Getting Prescriptions</h3>
-				<p class="mb-4">
-					If you don't have funds for prescription costs:
-				</p>
-				<ul class="list-disc pl-6 mb-6">
-					<li>Apply for an <strong>HC2 certificate</strong> for free prescriptions</li>
-					<li>Ask your GP about the <strong>Minor Ailments Scheme</strong> for basic medications</li>
-					<li>Some day centers can help with prescription costs in emergencies</li>
-				</ul>
-				<h3 class="text-xl font-semibold text-white mb-4">Storing Medication</h3>
-				<p class="mb-4">
-					If you have nowhere safe to store medications:
-				</p>
-				<ul class="list-disc pl-6">
-					<li>Some hostels offer secure medication storage</li>
-					<li>Day centers may provide lockers for medication</li>
-					<li>Ask your GP about daily dispensing options</li>
-					<li>For medicines requiring refrigeration, speak to your pharmacist about alternatives</li>
-				</ul>
-			</div>
-		</section>
+	<main id="main-content" class="section">
+		<div class="container">
+			<section id="mental-health" class="mb-5">
+				<h2>Mental Health Support</h2>
+				<div class="divider divider-left mb-4"></div>
+				<p>Information on counselling, crisis hotlines, and community mental health services.</p>
+			</section>
+			<section id="physical-health" class="mb-5">
+				<h2>Physical Health Services</h2>
+				<div class="divider divider-left mb-4"></div>
+				<p>Details on free clinics, GP registrations, and mobile health units.</p>
+			</section>
+			<section id="medication" class="mb-5">
+				<h2>Medication Assistance</h2>
+				<div class="divider divider-left mb-4"></div>
+				<p>Guidance on obtaining prescriptions, subsidies and support for long-term treatments.</p>
+			</section>
+			<section id="gp-registration" class="mb-5">
+				<h2>GP Registration</h2>
+				<div class="divider divider-left mb-4"></div>
+				<p>GP practices cannot refuse to register you because you don't have a fixed address or identification. Use a day centre or hostel address (with permission), register as having "no fixed abode," or contact PALS if registration is refused.</p>
+			</section>
+			<section id="emergency-care" class="mb-5">
+				<h2>Medical Emergencies</h2>
+				<div class="divider divider-left mb-4"></div>
+				<p>In case of emergencies, call <strong>999</strong> or go to your nearest A&amp;E. For non-emergency advice, dial <strong>111</strong>, visit a walk-in centre, or speak to a pharmacist.</p>
+			</section>
+			<section id="recovery-services" class="mb-5">
+				<h2>Substance Use &amp; Recovery Services</h2>
+				<div class="divider divider-left mb-4"></div>
+				<p>Find drop-in harm reduction services, needle exchanges, community drug and alcohol teams, detox and rehabilitation programmes. Self-refer directly or call the Frank helpline on <strong>0300 123 6600</strong> for confidential support.</p>
+			</section>
+			<section id="additional-support" class="mb-5">
+				<h2>Additional Support</h2>
+				<div class="divider divider-left mb-4"></div>
+				<p>Our team can accompany you to appointments, explain medical information, advocate with providers, and help set up medication reminders and management systems.</p>
+				<button class="btn btn-primary" onclick="location.href='contact.html'">Contact Support Team</button>
+			</section>
+		</div>
+	</main>
 
-		<section id="nhs-registration" class="section-wrapper animated-element">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Registering with a GP</h2>
-			<div class="text-card">
-				<h3 class="text-xl font-semibold text-white mb-4">Your Right to Register</h3>
-				<p class="mb-4">
-					GP practices cannot refuse to register you because you don't have a fixed address or identification. If you're having difficulties:
-				</p>
-				<ul class="list-disc pl-6 mb-6">
-					<li>Use the address of a day center or hostel (with their permission)</li>
-					<li>Register as having "no fixed abode"</li>
-					<li>Ask a homeless healthcare team to help with registration</li>
-					<li>If refused, contact Patient Advice and Liaison Service (PALS)</li>
-				</ul>
-				<h3 class="text-xl font-semibold text-white mb-4">Homeless-Friendly Practices</h3>
-				<p>
-					Some GP practices specialize in supporting homeless patients. Our support workers can help you find a suitable practice in your area and accompany you to appointments if needed.
-				</p>
-			</div>
-		</section>
-
-		<section id="emergency" class="section-wrapper animated-element">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Medical Emergencies</h2>
-			<div class="text-card">
-				<h3 class="text-xl font-semibold text-white mb-4">Emergency Services</h3>
-				<p class="mb-4">
-					In a medical emergency:
-				</p>
-				<ul class="list-disc pl-6 mb-6">
-					<li>Call <strong>999</strong> for an ambulance</li>
-					<li>Go to your nearest A&amp;E department</li>
-					<li>You have the right to emergency care regardless of your housing status</li>
-				</ul>
-				<h3 class="text-xl font-semibold text-white mb-4">Non-Emergency Care</h3>
-				<p class="mb-4">
-					For non-emergency medical advice:
-				</p>
-				<ul class="list-disc pl-6">
-					<li>Call <strong>111</strong> - This service can advise on local care options</li>
-					<li>Visit a walk-in center or urgent care center</li>
-					<li>Speak to a pharmacist for minor health concerns</li>
-				</ul>
-			</div>
-		</section>
-
-		<section id="addiction" class="section-wrapper animated-element">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Substance Use &amp; Recovery Services</h2>
-			<div class="text-card">
-				<h3 class="text-xl font-semibold text-white mb-4">Getting Help</h3>
-				<p class="mb-4">
-					Support services available for addiction recovery:
-				</p>
-				<ul class="list-disc pl-6 mb-6">
-					<li><strong>Drop-in services</strong> - No appointment needed at many centers</li>
-					<li><strong>Needle exchange programs</strong> - Safe disposal and clean equipment</li>
-					<li><strong>Community drug and alcohol teams</strong> - Specialized support</li>
-					<li><strong>Detox programs</strong> - Medical support for withdrawal</li>
-					<li><strong>Rehabilitation services</strong> - Longer-term recovery support</li>
-				</ul>
-				<h3 class="text-xl font-semibold text-white mb-4">Self-Referral</h3>
-				<p>
-					You can self-refer to many drug and alcohol services without going through a GP. Contact local services directly or call the Frank helpline on <strong>0300 123 6600</strong> for confidential advice and referrals.
-				</p>
-			</div>
-		</section>
-
-		<section id="support" class="section-wrapper animated-element">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Additional Support</h2>
-			<div class="text-card">
-				<p class="mb-6">
-					Our team can help with:
-				</p>
-				<ul class="list-disc pl-6 mb-6">
-					<li>Accompanying you to medical appointments</li>
-					<li>Explaining medical information and treatment options</li>
-					<li>Advocating on your behalf with healthcare providers</li>
-					<li>Accessing specialist care and support</li>
-					<li>Setting up medication reminders and management systems</li>
-				</ul>
-				<p>
-					Contact us for personalized support with your healthcare needs:
-				</p>
-				<div class="mt-6">
-					<button class="nav-button clickable" onclick="location.href='contact.html'">Contact Support Team</button>
+	<footer class="modern-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-4">
+					<div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
+					<p>Providing support, resources and hope to those facing homelessness.</p>
+					<div class="social-links">
+						<a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+						<a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+						<a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+					</div>
+				</div>
+				<div class="col-4">
+					<h4>Quick Links</h4>
+					<ul class="footer-nav">
+						<li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Shelters</a></li>
+						<li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
+						<li class="footer-nav-item"><a href="employment.html" class="footer-nav-link">Employment</a></li>
+					</ul>
+				</div>
+				<div class="col-4">
+					<h4>Contact Us</h4>
+					<ul class="footer-nav">
+						<li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
+						<li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+					</ul>
 				</div>
 			</div>
-		</section>
-	</div>
-
-	<footer class="bg-[#06454b] py-6 text-white text-center">
-		<p>&copy; 2025 Homeless Helpers. All rights reserved.</p>
-		<p>Registered Charity No. 1234567</p>
+			<div class="footer-bottom">
+				<p>&copy; 2025 Homeless Helpers. All rights reserved.</p>
+			</div>
+		</div>
 	</footer>
 
-	<script>
-		const animatedElements = document.querySelectorAll('.animated-element');
-
-		function checkAnimatedElements() {
-			animatedElements.forEach(element => {
-				const elementTop = element.getBoundingClientRect().top;
-				if (elementTop < window.innerHeight - 100) {
-					element.classList.add('visible');
-				}
-			});
-		}
-		
-		window.addEventListener('scroll', checkAnimatedElements);
-		window.addEventListener('load', checkAnimatedElements);
-
-		// Add hover effect to section wrappers
-		document.querySelectorAll('.section-wrapper').forEach(section => {
-			section.addEventListener('mouseenter', () => {
-				// Find text cards inside this section
-				const cards = section.querySelectorAll('.text-card');
-				cards.forEach(card => {
-					card.style.transform = 'translate(2px, -2px)';
-					card.style.boxShadow = '-5px 5px 0 #00000088';
-				});
-			});
-			
-			section.addEventListener('mouseleave', () => {
-				const cards = section.querySelectorAll('.text-card');
-				cards.forEach(card => {
-					card.style.transform = '';
-					card.style.boxShadow = '';
-				});
-			});
-		});
-	</script>
-	<script src="assets/js/animations.js"></script>
-	<script src="js/menuModule.js"></script>
-	<script src="assets/js/navigation-module.js"></script>
-	<script src="js/fix-scroll.js"></script>
-	<script src="js/fix-scroll.js"></script>
+	<script src="assets/js/modern-ui.js"></script>
 </body>
 </html>

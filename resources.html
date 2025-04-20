@@ -14,6 +14,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Favicon -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .resource-card {
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #48d595;
+        }
+        
+        .resource-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tag {
+            background-color: #2a2a2a;
+            color: #fff;
+            padding: 0.3rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+        
+        .filter-container {
+            background-color: #2a2a2a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+        
+        .filter-heading {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #48d595;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .filter-option {
+            background-color: #1d1c1a;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .filter-option:hover,
+        .filter-option.active {
+            background-color: #48d595;
+            color: #222;
+        }
+        
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #48d595;
+            color: #222;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0.5rem 0;
+            transition: background-color 0.3s;
+        }
+        
+        .download-link:hover {
+            background-color: #3bbd82;
+        }
+        
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #1d1c1a;
+            color: #fff;
+        }
+        
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
 </head>
 <body>
     <!-- Modern Header -->
@@ -64,100 +170,396 @@
         <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title slide-up">Resources for Support</h1>
-                <p class="hero-subtitle slide-up">Tools, connections, and information to help you find stability and independence</p>
+                <h1 class="hero-title slide-up">Resources & Tools</h1>
+                <p class="hero-subtitle slide-up">Access guides, tools, and downloadable resources to help with homelessness and housing issues</p>
                 <div class="slide-up">
-                    <a href="#housing-resources" class="btn btn-lg">Housing Resources</a>
-                    <a href="#mental-health" class="btn btn-outline btn-lg">Mental Health</a>
+                    <a href="#self-help-tools" class="btn btn-lg">Self-Help Tools</a>
+                    <a href="#downloadable" class="btn btn-outline btn-lg">Downloadable Resources</a>
                 </div>
             </div>
         </div>
     </section>
 
     <main id="main-content">
-        <!-- Add aria-live region for dynamic content/notifications -->
-        <div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
-        
         <section class="section">
             <div class="container">
-                <h2 class="text-center mb-4">Available Support Resources</h2>
+                <h2 class="text-center mb-4">Resource Library</h2>
                 <div class="divider mb-4"></div>
-                <p class="text-center mb-5">
-                    At Homeless Helpers, we provide a wide range of resources to support individuals and families experiencing homelessness. Our goal is to empower you with the tools and connections needed to achieve stability and independence.
-                </p>
+                <p class="text-center mb-5">Browse our comprehensive collection of guides, tools, and resources designed to help you navigate homelessness and housing challenges.</p>
+                
+                <div class="filter-container">
+                    <div class="search-container">
+                        <input type="text" class="search-box" placeholder="Search resources..." id="resource-search">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-heading">Filter by Category:</div>
+                        <div class="filter-options" id="category-filters">
+                            <div class="filter-option active" data-filter="all">All</div>
+                            <div class="filter-option" data-filter="housing">Housing</div>
+                            <div class="filter-option" data-filter="health">Health</div>
+                            <div class="filter-option" data-filter="food">Food</div>
+                            <div class="filter-option" data-filter="benefits">Benefits</div>
+                            <div class="filter-option" data-filter="legal">Legal Rights</div>
+                            <div class="filter-option" data-filter="employment">Employment</div>
+                            <div class="filter-option" data-filter="pets">Pets</div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-heading">Filter by Type:</div>
+                        <div class="filter-options" id="type-filters">
+                            <div class="filter-option active" data-filter="all">All</div>
+                            <div class="filter-option" data-filter="guide">Guides</div>
+                            <div class="filter-option" data-filter="tool">Interactive Tools</div>
+                            <div class="filter-option" data-filter="template">Templates</div>
+                            <div class="filter-option" data-filter="download">Downloadable</div>
+                            <div class="filter-option" data-filter="video">Videos</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" id="resources-grid">
+                    <!-- Housing Resources -->
+                    <div class="col-4 mb-4 resource-item" data-categories="housing legal" data-types="guide download">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <h3 class="card-title">Housing Rights Guide</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Housing</span>
+                                    <span class="tag">Legal Rights</span>
+                                </div>
+                                <p class="card-text mb-4">A comprehensive guide to your legal rights when facing homelessness, including the 56-day rule and council obligations.</p>
+                                <a href="shelters.html#housing-rights" class="btn btn-sm">View Guide</a>
+                                <a href="#" class="download-link">
+                                    <i class="fas fa-download"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4 mb-4 resource-item" data-categories="housing" data-types="tool">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <h3 class="card-title">Shelter Finder Tool</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Housing</span>
+                                    <span class="tag">Emergency</span>
+                                </div>
+                                <p class="card-text mb-4">Interactive tool to find emergency accommodation, night shelters, and hostels in your local area.</p>
+                                <a href="shelters.html#immediate-help" class="btn btn-sm">Use Tool</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4 mb-4 resource-item" data-categories="housing legal" data-types="template download">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <h3 class="card-title">Housing Application Templates</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Housing</span>
+                                    <span class="tag">Legal Rights</span>
+                                </div>
+                                <p class="card-text mb-4">Template letters to request homelessness assistance, emergency accommodation, and to challenge council decisions.</p>
+                                <a href="lettermaker.html" class="btn btn-sm">Create Letters</a>
+                                <a href="#" class="download-link">
+                                    <i class="fas fa-download"></i> Download Templates
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Health Resources -->
+                    <div class="col-4 mb-4 resource-item" data-categories="health" data-types="guide download">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <h3 class="card-title">Healthcare When Homeless</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Health</span>
+                                    <span class="tag">NHS</span>
+                                </div>
+                                <p class="card-text mb-4">Guide to accessing healthcare services without a fixed address, including registering with GPs and getting prescriptions.</p>
+                                <a href="healthcare.html" class="btn btn-sm">View Guide</a>
+                                <a href="#" class="download-link">
+                                    <i class="fas fa-download"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4 mb-4 resource-item" data-categories="health" data-types="tool">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-pills"></i>
+                                </div>
+                                <h3 class="card-title">Medication Reminder Tool</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Health</span>
+                                    <span class="tag">Wellbeing</span>
+                                </div>
+                                <p class="card-text mb-4">Simple tool to set reminders for medications and track health appointments even without regular internet access.</p>
+                                <a href="healthcare.html#medication-tool" class="btn btn-sm">Use Tool</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4 mb-4 resource-item" data-categories="health" data-types="guide video">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h3 class="card-title">Mental Health Support</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Health</span>
+                                    <span class="tag">Mental Health</span>
+                                </div>
+                                <p class="card-text mb-4">Resources for managing mental health while homeless, including free support services and coping strategies.</p>
+                                <a href="healthcare.html#mental-health" class="btn btn-sm">View Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Food Resources -->
+                    <div class="col-4 mb-4 resource-item" data-categories="food" data-types="tool">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <h3 class="card-title">Food Bank Finder</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Food</span>
+                                    <span class="tag">Emergency</span>
+                                </div>
+                                <p class="card-text mb-4">Interactive map to find food banks, community meals, and other free food services in your area.</p>
+                                <a href="foodbanks.html" class="btn btn-sm">Use Tool</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4 mb-4 resource-item" data-categories="food" data-types="guide download">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-shopping-basket"></i>
+                                </div>
+                                <h3 class="card-title">Budget Food Guide</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Food</span>
+                                    <span class="tag">Budgeting</span>
+                                </div>
+                                <p class="card-text mb-4">Tips for stretching a limited food budget, including low-cost recipes that can be prepared with minimal equipment.</p>
+                                <a href="foodbanks.html#budget-food" class="btn btn-sm">View Guide</a>
+                                <a href="#" class="download-link">
+                                    <i class="fas fa-download"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefits Resources -->
+                    <div class="col-4 mb-4 resource-item" data-categories="benefits legal" data-types="guide download">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-pound-sign"></i>
+                                </div>
+                                <h3 class="card-title">Benefits Entitlement Guide</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Benefits</span>
+                                    <span class="tag">Legal Rights</span>
+                                </div>
+                                <p class="card-text mb-4">Comprehensive guide to the benefits you may be entitled to when homeless or at risk of homelessness.</p>
+                                <a href="financial.html" class="btn btn-sm">View Guide</a>
+                                <a href="#" class="download-link">
+                                    <i class="fas fa-download"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pet Resources -->
+                    <div class="col-4 mb-4 resource-item" data-categories="pets housing" data-types="guide download">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-paw"></i>
+                                </div>
+                                <h3 class="card-title">Pets and Homelessness Guide</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Pets</span>
+                                    <span class="tag">Housing</span>
+                                </div>
+                                <p class="card-text mb-4">Information on pet-friendly shelters, your rights with assistance animals, and temporary pet fostering options.</p>
+                                <a href="verify-assistance-dog.html" class="btn btn-sm">View Guide</a>
+                                <a href="#" class="download-link">
+                                    <i class="fas fa-download"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4 mb-4 resource-item" data-categories="pets" data-types="tool template">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <h3 class="card-title">Service Dog Certification</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Pets</span>
+                                    <span class="tag">Legal Rights</span>
+                                </div>
+                                <p class="card-text mb-4">Create documentation to help your companion animal be recognized as an assistance animal for housing purposes.</p>
+                                <a href="service-dog-certification.html" class="btn btn-sm">Create Certificate</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Employment Resources -->
+                    <div class="col-4 mb-4 resource-item" data-categories="employment" data-types="tool template">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-file-contract"></i>
+                                </div>
+                                <h3 class="card-title">CV Builder Tool</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Employment</span>
+                                    <span class="tag">Skills</span>
+                                </div>
+                                <p class="card-text mb-4">Create a professional CV even with employment gaps or limited work history, focusing on skills and potential.</p>
+                                <a href="employment.html#cv-builder" class="btn btn-sm">Create CV</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4 mb-4 resource-item" data-categories="employment" data-types="guide download">
+                        <div class="card resource-card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <h3 class="card-title">Employment Rights Guide</h3>
+                                <div class="resource-tags">
+                                    <span class="tag">Employment</span>
+                                    <span class="tag">Legal Rights</span>
+                                </div>
+                                <p class="card-text mb-4">Information on your employment rights, including working while claiming benefits and addressing workplace discrimination.</p>
+                                <a href="employment.html#rights" class="btn btn-sm">View Guide</a>
+                                <a href="#" class="download-link">
+                                    <i class="fas fa-download"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- No results message -->
+                <div id="no-results" style="display: none;" class="text-center py-5">
+                    <h3>No resources found matching your filters</h3>
+                    <p>Try adjusting your search criteria or <a href="#" id="reset-filters">reset all filters</a>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="self-help-tools" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Self-Help Tools</h2>
+                <div class="divider mb-4"></div>
+                <p class="text-center mb-5">Interactive tools designed to help you take practical action on your situation.</p>
                 
                 <div class="row">
                     <div class="col-4">
-                        <div class="feature-block fade-in">
-                            <div class="feature-icon"><i class="fas fa-home"></i></div>
-                            <h3 class="feature-title">Housing Resources</h3>
-                            <p class="feature-text">Find organizations that can help with emergency and long-term housing solutions.</p>
-                            <a href="#housing-resources" class="btn btn-sm">Housing Help</a>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <h3 class="card-title">Letter Maker</h3>
+                                <p class="card-text mb-4">Create professional, official-looking letters for councils, landlords, benefits offices, and other agencies.</p>
+                                <a href="lettermaker.html" class="btn">Create Letters</a>
+                            </div>
                         </div>
                     </div>
+                    
                     <div class="col-4">
-                        <div class="feature-block fade-in">
-                            <div class="feature-icon"><i class="fas fa-brain"></i></div>
-                            <h3 class="feature-title">Mental Health</h3>
-                            <p class="feature-text">Access support for mental health issues, including counseling and crisis services.</p>
-                            <a href="#mental-health" class="btn btn-sm">Mental Health</a>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-paw"></i>
+                                </div>
+                                <h3 class="card-title">Service Dog Certification</h3>
+                                <p class="card-text mb-4">Generate documentation for your companion animal as a service or emotional support animal.</p>
+                                <a href="service-dog-certification.html" class="btn">Certify Your Dog</a>
+                            </div>
                         </div>
                     </div>
+                    
                     <div class="col-4">
-                        <div class="feature-block fade-in">
-                            <div class="feature-icon"><i class="fas fa-paw"></i></div>
-                            <h3 class="feature-title">Pet Support</h3>
-                            <p class="feature-text">Find help for your pets, including veterinary care and pet-friendly shelters.</p>
-                            <a href="#pet-resources" class="btn btn-sm">Pet Resources</a>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <div class="resource-icon">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <h3 class="card-title">Benefits Calculator</h3>
+                                <p class="card-text mb-4">Find out which benefits you may be entitled to and how to claim them, even without a fixed address.</p>
+                                <a href="financial.html#calculator" class="btn">Calculate Benefits</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="housing-resources" class="section bg-light">
-            <div class="container">
-                <h2 class="text-center mb-4">Homelessness Resources in the UK</h2>
-                <div class="divider mb-4"></div>
                 
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card mb-4">
+                <div class="row mt-4">
+                    <div class="col-4">
+                        <div class="card fade-in">
                             <div class="card-content">
-                                <h3 class="card-title">Shelter</h3>
-                                <p class="card-text mb-4">Shelter provides expert advice, support, and legal assistance for housing and homelessness issues. They are a secular organization dedicated to helping everyone in need.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 0808 800 4444</p>
-                                <a href="https://england.shelter.org.uk" target="_blank" class="btn">Visit Shelter</a>
+                                <div class="resource-icon">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <h3 class="card-title">Housing Action Plan</h3>
+                                <p class="card-text mb-4">Create a personalized action plan with specific steps to take based on your housing situation.</p>
+                                <a href="shelters.html#action-plan" class="btn">Create Plan</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="card mb-4">
+                    
+                    <div class="col-4">
+                        <div class="card fade-in">
                             <div class="card-content">
-                                <h3 class="card-title">Crisis</h3>
-                                <p class="card-text mb-4">Crisis offers education, training, and support to help people out of homelessness. They are a secular organization focused on long-term solutions.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 0300 636 1967</p>
-                                <a href="https://www.crisis.org.uk" target="_blank" class="btn">Visit Crisis</a>
+                                <div class="resource-icon">
+                                    <i class="fas fa-file-contract"></i>
+                                </div>
+                                <h3 class="card-title">CV Builder</h3>
+                                <p class="card-text mb-4">Create a professional CV focusing on your skills and potential, even with limited work history.</p>
+                                <a href="employment.html#cv-builder" class="btn">Build CV</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="card mb-4">
+                    
+                    <div class="col-4">
+                        <div class="card fade-in">
                             <div class="card-content">
-                                <h3 class="card-title">StreetLink</h3>
-                                <p class="card-text mb-4">StreetLink connects rough sleepers with local services that can help them. This secular service ensures immediate help reaches those in need.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 0300 500 0914</p>
-                                <a href="https://www.streetlink.org.uk" target="_blank" class="btn">Visit StreetLink</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card mb-4">
-                            <div class="card-content">
-                                <h3 class="card-title">The Salvation Army</h3>
-                                <p class="card-text mb-4">The Salvation Army is a Christian organization providing shelter, food, and support services. They operate shelters and community programs across the UK.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 020 7367 4500</p>
-                                <a href="https://www.salvationarmy.org.uk" target="_blank" class="btn">Visit Salvation Army</a>
+                                <div class="resource-icon">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <h3 class="card-title">Legal Rights Checker</h3>
+                                <p class="card-text mb-4">Answer a few questions to understand your legal rights and entitlements based on your specific situation.</p>
+                                <a href="shelters.html#rights-checker" class="btn">Check Rights</a>
                             </div>
                         </div>
                     </div>
@@ -165,160 +567,96 @@
             </div>
         </section>
 
-        <section id="mental-health" class="section">
+        <section id="downloadable" class="section">
             <div class="container">
-                <h2 class="text-center mb-4">Mental Health Resources</h2>
+                <h2 class="text-center mb-4">Downloadable Resources</h2>
                 <div class="divider mb-4"></div>
+                <p class="text-center mb-5">Print these resources or save them to your device for offline access when you need them most.</p>
                 
                 <div class="row">
                     <div class="col-6">
-                        <div class="card mb-4">
+                        <div class="card fade-in">
                             <div class="card-content">
-                                <h3 class="card-title">Mind</h3>
-                                <p class="card-text mb-4">Mind provides advice and support to empower anyone experiencing a mental health problem. They are a secular organization offering helplines, local support groups, and online resources.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 0300 123 3393</p>
-                                <a href="https://www.mind.org.uk" target="_blank" class="btn">Visit Mind</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card mb-4">
-                            <div class="card-content">
-                                <h3 class="card-title">Samaritans</h3>
-                                <p class="card-text mb-4">Samaritans offers a safe space to talk about mental health issues. Their trained volunteers are available 24/7 to listen and provide support. They are a secular organization.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 116 123 (free)</p>
-                                <a href="https://www.samaritans.org" target="_blank" class="btn">Visit Samaritans</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card mb-4">
-                            <div class="card-content">
-                                <h3 class="card-title">Rethink Mental Illness</h3>
-                                <p class="card-text mb-4">Rethink provides support and information for people living with mental illness. They are a secular organization offering advocacy services, crisis support, and advice.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 0808 801 0525</p>
-                                <a href="https://www.rethink.org" target="_blank" class="btn">Visit Rethink</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card mb-4">
-                            <div class="card-content">
-                                <h3 class="card-title">NHS Mental Health Services</h3>
-                                <p class="card-text mb-4">The NHS offers free mental health services, including therapy, counseling, and crisis intervention. You can access these services through your GP.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 111 for non-emergencies</p>
-                                <a href="https://www.nhs.uk/mental-health" target="_blank" class="btn">Visit NHS Mental Health</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card mb-5">
-                    <div class="card-content">
-                        <h3 class="card-title">Homeless Mental Health Support</h3>
-                        <p class="card-text mb-4">
-                            Homelessness can have a significant impact on mental health. Many individuals face anxiety, depression, and trauma as a result of their experiences. Our network provides specialized support to address these challenges, including access to counseling, peer support groups, and crisis intervention services.
-                        </p>
-                        <p class="card-text mb-4">
-                            If you or someone you know is struggling, reach out to one of the organizations listed above or contact our support team for guidance. Remember, seeking help is a sign of strength, not weakness.
-                        </p>
-                        <a href="tel:08088004444" class="btn">Call Our Helpline</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="pet-resources" class="section bg-light">
-            <div class="container">
-                <h2 class="text-center mb-4">Help with Pets When Homeless</h2>
-                <div class="divider mb-4"></div>
-                
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card mb-4">
-                            <div class="card-content">
-                                <h3 class="card-title">Dogs Trust Hope Project</h3>
-                                <p class="card-text mb-4">The Dogs Trust Hope Project provides free veterinary care for dogs belonging to homeless people. They also offer advice on finding pet-friendly accommodation.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> 020 7837 0006</p>
-                                <a href="https://www.dogstrust.org.uk" target="_blank" class="btn">Visit Dogs Trust</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card mb-4">
-                            <div class="card-content">
-                                <h3 class="card-title">StreetVet</h3>
-                                <p class="card-text mb-4">StreetVet is a secular organization offering free veterinary care to pets of homeless individuals. Their services include vaccinations, microchipping, and treatment for illnesses.</p>
-                                <p class="card-text mb-4"><strong>Contact:</strong> Available through their website</p>
-                                <a href="https://www.streetvet.org.uk" target="_blank" class="btn">Visit StreetVet</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card mb-5">
-                    <div class="card-content">
-                        <h3 class="card-title">Our Pet Support Services</h3>
-                        <p class="card-text mb-4">At Homeless Helpers, we understand that pets are family. We offer several services to help you keep your pet with you during difficult times:</p>
-                        <ul class="mb-4">
-                            <li class="mb-2"><strong>Assistance Dog Certification:</strong> Help with getting your companion animal recognized as a service or emotional support animal</li>
-                            <li class="mb-2"><strong>Pet-Friendly Shelter Directory:</strong> Information on shelters and housing that accept pets</li>
-                            <li class="mb-2"><strong>Emergency Pet Food Bank:</strong> Access to food and supplies for your pet</li>
-                            <li class="mb-2"><strong>Temporary Pet Fostering:</strong> Short-term care for your pet while you secure stable housing</li>
-                        </ul>
-                        <div class="row">
-                            <div class="col-6">
-                                <a href="verify-assistance-dog.html" class="btn btn-block">Assistance Dog Certification</a>
-                            </div>
-                            <div class="col-6">
-                                <a href="dog-profile.html" class="btn btn-outline btn-block">Dog Profiles</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="practical-services" class="section">
-            <div class="container">
-                <h2 class="text-center mb-4">Practical Services</h2>
-                <div class="divider mb-4"></div>
-                
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card mb-4">
-                            <div class="card-content">
-                                <h3 class="card-title">Safe Medication Storage</h3>
-                                <p class="card-text mb-4">Many shelters and community centers offer secure storage for medications. This ensures that your medication is kept safe and accessible when you need it.</p>
-                                <p class="card-text mb-4">If you are unsure where to store your medication, contact your local shelter or healthcare provider for advice.</p>
-                                <a href="healthcare.html" class="btn">Healthcare Resources</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card mb-4">
-                            <div class="card-content">
-                                <h3 class="card-title">Receiving Post</h3>
-                                <p class="card-text mb-4">Receiving mail without a fixed address can be challenging, but there are solutions:</p>
+                                <h3 class="card-title">Essential Documents Pack</h3>
+                                <p class="card-text mb-4">A collection of essential documents and templates to help you navigate housing and homelessness issues:</p>
                                 <ul class="mb-4">
-                                    <li class="mb-2">Post Office Poste Restante service allows you to collect mail from a local post office</li>
-                                    <li class="mb-2">Some shelters let you use their address for correspondence</li>
-                                    <li class="mb-2">Community centers may offer mailbox services</li>
+                                    <li class="mb-2">
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Homelessness Application Template
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Emergency Housing Request Letter
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Benefits Application Guide
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Housing Rights Pocket Guide
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Council Decision Challenge Template
+                                        </a>
+                                    </li>
                                 </ul>
-                                <a href="https://www.postoffice.co.uk" target="_blank" class="btn">Post Office Services</a>
+                                <a href="#" class="btn">Download All Documents</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Practical Guides & Checklists</h3>
+                                <p class="card-text mb-4">Helpful guides and checklists for various aspects of homelessness and housing insecurity:</p>
+                                <ul class="mb-4">
+                                    <li class="mb-2">
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Emergency Preparation Checklist
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Healthcare Access Guide
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Food Resources Map & Directory
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> ID Replacement Guide
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="download-link">
+                                            <i class="fas fa-download"></i> Safe Sleeping Guide
+                                        </a>
+                                    </li>
+                                </ul>
+                                <a href="#" class="btn">Download All Guides</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <!-- Call to Action -->
         <section class="cta-section">
             <div class="container">
-                <h2 class="cta-title">Need Help Finding Resources?</h2>
-                <p class="cta-text">Our team is available to help you navigate these services and find the right support for your situation</p>
-                <a href="tel:08088004444" class="btn btn-lg btn-secondary">Call Our Helpline</a>
+                <h2 class="cta-title">Need Personalized Support?</h2>
+                <p class="cta-text">Our team can help you identify the most relevant resources for your situation</p>
+                <a href="get-help.html#needs-assessment" class="btn btn-lg btn-secondary">Start Needs Assessment</a>
             </div>
         </section>
     </main>
@@ -328,7 +666,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="Homeless Helpers" height="40">
+                    </div>
                     <p>Providing support, resources and hope to those facing homelessness.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
@@ -336,6 +676,7 @@
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
+                
                 <div class="col-4">
                     <h4>Quick Links</h4>
                     <ul class="footer-nav">
@@ -346,6 +687,7 @@
                         <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
                     </ul>
                 </div>
+                
                 <div class="col-4">
                     <h4>Contact Us</h4>
                     <ul class="footer-nav">
@@ -355,6 +697,7 @@
                     </ul>
                 </div>
             </div>
+            
             <div class="footer-bottom">
                 <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
             </div>
@@ -363,5 +706,98 @@
 
     <!-- Modern UI JavaScript -->
     <script src="assets/js/modern-ui.js"></script>
+    
+    <script>
+        // Resource filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const resourceItems = document.querySelectorAll('.resource-item');
+            const categoryFilters = document.querySelectorAll('#category-filters .filter-option');
+            const typeFilters = document.querySelectorAll('#type-filters .filter-option');
+            const searchBox = document.getElementById('resource-search');
+            const noResults = document.getElementById('no-results');
+            const resetFiltersBtn = document.getElementById('reset-filters');
+            
+            let activeCategory = 'all';
+            let activeType = 'all';
+            let searchTerm = '';
+            
+            // Function to filter resources
+            function filterResources() {
+                let visibleCount = 0;
+                
+                resourceItems.forEach(item => {
+                    const categories = item.getAttribute('data-categories').split(' ');
+                    const types = item.getAttribute('data-types').split(' ');
+                    const text = item.textContent.toLowerCase();
+                    
+                    const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
+                    const matchesType = activeType === 'all' || types.includes(activeType);
+                    const matchesSearch = searchTerm === '' || text.includes(searchTerm);
+                    
+                    if (matchesCategory && matchesType && matchesSearch) {
+                        item.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    noResults.style.display = 'block';
+                } else {
+                    noResults.style.display = 'none';
+                }
+            }
+            
+            // Category filter click handler
+            categoryFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    categoryFilters.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                    activeCategory = this.getAttribute('data-filter');
+                    filterResources();
+                });
+            });
+            
+            // Type filter click handler
+            typeFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    typeFilters.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                    activeType = this.getAttribute('data-filter');
+                    filterResources();
+                });
+            });
+            
+            // Search input handler
+            searchBox.addEventListener('input', function() {
+                searchTerm = this.value.toLowerCase();
+                filterResources();
+            });
+            
+            // Reset filters
+            resetFiltersBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Reset category filters
+                categoryFilters.forEach(f => f.classList.remove('active'));
+                document.querySelector('#category-filters [data-filter="all"]').classList.add('active');
+                activeCategory = 'all';
+                
+                // Reset type filters
+                typeFilters.forEach(f => f.classList.remove('active'));
+                document.querySelector('#type-filters [data-filter="all"]').classList.add('active');
+                activeType = 'all';
+                
+                // Clear search
+                searchBox.value = '';
+                searchTerm = '';
+                
+                // Apply filters
+                filterResources();
+            });
+        });
+    </script>
 </body>
 </html>

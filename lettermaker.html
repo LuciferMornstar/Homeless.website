@@ -4,220 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Letter Maker - Hopeful Horizons</title>
-    <meta name="description" content="Create professional letters for housing assistance, benefits applications, and other needs.">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="assets/css/modern/wix-modern.css">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Chelsea+Market&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Caveat+Brush&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/monkey-island-style.css">
-    <!-- Include new menu -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/menuModule.js"></script>
-    <style>
-        /* Cursor styling */
-        body {
-            cursor: url('cursor.png'), auto;
-        }
-        
-        .clickable {
-            cursor: pointer;
-        }
-        
-        /* Letter output styling */
-        #letterOutput {
-            background-color: #1d1c1a;
-            border: 3px solid #48d595;
-            border-radius: 0;
-            padding: 1.5rem;
-            white-space: pre-wrap;
-            font-family: "Chelsea Market", monospace;
-            box-shadow: -3px 3px 0 #00000088;
-            transition: all 0.3s ease;
-        }
-
-        #letterOutput:hover {
-            transform: translate(2px, -2px);
-            box-shadow: -5px 5px 0 #00000088;
-        }
-        
-        /* Form styling */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #48d595;
-            font-weight: bold;
-        }
-        
-        input[type="text"],
-        input[type="date"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #2f835c;
-            border: 2px solid #48d595;
-            color: white;
-            font-family: "Chelsea Market", cursive;
-            margin-top: 0.25rem;
-            transition: all 0.3s ease;
-        }
-        
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            transform: translate(2px, -2px);
-            box-shadow: -3px 3px 0 #00000088;
-        }
-        
-        input[type="text"]::placeholder,
-        textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        /* Invalid field styling */
-        input.invalid,
-        textarea.invalid,
-        select.invalid {
-            border-color: #ff6b6b;
-            background-color: rgba(255, 107, 107, 0.1);
-        }
-        
-        /* Message box styling */
-        .message-box {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem;
-            border-radius: 0;
-            box-shadow: -3px 3px 0 #00000088;
-            z-index: 100;
-            transition: opacity 0.3s ease;
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .message-box.success {
-            background-color: #48d595;
-            color: #000000;
-            border: 2px solid #29241e;
-        }
-        
-        .message-box.error {
-            background-color: #ff6b6b;
-            color: #000000;
-            border: 2px solid #29241e;
-        }
-        
-        .message-box.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Template preview styling */
-        .template-preview {
-            background-color: #1d1c1a;
-            border: 2px solid #48d595;
-            border-radius: 0;
-            padding: 1rem;
-            margin-top: 0.5rem;
-            color: #ffffff;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            transition: all 0.3s ease;
-        }
-        
-        .template-preview h4 {
-            color: #48d595;
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-        
-        .template-preview:hover {
-            box-shadow: -2px 2px 0 #00000088;
-            transform: translate(1px, -1px);
-        }
-        
-        /* Loading animation */
-        .loading-spinner {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #ffffff;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 8px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Animation for letter generation */
-        @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        
-        .typing-animation {
-            overflow: hidden;
-            animation: typewriter 1.5s steps(40, end);
-            white-space: nowrap;
-            border-right: 3px solid #48d595;
-        }
-
-        /* Add this to the existing style section */
-        .button-container {
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        #saveLetterBtn {
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        #saveLetterBtn:hover {
-            background-color: #357abD;
-        }
-
-        #saveLetterBtn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-    </style>
 </head>
-<body class="bg-[#06454b]">
-    
-    <nav class="mega-menu" role="navigation" aria-label="Main Menu">
-        <ul class="menu">
-            <li class="menu-item"><a href="index.html">Home</a></li>
-            <li class="menu-item"><a href="get-help.html">Get Help</a></li>
-            <li class="menu-item"><a href="shelters.html">Shelters</a></li>
-            <li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
-            <li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
-            <li class="menu-item"><a href="employment.html">Employment</a></li>
-            <li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
-            <li class="menu-item"><a href="resources.html">Resources</a></li>
-            <li class="menu-item"><a href="about.html">About</a></li>
-            <li class="menu-item"><a href="network.html">Network</a></li>
-            <li class="menu-item"><a href="emergency.html">Emergency</a></li>
-        </ul>
-    </nav>
+<body class="bg-light">
+    <!-- Modern Header -->
+    <header class="modern-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="Homeless Helpers"></a>
+                </div>
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <nav class="modern-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item dropdown"><a href="#" class="nav-link">Get Help</a>
+                            <div class="dropdown-content">
+                                <a href="shelters.html" class="dropdown-item">Find Shelters</a>
+                                <a href="foodbanks.html" class="dropdown-item">Food Banks</a>
+                                <a href="healthcare.html" class="dropdown-item">Healthcare</a>
+                                <a href="employment.html" class="dropdown-item">Employment</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown"><a href="#" class="nav-link">Resources</a>
+                            <div class="dropdown-content">
+                                <a href="resources.html" class="dropdown-item">All Resources</a>
+                                <a href="lettermaker.html" class="dropdown-item">Letter Maker</a>
+                                <a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+                        <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
     
     <main class="container mx-auto px-4 py-8 mt-20">
         <h1 class="text-4xl text-center mb-8 text-[#48d595]">Homelessness Assistance Letter Generator</h1>
@@ -442,11 +277,44 @@
         <span id="messageText"></span>
     </div>
 
-    <footer class="bg-[#06454b] py-6 text-white text-center">
-        <p>&copy; 2025 Hopeful Horizons. All rights reserved.</p>
-        <p>Registered Charity No. 1234567</p>
+    <!-- Modern Footer -->
+    <footer class="modern-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
+                    <p>Providing support, resources and hope to those facing homelessness.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Find Shelters</a></li>
+                        <li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
+                        <li class="footer-nav-item"><a href="healthcare.html" class="footer-nav-link">Healthcare</a></li>
+                        <li class="footer-nav-item"><a href="employment.html" class="footer-nav-link">Employment</a></li>
+                        <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
+                        <li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+                        <li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p></div>
+        </div>
     </footer>
     
+    <!-- Modern UI JavaScript -->
+    <script src="assets/js/modern-ui.js"></script>
     <script>
         // Load full council list
         loadCouncilList();

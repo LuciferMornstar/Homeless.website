@@ -41,11 +41,12 @@
         }
         .form-text {
             font-size: 14px;
-            color: #666;
+            color: #777;
             margin-top: 4px;
         }
         .required {
-            color: #e74c3c;
+            color: #e63946;
+            margin-left: 3px;
         }
     </style>
 </head>
@@ -68,7 +69,7 @@
                     <ul class="nav-list">
                         <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link">Get Help</a>
+                            <a href="#" class="nav-link active">Get Help</a>
                             <div class="dropdown-content">
                                 <a href="shelters.html" class="dropdown-item">Find Shelters</a>
                                 <a href="foodbanks.html" class="dropdown-item">Food Banks</a>
@@ -99,7 +100,7 @@
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title slide-up">Self-Referral Form</h1>
-                <p class="hero-subtitle slide-up">Complete this form to help us understand your situation and connect you with appropriate resources</p>
+                <p class="hero-subtitle slide-up">Help us understand your needs so we can provide the right support</p>
             </div>
         </div>
     </section>
@@ -107,166 +108,188 @@
     <main id="main-content">
         <section class="section">
             <div class="container">
+                <h2 class="text-center mb-4">Personal Information</h2>
+                <div class="divider mb-4"></div>
+                <p class="text-center mb-5">Please fill out the form below. Fields marked with an asterisk (*) are required.</p>
+                
                 <div class="form-container">
-                    <p class="mb-4">Please fill out this form with as much detail as possible. Required fields are marked with <span class="required">*</span></p>
-                    
-                    <div class="alert alert-warning mb-4">
-                        <strong>Are you in immediate danger?</strong> If so, please call 999 immediately. This form is for non-emergency situations.
-                    </div>
-
-                    <form action="#" method="POST" class="form">
-                        <h2 class="section-title mb-4">Personal Information</h2>
+                    <form id="self-referral-form">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="first_name" class="form-label">First Name<span class="required">*</span></label>
+                                    <input type="text" id="first_name" name="first_name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="last_name" class="form-label">Last Name<span class="required">*</span></label>
+                                    <input type="text" id="last_name" name="last_name" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="date_of_birth" class="form-label">Date of Birth<span class="required">*</span></label>
+                                    <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <select id="gender" name="gender" class="form-control">
+                                        <option value="">Prefer not to say</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="non-binary">Non-binary</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Phone Number (if available)</label>
+                                    <input type="tel" id="phone" name="phone" class="form-control">
+                                    <div class="form-text">If you don't have a phone, leave this blank</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email Address (if available)</label>
+                                    <input type="email" id="email" name="email" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="mt-5 mb-4">Current Situation</h3>
+                        <div class="form-group">
+                            <label for="housing_status" class="form-label">Current Housing Status<span class="required">*</span></label>
+                            <select id="housing_status" name="housing_status" class="form-control" required>
+                                <option value="">Please select</option>
+                                <option value="rough_sleeping">Rough sleeping</option>
+                                <option value="sofa_surfing">Sofa surfing/staying with friends temporarily</option>
+                                <option value="shelter">In emergency/temporary shelter</option>
+                                <option value="hostel">In hostel accommodation</option>
+                                <option value="at_risk">At risk of homelessness within 56 days</option>
+                                <option value="other">Other (please specify)</option>
+                            </select>
+                        </div>
+                        
+                        <div id="other_housing_status" style="display: none;">
+                            <div class="form-group">
+                                <label for="other_housing_text" class="form-label">Please specify your housing situation</label>
+                                <input type="text" id="other_housing_text" name="other_housing_text" class="form-control">
+                            </div>
+                        </div>
                         
                         <div class="form-group">
-                            <label for="name" class="form-label">Full Name <span class="required">*</span></label>
-                            <input type="text" id="name" name="name" required class="form-control">
+                            <label for="location" class="form-label">Current Location/Area<span class="required">*</span></label>
+                            <input type="text" id="location" name="location" class="form-control" required>
+                            <div class="form-text">City, town or neighborhood where you're currently staying</div>
                         </div>
-
+                        
                         <div class="form-group">
-                            <label for="dob" class="form-label">Date of Birth <span class="required">*</span></label>
-                            <input type="date" id="dob" name="dob" required class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="contact" class="form-label">Phone Number <span class="required">*</span></label>
-                            <input type="tel" id="contact" name="contact" required class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="address" class="form-label">Current Address (if applicable)</label>
-                            <input type="text" id="address" name="address" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="postcode" class="form-label">Postcode <span class="required">*</span></label>
-                            <input type="text" id="postcode" name="postcode" required class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="local_authority" class="form-label">Local Authority <span class="required">*</span></label>
-                            <input type="text" id="local_authority" name="local_authority" required class="form-control">
-                            <p class="form-text">Enter the name of your local council.</p>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="ni_number" class="form-label">National Insurance Number <span class="required">*</span></label>
-                            <input type="text" id="ni_number" name="ni_number" required class="form-control">
-                        </div>
-
-                        <h2 class="section-title mb-4 mt-5">Current Situation</h2>
-
-                        <div class="form-group">
-                            <label for="homeless_duration" class="form-label">How long have you been homeless? <span class="required">*</span></label>
-                            <select id="homeless_duration" name="homeless_duration" required class="form-control">
-                                <option value="" disabled selected>Select duration</option>
-                                <option value="less_than_1_month">Less than 1 month</option>
-                                <option value="1_to_3_months">1 to 3 months</option>
-                                <option value="3_to_6_months">3 to 6 months</option>
-                                <option value="6_to_12_months">6 to 12 months</option>
+                            <label for="duration" class="form-label">How long have you been in your current situation?<span class="required">*</span></label>
+                            <select id="duration" name="duration" class="form-control" required>
+                                <option value="">Please select</option>
+                                <option value="less_than_week">Less than a week</option>
+                                <option value="1_4_weeks">1-4 weeks</option>
+                                <option value="1_3_months">1-3 months</option>
+                                <option value="3_6_months">3-6 months</option>
+                                <option value="6_12_months">6-12 months</option>
                                 <option value="over_1_year">Over 1 year</option>
                             </select>
                         </div>
-
+                        
+                        <h3 class="mt-5 mb-4">Support Needs</h3>
                         <div class="form-group">
-                            <label for="housing_status" class="form-label">Current Housing Status <span class="required">*</span></label>
-                            <select id="housing_status" name="housing_status" required class="form-control">
-                                <option value="" disabled selected>Select status</option>
-                                <option value="rough_sleeping">Rough Sleeping</option>
-                                <option value="sofa_surfing">Sofa Surfing</option>
-                                <option value="temporary_accommodation">Temporary Accommodation</option>
-                                <option value="hostel">Hostel</option>
-                                <option value="no_fixed_abode">No Fixed Abode</option>
-                                <option value="other">Other (Please specify)</option>
+                            <label for="needs" class="form-label">What kind of support do you need right now?<span class="required">*</span></label>
+                            <select id="needs" name="needs" class="form-control" multiple required size="6">
+                                <option value="housing">Emergency housing/shelter</option>
+                                <option value="food">Access to food</option>
+                                <option value="healthcare">Healthcare/medical support</option>
+                                <option value="benefits">Help with benefits/financial support</option>
+                                <option value="employment">Employment support</option>
+                                <option value="mental_health">Mental health support</option>
+                                <option value="substance">Drug/alcohol support</option>
+                                <option value="documents">Help with ID documents</option>
+                                <option value="legal">Legal advice</option>
+                                <option value="other">Other (please specify)</option>
+                            </select>
+                            <div class="form-text">Hold Ctrl (or Cmd on Mac) to select multiple options</div>
+                        </div>
+                        
+                        <div id="other_needs" style="display: none;">
+                            <div class="form-group">
+                                <label for="other_needs_text" class="form-label">Please specify your other needs</label>
+                                <input type="text" id="other_needs_text" name="other_needs_text" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pets" class="form-label">Do you have any pets with you?</label>
+                            <select id="pets" name="pets" class="form-control">
+                                <option value="no">No</option>
+                                <option value="dog">Yes, dog(s)</option>
+                                <option value="cat">Yes, cat(s)</option>
+                                <option value="other_pet">Yes, other pet(s)</option>
                             </select>
                         </div>
-
-                        <div id="other_housing_status" style="display: none;" class="form-group">
-                            <label for="other_housing_text" class="form-label">Other Housing Status</label>
-                            <input type="text" id="other_housing_text" name="other_housing_text" class="form-control">
-                        </div>
-
+                        
                         <div class="form-group">
-                            <label for="needs" class="form-label">What kind of help are you seeking? <span class="required">*</span></label>
-                            <select id="needs" name="needs" required class="form-control">
-                                <option value="" disabled selected>Select needs</option>
-                                <option value="housing">Housing Assistance</option>
-                                <option value="food">Food Assistance</option>
-                                <option value="shelter">Emergency Shelter</option>
-                                <option value="health">Health Services</option>
-                                <option value="mental_health">Mental Health Support</option>
-                                <option value="employment">Employment Support</option>
-                                <option value="benefits">Benefits Advice</option>
-                                <option value="immigration">Immigration Advice</option>
-                                <option value="other">Other (Please specify)</option>
-                            </select>
-                        </div>
-
-                        <div id="other_needs" style="display: none;" class="form-group">
-                            <label for="other_needs_text" class="form-label">Other Needs</label>
-                            <input type="text" id="other_needs_text" name="other_needs_text" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="additional_info" class="form-label">Additional Information</label>
+                            <label for="additional_info" class="form-label">Is there anything else we should know about your situation?</label>
                             <textarea id="additional_info" name="additional_info" rows="4" class="form-control"></textarea>
                         </div>
-
-                        <h2 class="section-title mb-4 mt-5">Eligibility and Circumstances</h2>
-
+                        
+                        <h3 class="mt-5 mb-4">Communication Preferences</h3>
                         <div class="form-group">
-                            <label for="eligible_for_housing" class="form-label">Do you think you are eligible for council housing? <span class="required">*</span></label>
-                            <select id="eligible_for_housing" name="eligible_for_housing" required class="form-control">
-                                <option value="" disabled selected>Select one</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                                <option value="unsure">Unsure</option>
+                            <label for="contact_method" class="form-label">Preferred method of contact<span class="required">*</span></label>
+                            <select id="contact_method" name="contact_method" class="form-control" required>
+                                <option value="">Please select</option>
+                                <option value="phone">Phone call</option>
+                                <option value="text">Text message</option>
+                                <option value="email">Email</option>
+                                <option value="in_person">In person at a service location</option>
+                                <option value="other_contact">Other</option>
                             </select>
-                            <p class="form-text">Are you: Eligible for assistance under the Housing Act 1996? e.g. a British citizen, have settled status, or meet other criteria.</p>
                         </div>
-
+                        
                         <div class="form-group">
-                            <label for="priority_need" class="form-label">Do you have a priority need for housing? <span class="required">*</span></label>
-                            <select id="priority_need" name="priority_need" required class="form-control">
-                                <option value="" disabled selected>Select one</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                                <option value="unsure">Unsure</option>
+                            <label for="best_time" class="form-label">Best time to contact you</label>
+                            <select id="best_time" name="best_time" class="form-control">
+                                <option value="">No preference</option>
+                                <option value="morning">Morning (9am-12pm)</option>
+                                <option value="afternoon">Afternoon (12pm-5pm)</option>
+                                <option value="evening">Evening (5pm-8pm)</option>
                             </select>
-                            <p class="form-text">e.g., Are you pregnant, do you have dependent children, are you vulnerable due to age, disability, or illness?</p>
                         </div>
-
+                        
                         <div class="form-group">
-                            <label for="intentional_homelessness" class="form-label">Have you been intentionally homeless? <span class="required">*</span></label>
-                            <select id="intentional_homelessness" name="intentional_homelessness" required class="form-control">
-                                <option value="" disabled selected>Select one</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                                <option value="unsure">Unsure</option>
-                            </select>
-                            <p class="form-text">Were you forced to leave your last accommodation?</p>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="consent" name="consent" required>
+                                <label for="consent" class="form-label">I consent to Homeless Helpers storing my information to provide support services<span class="required">*</span></label>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="local_connection" class="form-label">Do you have a local connection to this area? <span class="required">*</span></label>
-                            <select id="local_connection" name="local_connection" required class="form-control">
-                                <option value="" disabled selected>Select one</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                                <option value="unsure">Unsure</option>
-                            </select>
-                            <p class="form-text">e.g., Do you live, work, or have family in the area?</p>
-                        </div>
-
-                        <div class="form-group text-center mt-5">
-                            <button type="submit" class="btn btn-lg">Submit Referral</button>
+                        
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-lg">Submit Form</button>
                         </div>
                     </form>
                 </div>
+            </div>
+        </section>
+        
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Need Immediate Help?</h2>
+                <p class="cta-text">If you're in an emergency situation, don't wait - get help immediately</p>
+                <a href="emergency.html" class="btn btn-lg btn-secondary">Emergency Resources</a>
             </div>
         </section>
     </main>
@@ -276,7 +299,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="Homeless Helpers" height="40">
+                    </div>
                     <p>Providing support, resources and hope to those facing homelessness.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
@@ -284,6 +309,7 @@
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
+                
                 <div class="col-4">
                     <h4>Quick Links</h4>
                     <ul class="footer-nav">
@@ -294,6 +320,7 @@
                         <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
                     </ul>
                 </div>
+                
                 <div class="col-4">
                     <h4>Contact Us</h4>
                     <ul class="footer-nav">
@@ -303,6 +330,7 @@
                     </ul>
                 </div>
             </div>
+            
             <div class="footer-bottom">
                 <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
             </div>
@@ -321,10 +349,10 @@
         housingStatusSelect.addEventListener("change", function() {
             if (this.value === "other") {
                 otherHousingStatusDiv.style.display = "block";
-                otherHousingText.required = true;
+                otherHousingText.setAttribute("required", "");
             } else {
                 otherHousingStatusDiv.style.display = "none";
-                otherHousingText.required = false;
+                otherHousingText.removeAttribute("required");
             }
         });
 
@@ -333,13 +361,23 @@
         const otherNeedsText = document.getElementById("other_needs_text");
 
         needsSelect.addEventListener("change", function() {
-            if (this.value === "other") {
+            const selectedOptions = Array.from(this.selectedOptions).map(option => option.value);
+            if (selectedOptions.includes("other")) {
                 otherNeedsDiv.style.display = "block";
-                otherNeedsText.required = true;
+                otherNeedsText.setAttribute("required", "");
             } else {
                 otherNeedsDiv.style.display = "none";
-                otherNeedsText.required = false;
+                otherNeedsText.removeAttribute("required");
             }
+        });
+        
+        // Form submission handler
+        document.getElementById("self-referral-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            // Here you would typically send the form data to your server
+            alert("Thank you for your submission. Our team will contact you within 24 hours.");
+            // Optionally redirect to a thank you page
+            // window.location.href = "thank-you.html";
         });
     </script>
 </body>

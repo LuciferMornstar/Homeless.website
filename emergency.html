@@ -1,254 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Emergency Help - Homeless Helpers</title>
-	<!-- Modern Styling -->
-	<link rel="stylesheet" href="assets/css/modern/wix-modern.css">
-	<!-- Google Fonts -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
-	<!-- Font Awesome Icons -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<!-- Favicon -->
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Help - Homeless Helpers</title>
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="assets/css/modern/wix-modern.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .emergency-banner {
+            background-color: #e63946;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .priority-card {
+            border-left: 5px solid #e63946;
+        }
+        
+        .emergency-phone {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e63946;
+            margin: 10px 0;
+        }
+        
+        .location-finder {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Styles for interactive map (placeholder) */
+        .map-container {
+            width: 100%;
+            height: 400px;
+            background-color: #1d1c1a;
+            border-radius: 8px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-	<!-- Modern Header -->
-	<header class="modern-header">
-		<!-- ...existing code from modern-header.html... -->
-	</header>
+    <!-- Modern Header -->
+    <header class="modern-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Homeless Helpers">
+                    </a>
+                </div>
+                
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="modern-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link active">Get Help</a>
+                            <div class="dropdown-content">
+                                <a href="shelters.html" class="dropdown-item">Find Shelters</a>
+                                <a href="foodbanks.html" class="dropdown-item">Food Banks</a>
+                                <a href="healthcare.html" class="dropdown-item">Healthcare</a>
+                                <a href="employment.html" class="dropdown-item">Employment</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Resources</a>
+                            <div class="dropdown-content">
+                                <a href="resources.html" class="dropdown-item">All Resources</a>
+                                <a href="lettermaker.html" class="dropdown-item">Letter Maker</a>
+                                <a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+                        <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-	<main id="main-content">
-		<!-- Aria-live region for notifications or dynamic content updates -->
-		<div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
+    <div class="emergency-banner">
+        EMERGENCY HELPLINE: 0800-555-HELP (24/7)
+    </div>
 
-		<nav class="mega-menu" role="navigation" aria-label="Main Menu">
-			<ul class="menu">
-				<li class="menu-item"><a href="index.html">Home</a></li>
-				<li class="menu-item"><a href="get-help.html">Get Help</a></li>
-				<li class="menu-item"><a href="shelters.html">Shelters</a></li>
-				<li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
-				<li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
-				<li class="menu-item"><a href="employment.html">Employment</a></li>
-				<li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
-				<li class="menu-item"><a href="resources.html">Resources</a></li>
-				<li class="menu-item"><a href="about.html">About</a></li>
-				<li class="menu-item"><a href="network.html">Network</a></li>
-				<li class="menu-item"><a href="emergency.html">Emergency</a></li>
-			</ul>
-		</nav>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title slide-up">Emergency Help</h1>
+                <p class="hero-subtitle slide-up">Immediate support for those in crisis situations</p>
+                <div class="slide-up">
+                    <a href="#immediate-help" class="btn btn-lg">Find Shelter Tonight</a>
+                    <a href="#helplines" class="btn btn-outline btn-lg">Helplines</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-		<div class="content-wrapper">
-			<section id="welcome" class="section-wrapper">
-				<h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Emergency Contacts</h1>
-				<p class="text-lg md:text-xl mb-8">
-					Important contacts and resources for crisis situations and emergency assistance.
-				</p>
-			</section>
+    <main id="main-content">
+        <section id="immediate-help" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Need Shelter Tonight?</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card priority-card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Emergency Accommodation</h3>
+                                <p class="card-text">If you need somewhere to stay tonight:</p>
+                                <ol class="mb-4">
+                                    <li class="mb-2">Call your local council's housing department immediately. Even outside office hours, many councils have emergency numbers.</li>
+                                    <li class="mb-2">Call our emergency helpline for immediate advice and support.</li>
+                                    <li class="mb-2">If you're sleeping rough, check local night shelters - many operate on a first-come, first-served basis.</li>
+                                    <li class="mb-2">During winter months (November-March), additional emergency beds are often available through Severe Weather Emergency Protocol (SWEP).</li>
+                                </ol>
+                                <div class="emergency-phone">
+                                    <i class="fas fa-phone"></i> 0800-555-HELP
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="location-finder">
+                            <h3 class="mb-3">Find Emergency Shelter Near You</h3>
+                            <p class="mb-4">Enter your location to find the nearest emergency accommodation options:</p>
+                            
+                            <form id="location-form">
+                                <div class="form-group">
+                                    <input type="text" id="location" name="location" placeholder="Enter town or postcode" class="form-control">
+                                </div>
+                                <button type="submit" class="btn">Find Nearby Shelters</button>
+                            </form>
+                            
+                            <div class="map-container mt-4">
+                                <div class="map-overlay">
+                                    <p><i class="fas fa-map-marker-alt fa-3x mb-3"></i></p>
+                                    <p>Enter your location above to see available shelters</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-			<section id="immediate-danger" class="section-wrapper animated-element">
-				<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Immediate Danger</h2>
-				<div class="text-card priority-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Emergency Services</h3>
-					<p class="mb-4">
-						If you or someone else is in immediate danger, call:
-					</p>
-					<a href="tel:999" class="emergency-button">
-						CALL 999 (Emergency Services)
-					</a>
-					<p>
-						Call 999 for police, ambulance, or fire service if there is:
-					</p>
-					<ul class="list-disc pl-6 mt-2">
-						<li>Immediate danger to life</li>
-						<li>Crime in progress</li>
-						<li>Serious injury</li>
-						<li>Violence or threat of violence</li>
-					</ul>
-				</div>
-			</section>
+        <section id="immediate-options" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Immediate Options</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <h3 class="feature-title">Council Emergency Housing</h3>
+                            <p class="feature-text">Your local council has a legal duty to help if you're homeless or at risk of homelessness. Contact them immediately.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <h3 class="feature-title">Night Shelters</h3>
+                            <p class="feature-text">Providing basic overnight accommodation. Some operate on a first-come, first-served basis; others require referrals.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon">
+                                <i class="fas fa-snowflake"></i>
+                            </div>
+                            <h3 class="feature-title">Severe Weather Provision</h3>
+                            <p class="feature-text">During cold weather, additional emergency beds are made available to anyone sleeping rough.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3 class="feature-title">Domestic Abuse Refuges</h3>
+                            <p class="feature-text">If you're fleeing domestic abuse, specialist accommodation is available. Call the National Domestic Abuse Helpline.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="feature-title">Hostels</h3>
+                            <p class="feature-text">Providing longer-term accommodation with support services. Some may have beds available on an emergency basis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <h3 class="feature-title">Support Organizations</h3>
+                            <p class="feature-text">Charities like Shelter, Crisis, and local organizations can help you find emergency accommodation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-			<section id="mental-crisis" class="section-wrapper animated-element">
-				<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Mental Health Crisis</h2>
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Urgent Mental Health Support</h3>
-					<p class="mb-4">
-						If you're experiencing a mental health crisis:
-					</p>
-					<div class="grid md:grid-cols-2 gap-4 mb-6">
-						<a href="tel:116123" class="emergency-button">
-							Samaritans: 116 123 (24/7 Support)
-						</a>
-						<a href="sms:85258" class="emergency-button">
-							Crisis Text Line: Text SHOUT to 85258
-						</a>
-					</div>
-					
-					<h3 class="text-xl font-semibold text-white mb-4">Additional Support Lines</h3>
-					<ul class="list-disc pl-6 mb-4">
-						<li><strong>NHS Mental Health Helpline:</strong> Call 111 and ask for mental health crisis support</li>
-						<li><strong>CALM (Campaign Against Living Miserably):</strong> 0800 58 58 58 (5pm-midnight, 365 days a year)</li>
-						<li><strong>Mind InfoLine:</strong> 0300 123 3393 (9am-6pm, Monday-Friday)</li>
-						<li><strong>Papyrus (for people under 35):</strong> 0800 068 4141</li>
-					</ul>
-					<p>
-						There is always someone who will listen. You don't have to face this alone.
-					</p>
-				</div>
-			</section>
+        <section id="helplines" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Emergency Helplines</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card mb-4 fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Homeless Helpers Emergency Line</h3>
+                                <div class="emergency-phone">0800-555-HELP</div>
+                                <p class="card-text">Available 24/7 for urgent advice and support. We can help connect you with local services.</p>
+                                <ul class="mb-0">
+                                    <li>Emergency accommodation advice</li>
+                                    <li>Connection to local services</li>
+                                    <li>Support for those in crisis</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4 fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">National Domestic Abuse Helpline</h3>
+                                <div class="emergency-phone">0808 2000 247</div>
+                                <p class="card-text">If you're experiencing domestic abuse, this 24-hour helpline can help you find refuge accommodation and support.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="card mb-4 fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Shelter Emergency Helpline</h3>
+                                <div class="emergency-phone">0808 800 4444</div>
+                                <p class="card-text">Expert housing advice and support for anyone facing housing issues or homelessness.</p>
+                                <p class="mb-0"><strong>Opening Hours:</strong> 8am-8pm weekdays, 9am-5pm weekends</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4 fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Mental Health Crisis Line</h3>
+                                <div class="emergency-phone">0800 731 2864</div>
+                                <p class="card-text">If you're experiencing a mental health crisis, trained advisors are available 24/7 to provide support.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-			<section id="emergency-shelter" class="section-wrapper animated-element">
-				<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Emergency Shelter</h2>
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Need Emergency Accommodation Tonight?</h3>
-					<p class="mb-4">
-						If you have nowhere to stay tonight:
-					</p>
-					<a href="tel:08088000306" class="emergency-button">
-						Call Streetlink: 0808 800 4444
-					</a>
-					<p class="mb-4 mt-4">
-						Streetlink connects people sleeping rough with local services. They operate across England and Wales.
-					</p>
-					
-					<h3 class="text-xl font-semibold text-white mb-4 mt-6">Local Authority Emergency Housing</h3>
-					<p class="mb-4">
-						Your local council has a legal duty to help if you are:
-					</p>
-					<ul class="list-disc pl-6">
-						<li>Homeless or at risk of homelessness within 56 days</li>
-						<li>Eligible for assistance (based on immigration status)</li>
-						<li>In priority need (families with children, pregnant women, vulnerable due to age or health conditions)</li>
-					</ul>
-					
-					<div class="bg-[#1d1c1a] p-4 mt-6 mb-4 rounded border-l-4 border-[#48d595]">
-						<h4 class="font-semibold text-[#48d595] mb-2">The 56-Day Rule: Early Intervention Is Key</h4>
-						<p class="mb-2">Under the Homelessness Reduction Act 2017, councils must help prevent your homelessness if you're at risk of losing your home within 56 days (8 weeks).</p>
-						<p>Don't wait until you're on the streets - seek help as soon as you receive an eviction notice, are asked to leave by family/friends, or know you can no longer afford your housing.</p>
-					</div>
-					
-					<p class="mt-4">
-						Contact your local council's housing department or visit your nearest council office during working hours.
-					</p>
-				</div>
-			</section>
+        <section id="key-advice" class="section bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Key Emergency Advice</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mb-4 fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">What to Expect When Seeking Emergency Help</h3>
+                                <p class="card-text mb-4">
+                                    If you contact your local council for emergency housing:
+                                </p>
+                                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <ol>
+                                            <li class="mb-2">
+                                                <strong>Initial assessment</strong> - The council will ask about your situation to determine if you're eligible for emergency housing.
+                                            </li>
+                                            <li class="mb-2">
+                                                <strong>Priority need assessment</strong> - They'll check if you're in "priority need" (e.g., if you have children, are pregnant, or vulnerable).
+                                            </li>
+                                            <li class="mb-2">
+                                                <strong>Temporary accommodation</strong> - If eligible, they should provide temporary accommodation while they investigate further.
+                                            </li>
+                                            <li class="mb-2">
+                                                <strong>Further investigation</strong> - They'll look into your case in more detail over the coming days.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <h4 class="mb-3">What to Take With You</h4>
+                                        <ul>
+                                            <li class="mb-2">ID documents if you have them (passport, driving license, birth certificate)</li>
+                                            <li class="mb-2">Any evidence of your housing situation (eviction notice, tenancy agreement)</li>
+                                            <li class="mb-2">Evidence of income or benefits</li>
+                                            <li class="mb-2">Any medical evidence if you have health conditions</li>
+                                            <li class="mb-2">Details of any support workers or social workers</li>
+                                            <li>Information about your needs (e.g., medication, dietary requirements)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h4 class="mb-3">If You're Refused Help</h4>
+                                    <p class="card-text">
+                                        If the council refuses to help, ask for the decision in writing and contact our helpline immediately. You have the right to challenge decisions, and we can help you do this.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-			<section id="domestic-abuse" class="section-wrapper animated-element">
-				<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Domestic Abuse</h2>
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Domestic Abuse Support</h3>
-					<p class="mb-4">
-						If you are experiencing domestic abuse:
-					</p>
-					<a href="tel:08088000306" class="emergency-button">
-						National Domestic Abuse Helpline: 0808 2000 247
-					</a>
-					<p class="mb-4 mt-4">
-						This helpline is free and available 24/7. They can:
-					</p>
-					<ul class="list-disc pl-6 mb-6">
-						<li>Provide confidential advice</li>
-						<li>Help arrange emergency accommodation</li>
-						<li>Connect you with local support services</li>
-						<li>Help develop safety plans</li>
-					</ul>
-					
-					<p class="mb-4">
-						<strong>Men's Advice Line:</strong> 0808 801 0327 - For men experiencing domestic abuse
-					</p>
-					
-					<p class="mb-4">
-						<strong>Note:</strong> If your internet usage might be monitored, consider using incognito/private browsing or clear your browser history after visiting this page.
-					</p>
-				</div>
-			</section>
+        <section id="safety-tips" class="section">
+            <div class="container">
+                <h2 class="text-center mb-4">Emergency Safety Tips</h2>
+                <div class="divider mb-4"></div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">If You Have to Sleep Rough</h3>
+                                <p class="card-text mb-3">
+                                    While we always recommend seeking emergency accommodation, if you have no choice but to sleep rough:
+                                </p>
+                                <ul>
+                                    <li class="mb-2">Try to sleep in a visible, well-lit area where people pass by</li>
+                                    <li class="mb-2">If possible, stay with someone you trust</li>
+                                    <li class="mb-2">Keep your essential documents and medications close to you</li>
+                                    <li class="mb-2">Use the StreetLink app to connect with local outreach services</li>
+                                    <li>In cold weather, seek indoor spaces like 24-hour facilities when possible</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Health Emergencies</h3>
+                                <p class="card-text mb-3">
+                                    If you're experiencing a medical emergency:
+                                </p>
+                                <ul>
+                                    <li class="mb-2">Call 999 for immediate medical attention</li>
+                                    <li class="mb-2">For non-emergency medical issues, visit an A&E department, walk-in center, or call 111</li>
+                                    <li class="mb-2">You have the right to register with a GP even if you don't have a fixed address</li>
+                                    <li class="mb-2">Hospital A&E departments cannot refuse treatment based on housing status</li>
+                                    <li>If you need mental health support, contact the Mental Health Crisis Line</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-4">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Staying Safe in Crisis</h3>
+                                <p class="card-text mb-3">
+                                    General safety tips during crisis situations:
+                                </p>
+                                <ul>
+                                    <li class="mb-2">Keep your phone charged when possible - libraries and public buildings often have charging points</li>
+                                    <li class="mb-2">Share your location with a trusted person if you can</li>
+                                    <li class="mb-2">If you feel unsafe, seek well-lit public areas with people around</li>
+                                    <li class="mb-2">Trust your instincts - if a situation feels unsafe, try to leave</li>
+                                    <li>Know your rights - police and security guards should treat you with respect</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-			<section id="youth-crisis" class="section-wrapper animated-element">
-				<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Youth Support</h2>
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Under 25 and Homeless or At Risk?</h3>
-					<p class="mb-4">
-						Specialized support for young people:
-					</p>
-					<div class="grid md:grid-cols-2 gap-4 mb-6">
-						<a href="tel:08088000306" class="emergency-button">
-							Centrepoint Helpline: 0808 800 0661
-						</a>
-						<a href="tel:116000" class="emergency-button">
-							Runaway Helpline: 116 000
-						</a>
-					</div>
-					
-					<h3 class="text-xl font-semibold text-white mb-4">Additional Youth Support</h3>
-					<ul class="list-disc pl-6 mb-4">
-						<li><strong>Childline:</strong> 0800 1111 (for under 19s)</li>
-						<li><strong>The Mix:</strong> 0808 808 4994 (for under 25s)</li>
-					</ul>
-					
-					<p class="mb-6">
-						Young people often have specific rights to housing and support. These services can advise on your options.
-					</p>
-				</div>
-			</section>
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Need Help Right Now?</h2>
+                <p class="cta-text">Our emergency helpline is available 24/7</p>
+                <a href="tel:0800555HELP" class="btn btn-lg btn-secondary">Call 0800-555-HELP</a>
+            </div>
+        </section>
+    </main>
 
-			<section id="other-emergencies" class="section-wrapper animated-element">
-				<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Other Emergency Resources</h2>
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Need Urgent Food</h3>
-					<p class="mb-6">
-						If you urgently need food:
-					</p>
-					<ul class="list-disc pl-6 mb-6">
-						<li>Visit your local food bank (identification may not be required for emergency food parcels)</li>
-						<li>Contact your local community support services</li>
-						<li>Some day centers and shelters provide emergency food with no questions asked</li>
-					</ul>
-					
-					<h3 class="text-xl font-semibold text-white mb-4 mt-6">Medical Emergencies</h3>
-					<p class="mb-4">
-						For urgent medical help:
-					</p>
-					<ul class="list-disc pl-6 mb-6">
-						<li>Call 999 for life-threatening emergencies</li>
-						<li>Visit an A&E department for serious injuries or illness</li>
-						<li>Call 111 for urgent but non-emergency medical advice</li>
-						<li>Visit a walk-in center or urgent care center for minor injuries and illnesses</li>
-					</ul>
-				</div>
-			</section>
+    <!-- Modern Footer -->
+    <footer class="modern-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="Homeless Helpers" height="40">
+                    </div>
+                    <p>Providing support, resources and hope to those facing homelessness.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Find Shelters</a></li>
+                        <li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
+                        <li class="footer-nav-item"><a href="healthcare.html" class="footer-nav-link">Healthcare</a></li>
+                        <li class="footer-nav-item"><a href="employment.html" class="footer-nav-link">Employment</a></li>
+                        <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-4">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
+                        <li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+                        <li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
 
-			<section id="cold-weather" class="section-wrapper animated-element">
-				<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-4">Cold Weather Emergency</h2>
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Severe Weather Emergency Protocol (SWEP)</h3>
-					<p class="mb-6">
-						During extremely cold weather (usually when temperatures drop below 0°C), local councils activate emergency accommodation for anyone sleeping rough, regardless of eligibility, priority need, or local connection.
-					</p>
-					<p class="mb-4">
-						To access SWEP accommodation:
-					</p>
-					<ul class="list-disc pl-6">
-						<li>Contact your local council's housing department</li>
-						<li>Speak to local outreach teams who are active during SWEP</li>
-						<li>Call Streetlink on 0808 800 4444 to connect with local services</li>
-					</ul>
-					<p class="mt-4">
-						<strong>Note:</strong> SWEP accommodation is provided on a night-by-night basis during cold weather periods.
-					</p>
-				</div>
-			</section>
-		</div>
-	</main>
-
-	<!-- Modern Footer -->
-	<footer class="modern-footer">
-		<!-- ...existing code from modern-footer.html... -->
-	</footer>
-
-	<!-- Modern UI JavaScript -->
-	<script src="assets/js/modern-ui.js"></script>
+    <!-- Modern UI JavaScript -->
+    <script src="assets/js/modern-ui.js"></script>
 </body>
 </html>

@@ -1,275 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Employment Resources - Homeless Helpers</title>
-	<meta name="description" content="Employment resources, training opportunities and job search help for homeless individuals in the UK.">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Chelsea+Market&display=swap" rel="stylesheet">
-	<script src="https://cdn.tailwindcss.com"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-	<link rel="stylesheet" href="assets/css/monkey-island-style.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-	<link rel="stylesheet" href="assets/css/menu-style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employment Resources - Homeless Helpers</title>
+    <meta name="description" content="Employment resources, training opportunities and job search help for homeless individuals in the UK.">
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="assets/css/modern/wix-modern.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body class="bg-custom-gradient">
-	<!-- Updated Mega Menu -->
-	<nav class="mega-menu" role="navigation" aria-label="Main Menu">
-		<ul class="menu">
-			<li class="menu-item"><a href="index.html">Home</a></li>
-			<li class="menu-item"><a href="get-help.html">Get Help</a></li>
-			<li class="menu-item"><a href="shelters.html">Shelters</a></li>
-			<li class="menu-item"><a href="foodbanks.html">Food Banks</a></li>
-			<li class="menu-item"><a href="healthcare.html">Healthcare</a></li>
-			<li class="menu-item"><a href="employment.html">Employment</a></li>
-			<li class="menu-item"><a href="volunteer.html">Volunteer</a></li>
-			<li class="menu-item"><a href="resources.html">Resources</a></li>
-			<li class="menu-item"><a href="about.html">About</a></li>
-			<li class="menu-item"><a href="network.html">Network</a></li>
-			<li class="menu-item"><a href="emergency.html">Emergency</a></li>
-		</ul>
-	</nav>
-	
-	<!-- Aria-live region for notifications or dynamic content updates -->
-	<div id="notification-area" aria-live="polite" role="status" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Notifications will appear here.</div>
-	
-	<!-- SVG wave divider -->
-	<svg class="svg-wave" viewBox="0 0 1440 120" preserveAspectRatio="none">
-		<path d="M0,64L80,69.3C160,75,320,85,480,90.7C640,96,800,96,960,85.3C1120,75,1280,53,1360,42.7L1440,32L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z" fill="#06454b"></path>
-	</svg>
-	
-	<main class="content-wrapper mt-24 md:mt-32">
-		<section class="section-wrapper animated-element">
-			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#48d595]">Employment Resources</h1>
-			<div class="text-card">
-				<p class="mb-6">
-					Finding stable employment is a crucial step in breaking the cycle of homelessness. Our employment resources are designed to help you develop skills, find job opportunities, and build a sustainable career.
-				</p>
-				<p>
-					Whether you need help with your CV, interview preparation, skills training, or connecting with employers who understand your situation, we're here to support you every step of the way.
-				</p>
-			</div>
-		</section>
-		
-		<section class="section-wrapper animated-element" id="job-services">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Job Search Services</h2>
-			
-			<div class="grid md:grid-cols-3 gap-6">
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">CV &amp; Application Support</h3>
-					<p class="mb-4">
-						Our trained advisors can help you create or update your CV, write compelling cover letters, and complete job applications effectively.
-					</p>
-					<p>
-						Available at community centers across the UK or remotely via phone/online.
-					</p>
-				</div>
-				
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Interview Preparation</h3>
-					<p class="mb-4">
-						Practice interview skills, receive feedback, and gain confidence through mock interviews with our volunteer professionals.
-					</p>
-					<p>
-						We can also provide interview clothing through our partner organizations.
-					</p>
-				</div>
-				
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Employer Partnerships</h3>
-					<p class="mb-4">
-						We collaborate with understanding employers who offer inclusive hiring practices and supportive work environments.
-					</p>
-					<p>
-						These partnerships include flexible working arrangements to accommodate your unique circumstances.
-					</p>
-				</div>
-			</div>
-		</section>
-		
-		<section class="section-wrapper animated-element" id="training">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Training &amp; Education</h2>
-			
-			<div class="text-card mb-6">
-				<p class="mb-6">
-					Developing relevant skills is essential for long-term employment success. We offer various training programs to help you build marketable skills for today's job market.
-				</p>
-			</div>
-			
-			<div class="grid md:grid-cols-2 gap-8">
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Vocational Training</h3>
-					<ul class="space-y-2 mb-4">
-						<li>• Construction &amp; trades (CSCS card certification)</li>
-						<li>• Food hygiene &amp; hospitality</li>
-						<li>• Care work &amp; healthcare support</li>
-						<li>• IT skills &amp; digital literacy</li>
-						<li>• Retail &amp; customer service</li>
-					</ul>
-					<p>
-						Courses run regularly throughout the year at various locations or online.
-					</p>
-				</div>
-				
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Soft Skills Workshops</h3>
-					<ul class="space-y-2 mb-4">
-						<li>• Communication &amp; teamwork</li>
-						<li>• Time management</li>
-						<li>• Work readiness</li>
-						<li>• Confidence building</li>
-						<li>• Financial literacy</li>
-					</ul>
-					<p>
-						Weekly workshops available at community centers or remotely via video call.
-					</p>
-				</div>
-			</div>
-			
-			<div class="text-card mt-6">
-				<h3 class="text-xl font-semibold text-white mb-4">Educational Support</h3>
-				<p class="mb-4">
-					For those looking to further their education, we can help with:
-				</p>
-				<ul class="space-y-2 mb-4">
-					<li>• College application assistance</li>
-					<li>• Access to course materials and laptops</li>
-					<li>• Information on grants and financial support</li>
-					<li>• Mentoring throughout your educational journey</li>
-				</ul>
-				<button class="nav-button clickable" onclick="location.href='resources.html#education'">Education Resources</button>
-			</div>
-		</section>
-		
-		<section class="section-wrapper animated-element" id="barriers">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Overcoming Employment Barriers</h2>
-			
-			<div class="text-card mb-6">
-				<p>
-					We understand that finding and maintaining employment can be challenging when experiencing homelessness. Our comprehensive support addresses common barriers:
-				</p>
-			</div>
-			
-			<div class="grid md:grid-cols-3 gap-6">
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Address &amp; Documentation</h3>
-					<p>
-						Use our address service for job applications, and get help obtaining essential identification documents like ID cards, birth certificates, and NI numbers.
-					</p>
-				</div>
-				
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Transportation</h3>
-					<p>
-						Access to transportation assistance for interviews and the initial weeks of employment, including bus passes, bike loan schemes, and travel planning support.
-					</p>
-				</div>
-				
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Digital Access</h3>
-					<p>
-						Use our computer centers with internet access for job searches, or borrow devices through our technology lending program for remote applications and interviews.
-					</p>
-				</div>
-			</div>
-		</section>
-		
-		<section class="section-wrapper animated-element" id="support-network">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Ongoing Employment Support</h2>
-			
-			<div class="grid md:grid-cols-2 gap-8">
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Employment Buddies</h3>
-					<p class="mb-4">
-						Our volunteer employment buddies provide ongoing support during your first months in a new job, helping you navigate workplace challenges and build confidence.
-					</p>
-					<p>
-						They offer encouragement, practical advice, and help with work-related problem-solving.
-					</p>
-				</div>
-				
-				<div class="text-card">
-					<h3 class="text-xl font-semibold text-white mb-4">Benefits Advice</h3>
-					<p class="mb-4">
-						Transitioning from benefits to employment can be complex. Our advisors help you understand how work affects your benefits and ensure you're accessing all available support.
-					</p>
-					<p>
-						We can also assist with tax issues and Universal Credit management.
-					</p>
-				</div>
-			</div>
-			
-			<div class="text-card mt-6">
-				<h3 class="text-xl font-semibold text-white mb-4">Career Progression</h3>
-				<p class="mb-6">
-					Our support doesn't end when you find a job. We offer ongoing career coaching to help you:
-				</p>
-				<ul class="space-y-2 mb-4">
-					<li>• Identify opportunities for advancement</li>
-					<li>• Develop new skills to progress in your career</li>
-					<li>• Navigate workplace challenges</li>
-					<li>• Build long-term career resilience</li>
-				</ul>
-				<button class="nav-button clickable" onclick="location.href='network.html'">Join Our Support Network</button>
-			</div>
-		</section>
-		
-		<section class="section-wrapper animated-element" id="success-stories">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Success Stories</h2>
-			
-			<div class="text-card mb-6">
-				<h3 class="text-xl font-semibold text-white mb-4">David's Journey</h3>
-				<p class="mb-6">
-					"After 8 months of homelessness, I connected with the employment team who helped me update my CV and get my CSCS card. Within three weeks, I secured a construction job and have been working steadily for over a year. The ongoing support helped me manage my finances and eventually move into my own flat."
-				</p>
-			</div>
-			
-			<div class="text-card">
-				<h3 class="text-xl font-semibold text-white mb-4">Sarah's Path</h3>
-				<p class="mb-6">
-					"I never thought I could work in healthcare with my background. The team helped me access a care assistant course and connected me with an employer who gave me a chance. My employment buddy helped me through the first difficult months, and two years later, I'm now training to be a healthcare support worker."
-				</p>
-			</div>
-		</section>
-		
-		<section class="section-wrapper animated-element" id="contact">
-			<h2 class="text-3xl md:text-4xl font-bold text-[#48d595] mb-8">Connect With Our Employment Team</h2>
-			<div class="text-card">
-				<p class="mb-6">
-					Ready to start your employment journey? Our team is here to help you every step of the way.
-				</p>
-				<p class="mb-6">
-					<strong>Employment Coordinator:</strong> Jane Smith<br>
-					<strong>Email:</strong> employment@homelesshelpers.org<br>
-					<strong>Phone:</strong> 0800 234 5678
-				</p>
-				<p class="mb-6">
-					<strong>Drop-in Employment Advice:</strong><br>
-					Monday to Friday, 10am to 4pm at our main centers in London, Manchester, Birmingham, Glasgow, and Cardiff.
-				</p>
-				<div class="flex space-x-4">
-					<button class="nav-button clickable" onclick="location.href='get-help.html'">Get Help</button>
-					<button class="nav-button clickable" onclick="location.href='resources.html'">More Resources</button>
-				</div>
-			</div>
-		</section>
-	</main>
-	
-	<footer class="bg-[#06454b] py-6 text-white text-center">
-		<div class="container mx-auto px-4">
-			<p>&copy; 2025 Homeless Helpers. All rights reserved.</p>
-			<p>Registered Charity No. 1234567</p>
-		</div>
-	</footer>
+<body>
+    <!-- Modern Header -->
+    <header class="modern-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Homeless Helpers">
+                    </a>
+                </div>
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav class="modern-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Get Help</a>
+                            <div class="dropdown-content">
+                                <a href="shelters.html" class="dropdown-item">Find Shelters</a>
+                                <a href="foodbanks.html" class="dropdown-item">Food Banks</a>
+                                <a href="healthcare.html" class="dropdown-item">Healthcare</a>
+                                <a href="employment.html" class="dropdown-item active">Employment</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Resources</a>
+                            <div class="dropdown-content">
+                                <a href="resources.html" class="dropdown-item">All Resources</a>
+                                <a href="lettermaker.html" class="dropdown-item">Letter Maker</a>
+                                <a href="verify-assistance-dog.html" class="dropdown-item">Assistance Dogs</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="network.html" class="nav-link">Network</a></li>
+                        <li class="nav-item"><a href="volunteer.html" class="nav-link">Volunteer</a></li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-	<!-- Scripts -->
-	<script src="assets/js/animations.js"></script>
-	<script src="js/menuModule.js"></script>
-	<script src="assets/js/navigation-module.js"></script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title slide-up">Employment Resources</h1>
+                <p class="hero-subtitle slide-up">Find job search help, training, and support to build a sustainable career</p>
+            </div>
+        </div>
+    </section>
+
+    <main id="main-content" class="section">
+        <div class="container">
+            <section class="mb-5">
+                <h2 class="mb-4">How We Help With Employment</h2>
+                <div class="divider divider-left mb-4"></div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
+                            <h3 class="feature-title">CV & Application Support</h3>
+                            <p class="feature-text">Get help creating or updating your CV, writing cover letters, and completing job applications. In-person and remote support available.</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                            <h3 class="feature-title">Interview Preparation</h3>
+                            <p class="feature-text">Practice interviews, receive feedback, and gain confidence. We can also provide interview clothing through partner organizations.</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-handshake"></i></div>
+                            <h3 class="feature-title">Employer Partnerships</h3>
+                            <p class="feature-text">Connect with inclusive employers offering flexible work and supportive environments for people overcoming homelessness.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="mb-4">Training & Education</h2>
+                <div class="divider divider-left mb-4"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Vocational Training</h3>
+                                <ul>
+                                    <li>Construction & trades (CSCS card)</li>
+                                    <li>Food hygiene & hospitality</li>
+                                    <li>Care work & healthcare support</li>
+                                    <li>IT skills & digital literacy</li>
+                                    <li>Retail & customer service</li>
+                                </ul>
+                                <p>Courses run throughout the year at various locations or online.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 class="card-title">Soft Skills Workshops</h3>
+                                <ul>
+                                    <li>Communication & teamwork</li>
+                                    <li>Time management</li>
+                                    <li>Work readiness</li>
+                                    <li>Confidence building</li>
+                                    <li>Financial literacy</li>
+                                </ul>
+                                <p>Weekly workshops at community centers or online.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card fade-in mt-4">
+                    <div class="card-content">
+                        <h3 class="card-title">Educational Support</h3>
+                        <ul>
+                            <li>College application assistance</li>
+                            <li>Access to course materials and laptops</li>
+                            <li>Information on grants and financial support</li>
+                            <li>Mentoring throughout your educational journey</li>
+                        </ul>
+                        <a href="resources.html#education" class="btn btn-sm">Education Resources</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="mb-4">Overcoming Employment Barriers</h2>
+                <div class="divider divider-left mb-4"></div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-id-card"></i></div>
+                            <h3 class="feature-title">Address & Documentation</h3>
+                            <p class="feature-text">Use our address service for job applications and get help obtaining ID, birth certificates, and NI numbers.</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-bus"></i></div>
+                            <h3 class="feature-title">Transportation</h3>
+                            <p class="feature-text">Get help with bus passes, bike loans, and travel planning for interviews and the first weeks of work.</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="feature-block text-center fade-in">
+                            <div class="feature-icon"><i class="fas fa-wifi"></i></div>
+                            <h3 class="feature-title">Digital Access</h3>
+                            <p class="feature-text">Use our computer centers for job searches or borrow devices for remote applications and interviews.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-section">
+                <h2 class="cta-title">Need More Help?</h2>
+                <p class="cta-text">Our advisors are here to support you with every step of your employment journey. If you need one-to-one help, contact us today.</p>
+                <a href="mailto:help@homelesshelpers.org" class="btn btn-lg btn-secondary">Contact an Advisor</a>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="modern-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="footer-logo"><img src="logo.png" alt="Homeless Helpers" height="40"></div>
+                    <p>Providing support, resources and hope to those facing homelessness.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><a href="shelters.html" class="footer-nav-link">Find Shelters</a></li>
+                        <li class="footer-nav-item"><a href="foodbanks.html" class="footer-nav-link">Food Banks</a></li>
+                        <li class="footer-nav-item"><a href="healthcare.html" class="footer-nav-link">Healthcare</a></li>
+                        <li class="footer-nav-item"><a href="employment.html" class="footer-nav-link active">Employment</a></li>
+                        <li class="footer-nav-item"><a href="resources.html" class="footer-nav-link">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-nav">
+                        <li class="footer-nav-item"><i class="fas fa-envelope"></i> help@homelesshelpers.org</li>
+                        <li class="footer-nav-item"><i class="fas fa-phone"></i> Emergency: 0800-555-HELP</li>
+                        <li class="footer-nav-item"><i class="fas fa-map-marker-alt"></i> We're online 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Homeless Helpers. All rights reserved. | <a href="siteindex.html">Site Index</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modern UI JavaScript -->
+    <script src="assets/js/modern-ui.js"></script>
 </body>
 </html>
