@@ -1,25 +1,133 @@
-const express = require('express');
-const ccxt = require('ccxt');
-const cors = require('cors');
-const path = require('path');
-const axios = require('axios');
-const fs = require('fs');
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import axios from 'axios';
+import fs from 'fs';
+import mysql from 'mysql2/promise';
+import ccxt from 'ccxt';
+import 'dotenv/config';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Configure EJS view engine
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// Database connection configuration
+const dbConfig = {
+  host: process.env.DB_HOST || '127.0.0.1',
+  port: process.env.DB_PORT || 3306, // Adding explicit port configuration
+  user: process.env.DB_USER || 'dbu5385048',
+  password: process.env.DB_PASSWORD || 'Z9EYceyh28Up9kH',
+  database: process.env.DB_NAME || 'dbs14137291',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  ssl: {
+    // Enable SSL but don't verify the certificate
+    rejectUnauthorized: false
+  },
+  connectTimeout: 30000, // Increase connection timeout to 30 seconds
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 10000 // 10 seconds
+};
 
+// Create a MySQL connection pool
+const pool = mysql.createPool(dbConfig);
+
+// Function to test database connection
+const testDatabaseConnection = async () => {
+  try {
+    const connection = await pool.getConnection();
+    console.log('Successfully connected to the database!');
+    connection.release();
+    return true;
+  } catch (error) {
+    console.error('Error connecting to the database:', error.message);
+    if (error.code === 'ENOTFOUND') {
+      console.error('Could not resolve database hostname. Please check DNS or try using IP address if available.');
+    } else if (error.code === 'ECONNREFUSED') {
+      console.error('Connection refused. Please check if database server is running and accessible.');
+    } else if (error.code === 'ER_ACCESS_DENIED_ERROR') {
+      console.error('Access denied. Please check your username and password.');
+    }
+    return false;
+  }
+};
+
+// Attempt connection on startup
+testDatabaseConnection();
+
+// Middleware
 app.use(cors());
-
-// Serve static assets (css, js, images)
-app.use(express.static(path.join(__dirname, 'assets')));
-
-// Serve frontend static files
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname)));
 
+// Test database connection
+app.get('/api/db-test', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT 1 as connection_test');
+    res.json({ 
+      success: true, 
+      message: 'Database connection successful', 
+      data: rows 
+    });
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Database connection failed', 
+      error: error.message 
+    });
+  }
+});
+
+// Example API endpoint for organizations
+app.get('/api/organizations', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM Organizations');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching organizations:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to fetch organizations', 
+      error: error.message 
+    });
+  }
+});
+
+// Example API endpoint for contact form submission
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, subject, message, urgency, contactNumber, preferredContactMethod, bestTimeToContact } = req.body;
+    
+    const [result] = await pool.query(
+      `INSERT INTO ContactMessages 
+      (Name, Email, Subject, MessageContent, Urgency, ContactNumber, PreferredContactMethod, BestTimeToContact) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [name, email, subject, message, urgency || 'Medium', contactNumber, preferredContactMethod || 'Email', bestTimeToContact]
+    );
+    
+    res.json({ 
+      success: true, 
+      message: 'Contact message submitted successfully', 
+      data: { id: result.insertId }
+    });
+  } catch (error) {
+    console.error('Error submitting contact form:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to submit contact form', 
+      error: error.message 
+    });
+  }
+});
+
+// Existing API routes
 app.get('/api/price/:exchange', async (req, res) => {
   const exchangeParam = req.params.exchange;
   const rawPair = req.query.pair;
@@ -98,13 +206,110 @@ app.get('/api/dogs', async (req, res) => {
   }
 });
 
-// Dynamic page routing: render EJS views matching URL path (captures any path as 'view')
-app.get('/:view(*)', (req, res, next) => {
-  const view = req.params.view || 'index';
-  res.render(view, (err, html) => {
-    if (err) return next();
-    res.send(html);
-  });
+// API endpoint for shelters
+app.get('/api/shelters', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM EmergencyShelters');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching shelters:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch shelters', error: error.message });
+  }
 });
 
-app.listen(port, () => console.log(`ArbiBot API server listening on port ${port}`));
+// API endpoint for mental health resources
+app.get('/api/mental-health-resources', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM MentalHealthResources');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching mental health resources:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch mental health resources', error: error.message });
+  }
+});
+
+// API endpoint for dog-friendly resources
+app.get('/api/dog-friendly-resources', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM DogFriendlyResources');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching dog-friendly resources:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch dog-friendly resources', error: error.message });
+  }
+});
+
+// API endpoint for service dogs
+app.get('/api/service-dogs', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM Dogs');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching service dogs:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch service dogs', error: error.message });
+  }
+});
+
+// API endpoint for fetching contact details
+app.get('/api/contact-details', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM SiteContactDetails WHERE IsActive = TRUE ORDER BY DisplayOrder');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching contact details:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch contact details', error: error.message });
+  }
+});
+
+// API endpoint for posting feedback
+app.post('/api/feedback', async (req, res) => {
+  try {
+    const { userId, organizationId, feedbackText, rating, contactEmail, subject } = req.body;
+
+    const [result] = await pool.query(
+      `INSERT INTO Feedback (UserID, OrganizationID, FeedbackText, Rating, ContactEmail, Subject) 
+      VALUES (?, ?, ?, ?, ?, ?)`,
+      [userId, organizationId, feedbackText, rating, contactEmail, subject]
+    );
+
+    res.json({ success: true, message: 'Feedback submitted successfully', data: { id: result.insertId } });
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    res.status(500).json({ success: false, message: 'Failed to submit feedback', error: error.message });
+  }
+});
+
+// API endpoint for fetching mental health assessments
+app.get('/api/mental-health-assessments', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM MentalHealthAssessments WHERE IsCompleted = TRUE');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching mental health assessments:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch mental health assessments', error: error.message });
+  }
+});
+
+// API endpoint for posting mental health assessment responses
+app.post('/api/mental-health-assessment-responses', async (req, res) => {
+  try {
+    const { userId, assessmentType, questionText, responseText } = req.body;
+
+    const [result] = await pool.query(
+      `INSERT INTO UserAssessmentResponses (UserID, AssessmentType, QuestionText, ResponseText) 
+      VALUES (?, ?, ?, ?)`,
+      [userId, assessmentType, questionText, responseText]
+    );
+
+    res.json({ success: true, message: 'Response submitted successfully', data: { id: result.insertId } });
+  } catch (error) {
+    console.error('Error submitting assessment response:', error);
+    res.status(500).json({ success: false, message: 'Failed to submit assessment response', error: error.message });
+  }
+});
+
+// Start server
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+  console.log(`Database connection initialized to ${dbConfig.host}`);
+});

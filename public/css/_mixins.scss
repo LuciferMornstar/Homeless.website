@@ -1,0 +1,9 @@
+// Media query mixins
+@use 'variables';
+
+// Apply styles at or above the md breakpoint
+@mixin respond-md {
+  @media (min-width: variables.$breakpoint-md) {
+    @content;
+  }
+}
