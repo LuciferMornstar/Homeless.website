@@ -39,7 +39,7 @@ interface InterviewSectionProps {
   children: React.ReactNode;
 }
 
-// Interview Q&A Component
+// Interview Q&A Component 
 const InterviewQA: React.FC<InterviewQAProps> = ({ speaker, content, isQuestion = false }) => {
   return (
     <div className={isQuestion ? "interview-q" : "interview-a"}>
@@ -83,7 +83,7 @@ const InterviewSection: React.FC<InterviewSectionProps> = ({ title, children }) 
   );
 };
 
-export function InterviewPage() {
+export default function Page() {
   return (
     <div>
       {/* Hero Section */}
@@ -394,5 +394,3 @@ export function InterviewPage() {
     </div>
   );
 }
-
-export default InterviewPage;

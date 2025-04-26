@@ -72,7 +72,7 @@ export function TestimonialSlider() {
     }, 8000);
     
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [nextSlide]);
 
   // Reset animation state after transition completes
   useEffect(() => {

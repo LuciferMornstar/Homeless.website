@@ -1,22 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server';
-import pool, { testConnection } from '@/lib/db';
+import { NextResponse } from 'next/server';
+import { executeQuery } from '@/lib/db';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const [rows] = await pool.query('SELECT 1 as connection_test');
-    
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Database connection successful', 
-      data: rows
+    const result = await executeQuery<any[]>({ 
+      query: 'SELECT 1 as test',
     });
-  } catch (error: any) {
-    console.error('Database connection error:', error);
     
-    return NextResponse.json({ 
-      success: false, 
-      message: 'Database connection failed', 
-      error: error.message 
-    }, { status: 500 });
+    return NextResponse.json({ success: true, data: result });
+  } catch (error) {
+    console.error('API Error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Database connection failed' },
+      { status: 500 }
+    );
   }
 }

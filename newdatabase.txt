@@ -1,0 +1,1202 @@
+-- Database: dbs14137291
+
+-- This script creates the tables for the UK Homelessness Support Platform database.
+-- It includes comprehensive tables designed for a fully-featured support system
+-- including organizations, users, resources, events, needs, services, donations,
+-- feedback, mental health assessments, letters, addiction services, service dog
+-- certifications, food banks, emergency shelters, user responses, contact messages,
+-- mental health crisis support, housing pathways, volunteers, case management, 
+-- local council contacts, and more.
+--
+-- GDPR COMPLIANCE NOTICE: This database stores personal and sensitive data subject to
+-- GDPR regulations. Ensure appropriate consent collection, data minimization,
+-- retention policies, and security measures are implemented in the application layer.
+--
+-- ENHANCED FEATURES: This schema includes support for:
+-- - Multi-factor authentication
+-- - OAuth integration
+-- - UK-specific terminology and structures
+-- - Advanced geolocation services
+-- - Comprehensive mental health support tracking
+-- - Service dog certification and resources
+-- - Accessibility options for users of varying abilities
+-- - Mobile application support
+-- - Real-time shelter and resource availability
+
+-- Ensure you have selected the correct database before running this script:
+-- USE dbs14137291;
+
+-- Table structure for table `Organizations`
+CREATE TABLE Organizations (
+    OrganizationID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    County VARCHAR(50), -- Changed from State to County for UK terminology
+    PostCode VARCHAR(10),
+    Phone VARCHAR(20),
+    Email VARCHAR(255),
+    Website VARCHAR(255),
+    Description TEXT,
+    ServicesOffered TEXT,
+    HoursOfOperation VARCHAR(255),
+    ContactPerson VARCHAR(255),
+    IsVerified BOOLEAN,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    Latitude DECIMAL(10,6),
+    Longitude DECIMAL(10,6),
+    IsNHSAffiliated BOOLEAN DEFAULT FALSE,
+    CouncilAffiliation VARCHAR(100),
+    CharityNumber VARCHAR(50), -- UK Charity Commission registration number
+    DataProtectionOfficerName VARCHAR(255), -- GDPR compliance
+    DataProtectionOfficerEmail VARCHAR(255), -- GDPR compliance
+    PrivacyPolicyURL VARCHAR(255), -- Link to organization's privacy policy
+    UniquePRN VARCHAR(50) -- Provider Reference Number for official UK identification
+);
+
+-- Create index for geospatial queries
+CREATE INDEX idx_organizations_location ON Organizations (Latitude, Longitude);
+-- Create index for organization name searches
+CREATE INDEX idx_organizations_name ON Organizations (Name);
+-- Create index for charity number lookups
+CREATE INDEX idx_organizations_charity ON Organizations (CharityNumber);
+
+-- Table structure for table `Users`
+CREATE TABLE Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(255) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL, -- Store bcrypt/Argon2 hash for security
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    Role VARCHAR(50), -- e.g., 'Public', 'Member', 'Admin', 'CaseWorker', 'Volunteer'
+    OrganizationID INT, -- Optional: if user is affiliated with an organization
+    DateRegistered TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastLogin TIMESTAMP NULL,
+    IsActive BOOLEAN DEFAULT TRUE,
+    IsHiddenMember BOOLEAN DEFAULT FALSE, -- Flag for access to hidden sections
+    HasDog BOOLEAN DEFAULT FALSE,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255),
+    DateOfBirth DATE,
+    Gender VARCHAR(50),
+    ContactPreference VARCHAR(50), -- e.g., 'Email', 'Phone', 'Platform Message'
+    BestTimeToContact VARCHAR(50),
+    PrivacyPolicyAgreed BOOLEAN DEFAULT FALSE, -- GDPR compliance
+    MarketingConsentGiven BOOLEAN DEFAULT FALSE, -- GDPR compliance
+    DataSharingConsentGiven BOOLEAN DEFAULT FALSE, -- GDPR compliance
+    LastConsentUpdate TIMESTAMP, -- Track when consent was last updated
+    TwoFactorEnabled BOOLEAN DEFAULT FALSE, -- 2FA support
+    TwoFactorMethod VARCHAR(50), -- e.g., 'SMS', 'App', 'Email'
+    TwoFactorSecret VARCHAR(255), -- Encrypted secret for 2FA 
+    AccessibilityPreferences TEXT, -- Store user preferences for accessibility features
+    PreferredLanguage VARCHAR(50) DEFAULT 'en-GB', -- Language preference 
+    FailedLoginAttempts INT DEFAULT 0, -- Security feature
+    AccountLocked BOOLEAN DEFAULT FALSE, -- Security feature
+    AccountLockedUntil TIMESTAMP NULL, -- When temporary lock expires
+    ResetToken VARCHAR(255), -- For password resets
+    ResetTokenExpiry TIMESTAMP NULL, -- When the reset token expires
+    LastPasswordChange TIMESTAMP NULL, -- Track password age
+    EmailVerified BOOLEAN DEFAULT FALSE, -- Verify email addresses
+    EmailVerificationToken VARCHAR(255),
+    EmailVerificationExpiry TIMESTAMP NULL,
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Create indexes for common lookups
+CREATE INDEX idx_users_email ON Users (Email);
+CREATE INDEX idx_users_username ON Users (Username);
+
+-- Table structure for table `Dogs`
+CREATE TABLE Dogs (
+    DogID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    Name VARCHAR(255) NOT NULL,
+    Breed VARCHAR(100),
+    DateOfBirth DATE,
+    Sex ENUM('Male', 'Female') NOT NULL,
+    Microchipped BOOLEAN DEFAULT FALSE,
+    MicrochipNumber VARCHAR(50),
+    Description TEXT,
+    Size ENUM('Small', 'Medium', 'Large', 'Extra Large') NOT NULL,
+    SpecialNeeds TEXT,
+    DietaryRequirements TEXT,
+    BehavioralNotes TEXT,
+    IsServiceDog BOOLEAN DEFAULT FALSE,
+    ServiceDogType ENUM('Assistance', 'Guide', 'Hearing', 'Medical Alert', 'Psychiatric', 'Mobility', 'Other') NULL,
+    ServiceDogTrainingLevel ENUM('In Training', 'Partially Trained', 'Fully Trained', 'Retired') NULL,
+    InsuranceProvider VARCHAR(100),
+    InsurancePolicyNumber VARCHAR(100),
+    VeterinarianName VARCHAR(100),
+    VeterinarianContact VARCHAR(100),
+    ProfileImage VARCHAR(255), -- Path to profile image
+    LastVetVisit DATE,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Create index for service dog lookup
+CREATE INDEX idx_dogs_service ON Dogs (IsServiceDog);
+
+-- Table structure for table `Resources`
+CREATE TABLE Resources (
+    ResourceID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    URL VARCHAR(255),
+    Description TEXT,
+    ResourceType VARCHAR(100), -- e.g., 'Website', 'Document', 'Video', 'Hotline'
+    Category VARCHAR(255), -- e.g., 'General Support', 'Legal Aid', 'Employment'
+    IsSensitive BOOLEAN DEFAULT FALSE, -- Flag for potentially sensitive resources
+    MinimumAccessRole VARCHAR(50) DEFAULT 'Public', -- Access control: 'Public', 'Member', 'Admin'
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `Events`
+CREATE TABLE Events (
+    EventID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT,
+    Location VARCHAR(255),
+    DateTime DATETIME,
+    OrganizationID INT,
+    EventType VARCHAR(100), -- e.g., 'Outreach', 'Workshop', 'Support Group', 'Fundraiser'
+    Capacity INT,
+    RegistrationRequired BOOLEAN,
+    ContactPerson VARCHAR(255),
+    ContactEmail VARCHAR(255),
+    ContactPhone VARCHAR(20),
+    IsRecurring BOOLEAN,
+    RecurrencePattern VARCHAR(100), -- e.g., 'Daily', 'Weekly', 'Monthly'
+    ImageURL VARCHAR(255),
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Table structure for table `Needs`
+CREATE TABLE Needs (
+    NeedID INT AUTO_INCREMENT PRIMARY KEY,
+    Description TEXT,
+    NeedType VARCHAR(100), -- e.g., 'Clothing', 'Food', 'Shelter', 'Medical Assistance'
+    OrganizationID INT, -- Organization that posted the need (can be null if user posted)
+    ContactPerson VARCHAR(255), -- Contact for this specific need
+    DatePosted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Fulfilled BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+    -- Consider adding a UserID if users can post needs
+);
+
+-- Table structure for table `Services`
+CREATE TABLE Services (
+    ServiceID INT AUTO_INCREMENT PRIMARY KEY,
+    ServiceName VARCHAR(255) NOT NULL,
+    Description TEXT,
+    Category VARCHAR(255) -- e.g., 'Accommodation', 'Health', 'Legal', 'Employment'
+);
+
+-- Table structure for table `OrganizationServices`
+-- Links organizations to the services they provide.
+CREATE TABLE OrganizationServices (
+    OrganizationServiceID INT AUTO_INCREMENT PRIMARY KEY,
+    OrganizationID INT,
+    ServiceID INT,
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID),
+    FOREIGN KEY (ServiceID) REFERENCES Services (ServiceID)
+);
+
+-- Table structure for table `DogFriendlyResources`
+CREATE TABLE DogFriendlyResources (
+    DogFriendlyResourceID INT AUTO_INCREMENT PRIMARY KEY,
+    OrganizationID INT, -- Organization providing the resource (can be null if not an organization)
+    Name VARCHAR(255) NOT NULL,
+    Description TEXT,
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    County VARCHAR(50), -- Changed from State to County for UK terminology
+    PostCode VARCHAR(10), -- Changed from ZipCode to PostCode for UK terminology
+    Phone VARCHAR(20),
+    Website VARCHAR(255),
+    ServicesOffered TEXT, -- e.g., 'Shelter', 'Food', 'Vet Care', 'Day Centre'
+    Restrictions TEXT, -- e.g., 'Small dogs only', 'Must be on lead'
+    Notes TEXT,
+    DogSize ENUM('Small', 'Medium', 'Large', 'Any') DEFAULT 'Any',
+    AllowsMuzzledDogs BOOLEAN DEFAULT TRUE,
+    RequiresVaccinationProof BOOLEAN DEFAULT FALSE,
+    RequiresMicrochipping BOOLEAN DEFAULT FALSE,
+    HasDogFacilities BOOLEAN DEFAULT FALSE, -- Special dog facilities like runs, beds, etc.
+    DogFacilitiesDetails TEXT,
+    DogBreedsRestricted TEXT, -- List any restricted breeds
+    EmergencyVetInfo TEXT, -- Information about emergency veterinary services
+    Latitude DECIMAL(10, 6), -- For geolocation searches
+    Longitude DECIMAL(10, 6), -- For geolocation searches
+    IsVerified BOOLEAN DEFAULT FALSE,
+    VerifiedByUserID INT, -- Who verified this resource
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID),
+    FOREIGN KEY (VerifiedByUserID) REFERENCES Users (UserID)
+);
+
+-- Create index for geolocation searches
+CREATE INDEX idx_dogfriendly_location ON DogFriendlyResources (Latitude, Longitude);
+
+-- Table structure for table `Donations`
+CREATE TABLE Donations (
+    DonationID INT AUTO_INCREMENT PRIMARY KEY,
+    OrganizationID INT, -- Organization receiving the donation (can be null if general platform donation)
+    DonorName VARCHAR(255), -- Can be null if anonymous
+    DonorEmail VARCHAR(255), -- Can be null if anonymous
+    Amount DECIMAL(10, 2),
+    DateDonated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Notes TEXT,
+    Anonymous BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations(OrganizationID)
+);
+
+-- Table structure for table `Feedback`
+CREATE TABLE Feedback (
+    FeedbackID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT, -- User providing feedback (can be null)
+    OrganizationID INT, -- Organization feedback is about (can be null if general site feedback)
+    FeedbackText TEXT,
+    Rating INT, -- e.g., 1-5 scale
+    DateSubmitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ContactEmail VARCHAR(255), -- Contact if not a registered user
+    Subject VARCHAR(255),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations(OrganizationID)
+);
+
+-- Table structure for table `MentalHealthAssessments`
+CREATE TABLE MentalHealthAssessments (
+    AssessmentID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    TotalScore INT,
+    InterpretationText TEXT,
+    RecommendationsText TEXT,
+    DateTaken TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    IsCompleted BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `MentalHealthQuestions`
+CREATE TABLE MentalHealthQuestions (
+    QuestionID INT AUTO_INCREMENT PRIMARY KEY,
+    QuestionText TEXT NOT NULL,
+    QuestionOrder INT,
+    IsActive BOOLEAN DEFAULT TRUE
+);
+
+-- Table structure for table `MentalHealthAnswers`
+CREATE TABLE MentalHealthAnswers (
+    AnswerID INT AUTO_INCREMENT PRIMARY KEY,
+    AssessmentID INT,
+    QuestionID INT,
+    AnswerValue INT, -- e.g., score for a multiple-choice question
+    AnswerText VARCHAR(255), -- e.g., text response for an open question
+    FOREIGN KEY (AssessmentID) REFERENCES MentalHealthAssessments (AssessmentID),
+    FOREIGN KEY (QuestionID) REFERENCES MentalHealthQuestions (QuestionID)
+);
+
+-- Table structure for table `GeneratedLetters`
+CREATE TABLE GeneratedLetters (
+    LetterID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    LetterType VARCHAR(100), -- e.g., 'Housing Application', 'Benefit Appeal'
+    LetterContent TEXT,
+    RecipientName VARCHAR(255),
+    RecipientAddress TEXT,
+    DateGenerated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `LetterTemplates`
+CREATE TABLE LetterTemplates (
+    TemplateID INT AUTO_INCREMENT PRIMARY KEY,
+    TemplateName VARCHAR(255) NOT NULL,
+    TemplateType VARCHAR(100), -- e.g., 'Housing', 'Benefits'
+    TemplateContent TEXT,
+    IsActive BOOLEAN DEFAULT TRUE,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `AddictionServices`
+CREATE TABLE AddictionServices (
+    ServiceID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    ServiceType VARCHAR(100), -- e.g., 'Detox', 'Rehab', 'Counselling', 'Support Group'
+    Description TEXT,
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    County VARCHAR(50), -- Changed from State to County for UK terminology
+    PostCode VARCHAR(10), -- Changed from ZipCode to PostCode for UK terminology
+    Phone VARCHAR(20),
+    Email VARCHAR(255),
+    Website VARCHAR(255),
+    ServicesOffered TEXT,
+    EligibilityCriteria TEXT,
+    ReferralProcess TEXT,
+    IsVerified BOOLEAN DEFAULT FALSE,
+    IsNHSProvided BOOLEAN DEFAULT FALSE,
+    ProvidesPrescriptionService BOOLEAN DEFAULT FALSE,
+    WaitingListTimeWeeks INT,
+    AcceptsSelfreferrals BOOLEAN DEFAULT FALSE,
+    RequiresGPReferral BOOLEAN DEFAULT FALSE,
+    MinimumAge INT,
+    MaximumAge INT,
+    HasDualDiagnosisSupport BOOLEAN DEFAULT FALSE, -- For mental health + addiction
+    OpeningHours TEXT,
+    EmergencyHours TEXT,
+    Latitude DECIMAL(10, 6),
+    Longitude DECIMAL(10, 6),
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create index for geolocation searches
+CREATE INDEX idx_addiction_location ON AddictionServices (Latitude, Longitude);
+
+-- Table structure for table `FoodBanks`
+CREATE TABLE FoodBanks (
+    FoodBankID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    County VARCHAR(50), -- Changed from State to County for UK terminology
+    PostCode VARCHAR(10), -- Changed from ZipCode to PostCode for UK terminology
+    Phone VARCHAR(20),
+    Email VARCHAR(255),
+    Website VARCHAR(255),
+    OpeningHours TEXT,
+    Requirements TEXT, -- e.g., 'Referral needed', 'Proof of address'
+    AvailableItems TEXT, -- e.g., 'Tinned food', 'Pasta', 'Toiletries'
+    Notes TEXT,
+    ReferralRequired BOOLEAN DEFAULT FALSE,
+    ReferralProcess TEXT,
+    BabySuppliesAvailable BOOLEAN DEFAULT FALSE,
+    PetFoodAvailable BOOLEAN DEFAULT FALSE,
+    HygieneProductsAvailable BOOLEAN DEFAULT FALSE,
+    SchoolSuppliesAvailable BOOLEAN DEFAULT FALSE,
+    DeliveryAvailable BOOLEAN DEFAULT FALSE,
+    DeliveryDetails TEXT,
+    AppointmentRequired BOOLEAN DEFAULT FALSE,
+    NumberOfVisitsAllowed VARCHAR(100), -- e.g., 'Once per week', 'Three times per month'
+    VoucherSystem BOOLEAN DEFAULT FALSE,
+    CurrentStockLevel ENUM('Low', 'Medium', 'High') DEFAULT 'Medium', -- For real-time tracking
+    StockLastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    IsVerified BOOLEAN DEFAULT FALSE,
+    TrussellTrustAffiliated BOOLEAN DEFAULT FALSE, -- UK-specific Trussell Trust affiliation
+    Latitude DECIMAL(10, 6),
+    Longitude DECIMAL(10, 6),
+    AcceptsDonations BOOLEAN DEFAULT TRUE,
+    AcceptedDonationItems TEXT,
+    DonationDropOffTimes TEXT,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create index for geolocation searches
+CREATE INDEX idx_foodbanks_location ON FoodBanks (Latitude, Longitude);
+
+-- Table structure for table `EmergencyShelters`
+CREATE TABLE EmergencyShelters (
+    ShelterID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    County VARCHAR(50), -- Changed from State to County for UK terminology
+    PostCode VARCHAR(10), -- Changed from ZipCode to PostCode for UK terminology
+    Phone VARCHAR(20),
+    Email VARCHAR(255),
+    Website VARCHAR(255),
+    Capacity INT,
+    CurrentAvailability INT, -- Requires regular updates
+    LastAvailabilityUpdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    AcceptsPets BOOLEAN DEFAULT FALSE,
+    DogFriendly BOOLEAN DEFAULT FALSE, -- Specific dog accommodation
+    AcceptsPartners BOOLEAN DEFAULT FALSE,
+    Gender VARCHAR(50), -- e.g., 'Male', 'Female', 'Mixed', 'Other'
+    AgeRestrictions VARCHAR(100), -- e.g., '18+', 'Families only'
+    CheckInTime VARCHAR(50),
+    CheckOutTime VARCHAR(50),
+    StayLimitDays INT,
+    ServicesOffered TEXT, -- e.g., 'Meals', 'Showers', 'Laundry', 'Support Workers'
+    AccessibilityFeatures TEXT, -- e.g., 'Wheelchair Access', 'Ground Floor Beds'
+    HasSobrietyRequirements BOOLEAN DEFAULT FALSE,
+    SobrietyRequirements TEXT,
+    RequiresReferral BOOLEAN DEFAULT FALSE,
+    ReferralProcess TEXT,
+    EmergencyIntakeProcess TEXT, -- Process for emergency/after-hours intake
+    IsWinterShelterOnly BOOLEAN DEFAULT FALSE, -- Seasonal shelter
+    OpeningDates TEXT, -- For seasonal shelters
+    HasSecureStorage BOOLEAN DEFAULT FALSE, -- Secure storage for belongings
+    HasWifi BOOLEAN DEFAULT FALSE,
+    FeeRequired BOOLEAN DEFAULT FALSE,
+    FeeDetails TEXT,
+    IsLocalAuthority BOOLEAN DEFAULT FALSE,
+    IsCharity BOOLEAN DEFAULT FALSE,
+    HasHousingSupport BOOLEAN DEFAULT FALSE, -- Help finding permanent housing
+    HasMentalHealthSupport BOOLEAN DEFAULT FALSE,
+    HasAddictionSupport BOOLEAN DEFAULT FALSE,
+    Latitude DECIMAL(10, 6),
+    Longitude DECIMAL(10, 6),
+    IsVerified BOOLEAN DEFAULT FALSE,
+    VerifiedByUserID INT, -- Who verified this resource
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (VerifiedByUserID) REFERENCES Users (UserID)
+);
+
+-- Create index for geolocation searches
+CREATE INDEX idx_shelters_location ON EmergencyShelters (Latitude, Longitude);
+-- Create index for availability searches
+CREATE INDEX idx_shelters_availability ON EmergencyShelters (CurrentAvailability, Gender);
+
+-- Table structure for table `UserAssessmentResponses`
+CREATE TABLE UserAssessmentResponses (
+    ResponseID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    AssessmentType VARCHAR(100), -- e.g., 'Mental Health', 'Needs Assessment'
+    QuestionText TEXT, -- Storing question text here might be redundant if linking to Questions table
+    ResponseText TEXT,
+    ResponseDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+    -- Consider linking to a specific question ID if applicable
+);
+
+-- Table structure for table `ContactMessages`
+CREATE TABLE ContactMessages (
+    MessageID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    Subject VARCHAR(255),
+    MessageContent TEXT NOT NULL,
+    DateSent TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    IsRead BOOLEAN DEFAULT FALSE,
+    ResponseSent BOOLEAN DEFAULT FALSE,
+    ResponseContent TEXT,
+    ResponseDate TIMESTAMP NULL,
+    Category VARCHAR(100), -- e.g., 'General Inquiry', 'Help Request', 'Feedback'
+    Urgency ENUM('Low', 'Medium', 'High', 'Emergency') DEFAULT 'Medium',
+    ContactNumber VARCHAR(20),
+    PreferredContactMethod ENUM('Email', 'Phone', 'Text', 'No Preference') DEFAULT 'Email',
+    BestTimeToContact VARCHAR(100),
+    AssignedTo INT, -- UserID of the staff/volunteer assigned to this message
+    FOREIGN KEY (AssignedTo) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `MentalHealthResources`
+CREATE TABLE MentalHealthResources (
+    ResourceID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    ResourceType VARCHAR(100), -- e.g., 'Counselling Service', 'Support Group', 'Crisis Line'
+    Description TEXT,
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    County VARCHAR(50),
+    PostCode VARCHAR(10),
+    Phone VARCHAR(20),
+    EmergencyPhone VARCHAR(20),
+    Email VARCHAR(255),
+    Website VARCHAR(255),
+    ServicesOffered TEXT,
+    EligibilityCriteria TEXT,
+    ReferralProcess TEXT,
+    SpecializesIn TEXT, -- e.g., 'Anxiety', 'Depression', 'Trauma'
+    AcceptsHomeless BOOLEAN DEFAULT TRUE,
+    IsVerified BOOLEAN,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    Latitude DECIMAL(10, 6),
+    Longitude DECIMAL(10, 6),
+    NHSFunded BOOLEAN DEFAULT FALSE,
+    HasDropInHours BOOLEAN DEFAULT FALSE,
+    DropInSchedule TEXT,
+    AcceptsSelfReferral BOOLEAN DEFAULT TRUE,
+    WaitingTimeDays INT, -- Estimated waiting time
+    RequiresAppointment BOOLEAN DEFAULT TRUE,
+    ProvidesRemoteSupport BOOLEAN DEFAULT FALSE,
+    RemoteSupportDetails TEXT, -- e.g., 'Phone calls', 'Video calls'
+    AcceptsDogs BOOLEAN DEFAULT FALSE -- Important for this project
+);
+
+-- Table structure for table `BenefitsEntitlements`
+CREATE TABLE BenefitsEntitlements (
+    BenefitID INT AUTO_INCREMENT PRIMARY KEY,
+    BenefitName VARCHAR(255) NOT NULL,
+    Provider VARCHAR(255), -- e.g., 'DWP', 'Local Council'
+    Description TEXT,
+    EligibilityCriteria TEXT,
+    ApplicationProcess TEXT,
+    DocumentsRequired TEXT,
+    ContactInformation TEXT,
+    Website VARCHAR(255),
+    Category VARCHAR(100), -- e.g., 'Housing', 'Income', 'Disability'
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    IsUniversalCredit BOOLEAN DEFAULT FALSE,
+    IsHousingBenefit BOOLEAN DEFAULT FALSE,
+    IsJobSeekers BOOLEAN DEFAULT FALSE,
+    IsDisabilityBenefit BOOLEAN DEFAULT FALSE,
+    IsLocalCouncilBenefit BOOLEAN DEFAULT FALSE,
+    ApplicationFormURL VARCHAR(255),
+    AverageProcessingTime VARCHAR(100),
+    AppealProcess TEXT,
+    MaximumAmount DECIMAL(10, 2),
+    PaymentFrequency VARCHAR(50),
+    RequiresNINumber BOOLEAN DEFAULT TRUE
+);
+
+-- Table structure for table `MentalHealthCrisisSupport`
+CREATE TABLE MentalHealthCrisisSupport (
+    SupportID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    ServiceType ENUM('Hotline', 'Drop-in', 'Mobile Team', 'A&E', 'NHS Crisis Team', 'Charity', 'Other') NOT NULL,
+    Phone VARCHAR(20),
+    AlternativePhone VARCHAR(20),
+    Website VARCHAR(255),
+    Email VARCHAR(255),
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    PostCode VARCHAR(10),
+    AvailabilityHours TEXT,
+    Description TEXT,
+    RequiresReferral BOOLEAN DEFAULT FALSE,
+    ReferralDetails TEXT,
+    CatchmentArea TEXT,
+    IsNHS BOOLEAN DEFAULT FALSE,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    EmergencyContactName VARCHAR(255), -- Internal contact person for the service
+    EmergencyContactRole VARCHAR(100),
+    EmergencyContactPhone VARCHAR(20)
+);
+
+-- Table structure for table `HousingPathways`
+CREATE TABLE HousingPathways (
+    PathwayID INT AUTO_INCREMENT PRIMARY KEY,
+    OrganizationID INT, -- Organization managing this pathway (can be null if general info)
+    PathwayName VARCHAR(255) NOT NULL,
+    Description TEXT,
+    EligibilityCriteria TEXT,
+    ApplicationProcess TEXT,
+    DocumentsRequired TEXT,
+    ContactPerson VARCHAR(255),
+    ContactEmail VARCHAR(255),
+    ContactPhone VARCHAR(20),
+    TypicalWaitTime VARCHAR(100),
+    HousingType ENUM('Emergency', 'Temporary', 'Supported', 'Social', 'Private Rental', 'Shared', 'Other') NOT NULL,
+    AcceptsPets BOOLEAN DEFAULT FALSE,
+    AcceptsPartners BOOLEAN DEFAULT FALSE,
+    HasSobrietyRequirements BOOLEAN DEFAULT FALSE,
+    SobrietyDetails TEXT,
+    SupportsComplexNeeds BOOLEAN DEFAULT FALSE,
+    ComplexNeedsDetails TEXT,
+    IsLocalAuthority BOOLEAN DEFAULT FALSE,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Table structure for table `Volunteers`
+CREATE TABLE Volunteers (
+    VolunteerID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT, -- Link to the Users table if the volunteer is also a platform user
+    SkillsExperience TEXT,
+    Availability TEXT,
+    PreferredActivities TEXT,
+    DBS BOOLEAN DEFAULT FALSE, -- Disclosure and Barring Service check status
+    DBSCertificateNumber VARCHAR(100),
+    DBSIssueDate DATE,
+    EmergencyContactName VARCHAR(255),
+    EmergencyContactPhone VARCHAR(20),
+    EmergencyContactRelationship VARCHAR(100),
+    TrainingCompleted TEXT,
+    Notes TEXT,
+    StartDate DATE,
+    Status ENUM('Active', 'Inactive', 'Pending', 'Archived') DEFAULT 'Pending',
+    HoursCommitment INT, -- e.g., hours per week/month
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `VolunteerHours`
+CREATE TABLE VolunteerHours (
+    HoursID INT AUTO_INCREMENT PRIMARY KEY,
+    VolunteerID INT,
+    ActivityDescription TEXT,
+    DateVolunteered DATE,
+    HoursContributed DECIMAL(5, 2),
+    SupervisorID INT, -- UserID of the supervisor
+    LocationID INT, -- Optional: if hours are tied to a specific location/event
+    Notes TEXT,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (VolunteerID) REFERENCES Volunteers (VolunteerID),
+    FOREIGN KEY (SupervisorID) REFERENCES Users (UserID)
+    -- Consider adding a foreign key to a Locations table if needed
+);
+
+-- Table structure for table `CaseManagement`
+CREATE TABLE CaseManagement (
+    CaseID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT, -- The user the case is about
+    CaseWorkerID INT, -- The user (case worker) assigned to this case
+    OpenDate DATE NOT NULL,
+    CloseDate DATE NULL,
+    Status ENUM('Open', 'Closed', 'On Hold', 'Transferred') DEFAULT 'Open',
+    PrimaryNeed ENUM('Housing', 'Mental Health', 'Physical Health', 'Addiction', 'Benefits', 'Employment', 'Legal', 'Other') NOT NULL,
+    SecondaryNeeds TEXT,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID),
+    FOREIGN KEY (CaseWorkerID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `LocalCouncilContacts`
+CREATE TABLE LocalCouncilContacts (
+    CouncilID INT AUTO_INCREMENT PRIMARY KEY,
+    CouncilName VARCHAR(255) NOT NULL,
+    Region VARCHAR(100), -- e.g., 'South East', 'North West'
+    HomelessnessTeamPhone VARCHAR(20),
+    HomelessnessTeamEmail VARCHAR(255),
+    EmergencyHousingPhone VARCHAR(20),
+    HousingBenefitsPhone VARCHAR(20),
+    HousingBenefitsEmail VARCHAR(255),
+    WebsiteURL VARCHAR(255),
+    OfficeAddress TEXT,
+    OpeningHours TEXT,
+    HomelessnessStrategyURL VARCHAR(255),
+    AdditionalServices TEXT,
+    Notes TEXT,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `SiteSettings`
+CREATE TABLE SiteSettings (
+    SettingID INT AUTO_INCREMENT PRIMARY KEY,
+    SettingName VARCHAR(100) NOT NULL UNIQUE,
+    SettingValue TEXT,
+    SettingDescription TEXT,
+    IsPublic BOOLEAN DEFAULT TRUE,
+    Category VARCHAR(100), -- e.g., 'General', 'Email', 'Integrations'
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `SiteContactDetails`
+CREATE TABLE SiteContactDetails (
+    ContactID INT AUTO_INCREMENT PRIMARY KEY,
+    Purpose VARCHAR(100) NOT NULL, -- e.g., 'General Inquiries', 'Help & Support'
+    Email VARCHAR(255) NOT NULL,
+    Phone VARCHAR(20),
+    ResponseTimeHours INT,
+    DisplayOrder INT,
+    IsActive BOOLEAN DEFAULT TRUE,
+    AdditionalInfo TEXT
+);
+
+-- Table structure for table `SocialMediaLinks`
+CREATE TABLE SocialMediaLinks (
+    LinkID INT AUTO_INCREMENT PRIMARY KEY,
+    Platform VARCHAR(50) NOT NULL, -- e.g., 'Facebook', 'Twitter', 'Instagram'
+    URL VARCHAR(255) NOT NULL,
+    DisplayName VARCHAR(100),
+    DisplayOrder INT,
+    IsActive BOOLEAN DEFAULT TRUE,
+    Icon VARCHAR(50) -- e.g., 'facebook', 'twitter'
+);
+
+-- --- Additional Tables for Hidden Sections and Message Board ---
+
+-- Table: `SensitiveLocations`
+-- Stores information for sensitive locations like safe sleeping spots, hiding places,
+-- and potentially safe scoring areas. Access restricted to hidden members.
+CREATE TABLE SensitiveLocations (
+    LocationID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255), -- Optional name for the location
+    Description TEXT, -- Detailed description of the location and why it's suitable
+    Latitude DECIMAL(10, 6),
+    Longitude DECIMAL(10, 6),
+    LocationType ENUM('Safe Sleep', 'Hiding Spot', 'Safe Scoring', 'Member Food Access') NOT NULL, -- Categorizes the type of sensitive location
+    Notes TEXT, -- Additional notes about the location
+    AddedByUserID INT, -- Tracks which user added the location
+    IsVerified BOOLEAN DEFAULT FALSE, -- For moderation/verification of submitted locations
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    SafetyWarnings TEXT, -- Any specific safety concerns for this location
+    FOREIGN KEY (AddedByUserID) REFERENCES Users (UserID)
+);
+
+-- Table: `ConspiracyTheories`
+-- Stores information about conspiracy theories for the hidden section.
+CREATE TABLE ConspiracyTheories (
+    TheoryID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    ShortDescription TEXT,
+    FullDescription TEXT,
+    SourceURL VARCHAR(255), -- Link to the Wikipedia source or other relevant sources
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table: `ForumThreads`
+-- Stores the main topics or threads in the message board. Can include sensitive topics.
+CREATE TABLE ForumThreads (
+    ThreadID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT, -- The user who started the thread
+    Title VARCHAR(255) NOT NULL,
+    Content TEXT, -- The initial post of the thread
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    IsLocked BOOLEAN DEFAULT FALSE, -- To prevent new replies
+    IsSensitive BOOLEAN DEFAULT FALSE, -- Flag for sensitive threads (e.g., addiction, harm reduction)
+    MinimumAccessRole VARCHAR(50) DEFAULT 'Member', -- Access control for threads ('Member', 'Admin')
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table: `ForumPosts`
+-- Stores individual posts or replies within forum threads.
+CREATE TABLE ForumPosts (
+    PostID INT AUTO_INCREMENT PRIMARY KEY,
+    ThreadID INT,
+    UserID INT, -- The user who made the post
+    Content TEXT NOT NULL,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    ParentPostID INT NULL, -- For nested replies (NULL for top-level posts)
+    FOREIGN KEY (ThreadID) REFERENCES ForumThreads (ThreadID),
+    FOREIGN KEY (UserID) REFERENCES Users (UserID),
+    FOREIGN KEY (ParentPostID) REFERENCES ForumPosts (PostID)
+);
+
+-- Table: `HarmReductionInformation`
+-- Dedicated table for structured information on safe drug use and harm reduction.
+CREATE TABLE HarmReductionInformation (
+    InfoID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Content TEXT NOT NULL, -- Detailed information on harm reduction practices
+    Category VARCHAR(100), -- e.g., 'Needle Exchange', 'Safe Consumption', 'Overdose Prevention'
+    AddedByUserID INT, -- User who added/last updated the information
+    IsVerified BOOLEAN DEFAULT FALSE, -- For moderation/verification
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    Disclaimer TEXT, -- Important safety disclaimers
+    FOREIGN KEY (AddedByUserID) REFERENCES Users (UserID)
+);
+
+-- Table: `UserStories`
+-- Allows users to share their personal experiences and stories.
+CREATE TABLE UserStories (
+    StoryID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NULL, -- User who submitted the story (can be null for anonymous)
+    Title VARCHAR(255),
+    Content TEXT NOT NULL,
+    IsAnonymous BOOLEAN DEFAULT FALSE,
+    DateSubmitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    IsApproved BOOLEAN DEFAULT FALSE, -- For moderation before publishing
+    ModeratorNotes TEXT,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table: `SkillsExchange`
+-- Facilitates members offering or requesting specific skills or mutual aid.
+CREATE TABLE SkillsExchange (
+    ExchangeID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT, -- User offering or requesting
+    Type ENUM('Offer', 'Request') NOT NULL,
+    Skill VARCHAR(255) NOT NULL, -- e.g., 'Basic IT', 'Form Filling', 'Cooking'
+    Description TEXT,
+    ContactMethod VARCHAR(100), -- How to be contacted (within the platform)
+    Status ENUM('Open', 'Fulfilled', 'Closed') DEFAULT 'Open',
+    DatePosted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table: `LegalInformation`
+-- Stores curated information about legal rights and resources relevant to homelessness.
+CREATE TABLE LegalInformation (
+    LegalInfoID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Content TEXT NOT NULL,
+    Category VARCHAR(100), -- e.g., 'Stop and Search', 'Housing Rights', 'Legal Aid'
+    Source VARCHAR(255), -- Source of the legal information
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    AddedByUserID INT, -- User who added/last updated
+    FOREIGN KEY (AddedByUserID) REFERENCES Users (UserID)
+);
+
+-- Table: `EmploymentOpportunities`
+-- Lists job or training opportunities relevant to the user base.
+CREATE TABLE EmploymentOpportunities (
+    JobID INT AUTO_INCREMENT PRIMARY KEY,
+    OrganizationID INT NULL, -- Organization offering the opportunity (can be null if individual)
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT,
+    Type ENUM('Job', 'Training', 'Volunteer') NOT NULL,
+    Location VARCHAR(255),
+    ContactInformation TEXT,
+    ApplicationProcess TEXT,
+    DatePosted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ExpiryDate DATE NULL,
+    IsVerified BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Table: `UserHealthTracking`
+-- Allows users to optionally track health-related information privately.
+-- (Highly Sensitive - Requires Strong Encryption and Access Control)
+CREATE TABLE UserHealthTracking (
+    HealthEntryID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    EntryDate DATE NOT NULL,
+    EntryType VARCHAR(100), -- e.g., 'Appointment', 'Medication', 'Symptom'
+    Details TEXT, -- Encrypted field for sensitive health details
+    Notes TEXT, -- Encrypted field for personal notes
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+    -- Consider adding an EncryptionKeyID field if using per-user encryption keys
+);
+
+-- Table: `UserDocumentStorage`
+-- Allows users to upload and store copies of personal documents securely.
+-- (Extremely Sensitive - Requires Top-Tier Encryption and Access Control)
+CREATE TABLE UserDocumentStorage (
+    DocumentID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    FileName VARCHAR(255) NOT NULL,
+    FileType VARCHAR(100),
+    FileSize INT, -- Size in bytes
+    UploadDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    StoragePath VARCHAR(255) NOT NULL, -- Path to the encrypted document file
+    EncryptionKeyID INT, -- Link to a table managing encryption keys (requires a separate key management strategy)
+    DocumentType VARCHAR(100), -- e.g., 'ID', 'Benefit Letter', 'Medical Record'
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+    -- Consider adding a foreign key to an EncryptionKeys table
+);
+
+-- Table: `WishlistItems`
+-- Allows members to post specific needs or items they are seeking.
+CREATE TABLE WishlistItems (
+    ItemID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NULL, -- User requesting the item (can be null for anonymous)
+    ItemDescription TEXT NOT NULL,
+    Category VARCHAR(100), -- e.g., 'Clothing', 'Toiletries', 'Sleeping Bag'
+    Status ENUM('Open', 'Fulfilled', 'Closed') DEFAULT 'Open',
+    DatePosted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    IsAnonymous BOOLEAN DEFAULT FALSE,
+    FulfilledByUserID INT NULL, -- User who fulfilled the request (can be null)
+    DateFulfilled TIMESTAMP NULL,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID),
+    FOREIGN KEY (FulfilledByUserID) REFERENCES Users (UserID)
+);
+
+-- Table: `SuccessStories`
+-- Highlights positive outcomes and achievements.
+CREATE TABLE SuccessStories (
+    StoryID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NULL, -- User whose story it is (can be null for anonymous)
+    Title VARCHAR(255) NOT NULL,
+    Content TEXT NOT NULL,
+    IsAnonymous BOOLEAN DEFAULT FALSE,
+    DateSubmitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    IsApproved BOOLEAN DEFAULT FALSE, -- For moderation
+    ModeratorNotes TEXT,
+    DatePublished DATE NULL,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table: `OAuthProviders` - Stores information about OAuth providers for third-party login
+CREATE TABLE OAuthProviders (
+    ProviderID INT AUTO_INCREMENT PRIMARY KEY,
+    ProviderName VARCHAR(100) NOT NULL, -- e.g., 'Google', 'Facebook', 'Microsoft', 'Twitter'
+    ClientID VARCHAR(255), -- OAuth client ID
+    ClientSecret VARCHAR(255), -- OAuth client secret (should be encrypted in production)
+    RedirectURI VARCHAR(255), -- OAuth redirect URI
+    Scope VARCHAR(255), -- OAuth scopes
+    AuthURL VARCHAR(255), -- Authorization endpoint
+    TokenURL VARCHAR(255), -- Token endpoint
+    UserInfoURL VARCHAR(255), -- User info endpoint
+    IsActive BOOLEAN DEFAULT TRUE,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table: `UserOAuthConnections` - Links users to their OAuth connections
+CREATE TABLE UserOAuthConnections (
+    ConnectionID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    ProviderID INT NOT NULL,
+    ProviderUserID VARCHAR(255) NOT NULL, -- User ID from the provider
+    AccessToken TEXT, -- Encrypted access token
+    RefreshToken TEXT, -- Encrypted refresh token
+    TokenExpiry TIMESTAMP NULL,
+    DateConnected TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUsed TIMESTAMP NULL,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID),
+    FOREIGN KEY (ProviderID) REFERENCES OAuthProviders (ProviderID),
+    UNIQUE KEY (ProviderID, ProviderUserID) -- Prevent duplicate connections
+);
+
+-- Table: `AccessibilityTools` - Stores available accessibility features
+CREATE TABLE AccessibilityTools (
+    ToolID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL, -- e.g., 'Screen Reader Support', 'High Contrast Mode'
+    Description TEXT,
+    SettingKey VARCHAR(50) NOT NULL, -- Key used in the application code
+    DefaultValue VARCHAR(50), -- Default setting value
+    Options TEXT, -- JSON array of possible options if applicable
+    Category ENUM('Visual', 'Hearing', 'Motor', 'Cognitive', 'General') NOT NULL,
+    DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table: `UserAccessibilitySettings` - Stores user-specific accessibility preferences
+CREATE TABLE UserAccessibilitySettings (
+    SettingID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    ToolID INT NOT NULL,
+    SettingValue VARCHAR(255) NOT NULL, -- User's chosen setting
+    DateSet TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUsed TIMESTAMP NULL,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID),
+    FOREIGN KEY (ToolID) REFERENCES AccessibilityTools (ToolID),
+    UNIQUE KEY (UserID, ToolID) -- One setting per tool per user
+);
+
+-- Table: `APIKeys` - For mobile app and external system integration
+CREATE TABLE APIKeys (
+    KeyID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    AppName VARCHAR(100) NOT NULL, -- Name of the app/integration using this key
+    APIKey VARCHAR(255) NOT NULL, -- Generated API key (should be hashed)
+    Scopes TEXT, -- JSON array of allowed scopes
+    ExpiryDate TIMESTAMP NULL, -- NULL for non-expiring keys
+    LastUsed TIMESTAMP NULL,
+    IsActive BOOLEAN DEFAULT TRUE,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    RateLimit INT DEFAULT 1000, -- Requests per day
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table: `UserDevices` - For mobile app push notifications
+CREATE TABLE UserDevices (
+    DeviceID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    DeviceToken VARCHAR(255) NOT NULL, -- Push notification token
+    DeviceType ENUM('iOS', 'Android', 'Web') NOT NULL,
+    DeviceName VARCHAR(100),
+    OSVersion VARCHAR(50),
+    AppVersion VARCHAR(50),
+    LastActive TIMESTAMP NULL,
+    IsActive BOOLEAN DEFAULT TRUE,
+    DateRegistered TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table: `RealTimeNotifications` - For push notifications and real-time updates
+CREATE TABLE RealTimeNotifications (
+    NotificationID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    Title VARCHAR(255) NOT NULL,
+    Message TEXT,
+    NotificationType VARCHAR(50) NOT NULL, -- e.g., 'Shelter Update', 'Food Bank Alert'
+    RelatedEntityID INT, -- ID of related record (e.g., ShelterID)
+    RelatedEntityType VARCHAR(50), -- Type of related entity (e.g., 'Shelter', 'FoodBank')
+    IsRead BOOLEAN DEFAULT FALSE,
+    IsDismissed BOOLEAN DEFAULT FALSE,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ExpiryDate TIMESTAMP NULL, -- When notification should expire
+    Priority ENUM('Low', 'Medium', 'High', 'Critical') DEFAULT 'Medium',
+    DeliveryStatus ENUM('Pending', 'Sent', 'Failed', 'Delivered') DEFAULT 'Pending',
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table: `RealTimeShelterUpdates` - For tracking shelter availability in real-time
+CREATE TABLE RealTimeShelterUpdates (
+    UpdateID INT AUTO_INCREMENT PRIMARY KEY,
+    ShelterID INT NOT NULL,
+    PreviousAvailability INT,
+    NewAvailability INT,
+    UpdateReason VARCHAR(255),
+    UpdatedByUserID INT,
+    UpdateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    IsAutomated BOOLEAN DEFAULT FALSE, -- Whether update was from an automated system
+    APISource VARCHAR(100), -- If update came from an external API or system
+    FOREIGN KEY (ShelterID) REFERENCES EmergencyShelters (ShelterID),
+    FOREIGN KEY (UpdatedByUserID) REFERENCES Users (UserID)
+);
+
+-- Create transaction log for auditing data changes
+CREATE TABLE DataChangeLog (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    TableName VARCHAR(100) NOT NULL,
+    RecordID INT NOT NULL,
+    Action ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
+    ChangedByUserID INT,
+    ChangedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    OldValues TEXT, -- JSON representation of old values
+    NewValues TEXT, -- JSON representation of new values
+    ClientIP VARCHAR(45),
+    UserAgent TEXT,
+    FOREIGN KEY (ChangedByUserID) REFERENCES Users (UserID)
+);
+
+-- Table: `SimplifiedContent` - Stores simplified versions of complex content for users with cognitive disabilities
+CREATE TABLE SimplifiedContent (
+    ContentID INT AUTO_INCREMENT PRIMARY KEY,
+    OriginalContentType VARCHAR(50) NOT NULL, -- e.g., 'Page', 'Article', 'Form'
+    OriginalContentID INT NOT NULL, -- ID in the original content table
+    SimplifiedTitle VARCHAR(255) NOT NULL,
+    SimplifiedContent TEXT NOT NULL,
+    ReadingLevel ENUM('Very Simple', 'Simple', 'Moderate') NOT NULL,
+    HasVisualAids BOOLEAN DEFAULT FALSE,
+    VisualAidPaths TEXT, -- JSON array of paths to visual aids
+    CreatedByUserID INT NOT NULL,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (CreatedByUserID) REFERENCES Users (UserID)
+);
+
+-- Table: `TranslatedContent` - Stores translations of content for non-English speakers
+CREATE TABLE TranslatedContent (
+    TranslationID INT AUTO_INCREMENT PRIMARY KEY,
+    OriginalContentType VARCHAR(50) NOT NULL, -- e.g., 'Page', 'Article', 'Form'
+    OriginalContentID INT NOT NULL, -- ID in the original content table
+    Language VARCHAR(10) NOT NULL, -- ISO language code
+    TranslatedTitle VARCHAR(255) NOT NULL,
+    TranslatedContent TEXT NOT NULL,
+    TranslatedByUserID INT,
+    IsAutomatedTranslation BOOLEAN DEFAULT FALSE,
+    QualityChecked BOOLEAN DEFAULT FALSE,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (TranslatedByUserID) REFERENCES Users (UserID)
+);
+
+-- Table: `ServiceDogWelfareConcerns` - Tracks welfare concerns specifically for service dogs
+CREATE TABLE ServiceDogWelfareConcerns (
+    ConcernID INT AUTO_INCREMENT PRIMARY KEY,
+    DogID INT NOT NULL,
+    ReportedByUserID INT,
+    ConcernType ENUM('Health', 'Treatment', 'Housing', 'Training', 'Other') NOT NULL,
+    Description TEXT NOT NULL,
+    Location VARCHAR(255),
+    DateReported TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Status ENUM('New', 'Under Review', 'Resolved', 'Unfounded', 'Referred') DEFAULT 'New',
+    AssignedToUserID INT, -- Staff member handling the concern
+    ResolutionNotes TEXT,
+    ResolutionDate TIMESTAMP NULL,
+    IsUrgent BOOLEAN DEFAULT FALSE,
+    FollowUpDate DATE NULL,
+    ReferredToOrganizationID INT NULL, -- If referred to external organization
+    FOREIGN KEY (DogID) REFERENCES Dogs (DogID),
+    FOREIGN KEY (ReportedByUserID) REFERENCES Users (UserID),
+    FOREIGN KEY (AssignedToUserID) REFERENCES Users (UserID),
+    FOREIGN KEY (ReferredToOrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Table: `AccessibilityRatingCategories` - Defines categories for accessibility ratings
+CREATE TABLE AccessibilityRatingCategories (
+    CategoryID INT AUTO_INCREMENT PRIMARY KEY,
+    CategoryName VARCHAR(100) NOT NULL, -- e.g., 'Wheelchair Access', 'Audio Descriptions', 'Easy Read Content'
+    Description TEXT,
+    AppliesTo VARCHAR(50) NOT NULL, -- e.g., 'Physical', 'Digital', 'Both'
+    RatingScale INT NOT NULL DEFAULT 5, -- Typically 1-5 scale
+    IsActive BOOLEAN DEFAULT TRUE,
+    DisplayOrder INT
+);
+
+-- Table: `ResourceAccessibilityRatings` - Stores accessibility ratings for various resources
+CREATE TABLE ResourceAccessibilityRatings (
+    RatingID INT AUTO_INCREMENT PRIMARY KEY,
+    ResourceType VARCHAR(50) NOT NULL, -- e.g., 'Shelter', 'FoodBank', 'Website'
+    ResourceID INT NOT NULL, -- ID of the resource in its respective table
+    CategoryID INT NOT NULL, -- AccessibilityRatingCategories.CategoryID
+    Rating INT NOT NULL, -- Numerical rating
+    RatedByUserID INT,
+    RatingNotes TEXT,
+    DateRated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    HasVerification BOOLEAN DEFAULT FALSE, -- Whether rating has been verified
+    VerifiedByUserID INT,
+    VerificationDate TIMESTAMP NULL,
+    FOREIGN KEY (CategoryID) REFERENCES AccessibilityRatingCategories (CategoryID),
+    FOREIGN KEY (RatedByUserID) REFERENCES Users (UserID),
+    FOREIGN KEY (VerifiedByUserID) REFERENCES Users (UserID)
+);
+
+-- Initial data for site contact details with the provided contact information
+INSERT INTO SiteContactDetails (Purpose, Email, Phone, ResponseTimeHours, DisplayOrder, IsActive, AdditionalInfo)
+VALUES
+('General Inquiries', 'info@homeless.website', '+447853811172', 24, 1, TRUE, 'For general information and non-urgent inquiries'),
+('Help & Support', 'helpme@homeless.website', '+447853811172', 12, 2, TRUE, 'If you need assistance or are in a difficult situation'),
+('Dog Support Services', 'dogs@homeless.website', '+447853811172', 24, 3, TRUE, 'For inquiries about pet-friendly services and support'),
+('Volunteer Opportunities', 'volunteer@homeless.website', '+447853811172', 48, 4, TRUE, 'If you would like to volunteer or help');
+
+-- Initial social media data with the provided Facebook page
+INSERT INTO SocialMediaLinks (Platform, URL, DisplayName, DisplayOrder, IsActive, Icon)
+VALUES ('Facebook', 'www.facebook.com/homelesshelpuk', 'Homeless Help UK', 1, TRUE, 'facebook');
+
+-- Create essential performance indexes
+CREATE INDEX idx_users_username ON Users (Username);
+CREATE INDEX idx_users_email ON Users (Email);
+CREATE INDEX idx_organizations_name ON Organizations (Name);
+CREATE INDEX idx_resources_category ON Resources (Category);
+CREATE INDEX idx_events_datetime ON Events (DateTime);
+CREATE INDEX idx_forumthreads_datecreated ON ForumThreads (DateCreated);
+CREATE INDEX idx_forumposts_threadid ON ForumPosts (ThreadID);
+CREATE INDEX idx_sensitivelocations_locationtype ON SensitiveLocations (LocationType);
+CREATE INDEX idx_casemanagement_userid ON CaseManagement (UserID);
+CREATE INDEX idx_mentalhealth_resources_location ON MentalHealthResources (Latitude, Longitude);
+CREATE INDEX idx_mentalhealth_resources_type ON MentalHealthResources (ResourceType);
+CREATE INDEX idx_mentalhealth_resources_accepts_dogs ON MentalHealthResources (AcceptsDogs);
+CREATE INDEX idx_foodbanks_stock ON FoodBanks (CurrentStockLevel, StockLastUpdated);
+CREATE INDEX idx_shelters_dog_friendly ON EmergencyShelters (DogFriendly);
+
+-- Table: `GDPRConsentLog` - Track consent changes for GDPR compliance
+CREATE TABLE GDPRConsentLog (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    ConsentType VARCHAR(100) NOT NULL, -- e.g., 'Marketing', 'Data Sharing', 'Cookie Usage'
+    ConsentGiven BOOLEAN NOT NULL,
+    IPAddress VARCHAR(45), -- IPv4 or IPv6 address
+    UserAgent TEXT, -- Browser/device information
+    DateLogged TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ConsentText TEXT, -- The exact text the user agreed to
+    ConsentVersion VARCHAR(20), -- Version of the consent form
+    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table: `DataExportRequests` - GDPR right to data portability
+CREATE TABLE DataExportRequests (
+    RequestID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    RequestDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Status ENUM('Pending', 'Processing', 'Completed', 'Failed') DEFAULT 'Pending',
+    CompletionDate TIMESTAMP NULL,
+    ExportFormat ENUM('JSON', 'CSV', 'PDF') DEFAULT 'JSON',
+    ExportData TEXT, -- Could contain a file path or encrypted file content
+    ProcessedByUserID INT NULL, -- Admin who processed the request
+    Notes TEXT,
+    FOREIGN KEY (UserID) REFERENCES Users (UserID),
+    FOREIGN KEY (ProcessedByUserID) REFERENCES Users (UserID)
+);
+
+-- Table: `DataDeletionRequests` - GDPR right to be forgotten
+CREATE TABLE DataDeletionRequests (
+    RequestID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    RequestDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Status ENUM('Pending', 'Processing', 'Completed', 'Denied') DEFAULT 'Pending',
+    CompletionDate TIMESTAMP NULL,
+    DeletionScope ENUM('Full', 'Partial') DEFAULT 'Full',
+    PartialDeletionDetails TEXT, -- If the user wants to delete only specific data
+    ProcessedByUserID INT NULL, -- Admin who processed the request
+    DenialReason TEXT, -- Reason if request was denied
+    VerificationMethod VARCHAR(100), -- How the user's identity was verified
+    FOREIGN KEY (UserID) REFERENCES Users (UserID),
+    FOREIGN KEY (ProcessedByUserID) REFERENCES Users (UserID)
+);

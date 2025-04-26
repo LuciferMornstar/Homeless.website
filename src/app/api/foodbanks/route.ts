@@ -1,34 +1,107 @@
 import { NextRequest, NextResponse } from 'next/server';
-import pool from '@/lib/db';
+import { query, execute } from '@/lib/db';
+import { RowDataPacket } from 'mysql2';
+
+interface FoodBank extends RowDataPacket {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  postcode: string;
+  phone: string;
+  email: string;
+  openingHours: string;
+  notes?: string;
+  website?: string;
+  requirementsInfo?: string;
+  availableItems?: string;
+  isVerified: boolean;
+  latitude?: number;
+  longitude?: number;
+  updatedAt: Date;
+}
 
 export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams;
+    const { searchParams } = new URL(request.url);
     const city = searchParams.get('city');
-    
-    let query = 'SELECT * FROM FoodBanks WHERE IsVerified = TRUE';
-    const params: any[] = [];
-    
+    const verified = searchParams.get('verified');
+
+    let sql = 'SELECT * FROM FoodBanks';
+    const params: unknown[] = [];
+    const conditions: string[] = [];
+
     if (city) {
-      query += ' AND City = ?';
+      conditions.push('city = ?');
       params.push(city);
     }
-    
-    query += ' ORDER BY Name ASC';
-    
-    const [rows] = await pool.query(query, params);
-    
-    return NextResponse.json({ 
-      success: true, 
-      data: rows 
+
+    if (verified) {
+      conditions.push('isVerified = ?');
+      params.push(verified === 'true' ? 1 : 0);
+    }
+
+    if (conditions.length > 0) {
+      sql += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    sql += ' ORDER BY city, name';
+
+    const foodbanks = await query<FoodBank[]>(sql, params);
+
+    return NextResponse.json({
+      success: true,
+      data: foodbanks
     });
-  } catch (error: any) {
-    console.error('Error fetching food banks:', error);
-    
+  } catch (error) {
+    console.error('Failed to fetch food banks:', error);
     return NextResponse.json({ 
       success: false, 
-      message: 'Failed to fetch food banks', 
-      error: error.message 
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const {
+      name, address, city, postcode, phone, email,
+      openingHours, notes, website, requirementsInfo,
+      availableItems, latitude, longitude
+    } = body;
+
+    // Validate required fields
+    if (!name || !address || !city || !postcode || !phone || !email || !openingHours) {
+      return NextResponse.json({
+        success: false,
+        error: 'Missing required fields'
+      }, { status: 400 });
+    }
+
+    const result = await execute(
+      `INSERT INTO FoodBanks (
+        name, address, city, postcode, phone, email,
+        openingHours, notes, website, requirementsInfo,
+        availableItems, isVerified, latitude, longitude
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?, ?)`,
+      [
+        name, address, city, postcode, phone, email,
+        openingHours, notes, website, requirementsInfo,
+        availableItems, latitude, longitude
+      ]
+    );
+
+    return NextResponse.json({
+      success: true,
+      message: 'Food bank added successfully',
+      id: result.insertId
+    });
+  } catch (error) {
+    console.error('Failed to add food bank:', error);
+    return NextResponse.json({ 
+      success: false, 
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }

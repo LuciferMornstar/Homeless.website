@@ -163,3 +163,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 };
 
 export default ServiceCard;
+
+// Also export as a named export to support the way it's imported in the get-help page
+export { ServiceCard };

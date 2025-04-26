@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
+import ModernFooter from '../../../components/ModernFooter';
 
 const menuLinks = [
   { href: '/about', label: 'About' },
@@ -34,7 +37,7 @@ const menuLinks = [
 export default function MenuPage() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen flex flex-col bg-white">
       <nav className="bg-white shadow-md">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="text-2xl font-bold text-red-700">Morningstar Rescues</Link>
@@ -42,12 +45,15 @@ export default function MenuPage() {
             className="text-gray-700 md:hidden focus:outline-none"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle navigation menu"
+            aria-expanded={open ? true : false}
+            aria-controls="navMenu"
           >
-            <i className="fas fa-bars fa-lg" />
+            <span className="sr-only">Open main menu</span>
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
-          <ul className={`${open ? '' : 'hidden'} md:flex md:space-x-6 text-gray-700`} id="navMenu">
+          <ul className={`md:flex md:space-x-6 text-gray-700 ${open ? 'block absolute top-16 left-0 w-full bg-white shadow-md z-50' : 'hidden'} md:static md:bg-transparent md:shadow-none md:z-auto`} id="navMenu">
             {menuLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} className="border-b md:border-none">
                 <Link href={link.href} className="hover:text-red-700 block py-2 px-2">
                   {link.label}
                 </Link>
@@ -56,7 +62,7 @@ export default function MenuPage() {
           </ul>
         </div>
       </nav>
-      <main className="container mx-auto py-10">
+      <main className="container mx-auto py-10 flex-1">
         <h1 className="text-3xl font-bold mb-4">Menu</h1>
         <p className="mb-6">Navigate to any section of the site using the menu above. If you need urgent help, email <a href="mailto:helpme@homeless.website" className="underline text-blue-700">helpme@homeless.website</a> or call <a href="tel:+447853811172" className="underline text-blue-700">+44 7853 811172</a>.</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -67,6 +73,7 @@ export default function MenuPage() {
           ))}
         </div>
       </main>
+      <ModernFooter />
     </div>
   );
 }

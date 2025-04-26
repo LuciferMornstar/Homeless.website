@@ -121,7 +121,7 @@ class SupportNetwork {
     }
     
     initializeNodes() {
-        this.planets.forEach((planet, index) => {
+        this.planets.forEach((planet, _index) => {
             // Set node data
             const nodeInfo = this.nodeDescriptions[planet.id];
             if (nodeInfo) {
@@ -308,4 +308,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 250);
     });
-}); // Corrected missing comma
+});

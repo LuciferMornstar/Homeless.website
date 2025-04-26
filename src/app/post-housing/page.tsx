@@ -17,8 +17,41 @@ import {
   faPeopleArrows
 } from '@fortawesome/free-solid-svg-icons';
 
+// Define proper TypeScript interfaces
+interface FeatureBlockProps {
+  icon: any; // We'll fix this any type later
+  title: string;
+  text: string;
+  linkHref: string;
+  linkText: string;
+}
+
+interface MilestoneProps {
+  position: 'left' | 'right';
+  title: string;
+  text: string;
+  checklist: string[];
+}
+
+interface CardProps {
+  title: string;
+  children: React.ReactNode;
+  icon?: any; // We'll fix this any type later
+}
+
+interface ResourceCardProps {
+  icon: any; // We'll fix this any type later
+  title: string;
+  description: string;
+}
+
+interface TestimonialProps {
+  content: string;
+  author: string;
+}
+
 // Feature Block Component
-const FeatureBlock = ({ icon, title, text, linkHref, linkText }: any) => (
+const FeatureBlock: React.FC<FeatureBlockProps> = ({ icon, title, text, linkHref, linkText }) => (
   <div className="feature-block fade-in">
     <div className="feature-icon">
       <FontAwesomeIcon icon={icon} />
@@ -32,13 +65,13 @@ const FeatureBlock = ({ icon, title, text, linkHref, linkText }: any) => (
 );
 
 // Timeline Milestone Component
-const Milestone = ({ position, title, text, checklist }: any) => (
+const Milestone: React.FC<MilestoneProps> = ({ position, title, text, checklist }) => (
   <div className={`milestone milestone-${position} animated-element`}>
     <div className="milestone-content">
       <h3 className="milestone-title">{title}</h3>
       <p>{text}</p>
       <ul className="checklist mt-3">
-        {checklist.map((item: string, index: number) => (
+        {checklist.map((item, index) => (
           <li key={index}>{item}</li>
         ))}
       </ul>
@@ -47,7 +80,7 @@ const Milestone = ({ position, title, text, checklist }: any) => (
 );
 
 // Card Component
-const Card = ({ title, children, icon = null }: any) => (
+const Card: React.FC<CardProps> = ({ title, children, icon = null }) => (
   <div className="card animated-element">
     <div className="card-content">
       {icon && (
@@ -62,7 +95,7 @@ const Card = ({ title, children, icon = null }: any) => (
 );
 
 // Resource Card Component
-const ResourceCard = ({ icon, title, description }: any) => (
+const ResourceCard: React.FC<ResourceCardProps> = ({ icon, title, description }) => (
   <div className="resource-card">
     <div className="resource-icon">
       <FontAwesomeIcon icon={icon} />
@@ -75,14 +108,14 @@ const ResourceCard = ({ icon, title, description }: any) => (
 );
 
 // Testimonial Component
-const Testimonial = ({ content, author }: any) => (
+const Testimonial: React.FC<TestimonialProps> = ({ content, author }) => (
   <div className="testimonial fade-in">
     <div className="testimonial-content">{content}</div>
     <div className="testimonial-author">- {author}</div>
   </div>
 );
 
-function PostHousingPage() {
+export default function Page() {
   useEffect(() => {
     // Animation for elements as they come into view
     const observer = new IntersectionObserver((entries) => {
@@ -495,5 +528,3 @@ function PostHousingPage() {
     </main>
   );
 }
-
-export { PostHousingPage as Page };

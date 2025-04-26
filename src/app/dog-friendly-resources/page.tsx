@@ -32,50 +32,58 @@ const DogFriendlyResourcesPage: React.FC = () => {
   const [serviceTypes, setServiceTypes] = useState<string[]>([]);
   const [isSimpleView, setIsSimpleView] = useState(false);
 
-  // Fetch resources on component mount
-  useEffect(() => {
-    const fetchResources = async () => {
-      try {
-        setIsLoading(true);
-        const response = await apiService.get<DogFriendlyResource[]>('dog-friendly-resources');
-        if (response.success && response.data) {
-          setResources(response.data);
-          setFilteredResources(response.data);
-          
-          // Extract unique cities and service types
-          const uniqueCities = [...new Set(response.data
-            .map(resource => resource.City)
-            .filter(city => city && city.trim() !== ''))] as string[];
-          setCities(uniqueCities.sort());
-          
-          const allServicesText = response.data
-            .map(resource => resource.ServicesOffered || '')
-            .join(' ');
-          
-          // Extract service types from the services text
-          const commonServices = [
-            'shelter', 'housing', 'veterinary', 'food', 'supplies', 
-            'training', 'walking', 'daycare', 'grooming', 'medical'
-          ];
-          
-          const foundServices = commonServices.filter(service => 
-            allServicesText.toLowerCase().includes(service.toLowerCase())
-          );
-          
-          setServiceTypes(foundServices);
-        } else {
-          setError('Failed to load dog-friendly resources');
-        }
-      } catch (err) {
-        setError('An error occurred while loading resources');
-        console.error('Error fetching dog resources:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // Add state for submission form
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    organizationID: '', name: '', description: '', address: '', city: '', state: '', zipCode: '',
+    phone: '', website: '', servicesOffered: '', restrictions: '', notes: ''
+  });
+  const [submitError, setSubmitError] = useState('');
+  const [submitSuccess, setSubmitSuccess] = useState('');
 
-    fetchResources();
-  }, []);
+  // Extract fetchResources for reuse
+  const fetchResources = async () => {
+    setIsLoading(true);
+    try {
+      const response = await apiService.get<DogFriendlyResource[]>('dog-friendly-resources');
+      if (response.success && response.data) {
+        setResources(response.data);
+        setFilteredResources(response.data);
+        
+        // Extract unique cities and service types
+        const uniqueCities = [...new Set(response.data
+          .map(resource => resource.City)
+          .filter(city => city && city.trim() !== ''))] as string[];
+        setCities(uniqueCities.sort());
+        
+        const allServicesText = response.data
+          .map(resource => resource.ServicesOffered || '')
+          .join(' ');
+        
+        // Extract service types from the services text
+        const commonServices = [
+          'shelter', 'housing', 'veterinary', 'food', 'supplies', 
+          'training', 'walking', 'daycare', 'grooming', 'medical'
+        ];
+        
+        const foundServices = commonServices.filter(service => 
+          allServicesText.toLowerCase().includes(service.toLowerCase())
+        );
+        
+        setServiceTypes(foundServices);
+      } else {
+        setError('Failed to load dog-friendly resources');
+      }
+    } catch (err) {
+      setError('An error occurred while loading resources');
+      console.error('Error fetching dog resources:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Initial fetch
+  useEffect(() => { fetchResources(); }, []);
 
   // Filter resources when search term or filters change
   useEffect(() => {
@@ -120,6 +128,42 @@ const DogFriendlyResourcesPage: React.FC = () => {
   // Toggle between simple and detailed view
   const toggleView = () => {
     setIsSimpleView(!isSimpleView);
+  };
+
+  // Toggle form visibility
+  const toggleForm = () => {
+    setShowForm(s => !s);
+    setSubmitError(''); setSubmitSuccess('');
+  };
+
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Submit new resource
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError(''); setSubmitSuccess('');
+    const payload = { ...formData, organizationID: Number(formData.organizationID) };
+    try {
+      const res = await fetch('/api/dog-friendly-resources', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitSuccess('Resource submitted successfully');
+        setFormData({ organizationID: '', name: '', description: '', address: '', city: '', state: '', zipCode: '', phone: '', website: '', servicesOffered: '', restrictions: '', notes: '' });
+        await fetchResources();
+      } else {
+        setSubmitError(data.error || 'Submission failed');
+      }
+    } catch (err) {
+      setSubmitError('An error occurred during submission');
+      console.error('Submission error:', err);
+    }
   };
 
   if (isLoading) {
@@ -381,13 +425,50 @@ const DogFriendlyResourcesPage: React.FC = () => {
             : "Help us grow our database of dog-friendly resources for people experiencing homelessness."}
         </p>
         <div className="inline-block">
-          <a 
-            href="mailto:dogs@homeless.website" 
-            className="bg-blue-600 text-white py-3 px-6 rounded-lg inline-block hover:bg-blue-700"
-          >
+          <a href="mailto:dogs@homeless.website" className="bg-blue-600 text-white py-3 px-6 rounded-lg inline-block hover:bg-blue-700">
             {isSimpleView ? "Email us" : "Submit a Resource"}
           </a>
+          <button onClick={toggleForm} className="ml-4 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700">
+            {showForm ? 'Hide Form' : 'Add Resource Online'}
+          </button>
         </div>
+        {showForm && (
+          <form onSubmit={handleFormSubmit} className="mt-6 max-w-xl mx-auto text-left">
+            {submitSuccess && <p className="text-green-600 mb-2">{submitSuccess}</p>}
+            {submitError && <p className="text-red-600 mb-2">{submitError}</p>}
+            <div className="grid grid-cols-1 gap-4">
+              <input name="organizationID" value={formData.organizationID} onChange={handleInputChange}
+                placeholder="Organization ID" className="w-full p-2 border rounded" required />
+              <input name="name" value={formData.name} onChange={handleInputChange}
+                placeholder="Name*" className="w-full p-2 border rounded" required />
+              <textarea name="description" value={formData.description} onChange={handleInputChange}
+                placeholder="Description" rows={3} className="w-full p-2 border rounded" />
+              <input name="address" value={formData.address} onChange={handleInputChange}
+                placeholder="Address" className="w-full p-2 border rounded" />
+              <input name="city" value={formData.city} onChange={handleInputChange}
+                placeholder="City" className="w-full p-2 border rounded" />
+              <input name="state" value={formData.state} onChange={handleInputChange}
+                placeholder="State" className="w-full p-2 border rounded" />
+              <input name="zipCode" value={formData.zipCode} onChange={handleInputChange}
+                placeholder="Zip Code" className="w-full p-2 border rounded" />
+              <input name="phone" value={formData.phone} onChange={handleInputChange}
+                placeholder="Phone" className="w-full p-2 border rounded" />
+              <input name="website" value={formData.website} onChange={handleInputChange}
+                placeholder="Website URL" className="w-full p-2 border rounded" />
+              <textarea name="servicesOffered" value={formData.servicesOffered} onChange={handleInputChange}
+                placeholder="Services Offered" rows={2} className="w-full p-2 border rounded" />
+              <textarea name="restrictions" value={formData.restrictions} onChange={handleInputChange}
+                placeholder="Restrictions" rows={2} className="w-full p-2 border rounded" />
+              <textarea name="notes" value={formData.notes} onChange={handleInputChange}
+                placeholder="Additional Notes" rows={2} className="w-full p-2 border rounded" />
+            </div>
+            <div className="mt-4 text-right">
+              <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                Submit
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

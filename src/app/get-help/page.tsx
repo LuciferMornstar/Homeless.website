@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ServiceCard } from '@/components/ServiceCard';
 
@@ -8,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Immediate support, resources and guidance for those facing homelessness or housing instability.',
 };
 
-export function GetHelpPage() {
+export default function GetHelpPage() {
   return (
     <main className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
@@ -146,7 +145,7 @@ export function GetHelpPage() {
                 <div>
                   <h4 className="text-xl font-bold mb-2 text-gray-800">Priority Need</h4>
                   <p className="text-gray-700">
-                    Local authorities must provide accommodation if you're in "priority need." This includes:
+                    Local authorities must provide accommodation if you&apos;re in &quot;priority need.&quot; This includes:
                   </p>
                   <ul className="list-disc pl-6 mt-2 space-y-1 text-gray-700">
                     <li>Pregnant women</li>

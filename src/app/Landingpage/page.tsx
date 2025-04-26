@@ -6,7 +6,7 @@ import Menu from '@/components/Menu';
 import Footer from '@/components/Footer';
 
 export default function LandingPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [_mobileMenuOpen, _setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   
   const sections = useRef<HTMLElement[]>([]);
@@ -167,6 +167,46 @@ export default function LandingPage() {
             <p className="text-gray-700 mb-1">Email: <a href="mailto:info@homeless.website" className="text-blue-600 hover:underline">info@homeless.website</a></p>
             <p className="text-gray-700 mb-1">Phone: <a href="tel:+447853811172" className="text-blue-600 hover:underline">+44 7853 811172</a></p>
             <p className="text-gray-700">Social: <a href="https://www.facebook.com/homelesshelpuk" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Facebook</a></p>
+          </div>
+        </section>
+
+        {/* Contact & Support Section - prominent, accessible, and easy for all */}
+        <section id="contact-support" className="bg-white bg-opacity-20 backdrop-blur-lg border border-white border-opacity-30 rounded-2xl shadow-2xl mb-12 md:mb-16 lg:mb-20 w-full max-w-4xl p-8 text-center flex flex-col items-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Contact & Support</h2>
+          <p className="text-gray-700 text-lg mb-6 max-w-2xl mx-auto">
+            We are here to help you, no matter your situation. If you need urgent help, mental health support, or have questions about service dogs, please reach out. All information is based on British law.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl mb-6">
+            <div className="bg-white bg-opacity-60 rounded-lg p-4 shadow flex flex-col items-start">
+              <span className="font-semibold text-gray-800">Help & Support:</span>
+              <a href="mailto:helpme@homeless.website" className="text-blue-700 underline">helpme@homeless.website</a>
+              <span className="font-semibold text-gray-800 mt-2">Dog Support:</span>
+              <a href="mailto:dogs@homeless.website" className="text-blue-700 underline">dogs@homeless.website</a>
+              <span className="font-semibold text-gray-800 mt-2">Volunteer:</span>
+              <a href="mailto:volunteer@homeless.website" className="text-blue-700 underline">volunteer@homeless.website</a>
+              <span className="font-semibold text-gray-800 mt-2">General Info:</span>
+              <a href="mailto:info@homeless.website" className="text-blue-700 underline">info@homeless.website</a>
+            </div>
+            <div className="bg-white bg-opacity-60 rounded-lg p-4 shadow flex flex-col items-start">
+              <span className="font-semibold text-gray-800">Phone, Text, iMessage, WhatsApp:</span>
+              <a href="tel:+447853811172" className="text-blue-700 underline mb-2">+44 7853 811172</a>
+              <span className="font-semibold text-gray-800">Facebook:</span>
+              <a href="https://www.facebook.com/homelesshelpuk" className="text-blue-700 underline" target="_blank" rel="noopener noreferrer">facebook.com/homelesshelpuk</a>
+            </div>
+          </div>
+          <div className="text-xs text-gray-600 mt-2">We respond as quickly as possible. If you are in crisis, please call or text for immediate help.</div>
+        </section>
+        {/* Expanded Mental Health and Service Dog Support Section */}
+        <section id="mental-health-service-dogs" className="bg-green-50 bg-opacity-40 backdrop-blur-lg border border-green-200 rounded-2xl shadow-xl mb-12 md:mb-16 lg:mb-20 w-full max-w-4xl p-8 flex flex-col md:flex-row gap-8 items-center">
+          <div className="flex-1">
+            <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">Mental Health Support</h2>
+            <p className="text-green-900 text-lg mb-4">If you are struggling, you are not alone. We offer resources, crisis support, and a listening ear for anyone facing mental health challenges while homeless.</p>
+            <Link href="/mental-health-resources" className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-lg transition shadow-md">Explore Mental Health Resources</Link>
+          </div>
+          <div className="flex-1">
+            <h2 className="text-2xl md:text-3xl font-bold text-blue-800 mb-4">Service Dog & Pet-Friendly Support</h2>
+            <p className="text-blue-900 text-lg mb-4">Service dogs and pets are welcome. Find information about service dog certification, dog-friendly shelters, and support for people with assistance animals.</p>
+            <Link href="/service-dog-certification" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg transition shadow-md">Service Dog Information</Link>
           </div>
         </section>
       </main>

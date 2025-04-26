@@ -269,7 +269,7 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
   );
 };
 
-export function HelpfulBotPage() {
+export default function HelpfulBotPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const chatboxRef = useRef<HTMLDivElement>(null);

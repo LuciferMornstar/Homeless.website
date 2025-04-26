@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Information on accessing healthcare services, registering with a GP, and mental health support for those experiencing homelessness in the UK.',
 };
 
-export function HealthcarePage() {
+export default function HealthcarePage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Section */}

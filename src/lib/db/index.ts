@@ -1,37 +1,57 @@
 import mysql from 'mysql2/promise';
-import { config } from '../config';
+import { RowDataPacket, OkPacket, ResultSetHeader, FieldPacket } from 'mysql2';
+import { dbConfig } from './config';
 
-// Create connection pool
-const pool = mysql.createPool({
-  host: config.database.host,
-  port: config.database.port,
-  user: config.database.user,
-  password: config.database.password,
-  database: config.database.name,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  ssl: {
-    // Enable SSL but don't verify the certificate for development
-    rejectUnauthorized: false
-  },
-  connectTimeout: 30000,
-  enableKeepAlive: true,
-  keepAliveInitialDelay: 10000
-});
+export type QueryResult<T> = [T[], FieldPacket[]];
+export type QueryResultWithoutFields<T> = T[];
 
-// Test database connection
-export const testConnection = async () => {
+// Create a single pool instance
+const pool = mysql.createPool(dbConfig);
+
+/**
+ * Execute a query that returns rows
+ */
+export async function query<T extends RowDataPacket[]>(
+  sql: string, 
+  params?: unknown[]
+): Promise<QueryResultWithoutFields<T>> {
+  const [rows] = await pool.query<T>(sql, params);
+  return rows;
+}
+
+/**
+ * Execute a query that performs an action (insert, update, delete)
+ */
+export async function execute(
+  sql: string, 
+  params?: unknown[]
+): Promise<ResultSetHeader> {
+  const [result] = await pool.execute<OkPacket>(sql, params);
+  return result;
+}
+
+/**
+ * Test the database connection
+ */
+export async function testConnection(): Promise<boolean> {
   try {
     const connection = await pool.getConnection();
-    console.log('Database connection successful');
     connection.release();
     return true;
-  } catch (error: any) {
-    console.error('Database connection error:', error.message);
+  } catch (error) {
+    console.error('Database connection failed:', error);
     return false;
   }
-};
+}
 
-// Export the pool for use in other modules
-export default pool;
+// Create a named object for the default export
+const db = {
+  pool,
+  query,
+  execute,
+  testConnection
+} as const;
+
+// Export everything individually and as a default export
+export { pool };
+export default db;

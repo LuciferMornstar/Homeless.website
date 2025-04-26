@@ -171,15 +171,12 @@ const RESOURCES: ResourceItem[] = [
   }
 ];
 
-export function ResourcesPage() {
+export default function Page() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [activeType, setActiveType] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [showContactInfo, setShowContactInfo] = useState<boolean>(false);
-  const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [currentFilter, setCurrentFilter] = useState<string>('All');
-  const [currentCategory, setCurrentCategory] = useState<string>('All');
 
   // Categories with mental health prominently featured (per HHR rule #2)
   const categories = [
@@ -456,6 +453,3 @@ export function ResourcesPage() {
     </>
   );
 }
-
-// Named export for better component identification
-export { ResourcesPage as default };

@@ -1,4 +1,3 @@
-// filepath: c:\Users\User\Documents\homeless.website\src\lib\db\dbUtils.ts
 import mysql from 'mysql2/promise';
 import { Pool, PoolConnection } from 'mysql2/promise';
 
@@ -40,7 +39,7 @@ export const getPool = (): Pool => {
 };
 
 // Execute a query with params
-export const executeQuery = async <T>(query: string, params: any[] = []): Promise<T[]> => {
+export const executeQuery = async <T>(query: string, params: unknown[] = []): Promise<T[]> => {
   const pool = getPool();
   try {
     const [rows] = await pool.query(query, params);
@@ -52,11 +51,11 @@ export const executeQuery = async <T>(query: string, params: any[] = []): Promis
 };
 
 // Execute an insert query and return insertId
-export const executeInsert = async (query: string, params: any[] = []): Promise<number> => {
+export const executeInsert = async (query: string, params: unknown[] = []): Promise<number> => {
   const pool = getPool();
   try {
     const [result] = await pool.query(query, params);
-    return (result as any).insertId;
+    return (result as { insertId: number }).insertId;
   } catch (error) {
     console.error('Database insert error:', error);
     throw error;
@@ -64,11 +63,11 @@ export const executeInsert = async (query: string, params: any[] = []): Promise<
 };
 
 // Execute an update query and return affectedRows
-export const executeUpdate = async (query: string, params: any[] = []): Promise<number> => {
+export const executeUpdate = async (query: string, params: unknown[] = []): Promise<number> => {
   const pool = getPool();
   try {
     const [result] = await pool.query(query, params);
-    return (result as any).affectedRows;
+    return (result as { affectedRows: number }).affectedRows;
   } catch (error) {
     console.error('Database update error:', error);
     throw error;
@@ -100,7 +99,7 @@ export const testConnection = async (): Promise<boolean> => {
   const pool = getPool();
   try {
     const [rows] = await pool.query('SELECT 1 as connection_test');
-    return !!(rows as any[])[0]?.connection_test;
+    return !!(rows as Array<{connection_test: number}>)[0]?.connection_test;
   } catch (error) {
     console.error('Database connection test failed:', error);
     return false;

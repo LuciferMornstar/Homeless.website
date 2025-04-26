@@ -15,5 +15,6 @@
         }
     },
     "zencoder.enableRepoIndexing": true,
-    "direnv.path.executable": "C:\\Users\\User\\AppData\\Local\\Microsoft\\WindowsApps\\winget.exe"
+    "direnv.path.executable": "C:\\Users\\User\\AppData\\Local\\Microsoft\\WindowsApps\\winget.exe",
+    "markdown.validate.enabled": true
 }

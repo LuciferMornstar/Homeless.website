@@ -1,7 +1,64 @@
+'use client';
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-export function FoodbanksPage() {
+interface FoodBank {
+  FoodBankID: number;
+  Name: string;
+  Address?: string;
+  City?: string;
+  State?: string;
+  ZipCode?: string;
+  Phone?: string;
+  Email?: string;
+  Website?: string;
+  OpeningHours?: string;
+  Requirements?: string;
+  AvailableItems?: string;
+  Notes?: string;
+  Latitude?: number;
+  Longitude?: number;
+}
+
+export default function FoodbanksPage() {
+  const [foodbanks, setFoodbanks] = useState<FoodBank[]>([]);
+  const [search, setSearch] = useState('');
+  const [cityFilter, setCityFilter] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch('/api/foodbanks')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setFoodbanks(data.data);
+        } else {
+          setError('Failed to load food banks');
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Failed to load food banks');
+        setLoading(false);
+      });
+  }, []);
+
+  // Filtered food banks
+  const filtered = foodbanks.filter(fb => {
+    const matchesSearch =
+      !search ||
+      fb.Name?.toLowerCase().includes(search.toLowerCase()) ||
+      fb.City?.toLowerCase().includes(search.toLowerCase()) ||
+      fb.Address?.toLowerCase().includes(search.toLowerCase());
+    const matchesCity = !cityFilter || fb.City === cityFilter;
+    return matchesSearch && matchesCity;
+  });
+
+  // Unique cities for filter dropdown
+  const cities = Array.from(new Set(foodbanks.map(fb => fb.City).filter(Boolean)));
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -40,7 +97,7 @@ export function FoodbanksPage() {
                   <div className="bg-green-50 p-5 rounded-lg border-l-4 border-green-500">
                     <h3 className="font-bold text-green-800 mb-3">Trussell Trust Food Banks</h3>
                     <p className="text-gray-700 mb-4">
-                      The Trussell Trust operates the UK's largest network of food banks, with over 1,200 centers across the country.
+                      The Trussell Trust operates the UK&apos;s largest network of food banks, with over 1,200 centers across the country.
                     </p>
                     <a 
                       href="https://www.trusselltrust.org/get-help/find-a-foodbank/" 
@@ -71,11 +128,11 @@ export function FoodbanksPage() {
                 <div className="bg-gray-50 p-5 rounded-lg mb-6">
                   <h3 className="font-bold text-gray-800 mb-3">Other Ways to Find Food Support</h3>
                   <ul className="list-disc list-inside text-gray-700 space-y-2">
-                    <li>Contact your local council's welfare assistance team</li>
+                    <li>Contact your local council&apos;s welfare assistance team</li>
                     <li>Ask at a local community center, library, or place of worship</li>
                     <li>Speak to a support worker, social worker, or GP</li>
-                    <li>Call Citizens Advice on <strong>0808 208 2138</strong> (England & Wales)</li>
-                    <li>If you're in Scotland, contact the Scottish Welfare Fund on <strong>0141 276 1177</strong></li>
+                    <li>Call Citizens Advice on <strong>0808 208 2138</strong> (England &amp; Wales)</li>
+                    <li>If you&apos;re in Scotland, contact the Scottish Welfare Fund on <strong>0141 276 1177</strong></li>
                   </ul>
                 </div>
               </div>
@@ -133,7 +190,7 @@ export function FoodbanksPage() {
                     <li>Most food banks limit the number of parcels you can receive within a specific period</li>
                     <li>Food banks aim to provide short-term emergency support, not ongoing assistance</li>
                     <li>If you need food immediately and cannot get a referral, contact the food bank directly as some may be able to help in emergency situations</li>
-                    <li>Some food banks can arrange delivery if you're unable to collect your parcel</li>
+                    <li>Some food banks can arrange delivery if you&apos;re unable to collect your parcel</li>
                   </ul>
                 </div>
               </div>
@@ -148,7 +205,7 @@ export function FoodbanksPage() {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="p-6">
                 <p className="text-gray-700 mb-6">
-                  If you don't have a fixed address, you can still access food banks and other food support services.
+                  If you don&apos;t have a fixed address, you can still access food banks and other food support services.
                 </p>
 
                 <div className="bg-blue-50 p-5 rounded-lg mb-8">
@@ -164,7 +221,7 @@ export function FoodbanksPage() {
 
                 <div className="bg-green-50 p-5 rounded-lg">
                   <h3 className="font-bold text-green-800 mb-3">Alternative Food Support</h3>
-                  <p className="text-gray-700 mb-3">When food banks aren't accessible, these alternatives may help:</p>
+                  <p className="text-gray-700 mb-3">When food banks aren&apos;t accessible, these alternatives may help:</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-white rounded p-4 shadow-sm">
                       <h4 className="font-semibold text-gray-800 mb-2">Soup Kitchens</h4>
@@ -193,6 +250,64 @@ export function FoodbanksPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* Dynamic Food Bank Listings */}
+          <section className="mb-16">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-6 gap-4">
+              <h2 className="text-3xl font-bold text-gray-800">All Food Banks (Database)</h2>
+              <div className="flex gap-2 flex-wrap">
+                <input
+                  type="text"
+                  placeholder="Search by name, city or address..."
+                  className="border p-2 rounded"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  aria-label="Search food banks"
+                />
+                <select
+                  className="border p-2 rounded"
+                  value={cityFilter}
+                  onChange={e => setCityFilter(e.target.value)}
+                  aria-label="Filter by city"
+                >
+                  <option value="">All Cities</option>
+                  {cities.map(city => (
+                    <option key={city} value={city}>{city}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {loading ? (
+              <div className="text-center py-8">Loading food banks...</div>
+            ) : error ? (
+              <div className="text-center text-red-600 py-8">{error}</div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filtered.length === 0 ? (
+                  <div className="col-span-full text-center text-gray-600">No food banks found.</div>
+                ) : filtered.map(fb => (
+                  <div key={fb.FoodBankID} className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between h-full">
+                    <div>
+                      <h3 className="font-bold text-green-800 text-xl mb-2">{fb.Name}</h3>
+                      <p className="text-gray-700 mb-1">{fb.Address}{fb.City ? `, ${fb.City}` : ''}{fb.ZipCode ? `, ${fb.ZipCode}` : ''}</p>
+                      {fb.OpeningHours && <p className="text-gray-600 text-sm mb-1">Hours: {fb.OpeningHours}</p>}
+                      {fb.AvailableItems && <p className="text-gray-600 text-sm mb-1">Items: {fb.AvailableItems}</p>}
+                      {fb.Requirements && <p className="text-gray-600 text-sm mb-1">Requirements: {fb.Requirements}</p>}
+                      {fb.Notes && <p className="text-gray-600 text-xs mb-1">{fb.Notes}</p>}
+                    </div>
+                    <div className="mt-4 space-y-1">
+                      {fb.Phone && <a href={`tel:${fb.Phone}`} className="text-green-700 hover:underline block">Call: {fb.Phone}</a>}
+                      {fb.Email && <a href={`mailto:${fb.Email}`} className="text-green-700 hover:underline block">Email: {fb.Email}</a>}
+                      {fb.Website && <a href={fb.Website.startsWith('http') ? fb.Website : `https://${fb.Website}`} target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline block">Website</a>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="mt-8 text-sm text-gray-600 text-center">
+              For help, contact <a href="mailto:helpme@homeless.website" className="text-green-700 underline">helpme@homeless.website</a> or call/text/WhatsApp <a href="tel:+447853811172" className="text-green-700 underline">+44 7853 811172</a>. Facebook: <a href="https://www.facebook.com/homelesshelpuk" className="text-green-700 underline" target="_blank" rel="noopener noreferrer">homelesshelpuk</a>
             </div>
           </section>
 

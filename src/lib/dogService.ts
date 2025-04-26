@@ -41,16 +41,29 @@ export interface Dog {
   CertificationNumber?: string;
 }
 
+// Interfaces for dog certification verification
+export interface DogCertificationDetails {
+  CertificationID: number;
+  DogID: number;
+  DogName: string;
+  OwnerName: string;
+  CertificationType: string;
+  IssuingOrganization: string;
+  IssueDate: string;
+  ExpiryDate: string;
+  CertificationStatus: string;
+}
+
 interface DogResourcesResponse {
   success: boolean;
   data: DogFriendlyResource[];
   message?: string;
 }
 
-interface DogServiceResponse {
+interface DogServiceResponse<T = Record<string, unknown>> {
   success: boolean;
   message?: string;
-  data?: any;
+  data?: T;
 }
 
 /**
@@ -80,7 +93,7 @@ class DogService {
    */
   static async registerDog(dogData: Omit<Dog, 'DogID'>): Promise<{ dogId: number }> {
     try {
-      const response = await ApiService.post<DogServiceResponse>('dogs', dogData);
+      const response = await ApiService.post<DogServiceResponse<{ dogId: number }>>('dogs', dogData);
       
       if (response.success && response.data?.dogId) {
         return { dogId: response.data.dogId };
@@ -98,7 +111,7 @@ class DogService {
    */
   static async applyCertification(certificationData: Omit<ServiceDogCertification, 'CertificationID'>): Promise<{ certificationId: number }> {
     try {
-      const response = await ApiService.post<DogServiceResponse>('service-dog-certification', certificationData);
+      const response = await ApiService.post<DogServiceResponse<{ certificationId: number }>>('service-dog-certification', certificationData);
       
       if (response.success && response.data?.certificationId) {
         return { certificationId: response.data.certificationId };
@@ -114,9 +127,9 @@ class DogService {
   /**
    * Verify a service dog certification
    */
-  static async verifyCertification(certificationNumber: string): Promise<{ isValid: boolean; details?: any }> {
+  static async verifyCertification(certificationNumber: string): Promise<{ isValid: boolean; details?: DogCertificationDetails }> {
     try {
-      const response = await ApiService.get<DogServiceResponse>('verify-assistance-dog', { certificationNumber });
+      const response = await ApiService.get<DogServiceResponse<DogCertificationDetails>>('verify-assistance-dog', { certificationNumber });
       
       if (response.success) {
         return { 

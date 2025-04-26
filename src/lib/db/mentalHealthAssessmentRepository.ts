@@ -1,7 +1,7 @@
 import { RowDataPacket } from 'mysql2/promise';
 import { MentalHealthAssessment, MentalHealthQuestion, MentalHealthAnswer } from './models';
-import { executeQuery, executeInsert, executeUpdate, executeTransaction } from './dbUtils';
-import { PoolConnection } from 'mysql2/promise';
+import { executeQuery, executeTransaction } from './dbUtils';
+import { PoolConnection, ResultSetHeader } from 'mysql2/promise';
 
 /**
  * Mental Health Assessment repository
@@ -13,6 +13,15 @@ interface MentalHealthAssessmentRow extends MentalHealthAssessment, RowDataPacke
 interface MentalHealthQuestionRow extends MentalHealthQuestion, RowDataPacket {}
 interface MentalHealthAnswerRow extends MentalHealthAnswer, RowDataPacket {}
 
+// Interface for assessment statistics
+interface AssessmentStats {
+  TotalAssessments: number;
+  AverageScore: number;
+  FirstAssessment: Date;
+  LastAssessment: Date;
+  UniqueUsers: number;
+}
+
 /**
  * Get all mental health questions
  */
@@ -20,7 +29,7 @@ export async function getAllMentalHealthQuestions(
   activeOnly: boolean = true
 ): Promise<MentalHealthQuestion[]> {
   let query = 'SELECT * FROM MentalHealthQuestions';
-  const params: any[] = [];
+  const params: unknown[] = [];
   
   if (activeOnly) {
     query += ' WHERE IsActive = TRUE';
@@ -87,7 +96,7 @@ export async function createAssessment(
       [userId, totalScore, interpretationText || '', recommendationsText || '']
     );
     
-    const assessmentId = (assessmentResult as any).insertId;
+    const assessmentId = (assessmentResult as ResultSetHeader).insertId;
     
     // Insert answers
     for (const answer of answers) {
@@ -134,11 +143,11 @@ export function generateInterpretation(totalScore: number, maxPossibleScore: num
   } else {
     severityLevel = 'severe';
     interpretation = 'Your responses indicate significant symptoms that require prompt attention from a mental health professional.';
-    recommendations = 'Please contact a mental health professional or crisis service as soon as possible. If you're experiencing thoughts of harming yourself or others, please call 999 or go to your nearest A&E department immediately. The Samaritans are also available 24/7 at 116 123.';
+    recommendations = 'Please contact a mental health professional or crisis service as soon as possible. If you\'re experiencing thoughts of harming yourself or others, please call 999 or go to your nearest A&E department immediately. The Samaritans are also available 24/7 at 116 123.';
   }
   
   // Add a disclaimer
-  const disclaimer = '\n\nPlease note: This assessment is not a diagnostic tool and does not replace professional medical advice. It's meant to help you understand your current mental health needs better.';
+  const disclaimer = '\n\nPlease note: This assessment is not a diagnostic tool and does not replace professional medical advice. It\'s meant to help you understand your current mental health needs better.';
   
   return {
     interpretation: interpretation + disclaimer,
@@ -163,7 +172,7 @@ export async function getUserAssessmentHistory(userId: number): Promise<MentalHe
 /**
  * Get assessment stats for reporting
  */
-export async function getAssessmentStats(): Promise<any> {
+export async function getAssessmentStats(): Promise<AssessmentStats> {
   const query = `
     SELECT 
       COUNT(*) as TotalAssessments,
@@ -175,6 +184,6 @@ export async function getAssessmentStats(): Promise<any> {
     WHERE IsCompleted = TRUE
   `;
   
-  const results = await executeQuery(query, []);
+  const results = await executeQuery<AssessmentStats & RowDataPacket>(query, []);
   return results[0];
 }

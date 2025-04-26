@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHandHoldingHeart, faPhone, faBrain, faCapsules, faClinicMedical, faUserFriends, faHeartbeat, faShieldAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faHandHoldingHeart, 
+  faPhone, 
+  faBrain, 
+  faClinicMedical, 
+  faHeartbeat, 
+  faShieldAlt, 
+  faInfoCircle 
+} from '@fortawesome/free-solid-svg-icons';
 
 export const metadata: Metadata = {
   title: 'Homeless Helpers - Addiction Support',

@@ -1,0 +1,588 @@
+Database Name dbs14137291;
+
+-- Table structure for table `Organizations`
+
+  OrganizationID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL,
+  Address VARCHAR(255),
+  City VARCHAR(100),
+  State VARCHAR(50),
+  PostCode VARCHAR(10),
+  Phone VARCHAR(20),
+  Email VARCHAR(255),
+  Website VARCHAR(255),
+  Description TEXT,
+  ServicesOffered TEXT,
+  HoursOfOperation VARCHAR(255),
+  ContactPerson VARCHAR(255),
+  IsVerified BOOLEAN,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  Latitude DECIMAL(10,6),
+  Longitude DECIMAL(10,6),
+  IsNHSAffiliated BOOLEAN DEFAULT FALSE,
+  CouncilAffiliation VARCHAR(100),
+  CharityNumber VARCHAR(50)
+
+-- Table structure for table `Users`
+
+  UserID INT AUTO_INCREMENT PRIMARY KEY,
+  Username VARCHAR(255) NOT NULL UNIQUE,
+  Password VARCHAR(255) NOT NULL,
+  Email VARCHAR(255) NOT NULL UNIQUE,
+  Role VARCHAR(50),
+  OrganizationID INT,
+  DateRegistered TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastLogin TIMESTAMP,
+  IsActive BOOLEAN,
+  HasDog BOOLEAN,
+  IsServiceDog BOOLEAN,
+  DogName VARCHAR(255),
+  DogBreed VARCHAR(100),
+  DogDescription TEXT,
+  DogVaccinationRecords TEXT,
+  DogCertificationNumber VARCHAR(255),
+  FirstName VARCHAR(255),
+  LastName VARCHAR(255),
+  DateOfBirth DATE,
+  Gender VARCHAR(50),
+  ContactPreference VARCHAR(50),
+  BestTimeToContact VARCHAR(50),
+  Consent BOOLEAN,
+  FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Table structure for table `Dogs`
+
+  DogID INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT,
+  Name VARCHAR(255),
+  Breed VARCHAR(100),
+  Description TEXT,
+  VaccinationRecords TEXT,
+  CertificationNumber VARCHAR(255),
+  FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `Resources`
+
+  ResourceID INT AUTO_INCREMENT PRIMARY KEY,
+  Title VARCHAR(255) NOT NULL,
+  URL VARCHAR(255),
+  Description TEXT,
+  ResourceType VARCHAR(100),
+  Category VARCHAR(255),
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `Events`
+
+  EventID INT AUTO_INCREMENT PRIMARY KEY,
+  Title VARCHAR(255) NOT NULL,
+  Description TEXT,
+  Location VARCHAR(255),
+  DateTime DATETIME,
+  OrganizationID INT,
+  EventType VARCHAR(100),
+  Capacity INT,
+  RegistrationRequired BOOLEAN,
+  ContactPerson VARCHAR(255),
+  ContactEmail VARCHAR(255),
+  ContactPhone VARCHAR(20),
+  IsRecurring BOOLEAN,
+  RecurrencePattern VARCHAR(100),
+  ImageURL VARCHAR(255),
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+
+-- Table structure for table `Needs`
+
+  NeedID INT AUTO_INCREMENT PRIMARY KEY,
+  Description TEXT,
+  NeedType VARCHAR(100),
+  OrganizationID INT,
+  ContactPerson VARCHAR(255),
+  DatePosted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  Fulfilled BOOLEAN,
+  FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Table structure for table `Services`
+
+  ServiceID INT AUTO_INCREMENT PRIMARY KEY,
+  ServiceName VARCHAR(255) NOT NULL,
+  Description TEXT,
+  Category VARCHAR(255)
+);
+
+-- Table structure for table `OrganizationServices`
+--
+  OrganizationServiceID INT AUTO_INCREMENT PRIMARY KEY,
+  OrganizationID INT,
+  ServiceID INT,
+  FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID),
+  FOREIGN KEY (ServiceID) REFERENCES Services (ServiceID)
+);
+
+-- Table structure for table `DogFriendlyResources`
+
+  DogFriendlyResourceID INT AUTO_INCREMENT PRIMARY KEY,
+  OrganizationID INT,
+  Name VARCHAR(255) NOT NULL,
+  Description TEXT,
+  Address VARCHAR(255),
+  City VARCHAR(100),
+  State VARCHAR(50),
+  ZipCode VARCHAR(10),
+  Phone VARCHAR(20),
+  Website VARCHAR(255),
+  ServicesOffered TEXT,
+  Restrictions TEXT,
+  Notes TEXT,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Table structure for table `Donations`
+
+  DonationID INT AUTO_INCREMENT PRIMARY KEY,
+  OrganizationID INT,
+  DonorName VARCHAR(255),
+  DonorEmail VARCHAR(255),
+  Amount DECIMAL(10, 2),
+  DateDonated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  Notes TEXT,
+  Anonymous BOOLEAN,
+  FOREIGN KEY (OrganizationID) REFERENCES Organizations(OrganizationID)
+);
+
+-- Table structure for table `Feedback`
+
+  FeedbackID INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT,
+  OrganizationID INT,
+  FeedbackText TEXT,
+  Rating INT,
+  DateSubmitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  ContactEmail VARCHAR(255),
+  Subject VARCHAR(255),
+  FOREIGN KEY (UserID) REFERENCES Users(UserID),
+  FOREIGN KEY (OrganizationID) REFERENCES Organizations(OrganizationID)
+);
+
+-- Table structure for table `MentalHealthAssessments`
+
+  AssessmentID INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT,
+  TotalScore INT,
+  InterpretationText TEXT,
+  RecommendationsText TEXT,
+  DateTaken TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  IsCompleted BOOLEAN DEFAULT TRUE,
+  FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `MentalHealthQuestions`
+
+CREATE TABLE MentalHealthQuestions (
+  QuestionID INT AUTO_INCREMENT PRIMARY KEY,
+  QuestionText TEXT NOT NULL,
+  QuestionOrder INT,
+  IsActive BOOLEAN DEFAULT TRUE
+);
+
+-- Table structure for table `MentalHealthAnswers`
+
+  AnswerID INT AUTO_INCREMENT PRIMARY KEY,
+  AssessmentID INT,
+  QuestionID INT,
+  AnswerValue INT,
+  AnswerText VARCHAR(255),
+  FOREIGN KEY (AssessmentID) REFERENCES MentalHealthAssessments (AssessmentID),
+  FOREIGN KEY (QuestionID) REFERENCES MentalHealthQuestions (QuestionID)
+);
+
+-- Table structure for table `GeneratedLetters`
+
+  LetterID INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT,
+  LetterType VARCHAR(100),
+  LetterContent TEXT,
+  RecipientName VARCHAR(255),
+  RecipientAddress TEXT,
+  DateGenerated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `LetterTemplates`
+
+  TemplateID INT AUTO_INCREMENT PRIMARY KEY,
+  TemplateName VARCHAR(255) NOT NULL,
+  TemplateType VARCHAR(100),
+  TemplateContent TEXT,
+  IsActive BOOLEAN DEFAULT TRUE,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `AddictionServices`
+
+  ServiceID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL,
+  ServiceType VARCHAR(100),
+  Description TEXT,
+  Address VARCHAR(255),
+  City VARCHAR(100),
+  State VARCHAR(50),
+  ZipCode VARCHAR(10),
+  Phone VARCHAR(20),
+  Email VARCHAR(255),
+  Website VARCHAR(255),
+  ServicesOffered TEXT,
+  EligibilityCriteria TEXT,
+  ReferralProcess TEXT,
+  IsVerified BOOLEAN,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `ServiceDogCertifications`
+
+  CertificationID INT AUTO_INCREMENT PRIMARY KEY,
+  DogID INT,
+  CertificationType VARCHAR(100),
+  CertificationNumber VARCHAR(255),
+  IssuingOrganization VARCHAR(255),
+  IssueDate DATE,
+  ExpiryDate DATE,
+  CertificationStatus VARCHAR(50),
+  CertificationDocument VARCHAR(255),
+  Notes TEXT,
+  FOREIGN KEY (DogID) REFERENCES Dogs (DogID)
+);
+
+-- Table structure for table `FoodBanks`
+
+  FoodBankID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL,
+  Address VARCHAR(255),
+  City VARCHAR(100),
+  State VARCHAR(50),
+  ZipCode VARCHAR(10),
+  Phone VARCHAR(20),
+  Email VARCHAR(255),
+  Website VARCHAR(255),
+  OpeningHours TEXT,
+  Requirements TEXT,
+  AvailableItems TEXT,
+  Notes TEXT,
+  IsVerified BOOLEAN,
+  Latitude DECIMAL(10, 6),
+  Longitude DECIMAL(10, 6),
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `EmergencyShelters`
+
+  ShelterID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL,
+  Address VARCHAR(255),
+  City VARCHAR(100),
+  State VARCHAR(50),
+  ZipCode VARCHAR(10),
+  Phone VARCHAR(20),
+  Email VARCHAR(255),
+  Website VARCHAR(255),
+  Capacity INT,
+  CurrentAvailability INT,
+  AcceptsPets BOOLEAN,
+  Gender VARCHAR(50),
+  AgeRestrictions VARCHAR(100),
+  CheckInTime VARCHAR(50),
+  CheckOutTime VARCHAR(50),
+  StayLimitDays INT,
+  ServicesOffered TEXT,
+  Latitude DECIMAL(10, 6),
+  Longitude DECIMAL(10, 6),
+  IsVerified BOOLEAN,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `UserAssessmentResponses`
+
+  ResponseID INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT,
+  AssessmentType VARCHAR(100),
+  QuestionText TEXT,
+  ResponseText TEXT,
+  ResponseDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `ContactMessages`
+
+  MessageID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL,
+  Email VARCHAR(255) NOT NULL,
+  Subject VARCHAR(255),
+  MessageContent TEXT NOT NULL,
+  DateSent TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  IsRead BOOLEAN DEFAULT FALSE,
+  ResponseSent BOOLEAN DEFAULT FALSE,
+  ResponseContent TEXT,
+  ResponseDate TIMESTAMP,
+  Category VARCHAR(100),
+  Urgency ENUM('Low', 'Medium', 'High', 'Emergency') DEFAULT 'Medium',
+  ContactNumber VARCHAR(20),
+  PreferredContactMethod ENUM('Email', 'Phone', 'Text', 'No Preference') DEFAULT 'Email',
+  BestTimeToContact VARCHAR(100),
+  AssignedTo INT,
+  FOREIGN KEY (AssignedTo) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `MentalHealthResources`
+
+  ResourceID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL,
+  ResourceType VARCHAR(100),
+  Description TEXT,
+  Address VARCHAR(255),
+  City VARCHAR(100),
+  County VARCHAR(50),
+  PostCode VARCHAR(10),
+  Phone VARCHAR(20),
+  EmergencyPhone VARCHAR(20),
+  Email VARCHAR(255),
+  Website VARCHAR(255),
+  ServicesOffered TEXT,
+  EligibilityCriteria TEXT,
+  ReferralProcess TEXT,
+  SpecializesIn TEXT,
+  AcceptsHomeless BOOLEAN DEFAULT TRUE,
+  IsVerified BOOLEAN,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  Latitude DECIMAL(10, 6),
+  Longitude DECIMAL(10, 6),
+  NHSFunded BOOLEAN DEFAULT FALSE,
+  HasDropInHours BOOLEAN DEFAULT FALSE,
+  DropInSchedule TEXT,
+  AcceptsSelfReferral BOOLEAN DEFAULT TRUE,
+  WaitingTimeDays INT,
+  RequiresAppointment BOOLEAN DEFAULT TRUE,
+  ProvidesRemoteSupport BOOLEAN DEFAULT FALSE,
+  RemoteSupportDetails TEXT,
+  AcceptsDogs BOOLEAN DEFAULT FALSE
+);
+
+-- Table structure for table `BenefitsEntitlements`
+
+  BenefitID INT AUTO_INCREMENT PRIMARY KEY,
+  BenefitName VARCHAR(255) NOT NULL,
+  Provider VARCHAR(255),
+  Description TEXT,
+  EligibilityCriteria TEXT,
+  ApplicationProcess TEXT,
+  DocumentsRequired TEXT,
+  ContactInformation TEXT,
+  Website VARCHAR(255),
+  Category VARCHAR(100),
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  IsUniversalCredit BOOLEAN DEFAULT FALSE,
+  IsHousingBenefit BOOLEAN DEFAULT FALSE,
+  IsJobSeekers BOOLEAN DEFAULT FALSE,
+  IsDisabilityBenefit BOOLEAN DEFAULT FALSE,
+  IsLocalCouncilBenefit BOOLEAN DEFAULT FALSE,
+  ApplicationFormURL VARCHAR(255),
+  AverageProcessingTime VARCHAR(100),
+  AppealProcess TEXT,
+  MaximumAmount DECIMAL(10, 2),
+  PaymentFrequency VARCHAR(50),
+  RequiresNINumber BOOLEAN DEFAULT TRUE
+);
+
+-- Table structure for table `MentalHealthCrisisSupport`
+
+  SupportID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL,
+  ServiceType ENUM('Hotline', 'Drop-in', 'Mobile Team', 'A&E', 'NHS Crisis Team', 'Charity', 'Other') NOT NULL,
+  Phone VARCHAR(20),
+  AlternativePhone VARCHAR(20),
+  Website VARCHAR(255),
+  Email VARCHAR(255),
+  Address VARCHAR(255),
+  City VARCHAR(100),
+  PostCode VARCHAR(10),
+  AvailabilityHours TEXT,
+  Description TEXT,
+  RequiresReferral BOOLEAN DEFAULT FALSE,
+  ReferralDetails TEXT,
+  CatchmentArea TEXT,
+  IsNHS BOOLEAN DEFAULT FALSE,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  EmergencyContactName VARCHAR(255),
+  EmergencyContactRole VARCHAR(100),
+  EmergencyContactPhone VARCHAR(20)
+);
+
+-- Table structure for table `HousingPathways`
+
+  PathwayID INT AUTO_INCREMENT PRIMARY KEY,
+  OrganizationID INT,
+  PathwayName VARCHAR(255) NOT NULL,
+  Description TEXT,
+  EligibilityCriteria TEXT,
+  ApplicationProcess TEXT,
+  DocumentsRequired TEXT,
+  ContactPerson VARCHAR(255),
+  ContactEmail VARCHAR(255),
+  ContactPhone VARCHAR(20),
+  TypicalWaitTime VARCHAR(100),
+  HousingType ENUM('Emergency', 'Temporary', 'Supported', 'Social', 'Private Rental', 'Shared', 'Other') NOT NULL,
+  AcceptsPets BOOLEAN DEFAULT FALSE,
+  AcceptsPartners BOOLEAN DEFAULT FALSE,
+  HasSobrietyRequirements BOOLEAN DEFAULT FALSE,
+  SobrietyDetails TEXT,
+  SupportsComplexNeeds BOOLEAN DEFAULT FALSE,
+  ComplexNeedsDetails TEXT,
+  IsLocalAuthority BOOLEAN DEFAULT FALSE,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+);
+
+-- Table structure for table `Volunteers`
+
+  VolunteerID INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT,
+  SkillsExperience TEXT,
+  Availability TEXT,
+  PreferredActivities TEXT,
+  DBS BOOLEAN DEFAULT FALSE,
+  DBSCertificateNumber VARCHAR(100),
+  DBSIssueDate DATE,
+  EmergencyContactName VARCHAR(255),
+  EmergencyContactPhone VARCHAR(20),
+  EmergencyContactRelationship VARCHAR(100),
+  TrainingCompleted TEXT,
+  Notes TEXT,
+  StartDate DATE,
+  Status ENUM('Active', 'Inactive', 'Pending', 'Archived') DEFAULT 'Pending',
+  HoursCommitment INT,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (UserID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `VolunteerHours`
+
+  HoursID INT AUTO_INCREMENT PRIMARY KEY,
+  VolunteerID INT,
+  ActivityDescription TEXT,
+  DateVolunteered DATE,
+  HoursContributed DECIMAL(5, 2),
+  SupervisorID INT,
+  LocationID INT,
+  Notes TEXT,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (VolunteerID) REFERENCES Volunteers (VolunteerID),
+  FOREIGN KEY (SupervisorID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `CaseManagement`
+
+  CaseID INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT,
+  CaseWorkerID INT,
+  OpenDate DATE NOT NULL,
+  CloseDate DATE,
+  Status ENUM('Open', 'Closed', 'On Hold', 'Transferred') DEFAULT 'Open',
+  PrimaryNeed ENUM('Housing', 'Mental Health', 'Physical Health', 'Addiction', 'Benefits', 'Employment', 'Legal', 'Other') NOT NULL,
+  SecondaryNeeds TEXT,
+  Notes TEXT,
+  ActionPlan TEXT,
+  NextAppointment DATETIME,
+  Priority ENUM('Low', 'Medium', 'High', 'Critical') DEFAULT 'Medium',
+  ReferralSource VARCHAR(255),
+  HasConsentForm BOOLEAN DEFAULT FALSE,
+  ConsentFormDate DATE,
+  DataSharingConsent BOOLEAN DEFAULT FALSE,
+  LastContactDate DATE,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (UserID) REFERENCES Users (UserID),
+  FOREIGN KEY (CaseWorkerID) REFERENCES Users (UserID)
+);
+
+-- Table structure for table `LocalCouncilContacts`
+
+  CouncilID INT AUTO_INCREMENT PRIMARY KEY,
+  CouncilName VARCHAR(255) NOT NULL,
+  Region VARCHAR(100),
+  HomelessnessTeamPhone VARCHAR(20),
+  HomelessnessTeamEmail VARCHAR(255),
+  EmergencyHousingPhone VARCHAR(20),
+  HousingBenefitsPhone VARCHAR(20),
+  HousingBenefitsEmail VARCHAR(255),
+  WebsiteURL VARCHAR(255),
+  OfficeAddress TEXT,
+  OpeningHours TEXT,
+  HomelessnessStrategyURL VARCHAR(255),
+  AdditionalServices TEXT,
+  Notes TEXT,
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `SiteSettings`
+
+  SettingID INT AUTO_INCREMENT PRIMARY KEY,
+  SettingName VARCHAR(100) NOT NULL UNIQUE,
+  SettingValue TEXT,
+  SettingDescription TEXT,
+  IsPublic BOOLEAN DEFAULT TRUE,
+  Category VARCHAR(100),
+  DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table structure for table `SiteContactDetails`
+
+  ContactID INT AUTO_INCREMENT PRIMARY KEY,
+  Purpose VARCHAR(100) NOT NULL,
+  Email VARCHAR(255) NOT NULL,
+  Phone VARCHAR(20),
+  ResponseTimeHours INT,
+  DisplayOrder INT,
+  IsActive BOOLEAN DEFAULT TRUE,
+  AdditionalInfo TEXT
+);
+-- Insert default site contact details
+INSERT INTO SiteContactDetails (Purpose, Email, Phone, ResponseTimeHours, DisplayOrder, IsActive, AdditionalInfo) 
+VALUES 
+('General Inquiries', 'info@homeless.website', '+447853811172', 24, 1, TRUE, 'For general information and non-urgent inquiries'),
+('Help & Support', 'helpme@homeless.website', '+447853811172', 12, 2, TRUE, 'If you need assistance or are in a difficult situation'),
+('Dog Support Services', 'dogs@homeless.website', '+447853811172', 24, 3, TRUE, 'For inquiries about pet-friendly services and support'),
+('Volunteer Opportunities', 'volunteer@homeless.website', '+447853811172', 48, 4, TRUE, 'If you would like to volunteer or help');
+
+- Table structure for table `SocialMediaLinks`
+
+  LinkID INT AUTO_INCREMENT PRIMARY KEY,
+  Platform VARCHAR(50) NOT NULL,
+  URL VARCHAR(255) NOT NULL,
+  DisplayName VARCHAR(100),
+  DisplayOrder INT,
+  IsActive BOOLEAN DEFAULT TRUE,
+  Icon VARCHAR(50)
+);
+-- Insert Facebook link
+INSERT INTO SocialMediaLinks (Platform, URL, DisplayName, DisplayOrder, IsActive, Icon)
+VALUES ('Facebook', 'www.facebook.com/homelesshelpuk', 'Homeless Help UK', 1, TRUE, 'facebook');

@@ -32,9 +32,32 @@ export interface MentalHealthResource {
   Longitude?: number;
 }
 
+export interface CrisisSupportResource {
+  ResourceID: number;
+  Name: string;
+  Description: string;
+  Phone: string;
+  EmergencyPhone?: string;
+  Email?: string;
+  Website?: string;
+  ServicesOffered: string;
+  AvailabilityHours: string;
+  IsHelpline: boolean;
+  IsTextService: boolean;
+  IsEmailService: boolean;
+  IsChatService: boolean;
+  ProvidesImmediateHelp: boolean;
+}
+
 interface MentalHealthResourcesResponse {
   success: boolean;
   data: MentalHealthResource[];
+  message?: string;
+}
+
+interface CrisisSupportResponse {
+  success: boolean;
+  data: CrisisSupportResource[];
   message?: string;
 }
 
@@ -92,9 +115,9 @@ class MentalHealthService {
   /**
    * Get crisis support resources
    */
-  static async getCrisisSupport(): Promise<any[]> {
+  static async getCrisisSupport(): Promise<CrisisSupportResource[]> {
     try {
-      const response = await ApiService.get<{ success: boolean; data: any[]; message?: string }>(
+      const response = await ApiService.get<CrisisSupportResponse>(
         'mental-health-crisis-support'
       );
       

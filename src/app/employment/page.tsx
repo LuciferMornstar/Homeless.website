@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faSearch, faHandshake, faGraduationCap, faIdCard, faUserTie, faFileAlt, faPoundSign, faPhone, faBalanceScale, faToolbox } from '@fortawesome/free-solid-svg-icons';
 
-export function EmploymentPage() {
+export default function EmploymentPage() {
   const [resourceType, setResourceType] = useState('all');
 
   // Filter resources based on selected type
@@ -471,7 +471,7 @@ export function EmploymentPage() {
             </section>
           )}
 
-          {/* Further Support */}
+          {/* Further Employment Support */}
           <section className="mb-16">
             <div className="flex items-center mb-6">
               <FontAwesomeIcon icon={faHandshake} className="text-blue-600 text-3xl mr-4" />
@@ -535,17 +535,51 @@ export function EmploymentPage() {
             </div>
           </section>
 
+          {/* --- Service Dogs & Employment Section --- */}
+          <section className="mb-16">
+            <div className="flex items-center mb-6">
+              <FontAwesomeIcon icon={faUserTie} className="text-green-600 text-3xl mr-4" />
+              <h2 className="text-3xl font-bold text-gray-800">Service Dogs & Employment</h2>
+            </div>
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div className="p-6">
+                <p className="text-gray-700 mb-6">
+                  Service dogs can be a vital support for people experiencing homelessness, especially those with mental health needs. Under the Equality Act 2010, you have the right to be accompanied by your assistance dog in most workplaces and during job interviews. Employers must make reasonable adjustments to support you and your service dog.
+                </p>
+                <ul className="list-disc list-inside text-gray-700 mb-4">
+                  <li>Inform your employer or interviewer in advance if you have a service dog</li>
+                  <li>Employers cannot refuse you a job or interview because of your service dog</li>
+                  <li>Contact <a href="mailto:dogs@homeless.website" className="text-green-700 underline">dogs@homeless.website</a> for help with service dog rights or support</li>
+                </ul>
+                <p className="text-gray-700">For more information, see our <Link href="/protection-dogs" className="text-green-700 underline">Service & Protection Dogs</Link> page.</p>
+              </div>
+            </div>
+          </section>
+
           {/* Need Help? CTA */}
           <section className="bg-gradient-to-r from-teal-500 to-blue-600 rounded-lg shadow-lg text-white p-8 text-center">
             <h2 className="text-3xl font-bold mb-4">Need Personalized Employment Support?</h2>
             <p className="text-xl mb-6">Our team can connect you with employment specialists</p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
               <a 
-                href="tel:08005555HELP" 
+                href="tel:+447853811172" 
                 className="bg-white text-teal-600 hover:bg-teal-50 font-bold py-3 px-6 rounded-full shadow-md transition-colors"
               >
                 <FontAwesomeIcon icon={faPhone} className="mr-2" />
-                Call 0800-555-HELP
+                Call/Text/WhatsApp: +44 7853 811172
+              </a>
+              <a 
+                href="mailto:helpme@homeless.website" 
+                className="bg-white text-teal-600 hover:bg-teal-50 font-bold py-3 px-6 rounded-full shadow-md transition-colors"
+              >
+                Email: helpme@homeless.website
+              </a>
+              <a 
+                href="https://www.facebook.com/homelesshelpuk" 
+                target="_blank" rel="noopener noreferrer"
+                className="bg-white text-teal-600 hover:bg-teal-50 font-bold py-3 px-6 rounded-full shadow-md transition-colors"
+              >
+                Facebook: homelesshelpuk
               </a>
               <Link 
                 href="/interview" 
@@ -554,6 +588,9 @@ export function EmploymentPage() {
                 <FontAwesomeIcon icon={faUserTie} className="mr-2" />
                 Interview Preparation
               </Link>
+            </div>
+            <div className="text-sm mt-2">
+              Or email <a href="mailto:info@homeless.website" className="underline">info@homeless.website</a> or <a href="mailto:volunteer@homeless.website" className="underline">volunteer@homeless.website</a> for more support.
             </div>
           </section>
         </div>

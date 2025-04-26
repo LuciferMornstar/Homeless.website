@@ -1,12 +1,12 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import _React from 'react';
+import _Link from 'next/link';
+import _Image from 'next/image';
 
 export default function DogProfilePage() {
   // Dog profiles database
-  const dogProfiles = {
+  const _dogProfiles = {
     '1': {
       name: 'Ruby',
       breed: 'Dachshund',

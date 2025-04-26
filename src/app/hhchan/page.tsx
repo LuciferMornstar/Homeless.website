@@ -1,4 +1,12 @@
-import React, { useRef, useState } from 'react';
+'use client';
+
+import { useEffect, useState, useRef } from 'react';
+import Link from 'next/link';
+
+function isMemberAuthenticated() {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem('hhchan_member') === 'true';
+}
 
 const forumSections = [
   {
@@ -52,7 +60,12 @@ const joinCommunity = [
 export default function HHChanPage() {
   const [messages, setMessages] = useState<Array<{author: string; text: string}>>([]);
   const [input, setInput] = useState('');
+  const [member, setMember] = useState(false);
   const messageListRef = useRef<HTMLUListElement | null>(null);
+
+  useEffect(() => {
+    setMember(isMemberAuthenticated());
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,7 +121,7 @@ export default function HHChanPage() {
           <h2 className="text-2xl font-semibold text-[#1d70b8] mb-4 border-b-2 border-[#b1b4b6] pb-2">Forum Sections</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {forumSections.map((section) => (
-              <div key={section.title} className="bg-[#f8f8f8] border-l-4 border-[#1d70b8] border-b border-[#b1b4b6] p-4">
+              <div key={section.title} className="bg-[#f8f8f8] border-l-4 border-[#1d70b8] p-4">
                 <h3 className="text-lg font-semibold text-[#1d70b8] mb-2">{section.title}</h3>
                 <ul><li><strong>Topics:</strong> {section.topics}</li></ul>
               </div>
@@ -119,7 +132,7 @@ export default function HHChanPage() {
           <h2 className="text-2xl font-semibold text-[#1d70b8] mb-4 border-b-2 border-[#b1b4b6] pb-2">Featured Discussions</h2>
           <ul className="space-y-3">
             {featuredDiscussions.map((d) => (
-              <li key={d.title} className="bg-[#f8f8f8] border-l-4 border-[#1d70b8] border-b border-[#b1b4b6] p-4">
+              <li key={d.title} className="bg-[#f8f8f8] border-l-4 border-[#1d70b8] p-4">
                 <h4 className="text-lg font-semibold text-[#1d70b8] mb-1">{d.title}</h4>
                 <p>{d.desc}</p>
               </li>
@@ -130,7 +143,7 @@ export default function HHChanPage() {
           <h2 className="text-2xl font-semibold text-[#1d70b8] mb-4 border-b-2 border-[#b1b4b6] pb-2">Message Board</h2>
           <ul className="message-list mb-4 max-h-64 overflow-y-auto border-2 border-[#b1b4b6] bg-[#f8f8f8] p-2" ref={messageListRef}>
             {messages.map((msg, idx) => (
-              <li key={idx} className="bg-white border-l-4 border-[#1d70b8] border-b border-[#b1b4b6] p-3 mb-2">
+              <li key={idx} className="bg-white border-l-4 border-[#1d70b8] p-3 mb-2">
                 <strong>{msg.author}:</strong>
                 <p>{msg.text}</p>
               </li>
@@ -153,12 +166,31 @@ export default function HHChanPage() {
           <h2 className="text-2xl font-semibold text-[#1d70b8] mb-4 border-b-2 border-[#b1b4b6] pb-2">Join the Community</h2>
           <ul className="space-y-3">
             {joinCommunity.map((item, idx) => (
-              <li key={idx} className="bg-[#f8f8f8] border-l-4 border-[#1d70b8] border-b border-[#b1b4b6] p-3">
+              <li key={idx} className="bg-[#f8f8f8] border-l-4 border-[#1d70b8] p-3">
                 {item}
               </li>
             ))}
           </ul>
         </section>
+        {member ? (
+          <section id="members-area" className="mb-8 bg-green-50 border border-green-400 shadow p-6 rounded-lg">
+            <h2 className="text-2xl font-semibold text-green-800 mb-4 border-b-2 border-green-300 pb-2">Hidden Members Area</h2>
+            <p className="mb-2">Welcome to the exclusive members area! Here you can access advanced discussions, upload files, and collaborate securely with other verified members.</p>
+            <ul className="list-disc list-inside mb-2">
+              <li>Access to private forums and resources</li>
+              <li>Share and download research files</li>
+              <li>Direct messaging with other members</li>
+              <li>Special support for service dog owners and mental health resources</li>
+            </ul>
+            <p className="text-sm text-green-700">For help, contact <a href="mailto:helpme@homeless.website" className="underline">helpme@homeless.website</a> or <a href="mailto:dogs@homeless.website" className="underline">dogs@homeless.website</a>.</p>
+          </section>
+        ) : (
+          <section id="members-area-locked" className="mb-8 bg-yellow-50 border border-yellow-400 shadow p-6 rounded-lg">
+            <h2 className="text-2xl font-semibold text-yellow-800 mb-4 border-b-2 border-yellow-300 pb-2">Members Area Locked</h2>
+            <p className="mb-2">This area is only accessible to members who have authenticated via <Link href="/NFCAuth" className="underline text-blue-700">NFCAuth</Link>.</p>
+            <p className="text-sm text-yellow-700">Authenticate to unlock advanced features and private discussions.</p>
+          </section>
+        )}
       </main>
       <footer className="bg-[#f0f0f0] text-[#0b0c0c] py-4 text-center border-t border-[#b1b4b6] mt-8">
         <p>© 2025 Labyrinth of Speculation. All rights reserved.</p>

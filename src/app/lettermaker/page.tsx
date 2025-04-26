@@ -1,5 +1,6 @@
 import React from 'react';
 import LetterGenerator from '@/components/LetterGenerator';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Letter Maker | Homeless Helpers',
@@ -59,7 +60,7 @@ export default function LetterMakerPage() {
             </li>
           </ul>
           <p>
-            For more detailed information on your rights, visit our <a href="/legal-rights" className="text-red-700 hover:underline">Legal Rights</a> section.
+            For more detailed information on your rights, visit our <Link href="/legal-rights" className="text-red-700 hover:underline">Legal Rights</Link> section.
           </p>
         </div>
         

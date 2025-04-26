@@ -1,44 +1,173 @@
-import { NextRequest, NextResponse } from 'next/server';
-import pool from '@/lib/db';
+import { NextResponse } from 'next/server';
+import { executeQuery } from '@/lib/db';
+import type { MentalHealthResource } from '@/types/models';
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const lat = searchParams.get('lat');
+  const lng = searchParams.get('lng');
+  const radius = searchParams.get('radius') || '10';
+  const acceptsDogs = searchParams.get('acceptsDogs');
+  const nhsFunded = searchParams.get('nhsFunded');
+  const remoteSupport = searchParams.get('remoteSupport');
+  
   try {
-    const searchParams = request.nextUrl.searchParams;
-    const county = searchParams.get('county');
-    const acceptsDogs = searchParams.get('acceptsDogs');
-    const nhsFunded = searchParams.get('nhsFunded');
-    
-    let query = 'SELECT * FROM MentalHealthResources WHERE IsVerified = TRUE';
-    const params: any[] = [];
-    
-    if (county) {
-      query += ' AND County = ?';
-      params.push(county);
-    }
-    
+    let query = `
+      SELECT *, 
+      (6371 * acos(
+        cos(radians(?)) * 
+        cos(radians(Latitude)) * 
+        cos(radians(Longitude) - radians(?)) + 
+        sin(radians(?)) * 
+        sin(radians(Latitude))
+      )) AS distance
+      FROM MentalHealthResources
+      WHERE AcceptsHomeless = TRUE
+    `;
+    const params: any[] = [lat, lng, lat];
+
     if (acceptsDogs === 'true') {
       query += ' AND AcceptsDogs = TRUE';
     }
-    
+
     if (nhsFunded === 'true') {
       query += ' AND NHSFunded = TRUE';
     }
-    
-    query += ' ORDER BY Name ASC';
-    
-    const [rows] = await pool.query(query, params);
-    
-    return NextResponse.json({ 
-      success: true, 
-      data: rows 
-    });
-  } catch (error: any) {
-    console.error('Error fetching mental health resources:', error);
-    
-    return NextResponse.json({ 
-      success: false, 
-      message: 'Failed to fetch mental health resources', 
-      error: error.message 
-    }, { status: 500 });
+
+    if (remoteSupport === 'true') {
+      query += ' AND ProvidesRemoteSupport = TRUE';
+    }
+
+    if (lat && lng) {
+      query += ' HAVING distance < ?';
+      params.push(radius);
+      query += ' ORDER BY distance';
+    }
+
+    const resources = await executeQuery<MentalHealthResource[]>(query, params);
+    return NextResponse.json(resources);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch mental health resources' }, { status: 500 });
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const {
+      name,
+      resourceType,
+      servicesOffered,
+      acceptsHomeless,
+      acceptsDogs,
+      providesRemoteSupport,
+      waitingTimeDays,
+      nhsFunded,
+      latitude,
+      longitude,
+      ...resourceData
+    } = body;
+
+    const result = await executeQuery<any>(
+      `INSERT INTO MentalHealthResources (
+        Name, ResourceType, ServicesOffered,
+        AcceptsHomeless, AcceptsDogs, ProvidesRemoteSupport,
+        WaitingTimeDays, NHSFunded,
+        Latitude, Longitude,
+        DateAdded
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+      [
+        name,
+        resourceType,
+        servicesOffered,
+        acceptsHomeless,
+        acceptsDogs,
+        providesRemoteSupport,
+        waitingTimeDays,
+        nhsFunded,
+        latitude,
+        longitude
+      ]
+    );
+
+    // If this is an NHS resource, add to real-time notifications
+    if (nhsFunded) {
+      await executeQuery(
+        `INSERT INTO RealTimeNotifications (
+          Title, Message, NotificationType,
+          RelatedEntityID, RelatedEntityType,
+          Priority, DateCreated
+        ) VALUES (
+          'New NHS Mental Health Resource Available',
+          ?, 'Resource Update', ?, 'MentalHealth',
+          'Medium', NOW()
+        )`,
+        [`New NHS mental health service available: ${name}`, result.insertId]
+      );
+    }
+
+    return NextResponse.json({ id: result.insertId }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to add mental health resource' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const { resourceId, ...updateData } = body;
+
+    const result = await executeQuery(
+      `UPDATE MentalHealthResources SET
+        Name = ?,
+        ResourceType = ?,
+        ServicesOffered = ?,
+        AcceptsHomeless = ?,
+        AcceptsDogs = ?,
+        ProvidesRemoteSupport = ?,
+        WaitingTimeDays = ?,
+        NHSFunded = ?,
+        Latitude = ?,
+        Longitude = ?,
+        LastUpdated = NOW()
+      WHERE ResourceID = ?`,
+      [
+        updateData.name,
+        updateData.resourceType,
+        updateData.servicesOffered,
+        updateData.acceptsHomeless,
+        updateData.acceptsDogs,
+        updateData.providesRemoteSupport,
+        updateData.waitingTimeDays,
+        updateData.nhsFunded,
+        updateData.latitude,
+        updateData.longitude,
+        resourceId
+      ]
+    );
+
+    // If waiting time has changed significantly (>7 days difference)
+    if (updateData.previousWaitingTime && 
+        Math.abs(updateData.waitingTimeDays - updateData.previousWaitingTime) > 7) {
+      await executeQuery(
+        `INSERT INTO RealTimeNotifications (
+          Title, Message, NotificationType,
+          RelatedEntityID, RelatedEntityType,
+          Priority, DateCreated
+        ) VALUES (
+          'Waiting Time Update',
+          ?, 'Resource Update', ?, 'MentalHealth',
+          'Medium', NOW()
+        )`,
+        [
+          `Waiting time for ${updateData.name} has changed from ${updateData.previousWaitingTime} to ${updateData.waitingTimeDays} days`,
+          resourceId
+        ]
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to update mental health resource' }, { status: 500 });
   }
 }

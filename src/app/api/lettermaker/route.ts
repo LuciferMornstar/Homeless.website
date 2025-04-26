@@ -1,82 +1,62 @@
 import { NextRequest, NextResponse } from 'next/server';
-import pool from '@/lib/db';
+import { query, execute } from '@/lib/db';
+import { RowDataPacket } from 'mysql2';
 
-// GET endpoint to fetch letter templates
-export async function GET(request: NextRequest) {
+interface LetterTemplate extends RowDataPacket {
+  id: number;
+  title: string;
+  content: string;
+  category: string;
+  tags?: string;
+  lastModified: Date;
+}
+
+export async function GET() {
   try {
-    const searchParams = request.nextUrl.searchParams;
-    const templateType = searchParams.get('type');
-    
-    let query = 'SELECT * FROM LetterTemplates WHERE IsActive = TRUE';
-    const params: any[] = [];
-    
-    if (templateType) {
-      query += ' AND TemplateType = ?';
-      params.push(templateType);
-    }
-    
-    query += ' ORDER BY TemplateName ASC';
-    
-    const [templates] = await pool.query(query, params);
-    
-    return NextResponse.json({ 
-      success: true, 
-      data: templates 
+    const templates = await query<LetterTemplate[]>(
+      'SELECT * FROM LetterTemplates ORDER BY category, title'
+    );
+
+    return NextResponse.json({
+      success: true,
+      data: templates
     });
-  } catch (error: any) {
-    console.error('Error fetching letter templates:', error);
-    
+  } catch (error) {
+    console.error('Failed to fetch letter templates:', error);
     return NextResponse.json({ 
       success: false, 
-      message: 'Failed to fetch letter templates', 
-      error: error.message 
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }
 
-// POST endpoint to generate and save a letter
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { 
-      userId, 
-      letterType, 
-      letterContent, 
-      recipientName, 
-      recipientAddress 
-    } = body;
-    
-    // Validation
-    if (!letterContent) {
+    const { title, content, category, tags } = body;
+
+    if (!title || !content || !category) {
       return NextResponse.json({ 
         success: false, 
-        message: 'Letter content is required' 
+        error: 'Missing required fields' 
       }, { status: 400 });
     }
-    
-    const [result] = await pool.query(
-      `INSERT INTO GeneratedLetters 
-      (UserID, LetterType, LetterContent, RecipientName, RecipientAddress) 
-      VALUES (?, ?, ?, ?, ?)`,
-      [userId || null, letterType, letterContent, recipientName || null, recipientAddress || null]
+
+    const result = await execute(
+      'INSERT INTO LetterTemplates (title, content, category, tags) VALUES (?, ?, ?, ?)',
+      [title, content, category, tags]
     );
-    
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Letter generated and saved successfully', 
-      data: { 
-        letterId: result.insertId,
-        letterContent,
-        dateGenerated: new Date().toISOString()
-      } 
+
+    return NextResponse.json({
+      success: true,
+      message: 'Letter template created successfully',
+      id: result.insertId
     });
-  } catch (error: any) {
-    console.error('Error generating letter:', error);
-    
+  } catch (error) {
+    console.error('Failed to create letter template:', error);
     return NextResponse.json({ 
       success: false, 
-      message: 'Failed to generate letter', 
-      error: error.message 
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }

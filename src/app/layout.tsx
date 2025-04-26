@@ -20,6 +20,31 @@ export const metadata: Metadata = {
   title: "Homeless Helpers - Support for Those Facing Homelessness",
   description: "Find resources, support and community to help you through difficult times with mental health focus for homeless individuals.",
   keywords: "homeless support, mental health, homeless resources, UK homelessness, assistance dogs",
+  themeColor: "#ffffff",
+  icons: {
+    icon: [
+      { url: "/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/apple-icon-57x57.png", sizes: "57x57", type: "image/png" },
+      { url: "/icons/apple-icon-60x60.png", sizes: "60x60", type: "image/png" },
+      { url: "/icons/apple-icon-72x72.png", sizes: "72x72", type: "image/png" },
+      { url: "/icons/apple-icon-76x76.png", sizes: "76x76", type: "image/png" },
+      { url: "/icons/apple-icon-114x114.png", sizes: "114x114", type: "image/png" },
+      { url: "/icons/apple-icon-120x120.png", sizes: "120x120", type: "image/png" },
+      { url: "/icons/apple-icon-144x144.png", sizes: "144x144", type: "image/png" },
+      { url: "/icons/apple-icon-152x152.png", sizes: "152x152", type: "image/png" },
+      { url: "/icons/apple-icon-180x180.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      { rel: "icon", url: "/icons/android-icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { rel: "manifest", url: "/icons/manifest.json" },
+      { rel: "msapplication-TileColor", url: "#ffffff" },
+      { rel: "msapplication-TileImage", url: "/icons/ms-icon-144x144.png" },
+    ],
+  },
 };
 
 export const Navigation = () => {
@@ -159,25 +184,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-icon-76x76.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-icon-114x114.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-icon-120x120.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-icon-144x144.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/icons/android-icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-        <link rel="manifest" href="/icons/manifest.json" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#ffffff" />
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
         <Navigation />
         <div className="flex-grow">
