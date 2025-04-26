@@ -46,7 +46,12 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY c.OpenDate DESC';
 
-    const cases = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const cases = await executeQuery({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(cases);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch cases' }, { status: 500 });
@@ -62,8 +67,8 @@ export async function POST(request: Request) {
       primaryNeed,
       secondaryNeeds,
       notes,
-      mentalHealthAssessmentId, // Optional: link to recent assessment
-      dogId // Optional: if user has a service dog
+      mentalHealthAssessmentId,
+      dogId
     } = body;
 
     // Start a transaction for creating the case and related records
@@ -75,7 +80,7 @@ export async function POST(request: Request) {
             Status, PrimaryNeed, SecondaryNeeds
           ) VALUES (?, ?, CURDATE(), 'Open', ?, ?)
         `,
-        params: [userId, caseWorkerId, primaryNeed, secondaryNeeds]
+        values: [userId, caseWorkerId, primaryNeed, secondaryNeeds]
       }
     ];
 
@@ -87,7 +92,7 @@ export async function POST(request: Request) {
           SET LinkedToCaseID = LAST_INSERT_ID()
           WHERE AssessmentID = ?
         `,
-        params: [mentalHealthAssessmentId]
+        values: [mentalHealthAssessmentId]
       });
     }
 
@@ -99,7 +104,7 @@ export async function POST(request: Request) {
             DogID, CaseID, Status, DateReported
           ) VALUES (?, LAST_INSERT_ID(), 'New', CURDATE())
         `,
-        params: [dogId]
+        values: [dogId]
       });
     }
 
@@ -115,13 +120,19 @@ export async function POST(request: Request) {
           'Case', LAST_INSERT_ID(), 'Case',
           'High', NOW())
       `,
-      params: [
+      values: [
         caseWorkerId,
         `New case assigned: ${primaryNeed} support needed`
       ]
     });
 
-    const results = await executeTransaction(queries);
+    // Add type definition for MySQL insert result
+    interface MySQLInsertResult {
+      insertId: number;
+      affectedRows: number;
+    }
+
+    const results = await executeTransaction<MySQLInsertResult>(queries);
     const caseId = results[0].insertId;
 
     return NextResponse.json({ id: caseId }, { status: 201 });
@@ -141,27 +152,28 @@ export async function PUT(request: Request) {
       ...updateData
     } = body;
 
-    const result = await executeQuery(
-      `UPDATE CaseManagement SET
+    // Updated to use object parameter format
+    const result = await executeQuery({
+      query: `UPDATE CaseManagement SET
         Status = ?,
         CaseWorkerID = ?,
         CloseDate = ?,
         SecondaryNeeds = ?,
         LastUpdated = NOW()
       WHERE CaseID = ?`,
-      [
+      values: [
         status,
         newCaseWorkerId,
         closeDate,
         updateData.secondaryNeeds,
         caseId
       ]
-    );
+    });
 
     // If case worker changed, notify new case worker
     if (newCaseWorkerId) {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           UserID, Title, Message,
           NotificationType, RelatedEntityID,
           RelatedEntityType, Priority,
@@ -169,18 +181,18 @@ export async function PUT(request: Request) {
         ) VALUES (?, 'Case Transferred', ?,
           'Case', ?, 'Case',
           'High', NOW())`,
-        [
+        values: [
           newCaseWorkerId,
           `Case ${caseId} has been transferred to you`,
           caseId
         ]
-      );
+      });
     }
 
     // If case closed, create summary notification
     if (status === 'Closed') {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           Title, Message,
           NotificationType, RelatedEntityID,
           RelatedEntityType, Priority,
@@ -188,11 +200,11 @@ export async function PUT(request: Request) {
         ) VALUES ('Case Closed', ?,
           'Case', ?, 'Case',
           'Medium', NOW())`,
-        [
+        values: [
           `Case ${caseId} has been closed`,
           caseId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ success: true });

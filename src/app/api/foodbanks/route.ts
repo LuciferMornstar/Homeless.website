@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query, execute } from '@/lib/db';
+import { query, executeQuery } from '@/lib/db';
 import { RowDataPacket } from 'mysql2';
 
 interface FoodBank extends RowDataPacket {
@@ -19,6 +19,12 @@ interface FoodBank extends RowDataPacket {
   latitude?: number;
   longitude?: number;
   updatedAt: Date;
+}
+
+// Define the MySQL result interface
+interface MySQLInsertResult {
+  insertId: number;
+  affectedRows: number;
 }
 
 export async function GET(request: NextRequest) {
@@ -79,18 +85,19 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const result = await execute(
-      `INSERT INTO FoodBanks (
+    // Updated to use executeQuery with proper typing
+    const result = await executeQuery<MySQLInsertResult>({
+      query: `INSERT INTO FoodBanks (
         name, address, city, postcode, phone, email,
         openingHours, notes, website, requirementsInfo,
         availableItems, isVerified, latitude, longitude
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?, ?)`,
-      [
+      values: [
         name, address, city, postcode, phone, email,
         openingHours, notes, website, requirementsInfo,
         availableItems, latitude, longitude
       ]
-    );
+    });
 
     return NextResponse.json({
       success: true,

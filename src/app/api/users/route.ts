@@ -5,7 +5,9 @@ import type { User } from '@/types/models';
 
 export async function GET(request: Request) {
   try {
-    const users = await executeQuery<User[]>('SELECT * FROM Users WHERE IsActive = true');
+    const users = await executeQuery<User[]>({
+      query: 'SELECT * FROM Users WHERE IsActive = true'
+    });
     return NextResponse.json(users);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
@@ -16,6 +18,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const headersList = headers();
+    const ipAddress = headersList.get('x-forwarded-for') || 'unknown';
+    const userAgent = headersList.get('user-agent') || 'unknown';
     
     // GDPR compliance: Ensure required consents are provided
     const { 
@@ -36,14 +40,14 @@ export async function POST(request: Request) {
     }
 
     // Create user with basic info
-    const result = await executeQuery<any>(
-      `INSERT INTO Users (
+    const result = await executeQuery<any>({
+      query: `INSERT INTO Users (
         Username, Email, Password, 
         PrivacyPolicyAgreed, 
         MarketingConsentGiven, 
         DataSharingConsentGiven
       ) VALUES (?, ?, ?, ?, ?, ?)`,
-      [
+      values: [
         username, 
         email, 
         password, // Note: Ensure password is hashed before this point
@@ -51,29 +55,35 @@ export async function POST(request: Request) {
         marketingConsentGiven,
         dataSharingConsentGiven
       ]
-    );
+    });
 
     // Log GDPR consents
     const userId = result.insertId;
+    
+    // Updated to match function signature: (userId, action, details, ipAddress)
     await logGDPRConsent(
       userId,
       'PrivacyPolicy',
-      privacyPolicyAgreed,
-      headersList.get('x-forwarded-for') || 'unknown',
-      headersList.get('user-agent') || 'unknown',
-      'Privacy Policy v1.0',
-      '1.0'
+      {
+        consentGiven: privacyPolicyAgreed,
+        userAgent,
+        policyVersion: '1.0',
+        policyTitle: 'Privacy Policy v1.0'
+      },
+      ipAddress
     );
 
     if (marketingConsentGiven) {
       await logGDPRConsent(
         userId,
         'Marketing',
-        true,
-        headersList.get('x-forwarded-for') || 'unknown',
-        headersList.get('user-agent') || 'unknown',
-        'Marketing Communications Consent v1.0',
-        '1.0'
+        {
+          consentGiven: true,
+          userAgent,
+          policyVersion: '1.0',
+          policyTitle: 'Marketing Communications Consent v1.0'
+        },
+        ipAddress
       );
     }
 
@@ -81,11 +91,13 @@ export async function POST(request: Request) {
       await logGDPRConsent(
         userId,
         'DataSharing',
-        true,
-        headersList.get('x-forwarded-for') || 'unknown',
-        headersList.get('user-agent') || 'unknown',
-        'Data Sharing Consent v1.0',
-        '1.0'
+        {
+          consentGiven: true,
+          userAgent,
+          policyVersion: '1.0',
+          policyTitle: 'Data Sharing Consent v1.0'
+        },
+        ipAddress
       );
     }
 

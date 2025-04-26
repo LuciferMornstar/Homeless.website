@@ -1,6 +1,31 @@
 import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 
+// Define interfaces for letters and templates
+interface Letter {
+  LetterID: number;
+  UserID: string;
+  LetterType: string;
+  LetterContent: string;
+  RecipientName: string;
+  RecipientAddress: string;
+  DateGenerated: Date;
+  LastUpdated?: Date;
+  TemplateName?: string;
+  TemplateType?: string;
+  TemplateContent?: string;
+}
+
+interface LetterTemplate {
+  TemplateID: number;
+  TemplateName: string;
+  TemplateType: string;
+  TemplateContent: string;
+  IsActive: boolean;
+  DateCreated: Date;
+  LastUpdated?: Date;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get('userId');
@@ -36,7 +61,12 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY l.DateGenerated DESC';
 
-    const letters = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const letters = await executeQuery<Letter[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(letters);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch letters' }, { status: 500 });
@@ -58,10 +88,11 @@ export async function POST(request: Request) {
     // Get template if templateId provided
     let finalContent = letterContent;
     if (templateId) {
-      const template = await executeQuery(
-        'SELECT TemplateContent FROM LetterTemplates WHERE TemplateID = ?',
-        [templateId]
-      );
+      // Updated to use object parameter format
+      const template = await executeQuery<{TemplateContent: string}[]>({
+        query: 'SELECT TemplateContent FROM LetterTemplates WHERE TemplateID = ?',
+        values: [templateId]
+      });
       
       if (template.length > 0) {
         // Replace template placeholders with actual content
@@ -72,20 +103,21 @@ export async function POST(request: Request) {
       }
     }
 
-    const result = await executeQuery<any>(
-      `INSERT INTO GeneratedLetters (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO GeneratedLetters (
         UserID, LetterType, LetterContent,
         RecipientName, RecipientAddress,
         DateGenerated
       ) VALUES (?, ?, ?, ?, ?, NOW())`,
-      [
+      values: [
         userId,
         letterType,
         finalContent,
         recipientName,
         recipientAddress
       ]
-    );
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -98,20 +130,21 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { letterId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE GeneratedLetters SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE GeneratedLetters SET
         LetterContent = ?,
         RecipientName = ?,
         RecipientAddress = ?,
         LastUpdated = NOW()
       WHERE LetterID = ?`,
-      [
+      values: [
         updateData.letterContent,
         updateData.recipientName,
         updateData.recipientAddress,
         letterId
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -122,9 +155,11 @@ export async function PUT(request: Request) {
 // Get available letter templates
 export async function OPTIONS(request: Request) {
   try {
-    const templates = await executeQuery(
-      'SELECT * FROM LetterTemplates WHERE IsActive = TRUE ORDER BY TemplateName'
-    );
+    // Updated to use object parameter format
+    const templates = await executeQuery<LetterTemplate[]>({
+      query: 'SELECT * FROM LetterTemplates WHERE IsActive = TRUE ORDER BY TemplateName'
+    });
+    
     return NextResponse.json(templates);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch templates' }, { status: 500 });

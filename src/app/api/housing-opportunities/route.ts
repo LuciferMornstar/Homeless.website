@@ -1,6 +1,38 @@
 import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 
+// Define interface for housing opportunities
+interface HousingOpportunity {
+  PropertyID: number;
+  LandlordID: number;
+  PropertyType: string;
+  Address: string;
+  Area: string;
+  Postcode: string;
+  MonthlyRent: number;
+  DepositAmount: number;
+  Bedrooms: number;
+  Description: string;
+  PetsAllowed: boolean;
+  HasAccessibilityFeatures: boolean;
+  AcceptsHousingBenefit: boolean;
+  AvailableFrom: Date;
+  MinimumTenancy: string;
+  EnergyRating: string;
+  CouncilTaxBand: string;
+  BillsIncluded: boolean;
+  FurnishingStatus: string;
+  DateListed: Date;
+  LastUpdated?: Date;
+  IsAvailable: boolean;
+  UnavailabilityReason?: string;
+  ListingExpiryDate: Date;
+  LandlordName?: string;
+  LandlordContact?: string;
+  LandlordVerified?: boolean;
+  AccessibilityFeatures?: string;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const location = searchParams.get('location');
@@ -54,7 +86,12 @@ export async function GET(request: Request) {
 
     query += ' GROUP BY h.PropertyID ORDER BY h.DateListed DESC';
 
-    const housing = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const housing = await executeQuery<HousingOpportunity[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(housing);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch housing opportunities' }, { status: 500 });
@@ -87,8 +124,9 @@ export async function POST(request: Request) {
       photos = []
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO HousingOpportunities (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO HousingOpportunities (
         LandlordID, PropertyType, Address,
         Area, Postcode, MonthlyRent,
         DepositAmount, Bedrooms, Description,
@@ -99,7 +137,7 @@ export async function POST(request: Request) {
         FurnishingStatus, DateListed,
         IsAvailable, ListingExpiryDate
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), TRUE, DATE_ADD(NOW(), INTERVAL 30 DAY))`,
-      [
+      values: [
         landlordId,
         propertyType,
         address,
@@ -119,27 +157,27 @@ export async function POST(request: Request) {
         billsIncluded,
         furnishingStatus
       ]
-    );
+    });
 
     // Add accessibility features if any
     for (const feature of accessibilityFeatures) {
-      await executeQuery(
-        'INSERT INTO PropertyAccessibility (PropertyID, FeatureName) VALUES (?, ?)',
-        [result.insertId, feature]
-      );
+      await executeQuery({
+        query: 'INSERT INTO PropertyAccessibility (PropertyID, FeatureName) VALUES (?, ?)',
+        values: [result.insertId, feature]
+      });
     }
 
     // Add property photos
     for (const photo of photos) {
-      await executeQuery(
-        'INSERT INTO PropertyPhotos (PropertyID, PhotoURL, Caption) VALUES (?, ?, ?)',
-        [result.insertId, photo.url, photo.caption]
-      );
+      await executeQuery({
+        query: 'INSERT INTO PropertyPhotos (PropertyID, PhotoURL, Caption) VALUES (?, ?, ?)',
+        values: [result.insertId, photo.url, photo.caption]
+      });
     }
 
     // Create notification for suitable users
-    await executeQuery(
-      `INSERT INTO RealTimeNotifications (
+    await executeQuery({
+      query: `INSERT INTO RealTimeNotifications (
         Title, Message, NotificationType,
         RelatedEntityID, RelatedEntityType,
         Priority, DateCreated
@@ -148,11 +186,11 @@ export async function POST(request: Request) {
         ?, 'Housing', ?, 'Property',
         'High', NOW()
       )`,
-      [
+      values: [
         `New ${bedrooms} bedroom ${propertyType.toLowerCase()} available in ${area} for £${monthlyRent}/month`,
         result.insertId
       ]
-    );
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -165,8 +203,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { propertyId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE HousingOpportunities SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE HousingOpportunities SET
         PropertyType = ?,
         Address = ?,
         Area = ?,
@@ -186,7 +225,7 @@ export async function PUT(request: Request) {
         FurnishingStatus = ?,
         LastUpdated = NOW()
       WHERE PropertyID = ?`,
-      [
+      values: [
         updateData.propertyType,
         updateData.address,
         updateData.area,
@@ -206,35 +245,35 @@ export async function PUT(request: Request) {
         updateData.furnishingStatus,
         propertyId
       ]
-    );
+    });
 
     // Update accessibility features if provided
     if (updateData.accessibilityFeatures) {
-      await executeQuery(
-        'DELETE FROM PropertyAccessibility WHERE PropertyID = ?',
-        [propertyId]
-      );
+      await executeQuery({
+        query: 'DELETE FROM PropertyAccessibility WHERE PropertyID = ?',
+        values: [propertyId]
+      });
       
       for (const feature of updateData.accessibilityFeatures) {
-        await executeQuery(
-          'INSERT INTO PropertyAccessibility (PropertyID, FeatureName) VALUES (?, ?)',
-          [propertyId, feature]
-        );
+        await executeQuery({
+          query: 'INSERT INTO PropertyAccessibility (PropertyID, FeatureName) VALUES (?, ?)',
+          values: [propertyId, feature]
+        });
       }
     }
 
     // Update photos if provided
     if (updateData.photos) {
-      await executeQuery(
-        'DELETE FROM PropertyPhotos WHERE PropertyID = ?',
-        [propertyId]
-      );
+      await executeQuery({
+        query: 'DELETE FROM PropertyPhotos WHERE PropertyID = ?',
+        values: [propertyId]
+      });
       
       for (const photo of updateData.photos) {
-        await executeQuery(
-          'INSERT INTO PropertyPhotos (PropertyID, PhotoURL, Caption) VALUES (?, ?, ?)',
-          [propertyId, photo.url, photo.caption]
-        );
+        await executeQuery({
+          query: 'INSERT INTO PropertyPhotos (PropertyID, PhotoURL, Caption) VALUES (?, ?, ?)',
+          values: [propertyId, photo.url, photo.caption]
+        });
       }
     }
 
@@ -250,19 +289,20 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     const { propertyId, isAvailable, reason } = body;
 
-    await executeQuery(
-      `UPDATE HousingOpportunities SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE HousingOpportunities SET
         IsAvailable = ?,
         UnavailabilityReason = ?,
         LastUpdated = NOW()
       WHERE PropertyID = ?`,
-      [isAvailable, reason, propertyId]
-    );
+      values: [isAvailable, reason, propertyId]
+    });
 
     // If property is no longer available, notify interested users
     if (!isAvailable) {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           Title, Message, NotificationType,
           RelatedEntityID, RelatedEntityType,
           Priority, DateCreated
@@ -272,12 +312,12 @@ export async function PATCH(request: Request) {
           'Medium', NOW()
         FROM UserPropertyInterest
         WHERE PropertyID = ?`,
-        [
+        values: [
           `A property you were interested in is no longer available: ${reason}`,
           propertyId,
           propertyId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ success: true });

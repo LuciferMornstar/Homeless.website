@@ -39,7 +39,12 @@ export async function GET(request: Request) {
       query += ' ORDER BY distance';
     }
 
-    const foodBanks = await executeQuery<FoodBank[]>(query, params);
+    // Updated to use object parameter format
+    const foodBanks = await executeQuery<FoodBank[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(foodBanks);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch food banks' }, { status: 500 });
@@ -62,15 +67,16 @@ export async function POST(request: Request) {
       ...foodBankData
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO FoodBanks (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO FoodBanks (
         Name, Address, OpeningHours,
         Requirements, CurrentStockLevel,
         PetFoodAvailable, DeliveryAvailable,
         Latitude, Longitude,
         DateAdded, StockLastUpdated
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
-      [
+      values: [
         name,
         address,
         openingHours,
@@ -81,7 +87,7 @@ export async function POST(request: Request) {
         latitude,
         longitude
       ]
-    );
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -111,9 +117,10 @@ export async function PUT(request: Request) {
         ${stockUpdated ? ', StockLastUpdated = NOW()' : ''}
       WHERE FoodBankID = ?`;
 
-    const result = await executeQuery(
+    // Updated to use object parameter format
+    await executeQuery({
       query,
-      [
+      values: [
         updateData.name,
         updateData.address,
         updateData.openingHours,
@@ -125,7 +132,7 @@ export async function PUT(request: Request) {
         updateData.longitude,
         foodBankId
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

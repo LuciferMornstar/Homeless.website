@@ -1,6 +1,32 @@
 import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 
+// Define interface for notifications
+interface Notification {
+  NotificationID: number;
+  UserID?: string;
+  Title: string;
+  Message: string;
+  NotificationType: string;
+  RelatedEntityID?: number;
+  RelatedEntityType?: string;
+  Priority: string;
+  ExpiryDate?: Date;
+  DateCreated: Date;
+  DeliveryStatus: string;
+  IsRead: boolean;
+  IsDismissed: boolean;
+}
+
+// Define interface for user devices
+interface UserDevice {
+  DeviceID: number;
+  UserID: string;
+  DeviceToken: string;
+  DeviceType: string;
+  IsActive: boolean;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get('userId');
@@ -36,7 +62,12 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY Priority DESC, DateCreated DESC';
 
-    const notifications = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const notifications = await executeQuery<Notification[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(notifications);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch notifications' }, { status: 500 });
@@ -58,15 +89,16 @@ export async function POST(request: Request) {
       ...notificationData
     } = body;
 
-    const result = await executeQuery(
-      `INSERT INTO RealTimeNotifications (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO RealTimeNotifications (
         UserID, Title, Message,
         NotificationType, RelatedEntityID,
         RelatedEntityType, Priority,
         ExpiryDate, DateCreated,
         DeliveryStatus
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'Pending')`,
-      [
+      values: [
         userId,
         title,
         message,
@@ -76,36 +108,36 @@ export async function POST(request: Request) {
         priority,
         expiryDate
       ]
-    );
+    });
 
     // If this is a device-enabled user, attempt push notification
-    const devices = await executeQuery(
-      'SELECT DeviceToken, DeviceType FROM UserDevices WHERE UserID = ? AND IsActive = TRUE',
-      [userId]
-    );
+    const devices = await executeQuery<UserDevice[]>({
+      query: 'SELECT DeviceToken, DeviceType FROM UserDevices WHERE UserID = ? AND IsActive = TRUE',
+      values: [userId]
+    });
 
     if (devices.length > 0) {
       // Attempt to send push notifications to all user devices
-      await Promise.all(devices.map(async (device: any) => {
+      await Promise.all(devices.map(async (device: UserDevice) => {
         try {
           // Handle push notification sending based on device type
           // This would integrate with Firebase Cloud Messaging or Apple Push Notification Service
           
-          await executeQuery(
-            `UPDATE RealTimeNotifications SET
+          await executeQuery({
+            query: `UPDATE RealTimeNotifications SET
               DeliveryStatus = 'Sent'
             WHERE NotificationID = ?`,
-            [result.insertId]
-          );
+            values: [result.insertId]
+          });
         } catch (error) {
           console.error('Push notification failed:', error);
           // Mark as failed but don't throw - notification is still in database
-          await executeQuery(
-            `UPDATE RealTimeNotifications SET
+          await executeQuery({
+            query: `UPDATE RealTimeNotifications SET
               DeliveryStatus = 'Failed'
             WHERE NotificationID = ?`,
-            [result.insertId]
-          );
+            values: [result.insertId]
+          });
         }
       }));
     }
@@ -122,13 +154,14 @@ export async function PUT(request: Request) {
     const { notificationId, isRead, isDismissed } = body;
 
     // Update notification status
-    const result = await executeQuery(
-      `UPDATE RealTimeNotifications SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE RealTimeNotifications SET
         IsRead = ?,
         IsDismissed = ?
       WHERE NotificationID = ?`,
-      [isRead, isDismissed, notificationId]
-    );
+      values: [isRead, isDismissed, notificationId]
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -143,10 +176,11 @@ export async function DELETE(request: Request) {
 
   try {
     // Only allow deletion of user's own notifications
-    const result = await executeQuery(
-      'DELETE FROM RealTimeNotifications WHERE NotificationID = ? AND UserID = ?',
-      [notificationId, userId]
-    );
+    // Updated to use object parameter format
+    await executeQuery({
+      query: 'DELETE FROM RealTimeNotifications WHERE NotificationID = ? AND UserID = ?',
+      values: [notificationId, userId]
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -44,7 +44,12 @@ export async function GET(request: Request) {
       query += ' ORDER BY distance';
     }
 
-    const resources = await executeQuery<MentalHealthResource[]>(query, params);
+    // Updated to use object parameter format
+    const resources = await executeQuery<MentalHealthResource[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(resources);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch mental health resources' }, { status: 500 });
@@ -68,15 +73,16 @@ export async function POST(request: Request) {
       ...resourceData
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO MentalHealthResources (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO MentalHealthResources (
         Name, ResourceType, ServicesOffered,
         AcceptsHomeless, AcceptsDogs, ProvidesRemoteSupport,
         WaitingTimeDays, NHSFunded,
         Latitude, Longitude,
         DateAdded
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
-      [
+      values: [
         name,
         resourceType,
         servicesOffered,
@@ -88,12 +94,12 @@ export async function POST(request: Request) {
         latitude,
         longitude
       ]
-    );
+    });
 
     // If this is an NHS resource, add to real-time notifications
     if (nhsFunded) {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           Title, Message, NotificationType,
           RelatedEntityID, RelatedEntityType,
           Priority, DateCreated
@@ -102,8 +108,8 @@ export async function POST(request: Request) {
           ?, 'Resource Update', ?, 'MentalHealth',
           'Medium', NOW()
         )`,
-        [`New NHS mental health service available: ${name}`, result.insertId]
-      );
+        values: [`New NHS mental health service available: ${name}`, result.insertId]
+      });
     }
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
@@ -117,8 +123,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { resourceId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE MentalHealthResources SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE MentalHealthResources SET
         Name = ?,
         ResourceType = ?,
         ServicesOffered = ?,
@@ -131,7 +138,7 @@ export async function PUT(request: Request) {
         Longitude = ?,
         LastUpdated = NOW()
       WHERE ResourceID = ?`,
-      [
+      values: [
         updateData.name,
         updateData.resourceType,
         updateData.servicesOffered,
@@ -144,13 +151,13 @@ export async function PUT(request: Request) {
         updateData.longitude,
         resourceId
       ]
-    );
+    });
 
     // If waiting time has changed significantly (>7 days difference)
     if (updateData.previousWaitingTime && 
         Math.abs(updateData.waitingTimeDays - updateData.previousWaitingTime) > 7) {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           Title, Message, NotificationType,
           RelatedEntityID, RelatedEntityType,
           Priority, DateCreated
@@ -159,11 +166,11 @@ export async function PUT(request: Request) {
           ?, 'Resource Update', ?, 'MentalHealth',
           'Medium', NOW()
         )`,
-        [
+        values: [
           `Waiting time for ${updateData.name} has changed from ${updateData.previousWaitingTime} to ${updateData.waitingTimeDays} days`,
           resourceId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ success: true });

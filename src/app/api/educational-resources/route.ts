@@ -1,6 +1,28 @@
 import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 
+// Define interface for educational resources
+interface EducationalResource {
+  ResourceID: number;
+  Title: string;
+  Description: string;
+  Category: string;
+  SkillLevel: string;
+  ContentType: string;
+  Duration: string;
+  IsOnline: boolean;
+  Location?: string;
+  Provider: string;
+  AccessibilityFeatures?: string;
+  StartDate?: Date;
+  EndDate?: Date;
+  MaxParticipants?: number;
+  Cost: number;
+  FundingAvailable: boolean;
+  Tags?: string;
+  Prerequisites?: string;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get('category');
@@ -42,7 +64,12 @@ export async function GET(request: Request) {
 
     query += ' GROUP BY r.ResourceID ORDER BY r.Priority DESC';
 
-    const resources = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const resources = await executeQuery<EducationalResource[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(resources);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch educational resources' }, { status: 500 });
@@ -72,8 +99,9 @@ export async function POST(request: Request) {
       fundingAvailable
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO EducationalResources (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO EducationalResources (
         Title, Description, Category,
         SkillLevel, ContentType, Duration,
         IsOnline, Location, Provider,
@@ -82,7 +110,7 @@ export async function POST(request: Request) {
         Cost, FundingAvailable,
         DateAdded, IsActive
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), TRUE)`,
-      [
+      values: [
         title,
         description,
         category,
@@ -99,28 +127,28 @@ export async function POST(request: Request) {
         cost,
         fundingAvailable
       ]
-    );
+    });
 
     // Add tags
     for (const tag of tags) {
-      await executeQuery(
-        'INSERT INTO ResourceTags (ResourceID, TagName) VALUES (?, ?)',
-        [result.insertId, tag]
-      );
+      await executeQuery({
+        query: 'INSERT INTO ResourceTags (ResourceID, TagName) VALUES (?, ?)',
+        values: [result.insertId, tag]
+      });
     }
 
     // Add prerequisites
     for (const prereq of prerequisites) {
-      await executeQuery(
-        'INSERT INTO ResourcePrerequisites (ResourceID, PrerequisiteName) VALUES (?, ?)',
-        [result.insertId, prereq]
-      );
+      await executeQuery({
+        query: 'INSERT INTO ResourcePrerequisites (ResourceID, PrerequisiteName) VALUES (?, ?)',
+        values: [result.insertId, prereq]
+      });
     }
 
     // Create notification for free/funded opportunities
     if (cost === 0 || fundingAvailable) {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           Title, Message, NotificationType,
           RelatedEntityID, RelatedEntityType,
           Priority, DateCreated
@@ -129,11 +157,11 @@ export async function POST(request: Request) {
           ?, 'Education', ?, 'Training',
           'Medium', NOW()
         )`,
-        [
+        values: [
           `New ${fundingAvailable ? 'funded' : 'free'} training available: ${title}`,
           result.insertId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
@@ -147,8 +175,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { resourceId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE EducationalResources SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE EducationalResources SET
         Title = ?,
         Description = ?,
         Category = ?,
@@ -166,7 +195,7 @@ export async function PUT(request: Request) {
         FundingAvailable = ?,
         LastUpdated = NOW()
       WHERE ResourceID = ?`,
-      [
+      values: [
         updateData.title,
         updateData.description,
         updateData.category,
@@ -184,35 +213,35 @@ export async function PUT(request: Request) {
         updateData.fundingAvailable,
         resourceId
       ]
-    );
+    });
 
     // Update tags if provided
     if (updateData.tags) {
-      await executeQuery(
-        'DELETE FROM ResourceTags WHERE ResourceID = ?',
-        [resourceId]
-      );
+      await executeQuery({
+        query: 'DELETE FROM ResourceTags WHERE ResourceID = ?',
+        values: [resourceId]
+      });
       
       for (const tag of updateData.tags) {
-        await executeQuery(
-          'INSERT INTO ResourceTags (ResourceID, TagName) VALUES (?, ?)',
-          [resourceId, tag]
-        );
+        await executeQuery({
+          query: 'INSERT INTO ResourceTags (ResourceID, TagName) VALUES (?, ?)',
+          values: [resourceId, tag]
+        });
       }
     }
 
     // Update prerequisites if provided
     if (updateData.prerequisites) {
-      await executeQuery(
-        'DELETE FROM ResourcePrerequisites WHERE ResourceID = ?',
-        [resourceId]
-      );
+      await executeQuery({
+        query: 'DELETE FROM ResourcePrerequisites WHERE ResourceID = ?',
+        values: [resourceId]
+      });
       
       for (const prereq of updateData.prerequisites) {
-        await executeQuery(
-          'INSERT INTO ResourcePrerequisites (ResourceID, PrerequisiteName) VALUES (?, ?)',
-          [resourceId, prereq]
-        );
+        await executeQuery({
+          query: 'INSERT INTO ResourcePrerequisites (ResourceID, PrerequisiteName) VALUES (?, ?)',
+          values: [resourceId, prereq]
+        });
       }
     }
 
@@ -234,8 +263,9 @@ export async function PATCH(request: Request) {
       feedback
     } = body;
 
-    const result = await executeQuery(
-      `INSERT INTO UserEducationProgress (
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `INSERT INTO UserEducationProgress (
         UserID, ResourceID, StartDate,
         CompletionStatus, CompletionDate,
         AssessmentScore, Feedback
@@ -245,7 +275,7 @@ export async function PATCH(request: Request) {
         CompletionDate = VALUES(CompletionDate),
         AssessmentScore = VALUES(AssessmentScore),
         Feedback = VALUES(Feedback)`,
-      [
+      values: [
         userId,
         resourceId,
         completionStatus,
@@ -253,17 +283,17 @@ export async function PATCH(request: Request) {
         assessmentScore,
         feedback
       ]
-    );
+    });
 
     // If completed, create achievement notification
     if (completionStatus === 'Completed') {
-      const resource = await executeQuery(
-        'SELECT Title FROM EducationalResources WHERE ResourceID = ?',
-        [resourceId]
-      );
+      const resource = await executeQuery<{Title: string}[]>({
+        query: 'SELECT Title FROM EducationalResources WHERE ResourceID = ?',
+        values: [resourceId]
+      });
 
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           UserID, Title, Message,
           NotificationType, RelatedEntityID,
           RelatedEntityType, Priority,
@@ -271,12 +301,12 @@ export async function PATCH(request: Request) {
         ) VALUES (?, 'Course Completed! 🎓', ?,
           'Achievement', ?, 'Education',
           'High', NOW())`,
-        [
+        values: [
           userId,
           `Congratulations! You've completed: ${resource[0].Title}`,
           resourceId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ success: true });

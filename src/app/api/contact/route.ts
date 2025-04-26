@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import db, { query, execute } from '@/lib/db';
+import { query, executeQuery } from '@/lib/db';
 import { RowDataPacket } from 'mysql2';
 
 interface ContactMessage extends RowDataPacket {
@@ -43,10 +43,11 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const result = await execute(
-      'INSERT INTO ContactMessages (name, email, subject, message) VALUES (?, ?, ?, ?)',
-      [name, email, subject, message]
-    );
+    // Use executeQuery with proper type for MySQL insert result
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: 'INSERT INTO ContactMessages (name, email, subject, message) VALUES (?, ?, ?, ?)',
+      values: [name, email, subject, message]
+    });
 
     return NextResponse.json({
       success: true,

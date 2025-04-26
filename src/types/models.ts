@@ -74,6 +74,32 @@ export interface FoodBank {
   Longitude: number;
 }
 
+// Housing Opportunities interface
+export interface HousingOpportunity {
+  PropertyID: number;
+  Title: string;
+  Description: string;
+  PropertyType: string;
+  Location: string;
+  Address: string;
+  City: string;
+  PostCode: string;
+  Rent: number;
+  DepositAmount: number;
+  BedroomCount: number;
+  AcceptsDogs: boolean;
+  AcceptsHousingBenefit: boolean;
+  HasAccessibility: boolean;
+  IsAvailable: boolean;
+  DateListed: Date;
+  LandlordID?: number;
+  ContactPhone?: string;
+  ContactEmail?: string;
+  ImageUrls?: string[];
+  Latitude?: number;
+  Longitude?: number;
+}
+
 // Mental health interfaces
 export interface MentalHealthResource {
   ResourceID: number;

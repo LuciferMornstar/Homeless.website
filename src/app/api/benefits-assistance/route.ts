@@ -42,7 +42,12 @@ export async function GET(request: Request) {
 
     query += ' GROUP BY b.ApplicationID ORDER BY b.ApplicationDate DESC';
 
-    const benefits = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const benefits = await executeQuery({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(benefits);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch benefits information' }, { status: 500 });
@@ -65,14 +70,15 @@ export async function POST(request: Request) {
       assistanceNeeded
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO BenefitApplications (
+    // Updated to use object parameter format
+    const result = await executeQuery<any>({
+      query: `INSERT INTO BenefitApplications (
         UserID, BenefitType, Description,
         Amount, Frequency, StartDate,
         Status, Notes, Priority,
         AssistanceNeeded, ApplicationDate
       ) VALUES (?, ?, ?, ?, ?, ?, 'Pending', ?, ?, ?, NOW())`,
-      [
+      values: [
         userId,
         benefitType,
         description,
@@ -83,40 +89,40 @@ export async function POST(request: Request) {
         priority,
         assistanceNeeded
       ]
-    );
+    });
 
     // Record required documents
     for (const doc of documents) {
-      await executeQuery(
-        `INSERT INTO BenefitDocuments (
+      await executeQuery({
+        query: `INSERT INTO BenefitDocuments (
           ApplicationID, DocumentType,
           Required, Status,
           DateRequested
         ) VALUES (?, ?, TRUE, 'Pending', NOW())`,
-        [result.insertId, doc]
-      );
+        values: [result.insertId, doc]
+      });
     }
 
     // Create task for case worker if assistance needed
     if (assistanceNeeded) {
-      await executeQuery(
-        `INSERT INTO CaseWorkerTasks (
+      await executeQuery({
+        query: `INSERT INTO CaseWorkerTasks (
           ApplicationID, TaskType,
           Description, Priority,
           DueDate, Status,
           DateCreated
         ) VALUES (?, 'Benefit Application', ?, ?, DATE_ADD(NOW(), INTERVAL 3 DAY), 'Pending', NOW())`,
-        [
+        values: [
           result.insertId,
           `Assist with ${benefitType} application`,
           priority
         ]
-      );
+      });
     }
 
     // Create notification
-    await executeQuery(
-      `INSERT INTO RealTimeNotifications (
+    await executeQuery({
+      query: `INSERT INTO RealTimeNotifications (
         UserID, Title, Message,
         NotificationType, RelatedEntityID,
         RelatedEntityType, Priority,
@@ -124,12 +130,12 @@ export async function POST(request: Request) {
       ) VALUES (?, 'Benefit Application Started', ?,
         'Benefit', ?, 'Application',
         'High', NOW())`,
-      [
+      values: [
         userId,
         `Your ${benefitType} application has been started. Please provide the required documents.`,
         result.insertId
       ]
-    );
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -142,8 +148,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { applicationId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE BenefitApplications SET
+    // Updated to use object parameter format
+    const result = await executeQuery({
+      query: `UPDATE BenefitApplications SET
         Status = ?,
         Amount = ?,
         StartDate = ?,
@@ -151,7 +158,7 @@ export async function PUT(request: Request) {
         Notes = ?,
         LastUpdated = NOW()
       WHERE ApplicationID = ?`,
-      [
+      values: [
         updateData.status,
         updateData.amount,
         updateData.startDate,
@@ -159,43 +166,43 @@ export async function PUT(request: Request) {
         updateData.notes,
         applicationId
       ]
-    );
+    });
 
     // Update document status if provided
     if (updateData.documents) {
       for (const doc of updateData.documents) {
-        await executeQuery(
-          `UPDATE BenefitDocuments SET
+        await executeQuery({
+          query: `UPDATE BenefitDocuments SET
             Status = ?,
             DateSubmitted = CASE WHEN ? = 'Submitted' THEN NOW() ELSE NULL END,
             Notes = ?
           WHERE ApplicationID = ? AND DocumentType = ?`,
-          [
+          values: [
             doc.status,
             doc.status,
             doc.notes,
             applicationId,
             doc.type
           ]
-        );
+        });
       }
     }
 
     // Record payment if approved
     if (updateData.status === 'Approved' && updateData.amount) {
-      await executeQuery(
-        `INSERT INTO BenefitPayments (
+      await executeQuery({
+        query: `INSERT INTO BenefitPayments (
           ApplicationID, Amount,
           PaymentDate, Status,
           Notes
         ) VALUES (?, ?, ?, 'Scheduled', ?)`,
-        [
+        values: [
           applicationId,
           updateData.amount,
           updateData.startDate,
           'Initial payment after approval'
         ]
-      );
+      });
     }
 
     // Create notification based on status change
@@ -214,8 +221,8 @@ export async function PUT(request: Request) {
         notificationMessage = `Your ${updateData.benefitType} application status has been updated to ${updateData.status}.`;
     }
 
-    await executeQuery(
-      `INSERT INTO RealTimeNotifications (
+    await executeQuery({
+      query: `INSERT INTO RealTimeNotifications (
         UserID, Title, Message,
         NotificationType, RelatedEntityID,
         RelatedEntityType, Priority,
@@ -231,13 +238,13 @@ export async function PUT(request: Request) {
         NOW()
       FROM BenefitApplications
       WHERE ApplicationID = ?`,
-      [
+      values: [
         notificationTitle,
         notificationMessage,
         applicationId,
         applicationId
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -258,14 +265,15 @@ export async function PATCH(request: Request) {
       notes
     } = body;
 
-    const result = await executeQuery(
-      `INSERT INTO BenefitPayments (
+    // Updated to use object parameter format with proper typing
+    const result = await executeQuery<{insertId: number}>({
+      query: `INSERT INTO BenefitPayments (
         ApplicationID, Amount,
         PaymentDate, PaymentType,
         Reference, Status,
         Notes, DateRecorded
       ) VALUES (?, ?, ?, ?, ?, 'Completed', ?, NOW())`,
-      [
+      values: [
         applicationId,
         paymentAmount,
         paymentDate,
@@ -273,21 +281,21 @@ export async function PATCH(request: Request) {
         reference,
         notes
       ]
-    );
+    });
 
     // Update total received in application
-    await executeQuery(
-      `UPDATE BenefitApplications SET
+    await executeQuery({
+      query: `UPDATE BenefitApplications SET
         TotalReceived = TotalReceived + ?,
         LastPaymentDate = ?,
         LastUpdated = NOW()
       WHERE ApplicationID = ?`,
-      [paymentAmount, paymentDate, applicationId]
-    );
+      values: [paymentAmount, paymentDate, applicationId]
+    });
 
     // Create payment notification
-    await executeQuery(
-      `INSERT INTO RealTimeNotifications (
+    await executeQuery({
+      query: `INSERT INTO RealTimeNotifications (
         UserID, Title, Message,
         NotificationType, RelatedEntityID,
         RelatedEntityType, Priority,
@@ -303,12 +311,12 @@ export async function PATCH(request: Request) {
         NOW()
       FROM BenefitApplications
       WHERE ApplicationID = ?`,
-      [
+      values: [
         `Payment of £${paymentAmount} received for your ${paymentType}`,
         result.insertId,
         applicationId
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

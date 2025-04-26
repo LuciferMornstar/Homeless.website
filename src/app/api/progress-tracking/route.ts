@@ -1,6 +1,45 @@
 import { NextResponse } from 'next/server';
 import { executeQuery, executeTransaction } from '@/lib/db';
 
+// Define interfaces for type safety
+interface Goal {
+  GoalID: number;
+  UserID: string;
+  CaseID?: number;
+  GoalTitle: string;
+  Description: string;
+  Category: string;
+  Priority: string;
+  TargetDate: Date;
+  Status: string;
+  SupportNeeded: string;
+  DateCreated: Date;
+  CompletionDate?: Date;
+  ProgressDate?: Date;
+  MilestoneAchieved?: string;
+  ProgressNotes?: string;
+  SupportProvided?: string;
+  CaseStatus?: string;
+  CaseWorkerID?: string;
+}
+
+interface ProgressMilestone {
+  total: number;
+  achieved: number;
+}
+
+// Interface for single transaction result
+interface TransactionResult {
+  insertId: number;
+  affectedRows: number;
+  changedRows?: number;
+}
+
+// Function to get the first result with proper typing
+function getFirstResult<T>(results: any[]): T {
+  return results[0] as T;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get('userId');
@@ -46,7 +85,12 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY g.Priority DESC, g.TargetDate ASC';
 
-    const goals = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const goals = await executeQuery<Goal[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(goals);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch progress data' }, { status: 500 });
@@ -133,8 +177,10 @@ export async function POST(request: Request) {
       });
     }
 
+    // Execute the transaction and handle the results safely
     const results = await executeTransaction(queries);
-    const goalId = results[0].insertId;
+    const firstResult = getFirstResult<TransactionResult>(results);
+    const goalId = firstResult.insertId;
 
     return NextResponse.json({ id: goalId }, { status: 201 });
   } catch (error) {
@@ -155,44 +201,48 @@ export async function PUT(request: Request) {
     } = body;
 
     // Record progress update
-    const result = await executeQuery(
-      `INSERT INTO ProgressTracking (
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `INSERT INTO ProgressTracking (
         GoalID, UserID, ProgressDate,
         MilestoneAchieved, Notes,
         SupportProvided, DateRecorded
       ) VALUES (?, ?, NOW(), ?, ?, ?, NOW())`,
-      [
+      values: [
         goalId,
         userId,
         milestoneAchieved,
         notes,
         supportProvided
       ]
-    );
+    });
 
     // Check if all milestones are achieved
-    const milestones = await executeQuery(
-      `SELECT 
+    // Updated to use object parameter format
+    const milestones = await executeQuery<ProgressMilestone[]>({
+      query: `SELECT 
         COUNT(*) as total,
         SUM(CASE WHEN Status = 'Achieved' THEN 1 ELSE 0 END) as achieved
       FROM ProgressTracking
       WHERE GoalID = ?`,
-      [goalId]
-    );
+      values: [goalId]
+    });
 
     // Update goal status if all milestones achieved
     if (milestones[0].total === milestones[0].achieved) {
-      await executeQuery(
-        `UPDATE UserGoals SET
+      // Updated to use object parameter format
+      await executeQuery({
+        query: `UPDATE UserGoals SET
           Status = 'Completed',
           CompletionDate = NOW()
         WHERE GoalID = ?`,
-        [goalId]
-      );
+        values: [goalId]
+      });
 
       // Create celebration notification
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      // Updated to use object parameter format
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           UserID, Title, Message,
           NotificationType, RelatedEntityID,
           RelatedEntityType, Priority,
@@ -200,12 +250,12 @@ export async function PUT(request: Request) {
         ) VALUES (?, 'Goal Achieved! 🎉', ?,
           'Achievement', ?, 'Goal',
           'High', NOW())`,
-        [
+        values: [
           userId,
           `Congratulations! You've achieved your goal: ${progressUpdate}`,
           goalId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ success: true });

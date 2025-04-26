@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 
+interface QueryResult {
+  insertId?: number;
+  affectedRows?: number;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get('userId');
@@ -48,7 +53,11 @@ export async function GET(request: Request) {
 
     query += ' GROUP BY d.DogID ORDER BY d.RegistrationDate DESC';
 
-    const dogs = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const dogs = await executeQuery({
+      query,
+      values: params
+    });
     return NextResponse.json(dogs);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch service dog information' }, { status: 500 });
@@ -75,8 +84,9 @@ export async function POST(request: Request) {
       notes
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO ServiceDogs (
+    // Updated to use object parameter format
+    const result = await executeQuery<QueryResult>({
+      query: `INSERT INTO ServiceDogs (
         HandlerID, Name, Breed,
         DateOfBirth, MicrochipNumber,
         RegistrationNumber, TrainingLevel,
@@ -84,7 +94,7 @@ export async function POST(request: Request) {
         PhotoURL, Notes,
         RegistrationDate
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
-      [
+      values: [
         handlerId,
         name,
         breed,
@@ -97,27 +107,30 @@ export async function POST(request: Request) {
         photoUrl,
         notes
       ]
-    );
+    });
 
     // Add specialties
     for (const specialty of specialties) {
-      await executeQuery(
-        'INSERT INTO DogSpecialties (DogID, SpecialtyArea) VALUES (?, ?)',
-        [result.insertId, specialty]
-      );
+      // Updated to use object parameter format
+      await executeQuery({
+        query: 'INSERT INTO DogSpecialties (DogID, SpecialtyArea) VALUES (?, ?)',
+        values: [result.insertId, specialty]
+      });
     }
 
     // Add certifications
     for (const cert of certifications) {
-      await executeQuery(
-        'INSERT INTO DogTraining (DogID, TrainingCertification, DateCertified) VALUES (?, ?, NOW())',
-        [result.insertId, cert]
-      );
+      // Updated to use object parameter format
+      await executeQuery({
+        query: 'INSERT INTO DogTraining (DogID, TrainingCertification, DateCertified) VALUES (?, ?, NOW())',
+        values: [result.insertId, cert]
+      });
     }
 
     // Initialize welfare tracking
-    await executeQuery(
-      `INSERT INTO DogWelfare (
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `INSERT INTO DogWelfare (
         DogID, LastCheckupDate,
         CurrentHealthStatus,
         VaccinationStatus,
@@ -126,7 +139,7 @@ export async function POST(request: Request) {
         GroomingSchedule,
         DateCreated
       ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
-      [
+      values: [
         result.insertId,
         healthInfo.lastCheckup,
         'Healthy', // Default status
@@ -135,11 +148,12 @@ export async function POST(request: Request) {
         healthInfo.exercise,
         healthInfo.grooming
       ]
-    );
+    });
 
     // Create notification for handler
-    await executeQuery(
-      `INSERT INTO RealTimeNotifications (
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `INSERT INTO RealTimeNotifications (
         UserID, Title, Message,
         NotificationType, RelatedEntityID,
         RelatedEntityType, Priority,
@@ -147,12 +161,12 @@ export async function POST(request: Request) {
       ) VALUES (?, 'Service Dog Registration Complete', ?,
         'Dog', ?, 'ServiceDog',
         'High', NOW())`,
-      [
+      values: [
         handlerId,
         `${name} has been registered as your service dog. Please review the care guidelines.`,
         result.insertId
       ]
-    );
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -165,8 +179,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { dogId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE ServiceDogs SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE ServiceDogs SET
         Name = ?,
         TrainingLevel = ?,
         Status = ?,
@@ -175,7 +190,7 @@ export async function PUT(request: Request) {
         Notes = ?,
         LastUpdated = NOW()
       WHERE DogID = ?`,
-      [
+      values: [
         updateData.name,
         updateData.trainingLevel,
         updateData.status,
@@ -184,30 +199,33 @@ export async function PUT(request: Request) {
         updateData.notes,
         dogId
       ]
-    );
+    });
 
     // Update specialties if provided
     if (updateData.specialties) {
-      await executeQuery(
-        'DELETE FROM DogSpecialties WHERE DogID = ?',
-        [dogId]
-      );
+      // Updated to use object parameter format
+      await executeQuery({
+        query: 'DELETE FROM DogSpecialties WHERE DogID = ?',
+        values: [dogId]
+      });
       
       for (const specialty of updateData.specialties) {
-        await executeQuery(
-          'INSERT INTO DogSpecialties (DogID, SpecialtyArea) VALUES (?, ?)',
-          [dogId, specialty]
-        );
+        // Updated to use object parameter format
+        await executeQuery({
+          query: 'INSERT INTO DogSpecialties (DogID, SpecialtyArea) VALUES (?, ?)',
+          values: [dogId, specialty]
+        });
       }
     }
 
     // Add new certifications if provided
     if (updateData.newCertifications) {
       for (const cert of updateData.newCertifications) {
-        await executeQuery(
-          'INSERT INTO DogTraining (DogID, TrainingCertification, DateCertified) VALUES (?, ?, NOW())',
-          [dogId, cert]
-        );
+        // Updated to use object parameter format
+        await executeQuery({
+          query: 'INSERT INTO DogTraining (DogID, TrainingCertification, DateCertified) VALUES (?, ?, NOW())',
+          values: [dogId, cert]
+        });
       }
     }
 
@@ -233,8 +251,9 @@ export async function PATCH(request: Request) {
     } = body;
 
     // Update welfare record
-    await executeQuery(
-      `UPDATE DogWelfare SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE DogWelfare SET
         LastCheckupDate = ?,
         CurrentHealthStatus = ?,
         LastVetVisit = ?,
@@ -242,7 +261,7 @@ export async function PATCH(request: Request) {
         VetNotes = ?,
         LastUpdated = NOW()
       WHERE DogID = ?`,
-      [
+      values: [
         checkupDate,
         healthStatus,
         vetVisitDate,
@@ -250,42 +269,45 @@ export async function PATCH(request: Request) {
         vetNotes,
         dogId
       ]
-    );
+    });
 
     // Record health issues if any
     for (const issue of issues) {
-      await executeQuery(
-        `INSERT INTO DogHealthIssues (
+      // Updated to use object parameter format
+      await executeQuery({
+        query: `INSERT INTO DogHealthIssues (
           DogID, HealthIssue,
           DateIdentified, Status,
           Notes
         ) VALUES (?, ?, NOW(), 'Active', ?)`,
-        [dogId, issue.type, issue.notes]
-      );
+        values: [dogId, issue.type, issue.notes]
+      });
     }
 
     // Update vaccinations
     for (const vacc of vaccinations) {
-      await executeQuery(
-        `INSERT INTO DogVaccinations (
+      // Updated to use object parameter format
+      await executeQuery({
+        query: `INSERT INTO DogVaccinations (
           DogID, VaccinationType,
           DateAdministered, ExpiryDate,
           VetName
         ) VALUES (?, ?, ?, ?, ?)`,
-        [
+        values: [
           dogId,
           vacc.type,
           vacc.date,
           vacc.expiry,
           vacc.vetName
         ]
-      );
+      });
     }
 
     // Create reminder for next vet visit
     if (nextVisitDate) {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      // Updated to use object parameter format
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           UserID, Title, Message,
           NotificationType, RelatedEntityID,
           RelatedEntityType, Priority,
@@ -301,13 +323,13 @@ export async function PATCH(request: Request) {
           DATE_SUB(?, INTERVAL 1 WEEK)
         FROM ServiceDogs
         WHERE DogID = ?`,
-        [
+        values: [
           `Reminder: Vet visit scheduled for your service dog`,
           dogId,
           nextVisitDate,
           dogId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ success: true });

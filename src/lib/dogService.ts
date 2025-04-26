@@ -93,10 +93,20 @@ class DogService {
    */
   static async registerDog(dogData: Omit<Dog, 'DogID'>): Promise<{ dogId: number }> {
     try {
-      const response = await ApiService.post<DogServiceResponse<{ dogId: number }>>('dogs', dogData);
+      type ApiResponse = {
+        success: boolean;
+        message?: string;
+        data: {
+          id: number;
+        };
+      };
       
-      if (response.success && response.data?.dogId) {
-        return { dogId: response.data.dogId };
+      const response = await ApiService.post<ApiResponse>('dogs', dogData);
+      
+      if (response.success && response.data) {
+        // Type assertion to handle the response structure
+        const responseData = response.data as { id: number };
+        return { dogId: responseData.id };
       }
       
       throw new Error(response.message || 'Failed to register dog');

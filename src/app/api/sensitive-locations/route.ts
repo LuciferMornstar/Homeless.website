@@ -3,11 +3,20 @@ import { executeQuery } from '@/lib/db';
 import { headers } from 'next/headers';
 import type { SensitiveLocation } from '@/types/models';
 
+interface User {
+  IsHiddenMember: boolean;
+}
+
+interface QueryResult {
+  insertId?: number;
+  affectedRows?: number;
+}
+
 async function checkUserAccess(userId: string): Promise<boolean> {
-  const user = await executeQuery<any[]>(
-    'SELECT IsHiddenMember FROM Users WHERE UserID = ? AND IsActive = TRUE',
-    [userId]
-  );
+  const user = await executeQuery<User[]>({
+    query: 'SELECT IsHiddenMember FROM Users WHERE UserID = ? AND IsActive = TRUE',
+    values: [userId]
+  });
   return user.length > 0 && user[0].IsHiddenMember;
 }
 
@@ -50,7 +59,12 @@ export async function GET(request: Request) {
       query += ' ORDER BY distance';
     }
 
-    const locations = await executeQuery<SensitiveLocation[]>(query, params);
+    // Updated to use object parameter format
+    const locations = await executeQuery<SensitiveLocation[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(locations);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch locations' }, { status: 500 });
@@ -76,8 +90,9 @@ export async function POST(request: Request) {
       ...locationData
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO SensitiveLocations (
+    // Updated to use object parameter format
+    const result = await executeQuery<QueryResult>({
+      query: `INSERT INTO SensitiveLocations (
         LocationType, Description,
         Latitude, Longitude,
         SafetyWarnings,
@@ -85,7 +100,7 @@ export async function POST(request: Request) {
         DateAdded,
         IsVerified
       ) VALUES (?, ?, ?, ?, ?, ?, NOW(), FALSE)`,
-      [
+      values: [
         locationType,
         description,
         latitude,
@@ -93,7 +108,7 @@ export async function POST(request: Request) {
         safetyWarnings,
         userId
       ]
-    );
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -113,17 +128,19 @@ export async function PUT(request: Request) {
     }
 
     // Check if user is the one who added this location
-    const location = await executeQuery<any[]>(
-      'SELECT AddedByUserID FROM SensitiveLocations WHERE LocationID = ?',
-      [locationId]
-    );
+    // Updated to use object parameter format
+    const location = await executeQuery<{AddedByUserID: string}[]>({
+      query: 'SELECT AddedByUserID FROM SensitiveLocations WHERE LocationID = ?',
+      values: [locationId]
+    });
 
     if (location.length === 0 || location[0].AddedByUserID !== userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const result = await executeQuery(
-      `UPDATE SensitiveLocations SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE SensitiveLocations SET
         LocationType = ?,
         Description = ?,
         Latitude = ?,
@@ -132,7 +149,7 @@ export async function PUT(request: Request) {
         LastUpdated = NOW(),
         IsVerified = FALSE
       WHERE LocationID = ?`,
-      [
+      values: [
         updateData.locationType,
         updateData.description,
         updateData.latitude,
@@ -140,7 +157,7 @@ export async function PUT(request: Request) {
         updateData.safetyWarnings,
         locationId
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -160,19 +177,21 @@ export async function DELETE(request: Request) {
 
   try {
     // Check if user is the one who added this location
-    const location = await executeQuery<any[]>(
-      'SELECT AddedByUserID FROM SensitiveLocations WHERE LocationID = ?',
-      [locationId]
-    );
+    // Updated to use object parameter format
+    const location = await executeQuery<{AddedByUserID: string}[]>({
+      query: 'SELECT AddedByUserID FROM SensitiveLocations WHERE LocationID = ?',
+      values: [locationId]
+    });
 
     if (location.length === 0 || location[0].AddedByUserID !== userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await executeQuery(
-      'DELETE FROM SensitiveLocations WHERE LocationID = ?',
-      [locationId]
-    );
+    // Updated to use object parameter format
+    await executeQuery({
+      query: 'DELETE FROM SensitiveLocations WHERE LocationID = ?',
+      values: [locationId]
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

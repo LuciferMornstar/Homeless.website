@@ -41,8 +41,11 @@ const VolunteerPageContent = () => {
   });
 
   // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const type = (e.target as HTMLInputElement).type;
+    const checked = (e.target as HTMLInputElement).checked;
+    
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value
@@ -50,7 +53,7 @@ const VolunteerPageContent = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // In a real implementation, this would submit the form data to a server
     alert('Thank you for your interest in volunteering! We will contact you soon.');
@@ -306,13 +309,15 @@ const VolunteerPageContent = () => {
                 </div>
                 <div className="col-12 mb-3">
                   <label htmlFor="message">Why would you like to volunteer with us? (Optional)</label>
-                  <textarea 
-                    id="message" 
-                    name="message" 
-                    rows="4"
+                  <textarea
+                    name="message"
+                    className="border-gray-300 border rounded-md p-2 w-full"
+                    rows={4}
+                    placeholder="Please let us know about your relevant experience and why you're interested in volunteering"
                     value={formData.message}
                     onChange={handleInputChange}
-                  ></textarea>
+                    required
+                  />
                 </div>
                 <div className="col-12 mb-3">
                   <input 

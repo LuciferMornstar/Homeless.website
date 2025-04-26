@@ -46,7 +46,12 @@ export async function GET(request: Request) {
       query += ' ORDER BY Name';
     }
 
-    const services = await executeQuery<AddictionService[]>(query, params);
+    // Updated to use object parameter format
+    const services = await executeQuery<AddictionService[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(services);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch addiction services' }, { status: 500 });
@@ -78,8 +83,9 @@ export async function POST(request: Request) {
       longitude
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO AddictionServices (
+    // Updated to use object parameter format
+    const result = await executeQuery<any>({
+      query: `INSERT INTO AddictionServices (
         Name, ServiceType, Description,
         Address, City, County, PostCode,
         Phone, Email, Website,
@@ -89,7 +95,7 @@ export async function POST(request: Request) {
         WaitingListTimeWeeks, Latitude, Longitude,
         DateAdded, IsVerified
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), FALSE)`,
-      [
+      values: [
         name, serviceType, description,
         address, city, county, postCode,
         phone, email, website,
@@ -98,12 +104,12 @@ export async function POST(request: Request) {
         acceptsSelfReferrals, hasDualDiagnosisSupport,
         waitingListTimeWeeks, latitude, longitude
       ]
-    );
+    });
 
     // Create notification for NHS services
     if (isNHSProvided) {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           Title, Message, NotificationType,
           RelatedEntityID, RelatedEntityType,
           Priority, DateCreated
@@ -112,8 +118,8 @@ export async function POST(request: Request) {
           ?, 'Service Update', ?, 'Addiction',
           'Medium', NOW()
         )`,
-        [`New NHS addiction service available: ${name}`, result.insertId]
-      );
+        values: [`New NHS addiction service available: ${name}`, result.insertId]
+      });
     }
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
@@ -127,8 +133,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { serviceId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE AddictionServices SET
+    // Updated to use object parameter format
+    const result = await executeQuery({
+      query: `UPDATE AddictionServices SET
         Name = ?,
         ServiceType = ?,
         Description = ?,
@@ -151,7 +158,7 @@ export async function PUT(request: Request) {
         LastUpdated = NOW(),
         IsVerified = FALSE
       WHERE ServiceID = ?`,
-      [
+      values: [
         updateData.name,
         updateData.serviceType,
         updateData.description,
@@ -173,13 +180,13 @@ export async function PUT(request: Request) {
         updateData.longitude,
         serviceId
       ]
-    );
+    });
 
     // Notify of significant waiting time changes
     if (updateData.previousWaitingTime &&
         Math.abs(updateData.waitingListTimeWeeks - updateData.previousWaitingTime) > 2) {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           Title, Message, NotificationType,
           RelatedEntityID, RelatedEntityType,
           Priority, DateCreated
@@ -188,11 +195,11 @@ export async function PUT(request: Request) {
           ?, 'Service Update', ?, 'Addiction',
           'Medium', NOW()
         )`,
-        [
+        values: [
           `Waiting time for ${updateData.name} has changed from ${updateData.previousWaitingTime} to ${updateData.waitingListTimeWeeks} weeks`,
           serviceId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ success: true });

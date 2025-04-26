@@ -1,6 +1,21 @@
 import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 
+// Define interface for employment opportunities
+interface EmploymentOpportunity {
+  JobID: number;
+  OrganizationID: string;
+  Title: string;
+  Description: string;
+  Type: 'Job' | 'Training' | 'Volunteer';
+  Location: string;
+  ContactInformation: string;
+  ApplicationProcess: string;
+  DatePosted: Date;
+  ExpiryDate: Date;
+  IsVerified: boolean;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get('type'); // 'Job', 'Training', 'Volunteer'
@@ -28,7 +43,12 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY DatePosted DESC';
 
-    const opportunities = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const opportunities = await executeQuery<EmploymentOpportunity[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(opportunities);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch opportunities' }, { status: 500 });
@@ -49,14 +69,15 @@ export async function POST(request: Request) {
       expiryDate
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO EmploymentOpportunities (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO EmploymentOpportunities (
         OrganizationID, Title, Description,
         Type, Location, ContactInformation,
         ApplicationProcess, DatePosted,
         ExpiryDate, IsVerified
       ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, FALSE)`,
-      [
+      values: [
         organizationId,
         title,
         description,
@@ -66,11 +87,11 @@ export async function POST(request: Request) {
         applicationProcess,
         expiryDate
       ]
-    );
+    });
 
     // Create notification for new opportunities
-    await executeQuery(
-      `INSERT INTO RealTimeNotifications (
+    await executeQuery({
+      query: `INSERT INTO RealTimeNotifications (
         Title, Message, NotificationType,
         RelatedEntityID, RelatedEntityType,
         Priority, DateCreated
@@ -79,11 +100,11 @@ export async function POST(request: Request) {
         ?, 'Employment', ?, 'Job',
         'Medium', NOW()
       )`,
-      [
+      values: [
         `New ${type.toLowerCase()} opportunity: ${title} in ${location}`,
         result.insertId
       ]
-    );
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -96,8 +117,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { opportunityId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE EmploymentOpportunities SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE EmploymentOpportunities SET
         Title = ?,
         Description = ?,
         Type = ?,
@@ -107,7 +129,7 @@ export async function PUT(request: Request) {
         ExpiryDate = ?,
         IsVerified = FALSE
       WHERE JobID = ?`,
-      [
+      values: [
         updateData.title,
         updateData.description,
         updateData.type,
@@ -117,7 +139,7 @@ export async function PUT(request: Request) {
         updateData.expiryDate,
         opportunityId
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -132,19 +154,21 @@ export async function DELETE(request: Request) {
 
   try {
     // Verify the organization owns this opportunity
-    const opportunity = await executeQuery(
-      'SELECT OrganizationID FROM EmploymentOpportunities WHERE JobID = ?',
-      [opportunityId]
-    );
+    // Updated to use object parameter format
+    const opportunity = await executeQuery<{OrganizationID: string}[]>({
+      query: 'SELECT OrganizationID FROM EmploymentOpportunities WHERE JobID = ?',
+      values: [opportunityId]
+    });
 
     if (opportunity.length === 0 || opportunity[0].OrganizationID !== organizationId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await executeQuery(
-      'DELETE FROM EmploymentOpportunities WHERE JobID = ?',
-      [opportunityId]
-    );
+    // Updated to use object parameter format
+    await executeQuery({
+      query: 'DELETE FROM EmploymentOpportunities WHERE JobID = ?',
+      values: [opportunityId]
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

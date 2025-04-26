@@ -2,6 +2,25 @@ import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 import { headers } from 'next/headers';
 
+// Define document type for type safety
+interface UserDocument {
+  DocumentID: number;
+  UserID: string;
+  FileName: string;
+  FileType: string;
+  FileSize: number;
+  StoragePath: string;
+  Category: string;
+  Description?: string;
+  UploadDate: Date;
+  ExpiryDate?: Date;
+  IsConfidential: boolean;
+  UploadIPAddress: string;
+  LastAccessDate: Date;
+  IsExpired?: boolean;
+  DocumentData?: Buffer;
+}
+
 // Ensure GDPR compliance with document handling
 const ALLOWED_DOCUMENT_TYPES = [
   'application/pdf',
@@ -49,10 +68,14 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY d.UploadDate DESC';
 
-    const documents = await executeQuery(query, params);
+    // Updated to use object parameter format with proper typing
+    const documents = await executeQuery<UserDocument[]>({
+      query,
+      values: params
+    });
 
     // Filter out sensitive information before sending
-    const sanitizedDocs = documents.map((doc: any) => ({
+    const sanitizedDocs = documents.map((doc) => ({
       ...doc,
       StoragePath: undefined, // Don't expose actual storage path
       DocumentData: undefined // Don't send binary data in list view
@@ -93,15 +116,16 @@ export async function POST(request: Request) {
     const timestamp = Date.now();
     const storagePath = `user_${userId}/${timestamp}_${file.name}`;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO UserDocumentStorage (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO UserDocumentStorage (
         UserID, FileName, FileType,
         FileSize, StoragePath, Category,
         Description, UploadDate,
         ExpiryDate, IsConfidential,
         UploadIPAddress, LastAccessDate
       ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, NOW())`,
-      [
+      values: [
         userId,
         file.name,
         file.type,
@@ -113,25 +137,25 @@ export async function POST(request: Request) {
         isConfidential,
         headers().get('x-forwarded-for') || 'unknown'
       ]
-    );
+    });
 
     // Log document upload for GDPR compliance
-    await executeQuery(
-      `INSERT INTO DocumentAccessLog (
+    await executeQuery({
+      query: `INSERT INTO DocumentAccessLog (
         DocumentID, UserID, AccessType,
         AccessDate, IPAddress
       ) VALUES (?, ?, 'Upload', NOW(), ?)`,
-      [
+      values: [
         result.insertId,
         userId,
         headers().get('x-forwarded-for') || 'unknown'
       ]
-    );
+    });
 
     // If this is an important document, create a notification
     if (category === 'ID' || category === 'Legal' || category === 'Medical') {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           UserID, Title, Message,
           NotificationType, RelatedEntityID,
           RelatedEntityType, Priority,
@@ -139,12 +163,12 @@ export async function POST(request: Request) {
         ) VALUES (?, 'Document Uploaded', ?,
           'Document', ?, 'Document',
           'Medium', NOW())`,
-        [
+        values: [
           userId,
           `Important ${category} document uploaded: ${file.name}`,
           result.insertId
         ]
-      );
+      });
     }
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
@@ -158,45 +182,50 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { documentId, userId, ...updateData } = body;
 
+    // Define DocumentOwner interface for type safety
+    interface DocumentOwner {
+      UserID: string;
+    }
+
     // Verify user owns the document
-    const doc = await executeQuery(
-      'SELECT UserID FROM UserDocumentStorage WHERE DocumentID = ?',
-      [documentId]
-    );
+    const doc = await executeQuery<DocumentOwner[]>({
+      query: 'SELECT UserID FROM UserDocumentStorage WHERE DocumentID = ?',
+      values: [documentId]
+    });
 
     if (doc.length === 0 || doc[0].UserID !== userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const result = await executeQuery(
-      `UPDATE UserDocumentStorage SET
+    await executeQuery({
+      query: `UPDATE UserDocumentStorage SET
         Category = ?,
         Description = ?,
         ExpiryDate = ?,
         IsConfidential = ?,
         LastAccessDate = NOW()
       WHERE DocumentID = ?`,
-      [
+      values: [
         updateData.category,
         updateData.description,
         updateData.expiryDate,
         updateData.isConfidential,
         documentId
       ]
-    );
+    });
 
     // Log document update
-    await executeQuery(
-      `INSERT INTO DocumentAccessLog (
+    await executeQuery({
+      query: `INSERT INTO DocumentAccessLog (
         DocumentID, UserID, AccessType,
         AccessDate, IPAddress
       ) VALUES (?, ?, 'Update', NOW(), ?)`,
-      [
+      values: [
         documentId,
         userId,
         headers().get('x-forwarded-for') || 'unknown'
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -210,38 +239,43 @@ export async function DELETE(request: Request) {
   const userId = searchParams.get('userId');
 
   try {
+    // Define DocumentOwner interface for type safety
+    interface DocumentOwner {
+      UserID: string;
+    }
+
     // Verify user owns the document
-    const doc = await executeQuery(
-      'SELECT UserID FROM UserDocumentStorage WHERE DocumentID = ?',
-      [documentId]
-    );
+    const doc = await executeQuery<DocumentOwner[]>({
+      query: 'SELECT UserID FROM UserDocumentStorage WHERE DocumentID = ?',
+      values: [documentId]
+    });
 
     if (doc.length === 0 || doc[0].UserID !== userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Log deletion for GDPR compliance
-    await executeQuery(
-      `INSERT INTO DocumentAccessLog (
+    await executeQuery({
+      query: `INSERT INTO DocumentAccessLog (
         DocumentID, UserID, AccessType,
         AccessDate, IPAddress
       ) VALUES (?, ?, 'Delete', NOW(), ?)`,
-      [
+      values: [
         documentId,
         userId,
         headers().get('x-forwarded-for') || 'unknown'
       ]
-    );
+    });
 
     // Soft delete the document
-    await executeQuery(
-      `UPDATE UserDocumentStorage SET
+    await executeQuery({
+      query: `UPDATE UserDocumentStorage SET
         IsDeleted = TRUE,
         DeletedDate = NOW(),
         DeletedBy = ?
       WHERE DocumentID = ?`,
-      [userId, documentId]
-    );
+      values: [userId, documentId]
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

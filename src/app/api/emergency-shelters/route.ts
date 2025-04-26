@@ -39,7 +39,12 @@ export async function GET(request: Request) {
       query += ' ORDER BY distance';
     }
 
-    const shelters = await executeQuery<EmergencyShelter[]>(query, params);
+    // Updated to use object parameter format
+    const shelters = await executeQuery<EmergencyShelter[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(shelters);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch emergency shelters' }, { status: 500 });
@@ -63,8 +68,9 @@ export async function POST(request: Request) {
       ...shelterData
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO EmergencyShelters (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO EmergencyShelters (
         Name, Address, CurrentAvailability,
         AcceptsPets, DogFriendly, ServicesOffered,
         AccessibilityFeatures, RequiresReferral,
@@ -72,7 +78,7 @@ export async function POST(request: Request) {
         DateAdded, IsVerified,
         LastAvailabilityUpdate
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), FALSE, NOW())`,
-      [
+      values: [
         name,
         address,
         currentAvailability,
@@ -84,16 +90,16 @@ export async function POST(request: Request) {
         latitude,
         longitude
       ]
-    );
+    });
 
     // Log the real-time update
-    await executeQuery(
-      `INSERT INTO RealTimeShelterUpdates (
+    await executeQuery({
+      query: `INSERT INTO RealTimeShelterUpdates (
         ShelterID, PreviousAvailability, NewAvailability,
         UpdateReason, UpdateTime, IsAutomated
       ) VALUES (?, 0, ?, 'Initial availability', NOW(), TRUE)`,
-      [result.insertId, currentAvailability]
-    );
+      values: [result.insertId, currentAvailability]
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -107,8 +113,9 @@ export async function PUT(request: Request) {
     const { shelterId, previousAvailability, ...updateData } = body;
 
     // Update shelter details
-    const result = await executeQuery(
-      `UPDATE EmergencyShelters SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE EmergencyShelters SET
         Name = ?,
         Address = ?,
         CurrentAvailability = ?,
@@ -122,7 +129,7 @@ export async function PUT(request: Request) {
         LastUpdated = NOW(),
         LastAvailabilityUpdate = NOW()
       WHERE ShelterID = ?`,
-      [
+      values: [
         updateData.name,
         updateData.address,
         updateData.currentAvailability,
@@ -135,17 +142,17 @@ export async function PUT(request: Request) {
         updateData.longitude,
         shelterId
       ]
-    );
+    });
 
     // Log availability change if it changed
     if (previousAvailability !== updateData.currentAvailability) {
-      await executeQuery(
-        `INSERT INTO RealTimeShelterUpdates (
+      await executeQuery({
+        query: `INSERT INTO RealTimeShelterUpdates (
           ShelterID, PreviousAvailability, NewAvailability,
           UpdateReason, UpdateTime, IsAutomated
         ) VALUES (?, ?, ?, 'Manual update', NOW(), FALSE)`,
-        [shelterId, previousAvailability, updateData.currentAvailability]
-      );
+        values: [shelterId, previousAvailability, updateData.currentAvailability]
+      });
     }
 
     return NextResponse.json({ success: true });

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query, execute } from '@/lib/db';
+import { query, executeQuery } from '@/lib/db';
 import { RowDataPacket } from 'mysql2';
 
 interface LetterTemplate extends RowDataPacket {
@@ -9,6 +9,12 @@ interface LetterTemplate extends RowDataPacket {
   category: string;
   tags?: string;
   lastModified: Date;
+}
+
+// Define the MySQL result interface
+interface MySQLInsertResult {
+  insertId: number;
+  affectedRows: number;
 }
 
 export async function GET() {
@@ -42,10 +48,11 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const result = await execute(
-      'INSERT INTO LetterTemplates (title, content, category, tags) VALUES (?, ?, ?, ?)',
-      [title, content, category, tags]
-    );
+    // Updated to use executeQuery with proper typing
+    const result = await executeQuery<MySQLInsertResult>({
+      query: 'INSERT INTO LetterTemplates (title, content, category, tags) VALUES (?, ?, ?, ?)',
+      values: [title, content, category, tags]
+    });
 
     return NextResponse.json({
       success: true,

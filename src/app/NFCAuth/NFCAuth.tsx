@@ -45,6 +45,11 @@ const NfcAuthApp: React.FC = () => {
         setLoading(true);
         setError(null);
         try {
+            if (!NDEFReader) {
+                setError("NFC is not supported on this device.");
+                setLoading(false);
+                return;
+            }
             const reader = new NDEFReader();
             await reader.scan();
             reader.onreading = async (event: INDEFReadingEvent) => {

@@ -1,4 +1,4 @@
-type ApiResponse<T> = { success: boolean; data?: T; error?: string };
+type ApiResponse<T> = { success: boolean; data?: T; error?: string; message?: string };
 
 const apiService = {
   async get<T>(path: string, queryParams?: Record<string, string | number | boolean>): Promise<ApiResponse<T>> {

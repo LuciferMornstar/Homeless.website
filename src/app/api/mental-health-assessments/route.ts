@@ -37,7 +37,12 @@ export async function GET(request: Request) {
 
     query += ' GROUP BY a.AssessmentID ORDER BY a.DateTaken DESC';
 
-    const assessments = await executeQuery<MentalHealthAssessment[]>(query, params);
+    // Updated to use object parameter format
+    const assessments = await executeQuery<MentalHealthAssessment[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(assessments);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch assessments' }, { status: 500 });
@@ -117,9 +122,11 @@ export async function POST(request: Request) {
 // Route for getting assessment questions
 export async function OPTIONS(request: Request) {
   try {
-    const questions = await executeQuery(
-      'SELECT * FROM MentalHealthQuestions WHERE IsActive = TRUE ORDER BY QuestionOrder'
-    );
+    // Updated to use object parameter format
+    const questions = await executeQuery({
+      query: 'SELECT * FROM MentalHealthQuestions WHERE IsActive = TRUE ORDER BY QuestionOrder'
+    });
+    
     return NextResponse.json(questions);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch questions' }, { status: 500 });

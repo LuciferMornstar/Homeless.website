@@ -15,7 +15,12 @@ export async function GET(request: Request) {
       params.push(userId);
     }
 
-    const dogs = await executeQuery<ServiceDog[]>(query, params);
+    // Updated to use object parameter format
+    const dogs = await executeQuery<ServiceDog[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(dogs);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch dogs' }, { status: 500 });
@@ -35,13 +40,14 @@ export async function POST(request: Request) {
       ...dogData
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO Dogs (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number, affectedRows: number}>({
+      query: `INSERT INTO Dogs (
         UserID, Name, Breed, 
         IsServiceDog, ServiceDogType, 
         ServiceDogTrainingLevel, DateAdded
       ) VALUES (?, ?, ?, ?, ?, ?, NOW())`,
-      [
+      values: [
         userId,
         name,
         breed,
@@ -49,16 +55,16 @@ export async function POST(request: Request) {
         serviceDogType,
         serviceDogTrainingLevel
       ]
-    );
+    });
 
     // If this is a service dog, add to certification tracking
     if (isServiceDog) {
-      await executeQuery(
-        `INSERT INTO ServiceDogWelfareConcerns (
+      await executeQuery({
+        query: `INSERT INTO ServiceDogWelfareConcerns (
           DogID, Status, DateReported
         ) VALUES (?, 'New', NOW())`,
-        [result.insertId]
-      );
+        values: [result.insertId]
+      });
     }
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
@@ -72,8 +78,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { dogId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE Dogs SET 
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE Dogs SET 
         Name = ?, 
         Breed = ?,
         IsServiceDog = ?,
@@ -81,7 +88,7 @@ export async function PUT(request: Request) {
         ServiceDogTrainingLevel = ?,
         LastUpdated = NOW()
       WHERE DogID = ?`,
-      [
+      values: [
         updateData.name,
         updateData.breed,
         updateData.isServiceDog,
@@ -89,7 +96,7 @@ export async function PUT(request: Request) {
         updateData.serviceDogTrainingLevel,
         dogId
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

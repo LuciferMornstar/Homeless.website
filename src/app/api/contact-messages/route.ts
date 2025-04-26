@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 
-const CONTACT_EMAILS = {
+// Define the allowed category types to improve type safety
+type ContactCategory = 'General' | 'Help' | 'Dogs' | 'Volunteer' | string;
+
+const CONTACT_EMAILS: Record<string, string> = {
   'General': 'info@homeless.website',
   'Help': 'helpme@homeless.website',
   'Dogs': 'dogs@homeless.website',
@@ -36,7 +39,12 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY DateSent DESC';
 
-    const messages = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const messages = await executeQuery({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(messages);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch messages' }, { status: 500 });
@@ -51,7 +59,7 @@ export async function POST(request: Request) {
       email,
       subject,
       messageContent,
-      category = 'General Inquiry',
+      category = 'General Inquiry' as ContactCategory,
       urgency = 'Medium',
       contactNumber = CONTACT_PHONE,
       preferredContactMethod = 'Email',
@@ -66,14 +74,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await executeQuery(
-      `INSERT INTO ContactMessages (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number}>({
+      query: `INSERT INTO ContactMessages (
         Name, Email, Subject, MessageContent,
         Category, Urgency, ContactNumber,
         PreferredContactMethod, BestTimeToContact,
         DateSent
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
-      [
+      values: [
         name,
         email,
         subject,
@@ -84,25 +93,25 @@ export async function POST(request: Request) {
         preferredContactMethod,
         bestTimeToContact
       ]
-    );
+    });
 
     // Create notification for urgent messages
     if (urgency === 'High' || urgency === 'Emergency') {
-      await executeQuery(
-        `INSERT INTO RealTimeNotifications (
+      await executeQuery({
+        query: `INSERT INTO RealTimeNotifications (
           Title, Message, NotificationType,
           Priority, DateCreated
         ) VALUES (?, ?, 'Contact', ?, NOW())`,
-        [
+        values: [
           `Urgent Contact Message: ${subject || category}`,
           `New urgent message from ${name}`,
           urgency === 'Emergency' ? 'Critical' : 'High'
         ]
-      );
+      });
     }
 
     // Determine which email to route to based on category
-    const routingEmail = CONTACT_EMAILS[category] || CONTACT_EMAILS['General'];
+    const routingEmail = CONTACT_EMAILS[category as string] || CONTACT_EMAILS['General'];
 
     // Return success with routing information
     return NextResponse.json({
@@ -120,22 +129,22 @@ export async function PUT(request: Request) {
     const { messageId, isRead, responseContent } = body;
 
     if (responseContent) {
-      const result = await executeQuery(
-        `UPDATE ContactMessages SET
+      await executeQuery({
+        query: `UPDATE ContactMessages SET
           IsRead = TRUE,
           ResponseSent = TRUE,
           ResponseContent = ?,
           ResponseDate = NOW()
         WHERE MessageID = ?`,
-        [responseContent, messageId]
-      );
+        values: [responseContent, messageId]
+      });
     } else {
-      const result = await executeQuery(
-        `UPDATE ContactMessages SET
+      await executeQuery({
+        query: `UPDATE ContactMessages SET
           IsRead = ?
         WHERE MessageID = ?`,
-        [isRead, messageId]
-      );
+        values: [isRead, messageId]
+      });
     }
 
     return NextResponse.json({ success: true });

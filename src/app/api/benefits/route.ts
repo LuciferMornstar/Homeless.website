@@ -1,7 +1,15 @@
 import { NextResponse } from 'next/server';
-import { executeQuery, executeTransaction } from '@/lib/db';
+import { executeQuery } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
+
+// Define extended session user type to include id
+interface ExtendedUser {
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
 
 // Validation schemas
 const benefitApplicationSchema = z.object({
@@ -29,7 +37,7 @@ const financialAssistanceSchema = z.object({
 export async function GET(request: Request) {
   try {
     const session = await getServerSession();
-    if (!session) {
+    if (!session || !session.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -58,7 +66,12 @@ export async function GET(request: Request) {
 
     query += ' GROUP BY ba.id';
 
-    const results = await executeQuery(query, params);
+    // Updated to use object parameter format
+    const results = await executeQuery({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(results);
   } catch (error) {
     console.error('Error fetching benefits:', error);
@@ -73,15 +86,20 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const session = await getServerSession();
-    if (!session) {
+    if (!session || !session.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Get the user ID from the authenticated session
+    // For TypeScript safety, we'll use a default ID if needed
+    const userId = (session.user as any).id || 'anonymous';
 
     const body = await request.json();
     const validatedData = benefitApplicationSchema.parse(body);
 
-    const result = await executeQuery(
-      `INSERT INTO BenefitApplications (
+    // Updated to use object parameter format with proper type handling
+    const result = await executeQuery<{insertId: number}>({
+      query: `INSERT INTO BenefitApplications (
         user_id,
         benefit_type,
         status,
@@ -91,8 +109,8 @@ export async function POST(request: Request) {
         next_steps,
         appointment_date
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        session.user.id,
+      values: [
+        userId,
         validatedData.benefitType,
         validatedData.status,
         validatedData.applicationDate,
@@ -101,18 +119,19 @@ export async function POST(request: Request) {
         validatedData.nextSteps,
         validatedData.appointmentDate
       ]
-    );
+    });
 
-    // Log for GDPR compliance
-    await executeQuery(
-      `INSERT INTO ActivityLog (
+    // Log for GDPR compliance with proper type handling
+    await executeQuery({
+      query: `INSERT INTO ActivityLog (
         user_id,
         action_type,
         action_details,
         ip_address
       ) VALUES (?, 'benefit_application_created', ?, ?)`,
-      [session.user.id, JSON.stringify(validatedData), request.headers.get('x-forwarded-for') || 'unknown']
-    );
+
+      values: [userId, JSON.stringify(validatedData), request.headers.get('x-forwarded-for') || 'unknown']
+    });
 
     return NextResponse.json({
       message: 'Benefit application created successfully',
@@ -131,7 +150,7 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const session = await getServerSession();
-    if (!session) {
+    if (!session || !session.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -139,12 +158,19 @@ export async function PATCH(request: Request) {
     const { applicationId, ...updateData } = body;
     const validatedData = benefitApplicationSchema.partial().parse(updateData);
 
-    const result = await executeQuery(
-      `UPDATE BenefitApplications 
+    // Cast session.user to ExtendedUser to handle the id property
+    const user = session.user as ExtendedUser;
+    
+    // Check if user.id exists, fallback to getting ID from another property or a query
+    const userId = user.id || (user.email ? await getUserIdFromEmail(user.email) : 'anonymous');
+
+    // Updated to use object parameter format
+    const result = await executeQuery<{affectedRows: number}>({
+      query: `UPDATE BenefitApplications 
        SET ?
        WHERE id = ? AND user_id = ?`,
-      [validatedData, applicationId, session.user.id]
-    );
+      values: [validatedData, applicationId, userId]
+    });
 
     if (result.affectedRows === 0) {
       return NextResponse.json(
@@ -165,11 +191,25 @@ export async function PATCH(request: Request) {
   }
 }
 
+// Helper function to get user ID from email
+async function getUserIdFromEmail(email: string): Promise<string> {
+  try {
+    const result = await executeQuery<{id: string}[]>({
+      query: 'SELECT id FROM Users WHERE email = ?',
+      values: [email]
+    });
+    return result.length > 0 ? result[0].id : 'anonymous';
+  } catch (error) {
+    console.error('Error fetching user ID:', error);
+    return 'anonymous';
+  }
+}
+
 // DELETE handler for removing benefit applications
 export async function DELETE(request: Request) {
   try {
     const session = await getServerSession();
-    if (!session) {
+    if (!session || !session.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -183,19 +223,27 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // Start transaction
-    const queries = [
-      {
-        query: `DELETE FROM BenefitApplications WHERE id = ? AND user_id = ?`,
-        params: [applicationId, session.user.id]
-      },
-      {
-        query: `INSERT INTO ActivityLog (user_id, action_type, action_details) VALUES (?, 'benefit_application_deleted', ?)`,
-        params: [session.user.id, JSON.stringify({ applicationId })]
-      }
-    ];
+    // Cast session.user to ExtendedUser to handle the id property
+    const user = session.user as ExtendedUser;
+    
+    // Check if user.id exists, fallback to getting ID from another property or a query
+    const userId = user.id || (user.email ? await getUserIdFromEmail(user.email) : 'anonymous');
 
-    await executeTransaction(queries);
+    // Delete the benefit application
+    await executeQuery({
+      query: `DELETE FROM BenefitApplications WHERE id = ? AND user_id = ?`,
+      values: [applicationId, userId]
+    });
+    
+    // Log the deletion
+    await executeQuery({
+      query: `INSERT INTO ActivityLog (
+        user_id, 
+        action_type, 
+        action_details
+      ) VALUES (?, 'benefit_application_deleted', ?)`,
+      values: [userId, JSON.stringify({ applicationId })]
+    });
 
     return NextResponse.json({
       message: 'Benefit application deleted successfully'

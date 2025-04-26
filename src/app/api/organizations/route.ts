@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query, execute } from '@/lib/db';
+import { query, executeQuery } from '@/lib/db';
 import { RowDataPacket } from 'mysql2';
 
 interface Organization extends RowDataPacket {
@@ -19,6 +19,12 @@ interface Organization extends RowDataPacket {
   longitude?: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+// Define the MySQL result interface
+interface MySQLInsertResult {
+  insertId: number;
+  affectedRows: number;
 }
 
 export async function GET(request: NextRequest) {
@@ -53,6 +59,7 @@ export async function GET(request: NextRequest) {
 
     sql += ' ORDER BY name ASC';
 
+    // Using the existing query function which already works
     const organizations = await query<Organization[]>(sql, params);
 
     return NextResponse.json({
@@ -84,18 +91,19 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const result = await execute(
-      `INSERT INTO Organizations (
+    // Updated to use executeQuery with proper typing
+    const result = await executeQuery<MySQLInsertResult>({
+      query: `INSERT INTO Organizations (
         name, description, address, city, postcode,
         phone, email, website, services, openingHours,
         isVerified, latitude, longitude
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?, ?)`,
-      [
+      values: [
         name, description, address, city, postcode,
         phone, email, website, services, openingHours,
         latitude, longitude
       ]
-    );
+    });
 
     return NextResponse.json({
       success: true,

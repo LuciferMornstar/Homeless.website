@@ -61,7 +61,11 @@ export async function GET(request: NextRequest) {
 
     sql += ' ORDER BY city, name';
 
-    const shelters = await executeQuery<EmergencyShelter[]>(sql, params);
+    // Updated to use object parameter format
+    const shelters = await executeQuery<EmergencyShelter[]>({
+      query: sql,
+      values: params
+    });
 
     return NextResponse.json({ 
       success: true, 
@@ -102,6 +106,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
+    // Updated to use object parameter format for executeTransaction
     const result = await executeTransaction<ResultSetHeader>([{
       query: `INSERT INTO EmergencyShelters (
         name, type, address, city, postcode,
@@ -111,7 +116,7 @@ export async function POST(request: NextRequest) {
         requirements, openingHours, isVerified,
         latitude, longitude
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?, ?)`,
-      params: [
+      values: [
         name, type, address, city, postcode,
         phone, email, website, capacity,
         acceptsPets, acceptsFamilies, gender,

@@ -29,7 +29,12 @@ export async function GET(request: Request) {
       query += ' ORDER BY distance';
     }
 
-    const resources = await executeQuery<DogFriendlyResource[]>(query, params);
+    // Updated to use object parameter format
+    const resources = await executeQuery<DogFriendlyResource[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(resources);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch dog-friendly resources' }, { status: 500 });
@@ -54,15 +59,16 @@ export async function POST(request: Request) {
       ...resourceData
     } = body;
 
-    const result = await executeQuery<any>(
-      `INSERT INTO DogFriendlyResources (
+    // Updated to use object parameter format
+    const result = await executeQuery<{insertId: number}>({
+      query: `INSERT INTO DogFriendlyResources (
         Name, Description, ServicesOffered,
         Address, City, PostCode, Phone,
         DogSize, HasDogFacilities,
         Latitude, Longitude,
         DateAdded, IsVerified
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), FALSE)`,
-      [
+      values: [
         name,
         description,
         servicesOffered,
@@ -75,7 +81,7 @@ export async function POST(request: Request) {
         latitude,
         longitude
       ]
-    );
+    });
 
     return NextResponse.json({ id: result.insertId }, { status: 201 });
   } catch (error) {
@@ -88,8 +94,9 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { resourceId, ...updateData } = body;
 
-    const result = await executeQuery(
-      `UPDATE DogFriendlyResources SET
+    // Updated to use object parameter format
+    await executeQuery({
+      query: `UPDATE DogFriendlyResources SET
         Name = ?,
         Description = ?,
         ServicesOffered = ?,
@@ -103,7 +110,7 @@ export async function PUT(request: Request) {
         Longitude = ?,
         LastUpdated = NOW()
       WHERE DogFriendlyResourceID = ?`,
-      [
+      values: [
         updateData.name,
         updateData.description,
         updateData.servicesOffered,
@@ -117,7 +124,7 @@ export async function PUT(request: Request) {
         updateData.longitude,
         resourceId
       ]
-    );
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -3,12 +3,7 @@ import { Pool, PoolConnection, ResultSetHeader, OkPacket } from 'mysql2/promise'
 import { dbConfig } from './config';
 
 // Create a pool to manage connections
-let pool: Pool;
-
-// Initialize the pool if it hasn't been initialized yet
-if (typeof pool === 'undefined') {
-  pool = mysql.createPool(dbConfig);
-}
+let pool: Pool = mysql.createPool(dbConfig);
 
 /**
  * Execute a query with parameters and return the result
