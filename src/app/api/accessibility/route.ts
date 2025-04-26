@@ -33,7 +33,12 @@ export async function GET(request: Request) {
 
     query += ' ORDER BY at.Category, at.Name';
 
-    const settings = await executeQuery(query, params);
+    // Fix: Use the query object format instead of separate arguments
+    const settings = await executeQuery<any[]>({
+      query,
+      values: params
+    });
+    
     return NextResponse.json(settings);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch accessibility settings' }, { status: 500 });

@@ -8,6 +8,8 @@ import { faPhone, faEnvelope, faGlobe, faMapMarkerAlt, faDog, faWheelchair, faCl
 interface ServiceCardProps {
   title: string;
   description: string;
+  link?: string;
+  icon?: string;
   address?: string;
   city?: string;
   postCode?: string;
@@ -43,6 +45,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   detailsUrl,
   nhsFunded = false,
   emergencyService = false,
+  icon,
+  link,
 }) => {
   const fullAddress = [address, city, postCode].filter(Boolean).join(', ');
   
@@ -50,7 +54,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     <div className={`border rounded-lg overflow-hidden shadow-md bg-white transition-transform hover:shadow-lg ${emergencyService ? 'border-red-500' : ''}`}>
       <div className={`px-6 py-4 ${emergencyService ? 'bg-red-50' : ''}`}>
         <div className="flex justify-between items-start">
-          <h3 className="text-xl font-bold mb-2 text-gray-800">{title}</h3>
+          <div className="flex items-center">
+            {icon && <span className="text-2xl mr-2">{icon}</span>}
+            <h3 className="text-xl font-bold mb-2 text-gray-800">{title}</h3>
+          </div>
           
           <div className="flex space-x-1">
             {nhsFunded && (
@@ -145,10 +152,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         )}
       </div>
       
-      {detailsUrl && (
+      {(detailsUrl || link) && (
         <div className="px-6 py-3 bg-gray-50 border-t">
           <Link 
-            href={detailsUrl} 
+            href={detailsUrl || link || "#"} 
             className="text-red-700 hover:text-red-900 font-medium inline-flex items-center"
           >
             View Details

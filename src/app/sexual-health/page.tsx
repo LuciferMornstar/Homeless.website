@@ -17,6 +17,42 @@ interface QAItem {
   isApproved: boolean;
 }
 
+// Add missing interfaces
+interface Resource {
+  ResourceID: number;
+  Title: string;
+  URL?: string;
+  Description?: string;
+  ResourceType?: string;
+  Category?: string;
+}
+
+interface Organization {
+  OrganizationID: number;
+  Name: string;
+  Description?: string;
+  ServicesOffered?: string;
+  Phone?: string;
+  IsVerified?: boolean;
+}
+
+interface DogFriendlyResource {
+  DogFriendlyResourceID: number;
+  Name: string;
+  Description?: string;
+  Address?: string;
+  City?: string;
+  Notes?: string;
+}
+
+interface MentalHealthResource {
+  ResourceID: number;
+  Name: string;
+  Description?: string;
+  Phone?: string;
+  ServicesOffered?: string;
+}
+
 export default function SexualHealthPage() {
   // Dynamic resource and support lists
   const [resources, setResources] = useState<Resource[]>([]);

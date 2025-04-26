@@ -6,9 +6,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft, FaArrowRight, FaPaw, FaFileDownload, FaInfo, FaQuestionCircle } from 'react-icons/fa';
 
-export function ServiceDogCertificationPage() {
+export default function Page() {
   const [activeTab, setActiveTab] = useState('about');
-  const [showFAQ, setShowFAQ] = useState(null);
+  const [showFAQ, setShowFAQ] = useState<number | null>(null);
   
   return (
     <>
@@ -831,5 +831,3 @@ export function ServiceDogCertificationPage() {
     </>
   );
 }
-
-export default ServiceDogCertificationPage;

@@ -22,7 +22,8 @@ type CertificationsRecord = {
   [key: string]: CertificationData;
 };
 
-export function VerifyAssistanceDogPage() {
+// Change the main component export to follow Next.js Page conventions
+export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResult] = useState<CertificationData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -365,5 +366,3 @@ export function VerifyAssistanceDogPage() {
     </div>
   );
 }
-
-export default VerifyAssistanceDogPage;
