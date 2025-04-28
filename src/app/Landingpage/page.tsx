@@ -55,7 +55,7 @@ export default function LandingPage() {
             Connecting individuals and families experiencing or at risk of homelessness 
             with vital resources and support.
           </p>
-          <Link href="#needs-assessment" className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-6 rounded-lg transition transform hover:scale-105 shadow-md animate-pulse">
+          <Link href="/get-help" className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-6 rounded-lg transition transform hover:scale-105 shadow-md animate-pulse">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
             </svg>
@@ -71,15 +71,15 @@ export default function LandingPage() {
             Answer a few questions to help us connect you with the right resources.
           </p>
           <div className="flex justify-center">
-            <button 
-              onClick={startNeedsAssessment} 
+            <Link 
+              href="/mental-health-assessment" 
               className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-indigo-600 font-semibold py-3 px-6 rounded-lg border border-gray-200 transition transform hover:scale-105 shadow-md"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
               </svg>
               Start Assessment
-            </button>
+            </Link>
           </div>
           <div id="assessment-placeholder" className="mt-8 text-gray-700 text-center">
             <p className="text-md">The assessment will help us understand your specific needs and connect you with appropriate services for housing, mental health support, and other essential resources.</p>
@@ -156,12 +156,12 @@ export default function LandingPage() {
           <p className="text-gray-600 text-lg md:text-xl mb-6">
             Your contribution can make a difference in the lives of those experiencing homelessness. Help us connect more people with the resources they need.
           </p>
-          <a href="mailto:info@homeless.website" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition transform hover:scale-105 shadow-md">
+          <Link href="/donate" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition transform hover:scale-105 shadow-md">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
             </svg>
             Donate Now
-          </a>
+          </Link>
           <div className="mt-8 bg-white bg-opacity-50 rounded-xl p-6">
             <h3 className="text-xl font-medium text-gray-800 mb-3">Contact Information</h3>
             <p className="text-gray-700 mb-1">Email: <a href="mailto:info@homeless.website" className="text-blue-600 hover:underline">info@homeless.website</a></p>
