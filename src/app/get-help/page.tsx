@@ -126,7 +126,7 @@ export default function GetHelpPage() {
               title="Legal Rights" 
               description="Understanding your legal rights as a homeless person in the UK and how to access support."
               icon="⚖️"
-              link="/resources"
+              link="/legal-rights"
             />
           </div>
         </div>

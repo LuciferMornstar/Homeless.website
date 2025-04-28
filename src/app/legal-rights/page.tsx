@@ -248,6 +248,105 @@ export default function LegalRightsPage() {
           </div>
         </div>
       </div>
+
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-blue-800">Intentionally Homeless</h2>
+        
+        <p className="text-gray-700 mb-6">
+          If the council decides that you are intentionally homeless, it means they believe you deliberately did something 
+          (or failed to do something) that caused you to lose your home. This can affect the help you receive.
+        </p>
+        
+        <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
+          <li>Examples include not paying rent or mortgage when you could afford to</li>
+          <li>Leaving a home you could have stayed in</li>
+          <li>Being evicted due to antisocial behavior</li>
+        </ul>
+        
+        <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-600 mb-6">
+          <h3 className="text-xl font-semibold mb-2 text-blue-800">Challenging Intentional Homelessness Decisions</h3>
+          <ol className="list-decimal pl-6 text-gray-700 space-y-2">
+            <li>Request a review of the decision within 21 days</li>
+            <li>Provide evidence that you did not deliberately cause your homelessness</li>
+            <li>Seek legal advice to strengthen your case</li>
+          </ol>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <div className="mr-4">
+            <FontAwesomeIcon icon={faHandshake} className="text-4xl text-blue-600" />
+          </div>
+          <div>
+            <p className="text-gray-700 mb-4">
+              <strong>Need help with your review?</strong> Our letter templates can help you draft an effective 
+              review request letter to challenge council decisions.
+            </p>
+            <Link 
+              href="/lettermaker" 
+              className="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition duration-300"
+            >
+              Create Review Request Letter
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-blue-800">Not Wanting a Home but Wanting to be Part of Society</h2>
+        
+        <p className="text-gray-700 mb-6">
+          Some individuals may choose not to have a permanent home but still wish to be part of society. It's important to 
+          understand your rights and the support available to you in this situation.
+        </p>
+        
+        <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
+          <li>You have the right to access healthcare and other essential services</li>
+          <li>You can still receive support for mental health and wellbeing</li>
+          <li>There are organizations that provide resources for those who choose a nomadic lifestyle</li>
+        </ul>
+        
+        <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-600 mb-6">
+          <h3 className="text-xl font-semibold mb-2 text-blue-800">Support for Intentionally Homeless Individuals</h3>
+          <ol className="list-decimal pl-6 text-gray-700 space-y-2">
+            <li>Access to drop-in centers and day shelters</li>
+            <li>Healthcare services without a fixed address</li>
+            <li>Mental health support and counseling</li>
+            <li>Community integration programs</li>
+          </ol>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <div className="mr-4">
+            <FontAwesomeIcon icon={faHandshake} className="text-4xl text-blue-600" />
+          </div>
+          <div>
+            <p className="text-gray-700 mb-4">
+              <strong>Need more information?</strong> Our team can help you understand your rights and connect you with 
+              the appropriate resources.
+            </p>
+            <Link 
+              href="/contact" 
+              className="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition duration-300"
+            >
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-blue-800">Contact Information</h2>
+        
+        <p className="text-gray-700 mb-6">
+          If you need further assistance or have any questions about your legal rights, please contact us:
+        </p>
+        
+        <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
+          <li>Email: <a href="mailto:helpme@homeless.website" className="text-blue-600 hover:underline">helpme@homeless.website</a></li>
+          <li>Phone, text, iMessage, and WhatsApp: <a href="tel:+447853811172" className="text-blue-600 hover:underline">+44 7853 811172</a></li>
+          <li>Facebook: <a href="https://www.facebook.com/homelesshelpuk" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">www.facebook.com/homelesshelpuk</a></li>
+        </ul>
+      </div>
     </ModernTemplate>
   );
 }
