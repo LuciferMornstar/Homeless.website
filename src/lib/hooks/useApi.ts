@@ -103,16 +103,21 @@ export function useMentalHealthResources(params?: {
   limit?: number;
 }) {
   let endpoint = '/mental-health-resources';
-  let queryParams = { ...params };
   
-  if (params?.proximity) {
-    queryParams = {
-      ...queryParams,
-      lat: params.proximity.latitude,
-      lng: params.proximity.longitude,
-      radius: params.proximity.radiusMiles || 10,
-    };
-    delete queryParams.proximity;
+  // Create a new object without type restrictions
+  let queryParams: Record<string, any> = {};
+  
+  // Copy existing params except proximity
+  if (params) {
+    const { proximity, ...restParams } = params;
+    Object.assign(queryParams, restParams);
+    
+    // Add transformed proximity parameters
+    if (proximity) {
+      queryParams.lat = proximity.latitude;
+      queryParams.lng = proximity.longitude;
+      queryParams.radius = proximity.radiusMiles ?? 10;
+    }
   }
   
   return useFetch(endpoint, queryParams);
@@ -133,16 +138,21 @@ export function useDogFriendlyResources(params?: {
   limit?: number;
 }) {
   let endpoint = '/dog-friendly-resources';
-  let queryParams = { ...params };
   
-  if (params?.proximity) {
-    queryParams = {
-      ...queryParams,
-      lat: params.proximity.latitude,
-      lng: params.proximity.longitude,
-      radius: params.proximity.radiusMiles || 10,
-    };
-    delete queryParams.proximity;
+  // Create a new object without type restrictions
+  let queryParams: Record<string, any> = {};
+  
+  // Copy existing params except proximity
+  if (params) {
+    const { proximity, ...restParams } = params;
+    Object.assign(queryParams, restParams);
+    
+    // Add transformed proximity parameters
+    if (proximity) {
+      queryParams.lat = proximity.latitude;
+      queryParams.lng = proximity.longitude;
+      queryParams.radius = proximity.radiusMiles ?? 10;
+    }
   }
   
   return useFetch(endpoint, queryParams);

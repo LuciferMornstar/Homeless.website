@@ -79,13 +79,25 @@ class MentalHealthService {
    */
   static async getResources(filters?: MentalHealthResourceFilters): Promise<MentalHealthResource[]> {
     try {
-      const response = await ApiService.get<MentalHealthResourcesResponse>('mental-health-resources', filters);
+      // Convert MentalHealthResourceFilters to Record<string, string | number | boolean>
+      const queryParams: Record<string, string | number | boolean> = {};
+      
+      if (filters) {
+        // Copy all properties from filters to the new object
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value !== undefined) {
+            queryParams[key] = value;
+          }
+        });
+      }
+      
+      const response = await ApiService.get<MentalHealthResourcesResponse>('mental-health-resources', queryParams);
       
       if (response.success && Array.isArray(response.data)) {
         return response.data;
       }
       
-      throw new Error(response.message || 'Failed to fetch mental health resources');
+      throw new Error(response.message ?? 'Failed to fetch mental health resources');
     } catch (error) {
       console.error('Error fetching mental health resources:', error);
       throw error;
@@ -102,10 +114,10 @@ class MentalHealthService {
       );
       
       if (response.success && response.data) {
-        return response.data;
+        return response.data as unknown as MentalHealthResource;
       }
       
-      throw new Error(response.message || 'Failed to fetch mental health resource');
+      throw new Error(response.message ?? 'Failed to fetch mental health resource');
     } catch (error) {
       console.error(`Error fetching mental health resource #${resourceId}:`, error);
       throw error;
@@ -125,7 +137,7 @@ class MentalHealthService {
         return response.data;
       }
       
-      throw new Error(response.message || 'Failed to fetch crisis support resources');
+      throw new Error(response.message ?? 'Failed to fetch crisis support resources');
     } catch (error) {
       console.error('Error fetching crisis support resources:', error);
       throw error;

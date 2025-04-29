@@ -81,7 +81,7 @@ class DogService {
         return response.data;
       }
       
-      throw new Error(response.message || 'Failed to fetch dog-friendly resources');
+      throw new Error(response.message ?? 'Failed to fetch dog-friendly resources');
     } catch (error) {
       console.error('Error fetching dog-friendly resources:', error);
       throw error;
@@ -93,23 +93,15 @@ class DogService {
    */
   static async registerDog(dogData: Omit<Dog, 'DogID'>): Promise<{ dogId: number }> {
     try {
-      type ApiResponse = {
-        success: boolean;
-        message?: string;
-        data: {
-          id: number;
-        };
-      };
-      
-      const response = await ApiService.post<ApiResponse>('dogs', dogData);
+      const response = await ApiService.post<{ id: number }>('dogs', dogData);
       
       if (response.success && response.data) {
         // Type assertion to handle the response structure
-        const responseData = response.data as { id: number };
+        const responseData = response.data as unknown as { id: number };
         return { dogId: responseData.id };
       }
       
-      throw new Error(response.message || 'Failed to register dog');
+      throw new Error(response.message ?? 'Failed to register dog');
     } catch (error) {
       console.error('Error registering dog:', error);
       throw error;
@@ -121,13 +113,14 @@ class DogService {
    */
   static async applyCertification(certificationData: Omit<ServiceDogCertification, 'CertificationID'>): Promise<{ certificationId: number }> {
     try {
-      const response = await ApiService.post<DogServiceResponse<{ certificationId: number }>>('service-dog-certification', certificationData);
+      const response = await ApiService.post<{ certificationId: number }>('service-dog-certification', certificationData);
       
-      if (response.success && response.data?.certificationId) {
-        return { certificationId: response.data.certificationId };
+      if (response.success && response.data) {
+        const responseData = response.data as unknown as { certificationId: number };
+        return { certificationId: responseData.certificationId };
       }
       
-      throw new Error(response.message || 'Failed to apply for service dog certification');
+      throw new Error(response.message ?? 'Failed to apply for service dog certification');
     } catch (error) {
       console.error('Error applying for service dog certification:', error);
       throw error;
@@ -139,12 +132,12 @@ class DogService {
    */
   static async verifyCertification(certificationNumber: string): Promise<{ isValid: boolean; details?: DogCertificationDetails }> {
     try {
-      const response = await ApiService.get<DogServiceResponse<DogCertificationDetails>>('verify-assistance-dog', { certificationNumber });
+      const response = await ApiService.get<DogCertificationDetails>('verify-assistance-dog', { certificationNumber });
       
-      if (response.success) {
+      if (response.success && response.data) {
         return { 
           isValid: true,
-          details: response.data
+          details: response.data as unknown as DogCertificationDetails
         };
       }
       
