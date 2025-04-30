@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  distDir: 'lucifer',
+  output: 'export', // Static export configuration
   images: {
     domains: ['localhost', 'homeless.website'],
     remotePatterns: [
@@ -10,16 +12,9 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+    unoptimized: true, // Required for static export
   },
-  async redirects() {
-    return [
-      {
-        source: '/help',
-        destination: '/get-help',
-        permanent: true,
-      },
-    ];
-  },
+  // Removed redirects as they don't work with static exports
 };
 
 module.exports = nextConfig;

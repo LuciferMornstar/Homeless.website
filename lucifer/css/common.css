@@ -1,0 +1,16 @@
+@import url("../assets/css/modern/wix-modern.css");
+header.modern-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #2d3748;
+}
+
+body {
+  padding-top: 80px;
+  color: #1a202c;
+}
+
+/*# sourceMappingURL=common.css.map */

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homeless Helpers UK - Mental Health Support & Service Dog Assistance</title>
+    <title>Homeless Helpers UK - Mental Health Support &amp; Service Dog Assistance</title>
     <meta name="description" content="Immediate support for homeless individuals in the UK with focus on mental health services, service dog assistance, and resources based on British law.">
     <meta name="keywords" content="homeless support, mental health homeless, UK homelessness, assistance dogs, service dogs, homeless resources, British law, homeless help">
     
@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#ffffff">
     
     <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="Homeless Helpers UK - Mental Health Support & Service Dog Assistance">
+    <meta property="og:title" content="Homeless Helpers UK - Mental Health Support &amp; Service Dog Assistance">
     <meta property="og:description" content="Immediate support for homeless individuals in the UK with focus on mental health services, service dog assistance, and resources based on British law.">
     <meta property="og:image" content="/logo.png">
     <meta property="og:url" content="https://homeless.website">
@@ -458,7 +458,7 @@
             color: var(--primary-dark);
         }
         
-        .contact-value a:focus {
+        .contact-value
             outline: var(--focus-outline);
             outline-offset: var(--focus-outline-offset);
         }
@@ -554,7 +554,7 @@
             z-index: 11;
         }
         
-        .help-bubble:hover::after,
+        .help-b
         .help-bubble:hover::before,
         .help-bubble:focus::after,
         .help-bubble:focus::before {
@@ -897,19 +897,7 @@
         }
     </style>
     
-    <!-- Auto-redirect after 3 seconds -->
     <script>
-        // Check if this is the main domain
-        if (window.location.hostname === 'homeless.website' || 
-            window.location.hostname === 'www.homeless.website') {
-            // Wait 3 seconds then redirect to the React app
-            setTimeout(function() {
-                window.location.href = "/Landingpage";
-                document.getElementById('loader').style.display = 'block';
-                document.getElementById('redirectMessage').style.display = 'block';
-            }, 3000);
-        }
-        
         // This will run after DOM content is loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Simple Mode Toggle
@@ -990,248 +978,193 @@
             }
         });
         
-        // Function to fetch shelter availability from the database
+        // Function to fetch shelter data from the database
         function fetchShelterData(callback) {
-            const shelterContainer = document.getElementById('shelter-data-container');
+            const shelterContainer = document.getElementById('shelter-data');
+            const loadingElement = document.getElementById('shelter-loading');
+            const errorElement = document.getElementById('shelter-error');
             
-            if (!shelterContainer) return;
-            
-            // Show loading state
-            shelterContainer.innerHTML = '<div class="shelter-loading">Loading latest shelter availability...</div>';
-            
-            // Fetch data from the PHP script
-            fetch('/public/shelter-availability.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success && data.data.length > 0) {
-                        // Create HTML for shelter data
-                        let shelterHTML = '<div class="shelter-grid">';
-                        
-                        data.data.forEach(shelter => {
-                            const lastUpdated = new Date(shelter.last_updated);
-                            const formattedDate = lastUpdated.toLocaleString('en-GB', {
-                                day: '2-digit',
-                                month: '2-digit',
-                                year: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            });
+            if (shelterContainer) {
+                if (loadingElement) loadingElement.style.display = 'block';
+                if (errorElement) errorElement.style.display = 'none';
+                
+                // Make AJAX request to PHP backend
+                fetch('/public/shelter-availability.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            // Clear previous data
+                            shelterContainer.innerHTML = '';
                             
-                            shelterHTML += `
-                                <div class="shelter-item">
-                                    <div class="shelter-city">${shelter.city}</div>
-                                    <div class="shelter-beds"><span class="beds-available">${shelter.available_beds}</span> beds available</div>
-                                    <div class="shelter-update-time">Updated: ${formattedDate}</div>
-                                </div>
-                            `;
-                        });
-                        
-                        shelterHTML += '</div>';
-                        shelterHTML += '<p>Call <a href="tel:+447853811172">+44 7853 811172</a> for immediate placement assistance</p>';
-                        
-                        // Add refresh button
-                        shelterHTML += `
-                            <button id="refresh-shelter-data" class="data-refresh-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M23 4v6h-6"></path>
-                                    <path d="M1 20v-6h6"></path>
-                                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
-                                    <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                                </svg>
-                                Refresh Data
-                            </button>
-                        `;
-                        
-                        // Update the container
-                        shelterContainer.innerHTML = shelterHTML;
-                        
-                        // Re-attach event listener to the new button
-                        const refreshButton = document.getElementById('refresh-shelter-data');
-                        if (refreshButton) {
-                            refreshButton.addEventListener('click', function() {
-                                const refreshIcon = this.querySelector('svg');
-                                refreshIcon.classList.add('refresh-spin');
+                            // Create shelter items
+                            data.forEach(shelter => {
+                                const shelterItem = document.createElement('div');
+                                shelterItem.className = 'shelter-item';
                                 
-                                fetchShelterData(function() {
-                                    refreshIcon.classList.remove('refresh-spin');
-                                });
+                                const cityElem = document.createElement('div');
+                                cityElem.className = 'shelter-city';
+                                cityElem.textContent = shelter.city;
+                                
+                                const bedsElem = document.createElement('div');
+                                bedsElem.className = 'shelter-beds';
+                                bedsElem.innerHTML = `<span class="beds-available">${shelter.available_beds}</span> beds available`;
+                                
+                                const updateElem = document.createElement('div');
+                                updateElem.className = 'shelter-update-time';
+                                updateElem.textContent = `Updated: ${shelter.last_updated}`;
+                                
+                                shelterItem.appendChild(cityElem);
+                                shelterItem.appendChild(bedsElem);
+                                shelterItem.appendChild(updateElem);
+                                
+                                shelterContainer.appendChild(shelterItem);
                             });
-                        }
-                    } else {
-                        // Show fallback data if no results or error
-                        shelterContainer.innerHTML = `
-                            <div class="shelter-grid">
-                                <div class="shelter-item">
-                                    <div class="shelter-city">London</div>
-                                    <div class="shelter-beds"><span class="beds-available">43</span> beds available</div>
-                                    <div class="shelter-update-time">Estimated availability</div>
-                                </div>
-                                <div class="shelter-item">
-                                    <div class="shelter-city">Manchester</div>
-                                    <div class="shelter-beds"><span class="beds-available">12</span> beds available</div>
-                                    <div class="shelter-update-time">Estimated availability</div>
-                                </div>
-                                <div class="shelter-item">
-                                    <div class="shelter-city">Birmingham</div>
-                                    <div class="shelter-beds"><span class="beds-available">18</span> beds available</div>
-                                    <div class="shelter-update-time">Estimated availability</div>
-                                </div>
-                            </div>
-                            <p>Call <a href="tel:+447853811172">+44 7853 811172</a> for immediate placement assistance</p>
-                            <p class="shelter-error">Note: These are estimated values. Live data currently unavailable.</p>
-                        `;
-                    }
-                    
-                    // Execute callback if provided
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
-                })
-                .catch(error => {
-                    // Show error and fallback data
-                    shelterContainer.innerHTML = `
-                        <div class="shelter-grid">
-                            <div class="shelter-item">
-                                <div class="shelter-city">London</div>
-                                <div class="shelter-beds"><span class="beds-available">43</span> beds available</div>
-                                <div class="shelter-update-time">Estimated availability</div>
-                            </div>
-                            <div class="shelter-item">
-                                <div class="shelter-city">Manchester</div>
-                                <div class="shelter-beds"><span class="beds-available">12</span> beds available</div>
-                                <div class="shelter-update-time">Estimated availability</div>
-                            </div>
-                            <div class="shelter-item">
-                                <div class="shelter-city">Birmingham</div>
-                                <div class="shelter-beds"><span class="beds-available">18</span> beds available</div>
-                                <div class="shelter-update-time">Estimated availability</div>
-                            </div>
-                        </div>
-                        <p>Call <a href="tel:+447853811172">+44 7853 811172</a> for immediate placement assistance</p>
-                        <p class="shelter-error">Note: These are estimated values. Live data currently unavailable.</p>
-                        <button id="refresh-shelter-data" class="data-refresh-button">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M23 4v6h-6"></path>
-                                <path d="M1 20v-6h6"></path>
-                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
-                                <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                            </svg>
-                            Try Again
-                        </button>
-                    `;
-                    
-                    // Re-attach event listener
-                    const refreshButton = document.getElementById('refresh-shelter-data');
-                    if (refreshButton) {
-                        refreshButton.addEventListener('click', function() {
-                            const refreshIcon = this.querySelector('svg');
-                            refreshIcon.classList.add('refresh-spin');
                             
-                            fetchShelterData(function() {
-                                refreshIcon.classList.remove('refresh-spin');
-                            });
-                        });
-                    }
-                    
-                    // Execute callback if provided
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
-                    
-                    console.error('Error fetching shelter data:', error);
-                });
+                            if (loadingElement) loadingElement.style.display = 'none';
+                        } else {
+                            throw new Error('No data available');
+                        }
+                        
+                        if (callback && typeof callback === 'function') {
+                            callback();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching shelter data:', error);
+                        if (errorElement) errorElement.style.display = 'block';
+                        if (loadingElement) loadingElement.style.display = 'none';
+                        if (callback && typeof callback === 'function') {
+                            callback();
+                        }
+                    });
+            }
         }
     </script>
 </head>
 <body>
-    <!-- Skip to content link for accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     
     <div class="wrapper">
         <div class="container fade-in">
-            <header class="header">
-                <div class="accessibility-controls">
-                    <button id="decrease-font" class="accessibility-btn" aria-label="Decrease text size">A-</button>
-                    <button id="increase-font" class="accessibility-btn" aria-label="Increase text size">A+</button>
-                </div>
-                
-                <img src="/logo.png" alt="Homeless Helpers Logo" class="logo">
-                <h1>Homeless Helpers UK</h1>
-                <p class="tagline">Providing immediate support, resources and hope to those facing homelessness, with a focus on mental health, wellbeing, and service dog assistance.</p>
-            </header>
-            
-            <div class="simple-mode-toggle">
-                <label for="simple-mode">
-                    <input type="checkbox" id="simple-mode">
-                    <span>Simple View Mode</span>
-                    <span class="help-bubble" data-help="Switch to a simpler layout with larger text and fewer distractions. Helpful if you find the standard layout difficult to use.">?</span>
-                </label>
-            </div>
-            
             <main id="main-content">
-                <div class="btn-group">
-                    <a href="/Landingpage" class="button" onclick="document.getElementById('loader').style.display = 'block';">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                        Enter Website
-                    </a>
-                    <a href="tel:+447853811172" class="button emergency">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                        Quick Help: Call/Text
-                    </a>
+                <header class="header">
+                    <div class="accessibility-controls">
+                        <button id="increase-font" class="accessibility-btn" aria-label="Increase font size">A+</button>
+                        <button id="decrease-font" class="accessibility-btn" aria-label="Decrease font size">A-</button>
+                    </div>
+                    
+                    <img src="/logo.png" alt="Homeless Helpers UK Logo" class="logo">
+                    <h1>Homeless Helpers UK</h1>
+                    <p class="tagline">Mental Health Support &amp; Service Dog Assistance</p>
+                    
+                    <div class="simple-mode-toggle">
+                        <label for="simple-mode">
+                            <input type="checkbox" id="simple-mode">
+                            <span>Enable Simple Mode</span>
+                            <span class="help-bubble" data-help="Simple mode makes the page easier to read with larger text and simpler layout. Ideal for users who prefer a more straightforward experience.">?</span>
+                        </label>
+                    </div>
+                </header>
+                
+                <div id="redirectMessage" style="display: none; text-align: center; margin: 20px 0;">
+                    <p>Redirecting to the main website...</p>
+                    <div id="loader" class="loader" style="display: none;"></div>
                 </div>
                 
-                <div id="loader" class="loader"></div>
-                <p id="redirectMessage" style="display: none; font-style: italic; text-align: center; margin-top: 10px;">Redirecting you to our full website...</p>
-                
-                <div class="card-grid">
-                    <!-- Mental Health Support Card -->
-                    <div class="card mental-health slide-up" style="animation-delay: 0.1s;">
-                        <svg class="card-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                        <h2>Mental Health Support</h2>
-                        <div class="card-content">
-                            <p>Immediate access to mental health resources for those experiencing homelessness, including crisis support, counseling services, and wellbeing tools.</p>
-                        </div>
-                        <a href="/mental-health" class="button mental-health">Mental Health Resources</a>
-                    </div>
-                    
-                    <!-- Service Dog Support Card -->
-                    <div class="card service-dog slide-up" style="animation-delay: 0.2s;">
-                        <svg class="card-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10C10 10 15 5 20 5C20 10 15 15 10 15C5 15 2 19 2 19L10 10Z"/><path d="M10.2361 6.8139L6.8139 3.3917C6.2982 2.876 6.0404 2.6182 5.75351 2.46681C5.50478 2.33728 5.23157 2.2547 4.95104 2.2242C4.62655 2.19 4.28043 2.19 3.5882 2.19H3.4C2.60457 2.19 2.20685 2.19 1.89534 2.327C1.62677 2.44702 1.39675 2.64305 1.2294 2.8894C1.04 3.17173 1 3.56475 1 4.35078V4.6278C1 5.41383 1.04 5.80686 1.2294 6.08919C1.39675 6.33554 1.62677 6.53157 1.89534 6.65159C2.20685 6.78859 2.60457 6.78859 3.4 6.78859M19 5L5 19"/></svg>
-                        <h2>Service Dog Assistance</h2>
-                        <div class="card-content">
-                            <p>Information on service dog certification, dog-friendly shelters, and how assistance animals can provide emotional support and protection during homelessness.</p>
-                        </div>
-                        <a href="/service-dog-certification" class="button service-dog">Service Dog Information</a>
-                    </div>
-                    
-                    <!-- Emergency Resources Card -->
-                    <div class="card emergency slide-up" style="animation-delay: 0.3s;">
-                        <svg class="card-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                        <h2>Emergency Help</h2>
-                        <div class="card-content">
-                            <p>Find immediate resources for shelter, food, healthcare, and crisis situations. No one should go without basic necessities.</p>
-                        </div>
-                        <a href="/emergency" class="button emergency">Get Emergency Help</a>
+                <div class="emergency-help">
+                    <h2>Need Immediate Help?</h2>
+                    <p>If you are in immediate danger or need emergency assistance, please call:</p>
+                    <div class="btn-group">
+                        <a href="tel:999" class="button emergency">Call 999 (Emergency)</a>
+                        <a href="tel:+447853811172" class="button">Call Our Helpline</a>
                     </div>
                 </div>
                 
-                <!-- Database-driven section for shelter availability -->
                 <div class="shelter-availability">
                     <div class="shelter-availability-header">
-                        <h2>Urgent Shelter Information</h2>
+                        <h2>Emergency Shelter Availability</h2>
                     </div>
                     <div class="shelter-availability-content">
-                        <p>Tonight's emergency shelter availability in major UK cities:</p>
-                        <div id="shelter-data-container">
-                            <!-- This will be populated by JavaScript with DB data -->
-                            <div class="shelter-loading">Loading latest shelter availability...</div>
+                        <p>Find available emergency shelter beds in your area:</p>
+                        
+                        <div class="shelter-grid" id="shelter-data">
+                            <!-- Shelter data will be loaded here from the database -->
+                        </div>
+                        
+                        <div id="shelter-loading" class="shelter-loading">
+                            <div class="loader" style="display: block;"></div>
+                            <p>Loading shelter availability...</p>
+                        </div>
+                        
+                        <div id="shelter-error" class="shelter-error" style="display: none;">
+                            <p>Unable to load shelter data. Please try again later.</p>
+                        </div>
+                        
+                        <button id="refresh-shelter-data" class="data-refresh-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path><path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                            Refresh Data
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card mental-health slide-up" style="animation-delay: 0.1s;">
+                        <h2>Mental Health Support</h2>
+                        <div class="card-content">
+                            <p>Access free mental health services designed specifically for those experiencing homelessness:</p>
+                            <ul>
+                                <li>Crisis intervention and emergency mental health support</li>
+                                <li>Trauma-informed counselling with specialists</li>
+                                <li>Depression, anxiety, and PTSD support groups</li>
+                                <li>Medication management and assistance</li>
+                                <li>Connection to NHS mental health services</li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a href="/mental-health" class="button mental-health">Find Support</a>
+                            <a href="/emergency" class="button secondary">Crisis Resources</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card service-dog slide-up" style="animation-delay: 0.2s;">
+                        <h2>Service Dog Assistance</h2>
+                        <div class="card-content">
+                            <p>Our service dog program provides trained companions to support those experiencing homelessness:</p>
+                            <ul>
+                                <li>Assistance with completing service dog certification</li>
+                                <li>Connecting with trained emotional support animals</li>
+                                <li>Information on your legal rights with service animals</li>
+                                <li>Pet-friendly accommodation resources</li>
+                                <li>Food and veterinary care support</li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                                <a href="/service-dogs" class="button service-dog">Dog Support</a>
+                                <a href="/service-dogs/apply" class="button secondary">Apply Now</a>
+                            </div>
+                    </div>
+                    
+                    <div class="card slide-up" style="animation-delay: 0.3s;">
+                        <h2>Housing Rights &amp; Resources</h2>
+                        <div class="card-content">
+                            <p>Under British law, you have specific rights when facing homelessness:</p>
+                            <ul>
+                                <li>Local council has a duty to provide assistance</li>
+                                <li>Priority need assessment for vulnerable individuals</li>
+                                <li>Right to emergency accommodation in certain circumstances</li>
+                                <li>Assistance with applying for housing benefits</li>
+                                <li>Support challenging unfair housing decisions</li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a href="/housing-rights" class="button">Know Your Rights</a>
+                            <a href="/council-applications" class="button secondary">Council Help</a>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Service Dog Benefits Section (New) -->
-                <div class="service-dog-benefits slide-up" style="animation-delay: 0.4s;">
-                    <h3>How Service Dogs Can Help During Homelessness</h3>
+                <div class="service-dog-benefits">
+                    <h3>How Service Dogs Help During Homelessness</h3>
                     <div class="benefits-list">
                         <div class="benefit-item">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -1255,7 +1188,7 @@
                         </div>
                     </div>
                     <div style="text-align: center; margin-top: 15px;">
-                        <a href="/service-dog-certification" class="button service-dog">Learn More About Service Dogs</a>
+                        <a href="/service-dogs" class="button service-dog">Learn More About Service Dogs</a>
                     </div>
                 </div>
                 
@@ -1308,9 +1241,9 @@
                 <p>This website provides information based on British law. For emergency assistance, please call 999.</p>
                 <p>For feedback or suggestions, please email <a href="mailto:info@homeless.website">info@homeless.website</a></p>
                 <p>
-                    <a href="/accessibility-statement" style="color: inherit; margin-right: 15px;">Accessibility</a>
-                    <a href="/privacy-policy" style="color: inherit; margin-right: 15px;">Privacy</a>
-                    <a href="/terms-of-use" style="color: inherit;">Terms</a>
+                    <a href="/accessibility" style="color: inherit; margin-right: 15px;">Accessibility</a>
+                    <a href="/privacy" style="color: inherit; margin-right: 15px;">Privacy</a>
+                    <a href="/terms" style="color: inherit;">Terms</a>
                 </p>
             </footer>
         </div>

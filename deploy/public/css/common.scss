@@ -1,0 +1,17 @@
+@use 'variables';
+@import url("../assets/css/modern/wix-modern.css");
+
+// Override to prevent header overlapping page content
+header.modern-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: variables.$primary-color;
+}
+
+body {
+  padding-top: variables.$header-height;
+  color: variables.$text-dark;
+}

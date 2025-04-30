@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homeless Helpers UK</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 0.5rem;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav ul li {
+            margin: 0.5rem;
+        }
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: #f3f4f6;
+            color: #b91c1c;
+        }
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1516526995003-435ccce2be97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80') center/cover;
+            color: white;
+            text-align: center;
+            padding: 4rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #b91c1c;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #991b1b;
+        }
+        .btn.secondary {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 1rem;
+        }
+        .btn.secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .feature {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .feature h3 {
+            color: #b91c1c;
+            margin-top: 0;
+        }
+        .cta {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            border-radius: 0.5rem;
+        }
+        .cta h2 {
+            margin-top: 0;
+        }
+        footer {
+            background-color: #06454b;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            text-align: left;
+        }
+        .footer-content h3 {
+            color: white;
+            margin-top: 0;
+        }
+        .footer-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-content ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-content a {
+            color: #d1d5db;
+            text-decoration: none;
+        }
+        .footer-content a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .btn.secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Homeless Helpers UK</h1>
+        <p>Support and resources for those experiencing homelessness</p>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="get-help.html">Get Help</a></li>
+            <li><a href="mental-health.html">Mental Health</a></li>
+            <li><a href="shelters.html">Shelters</a></li>
+            <li><a href="foodbanks.html">Food Banks</a></li>
+            <li><a href="healthcare.html">Healthcare</a></li>
+            <li><a href="dog-friendly-resources.html">Dog Services</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="hero">
+            <h1>Helping the Homeless Across the UK</h1>
+            <p>We provide support, resources, and hope to individuals experiencing homelessness, with a special focus on mental health and service dog assistance.</p>
+            <div>
+                <a href="get-help.html" class="btn">Get Help Now</a>
+                <a href="volunteer.html" class="btn secondary">Volunteer</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h3>Mental Health Support</h3>
+                <p>Access free mental health resources, assessments, and counseling services specially designed for those facing homelessness.</p>
+                <a href="mental-health.html" class="btn">Learn More</a>
+            </div>
+            <div class="feature">
+                <h3>Service Dog Programs</h3>
+                <p>Our service dog program provides specially trained animals to support individuals with mental health conditions and other needs.</p>
+                <a href="service-dog-certification.html" class="btn">Learn More</a>
+            </div>
+            <div class="feature">
+                <h3>Shelter Finder</h3>
+                <p>Find available shelters and housing options across the UK, including dog-friendly accommodations.</p>
+                <a href="shelters.html" class="btn">Find Shelter</a>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>Need Immediate Help?</h2>
+            <p>Our support team is available 24/7. Don't wait - reach out now.</p>
+            <a href="emergency.html" class="btn">Emergency Support</a>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: <a href="mailto:helpme@homeless.website">helpme@homeless.website</a></li>
+                    <li>Phone: <a href="tel:+447853811172">+44 7853 811172</a></li>
+                    <li>Service Dogs: <a href="mailto:dogs@homeless.website">dogs@homeless.website</a></li>
+                    <li>Volunteer: <a href="mailto:volunteer@homeless.website">volunteer@homeless.website</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="mental-health.html">Mental Health</a></li>
+                    <li><a href="service-dog-certification.html">Service Dogs</a></li>
+                    <li><a href="emergency.html">Emergency Help</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="about.html">Our Mission</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <p>© 2025 Homeless Helpers UK. All information is based on British law.</p>
+    </footer>
+
+    <script>
+        // Script to fix internal navigation and asset paths
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to find and fix all links
+            function fixAllLinks() {
+                document.querySelectorAll('a').forEach(function(link) {
+                    const href = link.getAttribute('href');
+                    
+                    // If it's an internal link (starts with /)
+                    if (href && href.startsWith('/') && !href.includes('://') && !href.includes('mailto:') && !href.includes('tel:')) {
+                        // Extract the path without leading slash and add .html extension
+                        const newPath = href.substring(1) + '.html';
+                        link.setAttribute('href', newPath);
+                    }
+                });
+            }
+            
+            // Function to fix asset paths
+            function fixAssetPaths() {
+                // Fix CSS links
+                document.querySelectorAll('link[rel="stylesheet"]').forEach(function(link) {
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('/_next/')) {
+                        link.setAttribute('href', '../' + href);
+                    }
+                });
+                
+                // Fix script sources
+                document.querySelectorAll('script[src]').forEach(function(script) {
+                    const src = script.getAttribute('src');
+                    if (src && src.startsWith('/_next/')) {
+                        script.setAttribute('src', '../' + src);
+                    }
+                });
+                
+                // Fix images
+                document.querySelectorAll('img[src]').forEach(function(img) {
+                    const src = img.getAttribute('src');
+                    if (src && src.startsWith('/')) {
+                        img.setAttribute('src', '.' + src);
+                    }
+                });
+            }
+            
+            // Run both fixes
+            fixAllLinks();
+            fixAssetPaths();
+        });
+    </script>
+</body>
+</html>

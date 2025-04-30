@@ -9,7 +9,7 @@ import {
   FaExclamationTriangle, FaBalanceScale, FaRainbow // Use FaRainbow for LGBTQ+
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import ModernFooter from '../../../components/ModernFooter';
+import ModernFooter from '@/components/ModernFooter';
 
 // Types
 interface ShelterLocation {
@@ -255,14 +255,14 @@ export default function SheltersPage() {
 
   // Function to render feature icons
   const renderFeatureIcons = (shelter: ShelterLocation) => (
-    <div className="flex flex-wrap gap-2 mt-2">
-      {shelter.acceptsPets && <span title="Pet Friendly" className="text-gray-600"><FaPaw /></span>}
-      {shelter.accessibilityFeatures.some(f => f.toLowerCase().includes('accessible')) && <span title="Accessible" className="text-gray-600"><FaWheelchair /></span>}
-      {shelter.lgbtqFriendly && <span title="LGBTQ+ Friendly" className="text-gray-600"><FaRainbow /></span>}
-      {shelter.familyFriendly && <span title="Family Friendly" className="text-gray-600"><FaChild /></span>}
-      {shelter.womenOnly && <span title="Women Only" className="text-gray-600">♀</span>}
-      {shelter.menOnly && <span title="Men Only" className="text-gray-600">♂</span>}
-    </div>
+  <div className="flex flex-wrap gap-2 mt-2">
+    {shelter.acceptsPets && <span title="Pet Friendly" className="text-gray-600"><FaPaw className="w-4 h-4" /></span>}
+    {shelter.accessibilityFeatures.some(f => f.toLowerCase().includes('accessible')) && <span title="Accessible" className="text-gray-600"><FaWheelchair className="w-4 h-4" /></span>}
+    {shelter.lgbtqFriendly && <span title="LGBTQ+ Friendly" className="text-gray-600"><FaRainbow className="w-4 h-4" /></span>}
+    {shelter.familyFriendly && <span title="Family Friendly" className="text-gray-600"><FaChild className="w-4 h-4" /></span>}
+    {shelter.womenOnly && <span title="Women Only" className="text-gray-600">♀</span>}
+    {shelter.menOnly && <span title="Men Only" className="text-gray-600">♂</span>}
+  </div>
   );
 
   if (loading) return <p>Loading shelters...</p>;
@@ -304,7 +304,7 @@ export default function SheltersPage() {
                 aria-expanded={showEmergencyInfo}
                 aria-controls="emergency-info-panel"
               >
-                <FaInfoCircle className="mr-2" /> Immediate Help Available
+                <FaInfoCircle className="mr-2 w-5 h-5" /> Immediate Help Available
               </button>
             </div>
 

@@ -7,7 +7,7 @@
 - This will be uploaded to a webhost
 - Access to the database via your website/presence only
 Please always establish the connection to your database via your website/presence. For security reasons, it is not possible to access the database directly, for example via your local computer (external ODBC connection). To protect your data, your database is located on a dedicated database server that is protected by a firewall.
-- the website must be a fully working react based website
+- the website must be a fully working react based website with an index.html in the root folder and a src folder with all the react code in it
 - This is a set of rules we'll call HHR from now on:
 - 1: The main goal is to help the homeless
 - 2: focus on mental health while homeless

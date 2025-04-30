@@ -1,0 +1,370 @@
+/* Enhanced mobile responsiveness for Homeless Helpers */
+
+/* Base responsive settings */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-size: 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  /* /* overflow: hidden;*/ /* Removed to allow scrolling */ /* Removed to allow scrolling */
+}
+
+/* Improved container with responsive padding */
+@media (min-width: 576px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    padding: 0 30px;
+  }
+}
+
+/* Mobile-first approach */
+
+/* Extra small devices (phones) */
+@media (max-width: 575.98px) {
+  .hide-xs {
+    display: none !important;
+  }
+  
+  h1, .h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2, .h2 {
+    font-size: 1.25rem;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .form-group {
+    width: 100% !important;
+    margin-right: 0;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .preview-container {
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  /* Stack buttons on mobile */
+  .btn-group {
+    flex-direction: column;
+  }
+  
+  /* Adjust input sizes */
+  input, select, textarea {
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+  
+  /* Navigation adjustments */
+  nav {
+    flex-direction: column;
+  }
+  
+  /* Letter preview adjustments */
+  #letter-preview {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+  
+  /* Wizard styling */
+  .wizard-nav li {
+    font-size: 0.8rem;
+    padding: 5px;
+  }
+  
+  .wizard-controls {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .wizard-controls button {
+    width: 48%;
+  }
+  
+  /* Letter history */
+  .letter-history {
+    max-height: 80vh;
+    width: 95%;
+  }
+}
+
+/* Small devices (landscape phones) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .hide-sm {
+    display: none !important;
+  }
+  
+  .btn {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .form-row {
+    flex-wrap: wrap;
+  }
+  
+  .form-group {
+    width: 48% !important;
+  }
+  
+  /* Letter preview */
+  .preview-container {
+    margin-top: 20px;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .hide-md {
+    display: none !important;
+  }
+  
+  .container {
+    padding: 0 30px;
+  }
+  
+  /* Two-column layout */
+  .letter-form {
+    width: 58%;
+    float: left;
+  }
+  
+  .preview-container {
+    width: 40%;
+    float: right;
+  }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 992px) {
+  .hide-lg {
+    display: none !important;
+  }
+  
+  /* Two-column layout */
+  .letter-form {
+    width: 60%;
+    float: left;
+  }
+  
+  .preview-container {
+    width: 38%;
+    float: right;
+    position: sticky;
+    top: 20px;
+  }
+}
+
+/* Utilities for responsive development */
+.text-center-xs {
+  @media (max-width: 575.98px) {
+    text-align: center !important;
+  }
+}
+
+/* Collapsible sections for mobile */
+.mobile-collapse {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.mobile-collapse-header {
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-collapse-content {
+  padding: 0 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.mobile-collapse-content.open {
+  max-height: 500px;
+  padding: 15px;
+}
+
+/* Letter wizard responsive styles */
+.letter-wizard {
+  display: none;
+}
+
+.letter-wizard.active {
+  display: block;
+}
+
+.wizard-nav {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.wizard-nav li {
+  padding: 10px 15px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.wizard-nav li.active {
+  border-bottom: 3px solid #007bff;
+  opacity: 1;
+  font-weight: bold;
+}
+
+.wizard-content {
+  margin-bottom: 20px;
+}
+
+.wizard-step-fields {
+  margin: 20px 0;
+}
+
+.wizard-controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wizard-preview {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  min-height: 100px;
+}
+
+/* Letter history responsive styles */
+.letter-history {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  max-height: 80vh;
+  width: 80%;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.letter-history.visible {
+  display: block;
+}
+
+/* History items */
+.history-list {
+  list-style: none;
+  padding: 0;
+}
+
+.history-list li {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.history-item-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.history-item-body {
+  margin: 10px 0;
+}
+
+.history-item-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Language selector */
+.language-selector {
+  margin-bottom: 15px;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* High contrast mode improvements */
+@media (forced-colors: active) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Clearfix for float layouts */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Styles for Mental Health and Pets Support sections */
+.mental-health, .pets-support {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.mental-health h2, .pets-support h2 {
+  color: #2c3e50;
+}
+
+.mental-health p, .pets-support p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
