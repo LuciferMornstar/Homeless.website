@@ -364,7 +364,7 @@ export default function SheltersPage() {
                 role="tab"
                 tabIndex={0}
               >
-                <FaMapMarkerAlt className="inline mr-1" /> Shelter Finder
+                <FaMapMarkerAlt className="inline mr-1 w-4 h-4" /> Shelter Finder
               </button>
               <button
                 className={`px-4 py-2 font-medium text-sm rounded-t-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 transition-colors whitespace-nowrap ${
